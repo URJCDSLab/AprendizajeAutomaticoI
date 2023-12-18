@@ -1,0 +1,47 @@
+# Prefacio {.unnumbered}
+
+Bienvenidos al emocionante mundo del Aprendizaje Automático en el ámbito de la Ciencia e Ingeniería de Datos. Este curso representa un apasionante viaje hacia el dominio de la Inteligencia Artificial y la toma de decisiones basada en datos, donde exploraremos las herramientas y técnicas que están revolucionando la forma en que comprendemos y utilizamos la información.
+
+Como bien sabes, en la actualidad, los datos están en todas partes. Desde la información generada en redes sociales hasta la recopilación de datos en sensores y dispositivos, estamos rodeados de una abundancia de información que puede revelar conocimientos valiosos. Sin embargo, la capacidad para extraer ese conocimiento y tomar decisiones informadas a partir de datos complejos es lo que distingue a los profesionales en **Ciencia e Ingeniería de Datos**.
+
+En este curso, profundizaremos en el Aprendizaje Automático, una rama de la Inteligencia Artificial que se centra en la creación de sistemas que pueden aprender y mejorar a partir de datos. Exploraremos cómo los algoritmos de Aprendizaje Automático pueden detectar patrones en datos, predecir resultados futuros, automatizar tareas y tomar decisiones inteligentes.
+
+Nuestra misión es equiparos con las habilidades y el conocimiento necesarios para abordar problemas del mundo real y aprovechar el potencial de los datos en vuestro grado en Ciencia e Ingeniería de Datos. A lo largo del curso, trabajaremos en proyectos prácticos que os permitirán aplicar los conceptos y técnicas que vais a aprender.
+
+Como profesores de esta asignatura, estamos entusiasmados de embarcarnos en este viaje de descubrimiento y aprendizaje con vosotros. La Inteligencia Artificial y el Aprendizaje Automático están transformando industrias y sociedades en todo el mundo, y os queremos ayudar para enfrentar los desafíos y aprovechar las oportunidades que estos campos ofrecen.
+
+¡Aquí y ahora, comienza este apasionante viaje hacia el Aprendizaje Automático en Ciencia e Ingeniería de Datos!
+
+::: {.callout-caution collapse="true"}
+## Resultados de aprendizaje.
+
+1.  Conocer y aplicar adecuadamente la metodología para diseñar y evaluar modelos dirigidos por datos, sabiendo aplicar mecanismos para evitar el sobreajuste.
+
+2.  Conocer y saber aplicar técnicas de pre-procesamiento de datos, incluyendo las de reducción de dimensionalidad y tratamiento de valores ausentes.
+
+3.  Conocer y saber aplicar las técnicas de Aprendizaje Automático supervisado y no supervisado más convencionales.
+
+4.  Diseñar las etapas de un proceso completo de análisis de datos utilizando las técnicas de Aprendizaje Automático más adecuadas en función de la tarea a resolver.
+:::
+
+::: {.callout-important title="Grado en Ciencia e Ingeniería de Datos"}
+Este libro presenta el material de la asignatura de Aprendizaje Automático I del grado en Ciencia e Ingeniería de Datos de la Universidad Rey Juan Carlos. Os recordamos que en próximos cursos os encontraréis con Aprendizaje Automático II y Aprendizaje Automático III.
+:::
+
+::: {.callout-important title="Conocimientos previos"}
+Conveniente haber superado con éxito las asignaturas Fundamentos de Programación, Probabilidad y Simulación, así como haber cursado Inferencia Estadística y Optimización I.
+:::
+
+::: {.callout-note title="Sobre los autores"}
+**Carmen Lancho Martín** es graduada en Matemáticas y Estadística por la Universidad Complutense de Madrid, doctora en Tecnologías de la Información y las Comunicaciones por la Universidad Rey Juan Carlos y profesora del departamento de Informática y Estadística de la Universidad Rey Juan Carlos. Miembro del grupo de investigación de alto rendimiento en Fundamentos y Aplicaciones de la Ciencia de Datos, DSLAB, de la URJC. Pertenece al grupo de innovación docente, DSLAB-TI.
+
+**Isaac Martín de Diego** es diplomado en Estadística por la Universidad de Valladolid, licenciado en Ciencias y Técnicas Estadísticas por la Universidad Carlos III de Madrid (UC3M), doctor en Ingeniería Matemática por la UC3M, profesor titular del departamento de Informática y Estadística de la URJC. Es fundador y coordinador del DSLAB y del DSLAB-TI.
+:::
+
+```{r, echo=FALSE}
+if (knitr::is_latex_output()){
+knitr::include_graphics("by-sa.png")
+}
+```
+
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" alt="Licencia de Creative Commons" style="border-width:0"/></a><br />Esta obra está bajo una <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">licencia de Creative Commons Atribuciónn-CompartirIgual 4.0 Internacional</a>.

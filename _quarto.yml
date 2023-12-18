@@ -1,0 +1,41 @@
+project:
+  type: book
+  output-dir: doc
+
+book:
+  title: "Aprendizaje Automático"
+  author: "Carmen Lancho - Isaac Martín"
+  date: "2023-12-18"
+  search: true
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - data.qmd
+    - eda.qmd
+    - reddim.qmd
+    - aprnosup.qmd
+    - eval.qmd
+    - aprsup.qmd
+    - reglas.qmd
+    - nuevas.qmd
+    - conclusiones.qmd
+    - references.qmd
+  cover-image: DSLab_logo_2.png
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cerulean
+    lang: es
+  pdf:
+    documentclass: scrreprt
+
+editor: visual
+
+
+
+
+
+
+

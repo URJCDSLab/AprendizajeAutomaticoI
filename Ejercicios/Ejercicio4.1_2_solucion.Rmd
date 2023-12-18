@@ -1,0 +1,88 @@
+---
+title:  "Reproducible Research. Ejercicio 2."
+author: "Alberto Fernández"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: pdf_document
+---
+
+# Evaluación de la calidad del aire
+Este informe ha sido realizado por D. Alberto Fernández Isabel, científico de datos, y profesor e investigador postdoctoral en la Universidad Rey Juan Carlos de Madrid.
+
+## Introducción
+En este informe se realiza una evaluación de los datos obtenidos del dataset *airquality*, el cual proporciona información sobre la calidad del aire en base a una serie de parámetros.
+
+Se proceden a cargar las librerías necesarias.
+```{r}
+library(ggplot2)
+library(datasets)
+```
+
+## Estudio de los datos
+Se procede a realizar un estudio preliminar de los datos que deben ser tratados. Se comprueban los diferentes campos y se observan los valores de los mismos. De esta manera se consigue obtener una idea general de la muestra.
+
+En el primer caso se comprueban los campos. La muestra contiene información sobre datos del *ozono*, *radiación solar*, *viento*, *temperatura*, *meses* y *días*. Se detectan *NAs* por lo que los datos proporcionados no están "limpios".
+```{r,echo=FALSE,warning=FALSE,message=FALSE}
+head(airquality)
+```
+
+Respecto a los datos, se puede observar que los valores de las primeros cuatro campos son enteros o contienen decimales (*viento*). Los *meses* evaluados son desde Abril hasta Septiembre (mínimo 5 y máximo 9) mientras que los *días* son treinta y uno. Esto último corresponde con lo esperado.
+```{r,echo=FALSE,warning=FALSE,message=FALSE}
+summary(airquality)
+```
+
+## Limpieza de los datos
+En esta sección se procede a eliminar los valores de los que se dispone en cada campo.
+Notar que esta fase no es necesaria en caso de que no consideremos los valores NAs mediante los parámetros oportunos en las funciones que se apliquen.
+```{r,echo=FALSE,warning=FALSE,message=FALSE}
+#airquality$Ozone[is.na(airquality$Ozone)] <- 0
+#airquality$Solar.R[is.na(airquality$Solar.R)] <- 0
+
+```
+
+## Evaluación gráfica de los datos
+En esta sección se realiza la visualización de los datos. De esta manera podemos intuir las distintas fluctuaciones en los datos para poder obtener conclusiones. Estas conclusiones deben de ser suposiciones sólidas con base científica.
+
+### Histogramas
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+ggplot(airquality,aes(x=airquality$Month,y=airquality$Ozone)) + geom_bar(stat="identity",fill="red") + labs(x = "Meses",y = "Cantidad de Ozono") + ggtitle("Relación mensual de la cantidad de ozono detectada") + theme(plot.title=element_text(size=12),axis.title.x=element_text(size=10),axis.title.y=element_text(size=10)) +  geom_smooth(col="black",method="lm", na.rm = TRUE)
+
+ggplot(airquality,aes(x=airquality$Month,y=airquality$Solar.R)) + geom_bar(stat="identity",fill="green")+ labs(x = "Meses",y = "Cantidad de Radiación") + ggtitle("Relación mensual de la cantidad de radicación detectada") + theme(plot.title=element_text(size=12),axis.title.x=element_text(size=10),axis.title.y=element_text(size=10)) +  geom_smooth(col="black",method="lm", na.rm = TRUE)
+
+ggplot(airquality,aes(x=airquality$Month,y=airquality$Wind)) + geom_bar(stat="identity",fill="blue")+ labs(x = "Meses",y = "Viento") + ggtitle("Relación mensual del viento detectado") + theme(plot.title=element_text(size=12),axis.title.x=element_text(size=10),axis.title.y=element_text(size=10)) +  geom_smooth(col="black",method="lm", na.rm = TRUE)
+
+ggplot(airquality,aes(x=airquality$Month,y=airquality$Temp)) + geom_bar(stat="identity",fill="yellow")+ labs(x = "Meses",y = "Temperatura") + ggtitle("Relación mensual de la temperatura detectada") + theme(plot.title=element_text(size=12),axis.title.x=element_text(size=10),axis.title.y=element_text(size=10)) +  geom_smooth(col="black",method="lm", na.rm = TRUE)
+```
+
+```{r, echo = FALSE}
+library(cowplot)
+first <- ggplot() + geom_bar(data=airquality,aes(x=airquality$Month,y=airquality$Ozone),fill="red",na.rm = TRUE,stat = "identity") + labs(x = "Meses",y = "Ozono")
+
+second <- ggplot() + geom_bar(data=airquality,aes(x=airquality$Month,y=airquality$Solar.R),fill="green",na.rm = TRUE,stat = "identity") + labs(x = "Meses",y = "Radiación")
+
+third <- ggplot() + geom_bar(data=airquality,aes(x=airquality$Month,y=airquality$Wind),fill="blue",na.rm = TRUE,stat = "identity") + labs(x = "Meses",y = "Viento")
+
+fourth <- ggplot() + geom_bar(data=airquality,aes(x=airquality$Month,y=airquality$Temp), na.rm = TRUE,fill="yellow",stat = "identity") + labs(x = "Meses",y = "Temperatura")
+
+cowplot::plot_grid(first,second,third,fourth,labels = c("A", "B","C","D"), align = "v")
+```
+
+### Densidades
+```{r, echo = FALSE}
+first <- ggplot(airquality, aes(x=airquality$Ozone)) + geom_density(alpha=.3,fill="red") + labs(x="Ozono",y="Densidad")
+
+second <- ggplot(airquality, aes(x=airquality$Solar.R)) + geom_density(alpha=.3,fill="green") + labs(x="Radiación Solar",y = "Densidad")
+
+third <- ggplot(airquality, aes(x=airquality$Wind)) + geom_density(alpha=.3,fill="blue") + labs(x="Viento",y="Densidad")
+
+fourth <- ggplot(airquality, aes(x=airquality$Temp)) + geom_density(alpha=.3,fill="yellow") + labs(x="Temperatura",y="Densidad")
+cowplot::plot_grid(first,second,third,fourth,labels = c("A", "B","C","D"), align = "v")
+```
+
+## Conclusiones
+En base a las observaciones realizadas se puede intuir en cierta medida lo siguiente:
+
+* La cantidad de ozono se vió incrementada durante los meses de Julio y Agosto.
+* Se intuye cierta relación entre la radiación y los meses de verano de manera similar al ozono.
+* La relación del viento mensualmente junto con las otras variables es opuesta.
+
+No obstante, se debe de hacer un análisis estadístico más en detalle sobre las distintas variables para observar si existe algún tipo de correlación entre ellas.

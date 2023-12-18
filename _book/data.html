@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Aprendizaje Automático - 2&nbsp; Datos</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./eda.html" rel="next">
+<link href="./intro.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "Sín resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la busqueda",
+    "search-hide-matches-text": "Esconder resultados adicionales",
+    "search-more-match-text": "hay más resultados en este documento",
+    "search-more-matches-text": "más resultados en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Eviar"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Datos</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Aprendizaje Automático</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Prefacio</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Datos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eda.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Análisis Exploratorio de Datos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reddim.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Técnicas de reducción de la dimensionalidad</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./aprnosup.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Aprendizaje no supervisado</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eval.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Medidas de rendimiento</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./aprsup.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Aprendizaje supervisado</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reglas.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Reglas de asociación</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./nuevas.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Nuevas tendencias</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./conclusiones.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Conclusiones</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">Bibliografía</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Indice de contenidos</h2>
+   
+  <ul>
+  <li><a href="#tipos-de-datos" id="toc-tipos-de-datos" class="nav-link active" data-scroll-target="#tipos-de-datos"> <span class="header-section-number">2.1</span> Tipos de datos</a>
+  <ul class="collapse">
+  <li><a href="#datos-estructurados-frente-a-datos-no-estructurados" id="toc-datos-estructurados-frente-a-datos-no-estructurados" class="nav-link" data-scroll-target="#datos-estructurados-frente-a-datos-no-estructurados"> <span class="header-section-number">2.1.1</span> Datos Estructurados frente a Datos No Estructurados</a></li>
+  <li><a href="#datos-estáticos-frente-a-datos-dinámicos" id="toc-datos-estáticos-frente-a-datos-dinámicos" class="nav-link" data-scroll-target="#datos-estáticos-frente-a-datos-dinámicos"> <span class="header-section-number">2.1.2</span> Datos estáticos frente a datos dinámicos</a></li>
+  </ul></li>
+  <li><a href="#obtención-de-datos" id="toc-obtención-de-datos" class="nav-link" data-scroll-target="#obtención-de-datos"> <span class="header-section-number">2.2</span> Obtención de datos</a>
+  <ul class="collapse">
+  <li><a href="#fuentes-de-datos-para-las-prácticas" id="toc-fuentes-de-datos-para-las-prácticas" class="nav-link" data-scroll-target="#fuentes-de-datos-para-las-prácticas"> <span class="header-section-number">2.2.1</span> Fuentes de datos para las prácticas</a></li>
+  <li><a href="#datos-en-r" id="toc-datos-en-r" class="nav-link" data-scroll-target="#datos-en-r"> <span class="header-section-number">2.2.2</span> Datos en R</a></li>
+  <li><a href="#particiones-de-los-datos" id="toc-particiones-de-los-datos" class="nav-link" data-scroll-target="#particiones-de-los-datos"> <span class="header-section-number">2.2.3</span> Particiones de los datos</a></li>
+  </ul></li>
+  <li><a href="#mantenimiento-de-los-datos" id="toc-mantenimiento-de-los-datos" class="nav-link" data-scroll-target="#mantenimiento-de-los-datos"> <span class="header-section-number">2.3</span> Mantenimiento de los datos</a>
+  <ul class="collapse">
+  <li><a href="#tipos-de-bases-de-datos" id="toc-tipos-de-bases-de-datos" class="nav-link" data-scroll-target="#tipos-de-bases-de-datos"> <span class="header-section-number">2.3.1</span> Tipos de bases de datos</a></li>
+  <li><a href="#infraestructuras" id="toc-infraestructuras" class="nav-link" data-scroll-target="#infraestructuras"> <span class="header-section-number">2.3.2</span> Infraestructuras</a></li>
+  </ul></li>
+  <li><a href="#calidad-de-los-datos" id="toc-calidad-de-los-datos" class="nav-link" data-scroll-target="#calidad-de-los-datos"> <span class="header-section-number">2.4</span> Calidad de los datos</a></li>
+  <li><a href="#ética-privacidad-y-seguridad-en-los-datos" id="toc-ética-privacidad-y-seguridad-en-los-datos" class="nav-link" data-scroll-target="#ética-privacidad-y-seguridad-en-los-datos"> <span class="header-section-number">2.5</span> Ética, privacidad y seguridad en los datos</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-data" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Datos</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<p>Este tema se centra en la importancia de los datos en el contexto del ML, explorando cómo su almacenamiento y procesamiento permiten a los sistemas informáticos y a los usuarios extraer información valiosa. Si reflexionamos sobre el ciclo de vida de un proyecto de ciencia de datos (recuerda la Figura <a href="intro.html#fig-ds2">Figura&nbsp;<span>1.2 (b)</span></a>), podemos observar cómo los datos ocupan el centro de todo el proceso, mientras que las demás tareas y etapas se desarrollan en torno a ellos.</p>
+<p>En el contexto del ML, los datos representan el recurso fundamental. Desde el inicio de un proyecto en ciencia de datos, se habrá dedicado tiempo y esfuerzo a comprender el problema y definir los objetivos a alcanzar. Estas etapas se han planificado meticulosamente con un enfoque centrado en los datos, contemplando aspectos como la naturaleza de los datos a recopilar, las estrategias para su adquisición, así como las mejores prácticas para su almacenamiento y gestión, entre otros factores cruciales. Piensa que sin una adecuada recolección y mantenimiento de los datos, ningún proyecto de datos puede prosperar.</p>
+<p>En el transcurso de este tema, exploraremos brevemente temas de importancia crítica, como la salvaguardia de los datos, cuestiones éticas y la preservación de la privacidad. Estos aspectos son fundamentales en cualquier proyecto vinculado a este campo, ya que garantizar la integridad y la seguridad de los datos, así como respetar los principios éticos y legales, son pilares esenciales en la construcción de soluciones de aprendizaje automático que sean responsables y confiables.</p>
+<section id="tipos-de-datos" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="tipos-de-datos"><span class="header-section-number">2.1</span> Tipos de datos</h2>
+<p>En primer lugar, tratamos los tipos de datos más comunes organizándose mediante dos clasificaciones distintas.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body" title="Atención">
+<p>Según su <strong>estructura</strong>, los datos pueden dividirse en datos estructurados y datos no estructurados.</p>
+<p>Según su comportamiento a lo largo del <strong>tiempo</strong>, los datos pueden calificarse como datos estáticos o datos dinámicos.</p>
+</div>
+</div>
+<section id="datos-estructurados-frente-a-datos-no-estructurados" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="datos-estructurados-frente-a-datos-no-estructurados"><span class="header-section-number">2.1.1</span> Datos Estructurados frente a Datos No Estructurados</h3>
+<p>Esta organización se enfoca en determinar si los datos exhiben una estructura definida en el momento de su obtención o si, por el contrario, carecen de un esquema determinista. A continuación, describiremos las distintas categorías de datos de acuerdo con esta clasificación:</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Nota
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body" title="Datos estructurados">
+<p>Los datos estructurados son aquellos que poseen una longitud, un tipo, un formato y un tamaño definidos. Por lo general, estos datos se organizan en forma de tabla o se almacenan en una base de datos relacional (tablas de columnas y filas), que establece relaciones entre las diversas propiedades de las observaciones.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Nota
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body" title="Datos no estructurados">
+<p>Los datos no estructurados, en cambio, carecen de un formato específico. Suelen extraerse de documentos de texto, videos u otras fuentes similares. Como ejemplo, la oración que estás leyendo en este momento contiene datos no estructurados, ya que no sigue un formato particular, y los usuarios no pueden anticipar si se organiza de acuerdo con algún esquema predefinido.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="datos-estáticos-frente-a-datos-dinámicos" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="datos-estáticos-frente-a-datos-dinámicos"><span class="header-section-number">2.1.2</span> Datos estáticos frente a datos dinámicos</h3>
+<p>Esta organización atiende al comportamiento de los datos a lo largo del tiempo. Los datos estáticos son los datos que no cambian a lo largo del tiempo. Por el contrario, los datos pueden evolucionar en el tiempo, llegando nuevas observaciones, o nuevos valores de las variables de interés, que obliguen a los modelos construidos sobre ellos a realizar ajustes de manera constante. En estas situaciones hablaremos de datos dinámicos.</p>
+<p>Los datos dinámicos son los que presentan un nivel de complejidad más alto en términos de su tratamiento. Es habitual crear esquemas con el fin de simplificar las posibles operaciones que se llevarán a cabo con los datos dinámicos. Estos esquemas son aplicables principalmente a datos estructurados. Sin embargo, en el caso de los datos dinámicos no estructurados, la tarea radica en procesar estos datos de manera dinámica a medida que evolucionan, sin la capacidad de anticipar de antemano la estructura o dimensión que puedan adquirir.</p>
+<p>Para más información sobre este tema, consultar <span class="citation" data-cites="weiss2012data">(<a href="references.html#ref-weiss2012data" role="doc-biblioref">Weiss 2012</a>)</span>.</p>
+</section>
+</section>
+<section id="obtención-de-datos" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="obtención-de-datos"><span class="header-section-number">2.2</span> Obtención de datos</h2>
+<p>El proceso de obtención de los datos consiste en la recopilación de información en un dominio específico. Una vez obtenidos los datos, estos deben ser procesados con el objetivo de generar conocimiento a partir de ellos. Despliega los siguientes paneles para conocer algunas de las técnicas más comunes en el proceso de obtención de datos.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Encuestas y entrevistas
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Estas técnicas involucran la formulación de preguntas a expertos dentro de un área de interés. En ocasiones, se utilizan para etiquetar los datos, es decir, para asignar categorías o etiquetas a los datos en función de las respuestas proporcionadas. Las preguntas en una encuesta pueden ser abiertas, lo que significa que no tienen restricciones en la respuesta, o cerradas, donde se ofrecen opciones predefinidas para elegir. Por ejemplo, en el campo de la ciberseguridad, los sistemas de detección de virus a menudo utilizan etiquetas para identificar y clasificar virus. Estos sistemas aprovechan el conocimiento de los expertos para tomar decisiones en ese dominio.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Observación
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Esta técnica implica observar y verificar lo que está sucediendo con el conjunto de datos de interés desde una distancia. La observación puede ser directa o indirecta. En el primer caso, un observador se limita a verificar los datos directamente. En el segundo caso, el observador se enfoca en los resultados de los análisis realizados en los datos. Un ejemplo de observación directa son los filtros antispam en correos electrónicos, que observan y toman medidas en función de las observaciones realizadas en los mensajes. Los usuarios que revisan la carpeta de <em>spam</em> y ven el número de mensajes rechazados son observadores indirectos en este contexto.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Toma de muestras
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Esta técnica consiste en obtener subconjuntos representativos de los datos en lugar de analizar todos los datos disponibles. A menudo, no es necesario analizar todos los datos, especialmente cuando se trata de conjuntos de datos extensos. En su lugar, se toma una muestra lo suficientemente grande y diversa que sea representativa. Por ejemplo, para determinar si ha ocurrido un ciberataque y se ha producido un robo de información, puede ser suficiente analizar un porcentaje de los datos de red de los últimos días u horas en lugar de examinar todos los datos durante períodos más largos, como meses o años.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Web Scraping
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Esta técnica implica la extracción de datos directamente desde sitios web. Los <em>web scrapers</em> automatizan el proceso de navegación web y recuperación de información de páginas web, lo que permite obtener datos de fuentes públicas en línea.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Sensores y Dispositivos IoT
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Los sensores y dispositivos de Internet de las cosas (IoT) generan datos en tiempo real, que pueden incluir información sobre temperatura, humedad, ubicación geográfica, entre otros. Estos datos pueden ser recopilados y utilizados para análisis.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Registros y Bitácoras (Logs)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Muchos sistemas y aplicaciones generan registros (logs) que registran eventos y actividades. Estos registros pueden ser valiosos para el análisis de problemas, seguimiento de comportamientos y seguridad.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Extracción de Texto de Documentos
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Para datos no estructurados, como texto en documentos, se pueden utilizar técnicas de extracción de texto para convertir la información en un formato procesable. Esto es útil en áreas como el procesamiento de documentos legales o médicos.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Captura de Imágenes y Video
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Las cámaras y sistemas de captura de imágenes y video generan grandes cantidades de datos visuales que pueden ser analizados para reconocimiento de patrones, detección de objetos, análisis de imágenes médicas y más.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+APIs (Interfaces de Programación de Aplicaciones)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Muchas aplicaciones y servicios ofrecen APIs que permiten acceder a sus datos de manera estructurada y programática. Esto es común en aplicaciones de redes sociales, servicios de mapas, pronósticos del tiempo y más.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Datos de Redes Sociales
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Las plataformas de redes sociales generan una gran cantidad de datos en forma de publicaciones, comentarios y actividad de usuarios. Estos datos pueden ser recopilados y analizados para comprender tendencias, opiniones del público y más.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Datos de Dispositivos Móviles
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Las aplicaciones móviles pueden recopilar datos del dispositivo, como la ubicación GPS, el uso de la aplicación y la interacción del usuario. Estos datos pueden utilizarse para análisis de comportamiento del usuario y personalización.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Datos de Sensores Biométricos
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>En aplicaciones de salud y bienestar, se pueden utilizar sensores biométricos, como los dispositivos de seguimiento de actividad física y las pulseras de ritmo cardíaco, para recopilar datos sobre la salud y el estado físico de los individuos.</p>
+</div>
+</div>
+</div>
+<section id="fuentes-de-datos-para-las-prácticas" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="fuentes-de-datos-para-las-prácticas"><span class="header-section-number">2.2.1</span> Fuentes de datos para las prácticas</h3>
+<p>Para las prácticas que se van a llevar a cabo a lo largo de este curso, vamos a necesitar datos. En un entorno educativo como el nuestro, es habitual recurrir a los llamados “<em>benchmarks</em>”. Un <em>benchmark</em> se refiere a un conjunto de datos de referencia o estándar que se utiliza como punto de comparación para evaluar y medir el rendimiento de algoritmos, modelos y técnicas de análisis de datos. Los <em>benchmarks</em> son esenciales en la ciencia de datos porque proporcionan un punto de referencia común y objetivo para evaluar la calidad y eficacia de diferentes enfoques. Puedes encontrarlos en diferentes portales y su uso es habitual en artículos de investigación.</p>
+<p>Despliega el siguiente panel para averiguar dónde localizar numerosos conjuntos de datos de referencia.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Fuentes de datos
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-16" class="callout-16-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Existen varias fuentes de conjuntos de datos de <em>benchmark</em> que puedes utilizar en proyectos de ciencia de datos. Algunas de las fuentes más populares y confiables incluyen:</p>
+<ol type="1">
+<li><p><strong>Kaggle:</strong> Kaggle es una plataforma en línea que alberga competiciones de ciencia de datos y proporciona una amplia variedad de conjuntos de datos para prácticas y competiciones. Puedes explorar conjuntos de datos en su <a href="https://www.kaggle.com/datasets">sección de datasets</a>. Cuidado con los análisis de estos datos en la plataforma Kaggle, pues no siempre son correctos o precisos. ¡Ojo!</p></li>
+<li><p><strong>UCI Machine Learning Repository:</strong> La Universidad de California, Irvine (UCI), ofrece un amplio repositorio de conjuntos de datos de <em>benchmark</em> para ML. Puedes encontrarlos en su <a href="#0">página web</a>.</p></li>
+<li><p><strong>OpenML:</strong> OpenML es una plataforma en línea que recopila y comparte conjuntos de datos, así como flujos de trabajo y resultados de la comunidad de ciencia de datos. Puedes explorar conjuntos de datos en su <a href="https://www.openml.org/">sitio web</a>.</p></li>
+<li><p><strong>GitHub:</strong> GitHub es una plataforma de desarrollo de software que también alberga una gran cantidad de repositorios públicos que contienen conjuntos de datos. Puedes utilizar la función de búsqueda de GitHub para encontrar conjuntos de datos relevantes.</p></li>
+<li><p><strong>Data.gov:</strong> Data.gov es el portal de datos abiertos del gobierno de los Estados Unidos. Ofrece una amplia variedad de conjuntos de datos gubernamentales en áreas como salud, medio ambiente, educación y más.</p></li>
+<li><p><strong>Google Dataset Search:</strong> Google Dataset Search es una herramienta de búsqueda específica para conjuntos de datos. Te permite buscar conjuntos de datos en línea utilizando palabras clave relevantes.</p></li>
+<li><p><strong>Awesome Public Datasets:</strong> Este repositorio de GitHub contiene una lista de conjuntos de datos públicos en diversas categorías. Puedes encontrarlo <a href="https://github.com/awesomedata/awesome-public-datasets">aquí</a>.</p></li>
+<li><p><strong>Datasets Subreddit:</strong> La comunidad de Reddit tiene un subreddit llamado “<em>datasets</em>” donde los usuarios comparten y discuten conjuntos de datos interesantes. Puedes explorarlo en <a href="https://www.reddit.com/r/datasets/">r/datasets</a>.</p></li>
+<li><p><strong>World Bank Data:</strong> El Banco Mundial ofrece una gran cantidad de datos relacionados con el desarrollo económico y social de países de todo el mundo. Puedes acceder a estos datos en su <a href="https://data.worldbank.org/">sitio web</a>.</p></li>
+<li><p><strong>Eurostat:</strong> Eurostat es la oficina de estadísticas de la Unión Europea y proporciona una amplia gama de datos relacionados con la UE y sus países miembros. Puedes encontrar datos en su <a href="https://ec.europa.eu/eurostat/data/database">sitio web</a>.</p></li>
+</ol>
+<p>Recuerda que, antes de utilizar cualquier conjunto de datos, es importante verificar los términos de uso y asegurarte de tener permiso para utilizarlos según tus necesidades. Además, ten en cuenta las consideraciones éticas y de privacidad al trabajar con datos, especialmente si contienen información personal o sensible.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="datos-en-r" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="datos-en-r"><span class="header-section-number">2.2.2</span> Datos en R</h3>
+<p>R incluye en sus librerías numerosos conjuntos de datos. Para acceder a ellos, basta con cargar la librería correspondiente.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(palmerpenguins)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(penguins)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      species          island    bill_length_mm  bill_depth_mm  
+ Adelie   :152   Biscoe   :168   Min.   :32.10   Min.   :13.10  
+ Chinstrap: 68   Dream    :124   1st Qu.:39.23   1st Qu.:15.60  
+ Gentoo   :124   Torgersen: 52   Median :44.45   Median :17.30  
+                                 Mean   :43.92   Mean   :17.15  
+                                 3rd Qu.:48.50   3rd Qu.:18.70  
+                                 Max.   :59.60   Max.   :21.50  
+                                 NA's   :2       NA's   :2      
+ flipper_length_mm  body_mass_g       sex           year     
+ Min.   :172.0     Min.   :2700   female:165   Min.   :2007  
+ 1st Qu.:190.0     1st Qu.:3550   male  :168   1st Qu.:2007  
+ Median :197.0     Median :4050   NA's  : 11   Median :2008  
+ Mean   :200.9     Mean   :4202                Mean   :2008  
+ 3rd Qu.:213.0     3rd Qu.:4750                3rd Qu.:2009  
+ Max.   :231.0     Max.   :6300                Max.   :2009  
+ NA's   :2         NA's   :2                                 </code></pre>
+</div>
+</div>
+<p>Es posible leer datos desde una cuenta de git.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span> (readr)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>urlfile<span class="ot">=</span><span class="st">"https://raw.githubusercontent.com/IsaacMartindeDiego/IA/master/datasets/california_housing.csv"</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>mydata<span class="ot">&lt;-</span><span class="fu">read_csv</span>(<span class="fu">url</span>(urlfile))</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mydata)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 10
+  longitude latitude housing_median_age total_rooms total_bedrooms population
+      &lt;dbl&gt;    &lt;dbl&gt;              &lt;dbl&gt;       &lt;dbl&gt;          &lt;dbl&gt;      &lt;dbl&gt;
+1     -122.     37.9                 41         880            129        322
+2     -122.     37.9                 21        7099           1106       2401
+3     -122.     37.8                 52        1467            190        496
+4     -122.     37.8                 52        1274            235        558
+5     -122.     37.8                 52        1627            280        565
+6     -122.     37.8                 52         919            213        413
+# ℹ 4 more variables: households &lt;dbl&gt;, median_income &lt;dbl&gt;,
+#   median_house_value &lt;dbl&gt;, ocean_proximity &lt;chr&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(mydata)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 20640    10</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mydata)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   longitude         latitude     housing_median_age  total_rooms   
+ Min.   :-124.3   Min.   :32.54   Min.   : 1.00      Min.   :    2  
+ 1st Qu.:-121.8   1st Qu.:33.93   1st Qu.:18.00      1st Qu.: 1448  
+ Median :-118.5   Median :34.26   Median :29.00      Median : 2127  
+ Mean   :-119.6   Mean   :35.63   Mean   :28.64      Mean   : 2636  
+ 3rd Qu.:-118.0   3rd Qu.:37.71   3rd Qu.:37.00      3rd Qu.: 3148  
+ Max.   :-114.3   Max.   :41.95   Max.   :52.00      Max.   :39320  
+                                                                    
+ total_bedrooms     population      households     median_income    
+ Min.   :   1.0   Min.   :    3   Min.   :   1.0   Min.   : 0.4999  
+ 1st Qu.: 296.0   1st Qu.:  787   1st Qu.: 280.0   1st Qu.: 2.5634  
+ Median : 435.0   Median : 1166   Median : 409.0   Median : 3.5348  
+ Mean   : 537.9   Mean   : 1425   Mean   : 499.5   Mean   : 3.8707  
+ 3rd Qu.: 647.0   3rd Qu.: 1725   3rd Qu.: 605.0   3rd Qu.: 4.7432  
+ Max.   :6445.0   Max.   :35682   Max.   :6082.0   Max.   :15.0001  
+ NA's   :207                                                        
+ median_house_value ocean_proximity   
+ Min.   : 14999     Length:20640      
+ 1st Qu.:119600     Class :character  
+ Median :179700     Mode  :character  
+ Mean   :206856                       
+ 3rd Qu.:264725                       
+ Max.   :500001                       
+                                      </code></pre>
+</div>
+</div>
+<p>La estructura de datos más habitual para realizar análisis de datos es el <strong>data frame</strong>. ¿Has estudiado este concepto en cursos anteriores?. Los data frame son estructuras de datos de dos dimensiones (como una matriz) que pueden contener datos de diferentes tipos. Normalmente nos referimos a las filas de un data frame como observaciones o registros, mientras que las columnas reciben el nombre de campos, variables, o características.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>L3 <span class="ot">&lt;-</span> LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>char <span class="ot">&lt;-</span> <span class="fu">sample</span>(L3, <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="dv">1</span>, <span class="at">y =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">char =</span> char)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>datos</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   x  y char
+1  1  1    B
+2  1  2    C
+3  1  3    C
+4  1  4    B
+5  1  5    B
+6  1  6    B
+7  1  7    A
+8  1  8    C
+9  1  9    A
+10 1 10    A</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.data.frame</span>(datos)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<p>Un <strong>tibble</strong>, o tbl_df, es una actualización del concepto del data frame. Los tibbles son data.frames perezosos. Esto le obliga a enfrentarse a los problemas antes, lo que normalmente conduce a un código más limpio y expresivo. Los tibbles también tienen un método print() mejorado que facilita su uso con grandes conjuntos de datos que contienen objetos complejos.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as.tibble</span>(iris)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 150 × 5
+   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
+ 1          5.1         3.5          1.4         0.2 setosa 
+ 2          4.9         3            1.4         0.2 setosa 
+ 3          4.7         3.2          1.3         0.2 setosa 
+ 4          4.6         3.1          1.5         0.2 setosa 
+ 5          5           3.6          1.4         0.2 setosa 
+ 6          5.4         3.9          1.7         0.4 setosa 
+ 7          4.6         3.4          1.4         0.3 setosa 
+ 8          5           3.4          1.5         0.2 setosa 
+ 9          4.4         2.9          1.4         0.2 setosa 
+10          4.9         3.1          1.5         0.1 setosa 
+# ℹ 140 more rows</code></pre>
+</div>
+</div>
+<div class="callout-caution callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Precaución
+</div>
+</div>
+<div class="callout-body-container callout-body" title="Práctica">
+<p>Es importante que realices algún ejercicio en R, leyendo datos de diferentes fuentes y familiarizándote con las diferentes estructuras de datos que R proporciona.</p>
+</div>
+</div>
+</section>
+<section id="particiones-de-los-datos" class="level3" data-number="2.2.3">
+<h3 data-number="2.2.3" class="anchored" data-anchor-id="particiones-de-los-datos"><span class="header-section-number">2.2.3</span> Particiones de los datos</h3>
+<p>El científico de datos normalmente se enfrenta a una base de datos sobre la que trabajar. Puede ser la base de datos completa o una muestra de esta que no incluya el total de las observaciones. Quizás se ha tomado una muestra de datos empleando técnicas de muestreo. El muestreo es un concepto de gran interés que deberías de estudiar en algún curso básico de estadística. En cualquier caso, una de las primeras tareas que vamos a realizar, siempre, es la de dividir la muestra en varias particiones. En este punto es necesario comentar que una de las principales diferencias entre el ML y la estadística clásica es su propósito. Por un lado, los modelos de ML están diseñados para hacer las predicciones más exactas posibles. Por otro lado, los modelos estadísticos están diseñados para inferir las relaciones entre las variables.</p>
+<p>Para llevar a cabo una correcta tarea de predicción será necesario contar con las siguientes particiones de los datos:</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Entrenamiento
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-18" class="callout-18-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>La partición de entrenamiento estará compuesta por las observaciones sobre las que vamos a entrenar nuestro modelo. En esta partición podemos entrenar alternativas a nuestro modelo cuantas veces sea necesario. Estas alternativas vendrán dadas por diferentes elecciones de los parámetros del modelo. ¡Sobre la partición de entrenamiento puedes probar todos los modelos que se te ocurran!</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Prueba
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-19" class="callout-19-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>La partición de prueba estará compuesta por las observaciones sobre las que vamos a probar nuestro modelo entrenado. Si los resultados del modelo no son los deseados podremos volver a entrenar el modelo con otros parámetros o bien cambiar de modelo. Usa esta partición para probar tus modelos y ver cómo de buenos son al enfrentarse a nuevas observaciones, diferentes a las empleadas para crear el modelo.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Validación
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-20" class="callout-20-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>La partición de validación estará compuesta por las observaciones sobre las que vamos a validar nuestro modelo. Esta partición se emplea una vez seleccionado el mejor modelo. Simula la situación en la que unos nuevos datos llegan al modelo y sobre ellos se emplea el modelo para realizar una predicción. Esta partición trata de reflejar el comportamiento del modelo de ML en un entorno real. Si la base de datos original es dividida aleatoriamente en las tres particiones mencionadas, la distribución de las variables será similar en todas ellas. Es decir, el modelo entrenado en la partición de entrenamiento y probado en la partición de prueba, debe de presentar un rendimiento similar en la partición de validación. A veces nos referimos a esta partición como los <strong>datos en producción</strong>.</p>
+</div>
+</div>
+</div>
+<p>La partición de validación no será empleada sino al final del proceso. Cuando se pruebe el modelo de aprendizaje sobre ese conjunto de datos ya no podremos volver atrás. Cualquier tarea de entrenamiento del modelo será realizada única y exclusivamente sobre las particiones de entrenamiento y prueba. Es necesario indicar que algunos autores cambian el nombre de las particiones, llamando prueba a validación y validación a prueba. Tienes que comprender que es una mera cuestión de nomenclatura, podrían llamarse particiones 1, 2 y 3, (o A, B, C) siempre que su uso sea el adecuado. En cada una de estas particiones estimaremos el error (y el acierto) de los métodos de ML que consideremos. Este error será evaluado mediante métricas adecuadas que serán presentadas en el tema 6 de este curso.</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body" title="Para recordar">
+<p>Emplear particiones de los datos pretende minimizar el llamado <strong>sobreajuste</strong> del modelo que aparece cuando un modelo tiene un funcionamiento altamente dependiente de los datos con los que ha sido entrenado. Estudiaremos este problema más adelante.</p>
+</div>
+</div>
+<p>En caso de sobreajuste, cuando el modelo se enfrenta a datos nuevos su rendimiento se ve deteriorado.</p>
+<p>Existen varias técnicas estadísticas para la construcción de particiones. La primera de ellas es la más sencilla y consiste, simplemente, en reservar un conjunto (fijo) de observaciones para probar los modelos. Podemos aconsejar reservar en torno al 60% de las observaciones para la muestra de entrenamiento, en torno al 20% para la muestra de prueba y el restante 20% para validación. Sin embargo, estos valores son muy dependientes del volumen de datos y de los objetivos particulares del problema. La principal desventaja de este método es que la estimación del error en la partición de prueba puede ser muy variable, dependiendo precisamente de las observaciones que se incluyan en el conjunto de entrenamiento y de las que se incluyan en el conjunto de prueba. Además, si te fijas bien, solo un conjunto de observaciones, siempre el mismo, se emplea para entrenar el modelo. Este hecho sugiere que esta aproximación tiende a sobreestimar el modelo. Una técnica ampliamente utilizada es la conocida como “<em>k-folds cross validation</em>”. La idea es dividir el conjunto de entrenamiento en <em>k</em> partes iguales. Para cada de esas partes se ajusta el modelo de ML en los datos de las otras <em>k-1</em> partes (combinadas), y se obtiene el error de predicción en la k- ésima parte. De este modo se tienen <em>k</em> errores de los que podremos obtener la media y desviación típica. En la práctica, es muy común elegir <em>k</em> igual a 5 o 10. En el caso extremo de <em>k</em> igual número de observaciones en la muestra de entrenamiento y test, la técnica se conoce con el nombre de “<em>leave-one out cross validation</em>”, aunque este método podría no mezclar los datos lo suficiente. Es decir, los datos de cada partición están altamente correlacionados y por lo tanto la varianza del error suele ser muy elevada.</p>
+<section id="particiones-en-r" class="level4" data-number="2.2.3.1">
+<h4 data-number="2.2.3.1" class="anchored" data-anchor-id="particiones-en-r"><span class="header-section-number">2.2.3.1</span> Particiones en R</h4>
+<p>Hay varias formas comunes de dividir los datos en conjuntos de entrenamiento y de prueba en R:</p>
+<ul>
+<li>Base R</li>
+<li>caTools</li>
+<li>dplyr</li>
+</ul>
+<p>En primer lugar os presentamos una forma muy manual de hacerlo. A veces es la más sencilla de entender y la más inmediata de razonar.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># cargamos los datos</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(penguins)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(penguins)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 344   8</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># mediante una semilla conseguimos que el ejercicio sea reproducible</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># creamos índices</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>ntotal <span class="ot">&lt;-</span> <span class="fu">dim</span>(penguins)[<span class="dv">1</span>]</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>indices <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>ntotal</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>ntrain <span class="ot">&lt;-</span> ntotal <span class="sc">*</span> .<span class="dv">7</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>indices.train <span class="ot">&lt;-</span> <span class="fu">sample</span>(indices, ntrain, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>indices.test <span class="ot">&lt;-</span> indices[<span class="sc">-</span>indices.train]</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Usamos el 70% de la base de datos como conjunto de entrenamiento y el resto como conjunto de test</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>train  <span class="ot">&lt;-</span> penguins[indices.train, ]</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>test   <span class="ot">&lt;-</span> penguins[indices.test, ]</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(train)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 240   8</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(test)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 104   8</code></pre>
+</div>
+</div>
+<p>Otra forma alternativa.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># cargamos los datos</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(penguins)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(penguins)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 344   8</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># mediante una semilla conseguimos que el ejercicio sea reproducible</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Usamos el 70% de la base de datos como conjunto de entrenamiento y el resto como conjunto de test</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>sample <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>), <span class="fu">nrow</span>(penguins), <span class="at">replace=</span><span class="cn">TRUE</span>, <span class="at">prob=</span><span class="fu">c</span>(<span class="fl">0.7</span>,<span class="fl">0.3</span>))</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>train  <span class="ot">&lt;-</span> penguins[sample, ]</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>test   <span class="ot">&lt;-</span> penguins[<span class="sc">!</span>sample, ]</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(train)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 246   8</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(test)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 98  8</code></pre>
+</div>
+</div>
+<p>Usando el paquete <code>caTools</code> indicamos directamente el ratio de entrenamiento.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># cargamos el paquete</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caTools)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co"># cargamos los datos</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(penguins)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(penguins)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 344   8</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># mediante una semilla conseguimos que el ejercicio sea reproducible</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Usamos el 70% de la base de datos como conjunto de entrenamiento y el resto como conjunto de test</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>sample <span class="ot">&lt;-</span> <span class="fu">sample.split</span>(penguins<span class="sc">$</span>species, <span class="at">SplitRatio=</span><span class="fl">0.7</span>)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>train  <span class="ot">&lt;-</span> <span class="fu">subset</span>(penguins, sample<span class="sc">==</span><span class="cn">TRUE</span>)</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>test   <span class="ot">&lt;-</span> <span class="fu">subset</span>(penguins, sample<span class="sc">==</span><span class="cn">FALSE</span>)</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(train)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 241   8</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(test)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 103   8</code></pre>
+</div>
+</div>
+<p>Podemos emplear el paquete dplyr tal y como sigue:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># cargamos el paquete</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="co"># cargamos los datos</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(penguins)</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(penguins)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 344   8</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># mediante una semilla conseguimos que el ejercicio sea reproducible</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="co"># creamos una variable índice</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>penguins<span class="sc">$</span>id <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(penguins)</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Usamos el 70% de la base de datos como conjunto de entrenamiento y el resto como conjunto de test</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>train  <span class="ot">&lt;-</span> penguins <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">sample_frac</span>(<span class="fl">0.7</span>)</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>test   <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">anti_join</span>(penguins, train, <span class="at">by =</span> <span class="st">'id'</span>)</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(train)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 241   9</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(test)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 103   9</code></pre>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="mantenimiento-de-los-datos" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="mantenimiento-de-los-datos"><span class="header-section-number">2.3</span> Mantenimiento de los datos</h2>
+<p>Una vez que los datos han sido adquiridos, es esencial asegurar su mantenimiento y almacenamiento en entornos adecuados. Para lograr este objetivo, se han desarrollado múltiples sistemas de gestión de bases de datos, diseñados para satisfacer las diversas necesidades de usuarios y organizaciones. Estos sistemas de gestión de bases de datos se integran en infraestructuras más amplias y complejas que permiten el manejo eficaz y eficiente de los datos.</p>
+<section id="tipos-de-bases-de-datos" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="tipos-de-bases-de-datos"><span class="header-section-number">2.3.1</span> Tipos de bases de datos</h3>
+<p>Las bases de datos se pueden clasificar en relacionales y no relacionales.</p>
+<p>Las <strong>bases de datos relacionales</strong> son aquellas que siguen el modelo entidad-relación, también llamado modelo relacional, en donde cada una de las tablas (o entidades) presenta algún tipo de enlace con otras (relaciones).</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body" title="Para recordar">
+<p>Los datos almacenados en bases de datos relacionales suelen ser datos estructurados.</p>
+</div>
+</div>
+<p>Para el manejo de estas bases de datos, se utiliza un lenguaje ampliamente conocido en el mundo de la Ciencia de la Computación llamado “Structured Query Language” (más conocido por sus siglas, <strong>SQL</strong>). Este lenguaje permite realizar consultas sobre las distintas tablas y sus relaciones, así como la gestión y mantenimiento de los datos.</p>
+<p>Las <strong>bases de datos no relacionales</strong>, también llamadas NoSQL, están diseñadas para representar un modelo de datos específicos en donde su estructura y esquema son flexibles (principalmente datos no estructurados). Presentan una gran relajación respecto a las restricciones que deben cumplir por lo que favorecen una gran escalabilidad horizontal (muchos elementos del mismo tipo pueden ser fácilmente almacenados en un único documento que hace las veces de tabla). Las bases de datos no relacionales se pueden organizar como sigue:</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-23-contents" aria-controls="callout-23" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Basadas en documentos
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-23" class="callout-23-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Estas bases de datos permiten el almacenamiento de documentos completos (normalmente textuales) y partes de interés de estos. Son ampliamente utilizadas en los sistemas de gestión documental, o sistemas de recomendación, los cuales son capaces de proporcionar información de interés de acuerdo con una búsqueda determinada. Ejemplo: ElasticSearch <span class="citation" data-cites="dixit2017elasticsearch">(<a href="references.html#ref-dixit2017elasticsearch" role="doc-biblioref">Dixit et&nbsp;al. 2017</a>)</span>.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-24-contents" aria-controls="callout-24" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Gestión mediante clave-valor
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-24" class="callout-24-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Son las bases de datos más comunes y tienen cierta similitud con las bases de datos relacionales. La clave actúa como clave primaria, mientras que el valor puede ser un único elemento o un conjunto de atributos relacionados. Ejemplo: MongoDB <span class="citation" data-cites="bradshaw2019mongodb">(<a href="references.html#ref-bradshaw2019mongodb" role="doc-biblioref">Bradshaw, Brazil, y Chodorow 2019</a>)</span>.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-25-contents" aria-controls="callout-25" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Basadas en grafos
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-25" class="callout-25-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Son bases de datos que almacenan su información por medio de nodos y aristas. Los elementos principales son los nodos, que suelen contener una serie de atributos, los cuales se relacionan con otros nodos mediante las aristas. Son muy útiles para organizar datos no estructurados como pueden ser la información que se extrae del contenido textual. Ejemplo: Neo4J <span class="citation" data-cites="webber2012programmatic">(<a href="references.html#ref-webber2012programmatic" role="doc-biblioref">Webber 2012</a>)</span></p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-26-contents" aria-controls="callout-26" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Orientadas a objetos
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-26" class="callout-26-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Son bases de datos capaces de emular la abstracción proporcionada por la programación orientada a objetos. Por lo tanto, contienen entidades (clases) que incluyen atributos y métodos de acceso y modificación de estos, produciendo encapsulamiento. Ejemplo: Gemstone <span class="citation" data-cites="ra1994flexible">(<a href="references.html#ref-ra1994flexible" role="doc-biblioref">Ra, Kuno, y Rundensteiner 1994</a>)</span></p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-27-contents" aria-controls="callout-27" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+De trabajo en memoria
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-27" class="callout-27-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Estas bases de datos suelen estar constituidas por estructuras simples con el objetivo de poder ser alojadas en la memoria principal del computador. De esta manera se consigue que el tiempo de respuesta y la gestión y manejo de los datos sea mucho más rápida que en el resto de las bases de datos, que utilizan el disco duro del computador como lugar físico de almacenamiento. Debido a estas características son utilizadas en aplicaciones de alto rendimiento que gestionen volúmenes de datos asequibles. Ejemplo: Redis <span class="citation" data-cites="nelson2016mastering">(<a href="references.html#ref-nelson2016mastering" role="doc-biblioref">Nelson 2016</a>)</span></p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-28-contents" aria-controls="callout-28" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Para saber más sobre bases de datos
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-28" class="callout-28-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Las distintas clasificaciones presentadas en este curso son una pequeña aproximación al mundo de las bases de datos. Para más detalles respecto a los conceptos detallados en este apartado ver <span class="citation" data-cites="harrington2016relational">(<a href="references.html#ref-harrington2016relational" role="doc-biblioref">Harrington 2016</a>)</span> para las bases de datos relacionales y <span class="citation" data-cites="meier2019sql">(<a href="references.html#ref-meier2019sql" role="doc-biblioref">Meier y Kaufmann 2019</a>)</span> para las bases de datos no relacionales.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="infraestructuras" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="infraestructuras"><span class="header-section-number">2.3.2</span> Infraestructuras</h3>
+<p>La infraestructura para el almacenamiento de datos en el contexto de un proyecto de ciencia de datos desempeña un papel crítico en la capacidad de procesar y analizar información de manera efectiva. Esta infraestructura se compone de sistemas y tecnologías diseñados para almacenar, gestionar y acceder a grandes volúmenes de datos de manera eficiente y segura.</p>
+<p>En un proyecto de ciencia de datos, es común utilizar sistemas de bases de datos que pueden ser de diversos tipos, como bases de datos relacionales, bases de datos NoSQL (orientadas a documentos, columnares, gráficas, etc.) o almacenes de datos en la nube. Estos sistemas permiten organizar los datos de manera estructurada o semiestructurada, facilitando su recuperación y análisis.</p>
+<p>Además, se pueden implementar tecnologías de almacenamiento distribuido que escalen horizontalmente para manejar conjuntos de datos masivos. Estas tecnologías permiten la redundancia y la disponibilidad continua de los datos, lo que es esencial para proyectos que requieren un alto grado de confiabilidad y rendimiento.</p>
+<p>La elección de la infraestructura de almacenamiento adecuada dependerá de la naturaleza de los datos y de los objetivos del proyecto. La capacidad de gestionar y acceder a los datos de manera efectiva es un componente clave en la cadena de valor de la ciencia de datos, ya que permite a los científicos de datos realizar análisis, modelado y generación de conocimiento de manera más eficiente y precisa.</p>
+<p>Aquí presentamos algunos ejemplos de infraestructuras de almacenmiento de datos:</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-29-contents" aria-controls="callout-29" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Bases de Datos Relacionales
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-29" class="callout-29-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Ejemplos populares incluyen MySQL, PostgreSQL, Microsoft SQL Server y Oracle. Son ideales para datos estructurados y son ampliamente utilizados en aplicaciones empresariales y proyectos de análisis de datos.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-30-contents" aria-controls="callout-30" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Bases de Datos NoSQL
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-30" class="callout-30-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Incluyen bases de datos orientadas a documentos como MongoDB, bases de datos columnares como Apache Cassandra, y bases de datos gráficas como Neo4j. Estas bases de datos son adecuadas para datos semiestructurados y no estructurados, y son especialmente útiles en aplicaciones web y análisis de redes sociales.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-31-contents" aria-controls="callout-31" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Almacenes de Datos en la Nube
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-31" class="callout-31-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Servicios como Amazon S3, Google Cloud Storage y Microsoft Azure Blob Storage ofrecen soluciones de almacenamiento altamente escalables y rentables en la nube para datos estructurados y no estructurados. Son ideales para proyectos que requieren almacenamiento y acceso a gran escala. Los sistemas de computación en la nube son capaces de ofrecer un conjunto de características estandarizadas que se adaptan al consumidor, lo que los hace muy flexibles.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-32-contents" aria-controls="callout-32" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Hadoop Distributed File System (HDFS)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-32" class="callout-32-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Es una parte integral del ecosistema Hadoop y se utiliza para almacenar y gestionar grandes conjuntos de datos distribuidos en clústeres de servidores. Es comúnmente utilizado en proyectos de big data y análisis de datos masivos.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-33-contents" aria-controls="callout-33" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Sistemas de Almacenamiento en Memoria
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-33" class="callout-33-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Ejemplos incluyen Redis y Apache Kafka. Estos sistemas permiten el almacenamiento y la recuperación ultrarrápidos de datos en memoria, lo que es esencial para aplicaciones en tiempo real y análisis de transmisiones de datos.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-34-contents" aria-controls="callout-34" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Sistemas de Almacenamiento Distribuido
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-34" class="callout-34-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Ejemplos incluyen Apache HBase y Apache CouchDB. Estos sistemas ofrecen alta disponibilidad y escalabilidad, lo que es crucial para aplicaciones que requieren acceso y actualización concurrentes de datos distribuidos.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-35-contents" aria-controls="callout-35" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Sistemas de Almacenamiento de Datos Geoespaciales
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-35" class="callout-35-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Ejemplos incluyen PostGIS y MongoDB con capacidades geoespaciales habilitadas. Estos sistemas son esenciales para proyectos que involucran datos de ubicación y análisis geoespaciales.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-36-contents" aria-controls="callout-36" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Almacenamiento de Datos en Almacenes de Datos Empresariales
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-36" class="callout-36-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Ejemplos incluyen sistemas como Teradata y SAP HANA. Estas soluciones se utilizan en empresas para el almacenamiento y análisis de grandes volúmenes de datos de negocios.</p>
+</div>
+</div>
+</div>
+<p>La elección de la infraestructura de almacenamiento dependerá de los requisitos específicos del proyecto, como el volumen de datos, la naturaleza de los datos y las necesidades de rendimiento y escalabilidad. Cada una de estas infraestructuras tiene sus propias ventajas y desafíos, y la elección adecuada contribuirá al éxito del proyecto de ciencia de datos.</p>
+</section>
+</section>
+<section id="calidad-de-los-datos" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="calidad-de-los-datos"><span class="header-section-number">2.4</span> Calidad de los datos</h2>
+<p>La calidad de los datos es un elemento fundamental en cualquier proyecto de ciencia de datos, ya que influye directamente en la confiabilidad y el valor de los resultados obtenidos. La calidad de los datos se refiere a la precisión, la integridad, la consistencia y la relevancia de los datos que se utilizan en el análisis.</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body" title="Para recordar">
+<p>La calidad de los datos es la piedra angular de la confiabilidad y precisión en la ciencia de datos.</p>
+</div>
+</div>
+<p>Despliega los paneles para averiguar algunas consideraciones clave sobre la calidad de los datos en un proyecto de ciencia de datos.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-38-contents" aria-controls="callout-38" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Precisión
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-38" class="callout-38-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Los datos deben ser precisos y libres de errores. Los errores en los datos pueden surgir de diversas fuentes, como entradas incorrectas, mediciones inexactas o problemas de registro. Es fundamental garantizar la precisión de los datos para evitar interpretaciones erróneas y resultados incorrectos.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-39-contents" aria-controls="callout-39" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Integridad
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-39" class="callout-39-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>La integridad de los datos se refiere a su completitud y coherencia. Los datos incompletos o faltantes pueden dificultar el análisis y llevar a conclusiones sesgadas. La integridad también se relaciona con la consistencia de los datos a lo largo del tiempo y entre diferentes fuentes.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-40-contents" aria-controls="callout-40" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Consistencia
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-40" class="callout-40-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Los datos deben ser coherentes en su estructura y formato. Esto implica que las mismas categorías, unidades de medida y convenciones deben aplicarse de manera consistente en todo el conjunto de datos. La falta de consistencia puede dificultar la combinación y el análisis de datos de múltiples fuentes.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-41-contents" aria-controls="callout-41" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Relevancia
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-41" class="callout-41-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Los datos deben ser relevantes para los objetivos del proyecto. Incluir datos irrelevantes puede aumentar la complejidad del análisis sin aportar valor. Es importante definir claramente qué datos son necesarios para abordar las preguntas o problemas específicos que se plantean en el proyecto.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-42-contents" aria-controls="callout-42" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Actualización
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-42" class="callout-42-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Los datos deben mantenerse actualizados. En muchos proyectos de ciencia de datos, la información envejece con el tiempo y puede perder su relevancia o precisión. Es esencial establecer procesos para la actualización y el mantenimiento continuo de los datos.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-43-contents" aria-controls="callout-43" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Limpieza de Datos
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-43" class="callout-43-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>La limpieza de datos es el proceso de identificar y corregir errores, duplicados y valores atípicos en el conjunto de datos. Es una etapa crítica para mejorar la calidad de los datos antes de su análisis. Abordaremos esta etapa en el tema 3, cuando tratemos el Análisis Exploratorio de Datos.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-44-contents" aria-controls="callout-44" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Documentación
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-44" class="callout-44-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Es importante documentar el origen de los datos, las transformaciones realizadas, las decisiones tomadas durante la preparación de los datos y cualquier asunción que se haya hecho. La documentación adecuada facilita la comprensión y la replicación de los análisis.</p>
+</div>
+</div>
+</div>
+<p>La calidad de los datos influye en todas las etapas de un proyecto de ciencia de datos, desde la recopilación y preparación de datos hasta el modelado y la interpretación de resultados. Los científicos de datos y analistas deben ser conscientes de la calidad de los datos y trabajar activamente para garantizar que los datos sean confiables y adecuados para los objetivos del proyecto. La inversión en la calidad de los datos es esencial para tomar decisiones informadas y obtener conocimientos precisos y significativos.</p>
+</section>
+<section id="ética-privacidad-y-seguridad-en-los-datos" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="ética-privacidad-y-seguridad-en-los-datos"><span class="header-section-number">2.5</span> Ética, privacidad y seguridad en los datos</h2>
+<p>La ética, privacidad y seguridad en los datos son aspectos entrelazados y fundamentales para garantizar que la recopilación, el análisis y el uso de datos se realicen de manera responsable y en beneficio de la sociedad. No solo son cuestiones éticas, sino que también tienen implicaciones legales y pueden afectar la reputación de las organizaciones. Los profesionales de datos y las empresas deben adoptar un enfoque proactivo para garantizar que sus prácticas de datos sean éticas y cumplan con las regulaciones aplicables, lo que a su vez contribuye a la construcción de la confianza del público en el uso de la ciencia de datos en la sociedad.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-45-contents" aria-controls="callout-45" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Ética
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-45" class="callout-45-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>La <strong>ética</strong> en la ciencia de datos se refiere a la conducta y las decisiones éticas de los profesionales de datos en todas las etapas del proceso, desde la recopilación hasta la interpretación y comunicación de resultados. Algunos puntos clave incluyen:</p>
+<ul>
+<li><p><strong>Transparencia</strong>: Debe existir claridad sobre cómo se obtienen y utilizan los datos, así como sobre los métodos de análisis.</p></li>
+<li><p><strong>Consentimiento</strong>: Es fundamental obtener el consentimiento informado de las personas cuyos datos se recopilan, especialmente en el contexto de datos personales.</p></li>
+<li><p><strong>Equidad</strong>: Los análisis deben ser imparciales y justos, evitando la discriminación y el sesgo en los resultados.</p></li>
+<li><p><strong>Responsabilidad</strong>: Los profesionales de datos deben asumir la responsabilidad de los posibles impactos de sus decisiones y comunicar sus hallazgos de manera precisa y ética.</p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-46-contents" aria-controls="callout-46" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Privacidad
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-46" class="callout-46-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>La <strong>privacidad</strong> de los datos se refiere a la protección de la información personal y sensible. En la ciencia de datos, es crucial proteger la privacidad de las personas y cumplir con las regulaciones de privacidad aplicables. Algunos aspectos importantes son:</p>
+<ul>
+<li><p><strong>Anonimización</strong>: La eliminación o la codificación de información identificable en los datos es esencial para proteger la privacidad.</p></li>
+<li><p><strong>Seguridad de los Datos</strong>: Los datos deben ser almacenados y transmitidos de manera segura para evitar la exposición no autorizada.</p></li>
+<li><p><strong>Cumplimiento Normativo</strong>: Es necesario cumplir con leyes y regulaciones de privacidad, como el Reglamento General de Protección de Datos (RGPD) en la Unión Europea.</p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-47-contents" aria-controls="callout-47" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Seguridad
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-47" class="callout-47-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>La <strong>seguridad</strong> de los datos es la protección contra el acceso no autorizado, la alteración o la destrucción de los datos. Para garantizar la seguridad de los datos, es importante:</p>
+<ul>
+<li><p><strong>Control de Acceso</strong>: Limitar el acceso a los datos solo a personas autorizadas mediante autenticación y autorización adecuadas.</p></li>
+<li><p><strong>Cifrado</strong>: Utilizar técnicas de cifrado para proteger los datos tanto en reposo como en tránsito.</p></li>
+<li><p><strong>Monitoreo y Detección de Amenazas</strong>: Implementar sistemas de monitoreo y detección de amenazas para identificar y responder a posibles ataques o violaciones de seguridad.</p></li>
+<li><p><strong>Respaldo de Datos</strong>: Realizar copias de seguridad regulares para evitar la pérdida de datos en caso de incidentes de seguridad.</p></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
+<div id="ref-bradshaw2019mongodb" class="csl-entry" role="doc-biblioentry">
+Bradshaw, Shannon, Eoin Brazil, y Kristina Chodorow. 2019. <em>MongoDB: the definitive guide: powerful and scalable data storage</em>. O’Reilly Media.
+</div>
+<div id="ref-dixit2017elasticsearch" class="csl-entry" role="doc-biblioentry">
+Dixit, Bharvi, Rafał Kuć, Marek Rogoziński, y Saurabh Chhajed. 2017. <span>«Elasticsearch: A Complete Guide»</span>.
+</div>
+<div id="ref-harrington2016relational" class="csl-entry" role="doc-biblioentry">
+Harrington, Jan L. 2016. <em>Relational database design and implementation</em>. Morgan Kaufmann.
+</div>
+<div id="ref-meier2019sql" class="csl-entry" role="doc-biblioentry">
+Meier, Andreas, y Michael Kaufmann. 2019. <em>SQL &amp; NoSQL databases</em>. Springer.
+</div>
+<div id="ref-nelson2016mastering" class="csl-entry" role="doc-biblioentry">
+Nelson, Jeremy. 2016. <em>Mastering redis</em>. Packt Publishing Ltd.
+</div>
+<div id="ref-ra1994flexible" class="csl-entry" role="doc-biblioentry">
+Ra, YG, HA Kuno, y Elke A Rundensteiner. 1994. <em>A flexible object-oriented database model and implementation for capacity-augmenting views</em>. Citeseer.
+</div>
+<div id="ref-webber2012programmatic" class="csl-entry" role="doc-biblioentry">
+Webber, Jim. 2012. <span>«A programmatic introduction to neo4j»</span>. En <em>Proceedings of the 3rd annual conference on Systems, programming, and applications: software for humanity</em>, 217-18.
+</div>
+<div id="ref-weiss2012data" class="csl-entry" role="doc-biblioentry">
+Weiss, Mark Allen. 2012. <em>Data structures and algorithm analysis in Java</em>. Pearson Education, Inc.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiada");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./intro.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./eda.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Análisis Exploratorio de Datos</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

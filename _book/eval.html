@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Aprendizaje Automático - 6&nbsp; Medidas de rendimiento</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./aprsup.html" rel="next">
+<link href="./aprnosup.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "Sín resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la busqueda",
+    "search-hide-matches-text": "Esconder resultados adicionales",
+    "search-more-match-text": "hay más resultados en este documento",
+    "search-more-matches-text": "más resultados en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Eviar"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Medidas de rendimiento</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Aprendizaje Automático</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Prefacio</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Datos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eda.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Análisis Exploratorio de Datos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reddim.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Técnicas de reducción de la dimensionalidad</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./aprnosup.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Aprendizaje no supervisado</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./eval.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Medidas de rendimiento</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./aprsup.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Aprendizaje supervisado</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reglas.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Reglas de asociación</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./nuevas.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Nuevas tendencias</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./conclusiones.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Conclusiones</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">Bibliografía</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Indice de contenidos</h2>
+   
+  <ul>
+  <li><a href="#complejidad-de-un-modelo" id="toc-complejidad-de-un-modelo" class="nav-link active" data-scroll-target="#complejidad-de-un-modelo"> <span class="header-section-number">6.1</span> Complejidad de un modelo</a></li>
+  <li><a href="#balance-sesgo-varianza" id="toc-balance-sesgo-varianza" class="nav-link" data-scroll-target="#balance-sesgo-varianza"> <span class="header-section-number">6.2</span> Balance Sesgo-Varianza</a></li>
+  <li><a href="#métricas-de-evaluación" id="toc-métricas-de-evaluación" class="nav-link" data-scroll-target="#métricas-de-evaluación"> <span class="header-section-number">6.3</span> Métricas de evaluación</a>
+  <ul class="collapse">
+  <li><a href="#métricas-para-regresión" id="toc-métricas-para-regresión" class="nav-link" data-scroll-target="#métricas-para-regresión"> <span class="header-section-number">6.3.1</span> Métricas para Regresión</a></li>
+  <li><a href="#métricas-para-clasificación" id="toc-métricas-para-clasificación" class="nav-link" data-scroll-target="#métricas-para-clasificación"> <span class="header-section-number">6.3.2</span> Métricas para Clasificación</a></li>
+  </ul></li>
+  <li><a href="#rendimiento-en-las-particiones" id="toc-rendimiento-en-las-particiones" class="nav-link" data-scroll-target="#rendimiento-en-las-particiones"> <span class="header-section-number">6.4</span> Rendimiento en las particiones</a></li>
+  <li><a href="#ajuste-de-parámetros-de-modelos-de-ml" id="toc-ajuste-de-parámetros-de-modelos-de-ml" class="nav-link" data-scroll-target="#ajuste-de-parámetros-de-modelos-de-ml"> <span class="header-section-number">6.5</span> Ajuste de parámetros de modelos de ML</a></li>
+  <li><a href="#comparación-de-modelos" id="toc-comparación-de-modelos" class="nav-link" data-scroll-target="#comparación-de-modelos"> <span class="header-section-number">6.6</span> Comparación de modelos</a>
+  <ul class="collapse">
+  <li><a href="#curva-roc" id="toc-curva-roc" class="nav-link" data-scroll-target="#curva-roc"> <span class="header-section-number">6.6.1</span> Curva ROC</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-eval" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Medidas de rendimiento</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<p>Las medidas de rendimiento de un modelo de ML serán fundamentales para poder considerar que dicho modelo cumple con los requisitos establecidos al inicio del proyecto. Existe un principio fundamental en el análisis de datos que podríamos simplificar así:</p>
+<p><span class="math display">\[DATOS = MODELO + ERROR\]</span></p>
+<ul>
+<li><p>Los <strong>datos</strong> representan la realidad (procesos de negocios, clientes, productos, actividades, fenómenos físicos, etc.) que se quiere comprender, predecir o mejorar.</p></li>
+<li><p>El <strong>modelo</strong> es una representación <strong>simplificada</strong> de la realidad que proponemos para describirla e interpretarla más fácilmente.</p></li>
+<li><p>El <strong>error</strong> refleja la diferencia entre nuestra representación simplificada de la realidad (el modelo) y los datos que relamente describen esa realidad de forma precisa.</p></li>
+</ul>
+<p>Una vez elegido el modelo, o modelos de ML que vamos a emplear para analizar nuestros datos, y una vez que hemos entrenado dichos modelos sobre un conjunto de datos (empleando los algoritmos adecuados) surge la tarea de evaluar el rendimiento del modelo. Dentro del ciclo de vida de un proyecto de ciencia de datos (ver <a href="intro.html#fig-ds2">Figura&nbsp;<span>1.2 (b)</span></a>) nos encontramos en la etapa de “<em>Evaluar y criticar el modelo</em>”. Podemos decir que estamos en la etapa de establecer si el <em>error</em> es aceptable o, por contra, es demasiado alto y no podemos aceptar el modelo como útil. En ese último caso, debemos buscar un modelo más preciso o que cometa un error asumible.</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body" title="Para recordar">
+<p>En modelos de ML, se utilizan diferentes medidas de rendimiento para evaluar el comportamiento del modelo, y para llevar a cabo la comparación y evaluación de los modelos empleados.</p>
+</div>
+</div>
+<section id="complejidad-de-un-modelo" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="complejidad-de-un-modelo"><span class="header-section-number">6.1</span> Complejidad de un modelo</h2>
+<p>Cuando incrementamos la <strong>información</strong> (en forma de variables o combinación de las mismas) con la que se entrena el modelo, el error casi siempre suele reducirse, lo cual es bueno (¡a primera vista!). Sin embargo, cuantas más variables de entrada tengamos en el modelo más complicado se vuelve. Esto no es tan bueno por dos motivos fundmentales:</p>
+<ul>
+<li><p><strong>Principio de parsimonia</strong>: Preferimos modelos sencillos y fáciles de explicar, a modelos complicados. Este principio también es conocido como “<em>navaja de Occam</em>”.</p></li>
+<li><p><strong>Pérdida de generalidad</strong>: Si añadimos demasiados parámetros de entrada a un modelo es posible representar exactamente la información de los datos de entrenamiento, pero es muy probable que el modelo sea pésimo para nuevos datos. Es lo que se conoce como <strong>sobreajuste</strong> (“<em>overfitting</em>” en inglés).</p></li>
+</ul>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body" title="George E.P. Box">
+<p>“Todos los modelos están equivocados, pero algunos son útiles”</p>
+</div>
+</div>
+<p>La figura siguiente muestra, con un ejemplo, los conceptos de <em>bajoajuste</em>, y <em>sobreajuste</em>:</p>
+<div id="fig-eval1" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="eval/overf.jpg" class="img-fluid figure-img" width="600"></p>
+<p></p><figcaption class="figure-caption">Figura 6.1: https://medium.com/<span class="citation" data-cites="kiprono_65591/regularization-a-technique-used-to-prevent-over-fitting-886d5b361700">(<a href="references.html#ref-kiprono_65591/regularization-a-technique-used-to-prevent-over-fitting-886d5b361700" role="doc-biblioref"><strong>kiprono_65591/regularization-a-technique-used-to-prevent-over-fitting-886d5b361700?</strong></a>)</span></figcaption><p></p>
+</figure>
+</div>
+<p>El fundamento de cualquier proyecto de ML es acabar con un modelo que funcione bien en datos no vistos. El <strong>underfitting</strong>, o bajoajuste, se produce cuando un modelo es demasiado simple para capturar la complejidad de los datos subyacentes. En otras palabras, el modelo no se ajusta lo suficiente a los datos de entrenamiento y no puede hacer predicciones precisas tanto en los datos de entrenamiento como en los datos de prueba. Esto suele ocurrir cuando se utiliza un modelo demasiado básico o se aplican suposiciones demasiado restrictivas sobre la relación entre las variables.</p>
+<p>Por otro lado, el <strong>overfitting</strong>, o sobreajuste, se produce cuando un modelo es demasiado complejo y se ajusta demasiado “bien” a los datos de entrenamiento. Esto significa que el modelo no solo captura los patrones reales en los datos, sino también el ruido aleatorio o las peculiaridades únicas de los datos de entrenamiento (no generalizables). Como resultado, el modelo tiene un rendimiento excelente en los datos de entrenamiento pero un rendimiento deficiente en los datos de prueba no vistos.</p>
+</section>
+<section id="balance-sesgo-varianza" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="balance-sesgo-varianza"><span class="header-section-number">6.2</span> Balance Sesgo-Varianza</h2>
+<p>El equilibrio entre <strong>sesgo</strong> (“<em>bias</em>” en inglés) y <strong>varianza</strong> es un concepto fundamental en ML que afecta directamente al rendimiento de los modelos. Estos dos conceptos son opuestos y encontrar el equilibrio (balance) adecuado entre ellos es esencial para construir modelos eficaces y con alta capacidad de generalización.</p>
+<ul>
+<li><p><strong>Sesgo</strong>: El sesgo se refiere a la simplificación excesiva de un modelo, asumiendo que los datos de entrenamiento siguen una cierta estructura o patrón predefinido.</p>
+<ul>
+<li><p>Un modelo con alto sesgo tiende a subajustar los datos y no captura la complejidad subyacente en los mismos.</p></li>
+<li><p>Esto puede resultar en un rendimiento deficiente tanto en los datos de entrenamiento como en los datos de prueba, ya que el modelo no puede representar adecuadamente la relación entre las variables.</p></li>
+</ul></li>
+<li><p><strong>Varianza</strong>: La varianza se relaciona con la sensibilidad excesiva de un modelo a las fluctuaciones en los datos de entrenamiento.</p>
+<ul>
+<li><p>Un modelo con alta varianza se ajusta demasiado a los datos de entrenamiento, capturando incluso el ruido aleatorio en los datos.</p></li>
+<li><p>Aunque puede tener un rendimiento excelente en los datos de entrenamiento, tiende a generalizar mal en nuevos datos, lo que resulta en un rendimiento deficiente en los datos de prueba.</p></li>
+</ul></li>
+</ul>
+<p>El objetivo en el ML es encontrar un equilibrio entre estos dos extremos:</p>
+<ul>
+<li><p>Un modelo con <strong>sesgo alto y varianza baja</strong> es más simple y tiende a subajustar los datos. Puede ser adecuado cuando se dispone de pocos datos o cuando se prioriza la interpretabilidad del modelo.</p></li>
+<li><p>Un modelo con <strong>sesgo bajo y varianza alta</strong> se ajusta muy bien a los datos de entrenamiento pero generaliza mal. Puede ser útil cuando se dispone de una gran cantidad de datos y se busca la máxima precisión.</p></li>
+<li><p>El equilibrio adecuado se encuentra al <strong>ajustar la complejidad del modelo y la cantidad de datos disponibles</strong>. Esto se logra mediante técnicas como la selección de características, la regularización y la validación cruzada.</p></li>
+</ul>
+<div id="fig-biasvariance" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="eval/bias_variance.jpg" class="img-fluid figure-img" width="400"></p>
+<p></p><figcaption class="figure-caption">Figura 6.2: https://nvsyashwanth.github.io/machinelearningmaster/bias-variance/</figcaption><p></p>
+</figure>
+</div>
+<p>Normalmente, a medida que aumenta la complejidad del modelo, se observa una reducción del error debido a un menor sesgo del modelo. Sin embargo, esto sólo ocurre hasta cierto punto. A medida que aumente la complejidad del modelo, acabará sobreajustándolo y, por tanto, su varianza empezará a ser elevada. Por lo tanto, una disminución del sesgo del modelo aumenta la varianza y viceversa, lo que nos lleva al concepto de balance, es decir, tenemos que llegar a un compromiso en ambos extremos. Un modelo ideal es el que tiene una varianza y un sesgo pequeños.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="eval/biasvariance.jpg" class="img-fluid figure-img" width="400"></p>
+<p></p><figcaption class="figure-caption">https://medium.com/<span class="citation" data-cites="kiprono_65591/regularization-a-technique-used-to-prevent-over-fitting-886d5b361700">(<a href="references.html#ref-kiprono_65591/regularization-a-technique-used-to-prevent-over-fitting-886d5b361700" role="doc-biblioref"><strong>kiprono_65591/regularization-a-technique-used-to-prevent-over-fitting-886d5b361700?</strong></a>)</span></figcaption><p></p>
+</figure>
+</div>
+<section id="evitar-el-sobreajuste" class="level4" data-number="6.2.0.1">
+<h4 data-number="6.2.0.1" class="anchored" data-anchor-id="evitar-el-sobreajuste"><span class="header-section-number">6.2.0.1</span> Evitar el sobreajuste</h4>
+<p>A continuación te explicaremos algunas técnicas para conseguir evitar el problema del sobreajuste. Despliega los paneles siguientes para obtener más información.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Nota
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body" title="Aumentar el tamaño de la muestra">
+<p>Obtener más datos de entrenamiento puede ayudar a reducir el riesgo de sobreajuste. Cuanto más datos tengas disponibles, más probable es que el modelo aprenda patrones reales en lugar de ruido.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Nota
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body" title="Validación cruzada">
+<p>Utiliza técnicas de validación cruzada, como la validación cruzada <span class="math inline">\(k\)</span>-fold, para evaluar el rendimiento del modelo en diferentes subconjuntos de datos de entrenamiento y prueba. Esto puede ayudar a identificar si el modelo está sobreajustando en una sola partición de los datos. Ver <a href="data.html"><span>Capítulo&nbsp;2</span></a> para una completa descripción.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Nota
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body" title="Regularización">
+<p>Aplica técnicas de regularización como la regularización L1 (Lasso) y L2 (Ridge) para penalizar los coeficientes de las características menos importantes. Esto ayuda a simplificar el modelo, eliminando parámetros del modelo, y evitar que se ajuste demasiado a los datos. Es probable que estudies estas técnicas en asignaturas de cursos más avanzados.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Nota
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body" title="Selección de características">
+<p>Elimina características irrelevantes o redundantes que no contribuyan significativamente a la capacidad predictiva del modelo. Una menor dimensionalidad puede reducir el riesgo de sobreajuste.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Nota
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body" title="Modelos más simples">
+<p>Considera modelos más simples con menos parámetros, como regresiones lineales en lugar de modelos polinómicos complejos. Los modelos simples tienden a tener menos probabilidad de sobreajuste.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Nota
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body" title="Dropout">
+<p>En modelos de redes neuronales, el <em>dropout</em> es una técnica que consiste en apagar aleatoriamente una fracción de las neuronas durante el entrenamiento. Esto evita que las neuronas se vuelvan demasiado dependientes entre sí y reduce el riesgo de sobreajuste.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Nota
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body" title="Partición de los datos">
+<p>Tal y como te explicamos en el <a href="data.html"><span>Capítulo&nbsp;2</span></a>, divide tus datos en tres conjuntos: entrenamiento, validación y prueba. Utiliza el conjunto de validación para ajustar los hiperparámetros del modelo y el conjunto de prueba solo para la evaluación final.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Nota
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body" title="Seguimiento del rendimiento">
+<p>Controla regularmente el rendimiento del modelo en el conjunto de prueba durante el entrenamiento. Si el rendimiento en el conjunto de prueba comienza a empeorar mientras mejora en el conjunto de entrenamiento, es una señal de posible sobreajuste.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Nota
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body" title="Ensemble Learning">
+<p>Combina múltiples modelos juntos, como <em>Random Forests</em> o <em>Gradient Boosting</em>, que pueden reducir el riesgo de sobreajuste al promediar las predicciones de varios modelos. Trataremos estas técnicas en el <a href="aprsup.html"><span>Capítulo&nbsp;7</span></a>.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="métricas-de-evaluación" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="métricas-de-evaluación"><span class="header-section-number">6.3</span> Métricas de evaluación</h2>
+<p>Desde un punto de vista práctico, dado un modelo de ML entrenado mediante un algoritmo sobre un conjunto de datos, nuestra primera pregunta va a ser ¿<em>cómo de eficaz es el modelo para representar los datos</em>?</p>
+<p>En otras palabras, la primera consideración a tener en cuenta sobre el rendimiento de un modelo de ML es si la estimación del error es precisa. Hemos de considerar si los estimadores de los parámetros del modelo son precisos, y si todas las variables empleadas para su construcción son necesarias y suficientes. Deberemos comparar nuestro modelo, en sus diferentes versiones (resultantes de diferentes valores de los parámetros), con otros modelos alternativos. Así mismo, planteamos la evaluación del modelo sobre conjuntos de datos diferentes a aquellos sobre los que ha sido entrenado, para medir su capacidad de generalización. Tal y como venimos indicando, hemos de tener en cuenta que el modelo de ML se ajusta sobre un conjunto de datos de entrenamiento. Al ser probado sobre nuevos conjuntos de datos (prueba y validación), los resultados serán necesariamente diferentes. Tal y como hemos visto anteriormente, si el modelo se ajusta con excesiva precisión sobre los datos de entrenamiento, corremos el riesgo de sobreajuste. Por contra, si el modelo es demasiado simple, el error posiblemente sea elevado y el modelo, por tanto, de baja utilidad. Buscaremos un equilibrio, modelos parsimoniosos, con baja complejidad, pero alto rendimiento, y gran capacidad de generalización.</p>
+<p>Para evaluar la bondad de ajuste de un modelo, vamos a diferenciar entre modelos de clasificación y modelos de regresión. En cualquier caso, para una observación concreta, el error siempre vendrá determinado por la diferencia (medida mediante alguna métrica) entre el valor observado de la variable respuesta en la observación y el valor estimado (o predicho) por el modelo de aprendizaje.</p>
+<p><span class="math display">\[error_i \propto target \space observado_i - target \space predicho_i\]</span></p>
+<section id="métricas-para-regresión" class="level3" data-number="6.3.1">
+<h3 data-number="6.3.1" class="anchored" data-anchor-id="métricas-para-regresión"><span class="header-section-number">6.3.1</span> Métricas para Regresión</h3>
+<p>Un modelo de regresión es una técnica estadística que se utiliza para analizar la relación entre una variable dependiente (respuesta) y una o más variables independientes (predictores). El objetivo principal de un modelo de regresión es comprender cómo las variables independientes afectan o explican la variabilidad en la variable dependiente y, en última instancia, utilizar esta comprensión para hacer predicciones o inferencias. La diferencia entre las predicciones para los datos observados en la muestra de entrenamiento y el propio valor de la variable dependiente en dichos datos será una medida del error.</p>
+<p>En el contexto de modelos de regresión, existen varias métricas comunes para evaluar el error del modelo y determinar su calidad de ajuste a los datos. Algunas de las métricas más utilizadas incluyen las siguientes:</p>
+<ul>
+<li><p><strong>Error Cuadrático Medio (Mean Squared Error, MSE)</strong>: El MSE es una métrica que calcula el promedio de las diferencias al cuadrado entre las predicciones del modelo y los valores reales. Es especialmente sensible a los errores grandes debido al término de cuadrado. Cuanto menor sea el MSE, mejor será el ajuste del modelo:</p>
+<p><span class="math display">\[MSE = \frac{1}{N}\sum_{i=1}^N (y_i-f(x_i))^2\]</span>,</p>
+<p>donde <span class="math inline">\(y_i\)</span> es el valor de la variable objetivo en la observación <span class="math inline">\(x_i\)</span> con <span class="math inline">\(i=1,\ldots,N\)</span>, y <span class="math inline">\(f(x_i)\)</span> es el valor predicho por el modelo de ML que se ha entrenado.</p></li>
+<li><p><strong>Error Absoluto Medio (Mean Absolute Error, MAE)</strong>: El MAE es similar al MSE, pero en lugar de cuadrar los errores, toma el valor absoluto de cada error y calcula el promedio. Es menos sensible a los errores extremos en comparación con el MSE.</p>
+<p><span class="math display">\[MAE = \frac{1}{N}\sum_{i=1}^N |y_i-f(x_i)|\]</span>.</p></li>
+<li><p><strong>Raíz del Error Cuadrático Medio (Root Mean Squared Error, RMSE)</strong>: El RMSE es, simplemente, la raíz cuadrada del MSE. Ofrece una medida del error en la misma unidad que la variable objetivo, lo que facilita su interpretación.</p></li>
+<li><p><strong>Coeficiente de Determinación (R-squared,</strong> <span class="math inline">\(R^2\)</span>): El <span class="math inline">\(R^2\)</span> es una métrica que proporciona una medida de la proporción de la variabilidad en la variable dependiente que es explicada por el modelo. Un <span class="math inline">\(R^2\)</span> más alto indica un mejor ajuste del modelo a los datos, con un valor máximo de <span class="math inline">\(1\)</span>.</p>
+<p><span class="math display">\[R^2 = \frac{\sum_{i=1}^N (f(x_i)-\bar y)^2}{\sum_{i=1}^N (y_i-\bar y)^2}\]</span>,</p>
+<p>donde <span class="math inline">\(\bar y\)</span> es el valor medio de la variable objetivo.</p></li>
+<li><p><strong>Error Porcentual Absoluto Medio (Mean Absolute Percentage Error, MAPE)</strong>: El MAPE calcula el porcentaje promedio de error absoluto en relación con los valores reales. Es útil para comprender el error relativo en lugar del error absoluto.</p>
+<p><span class="math display">\[MAPE = \frac{100}{N}\sum_{i=1}^N |\frac{y_i-f(x_i)}{y_i}|\]</span>.</p></li>
+</ul>
+<p>La elección de la métrica adecuada depende del tipo de problema que se esté abordando y de los objetivos específicos de modelado. Por ejemplo, si estás interesado en comprender la precisión de las predicciones en términos absolutos, elige métricas como MSE o MAE. Si prefieres evaluar el rendimiento relativo, considera métricas como <span class="math inline">\(R^2\)</span> o MAPE. Es importante seleccionar la métrica que mejor se alinee con tus necesidades y contexto de aplicación.</p>
+</section>
+<section id="métricas-para-clasificación" class="level3" data-number="6.3.2">
+<h3 data-number="6.3.2" class="anchored" data-anchor-id="métricas-para-clasificación"><span class="header-section-number">6.3.2</span> Métricas para Clasificación</h3>
+<p>Tal y como veremos en el <a href="aprsup.html"><span>Capítulo&nbsp;7</span></a>, los modelos de clasificación son una parte importante de las técnicas de ML. El objetivo de dichos modelos es hacer una división perfecta en diferentes clases, previamente definidas en base a las etiquetas de la variable respuesta. En este capítulo nos centramos en la más popular de todos los tipos de clasificación: la clasificación binaria. De hecho, cuando nos enfrentamos a un problema de clasificación multiclase una de las soluciones más habituales es convertirlo en varios problemas de clasificación binaria usando una de las clases como clase de referencia.</p>
+<p>El propósito de la clasificación binaria es dividir las observaciones dadas en dos clases mutuamente excluyentes <em>{-1,+1}</em>. La elección de la métrica de evaluación del rendimiento de un modelo es relevante, ya que se utilizará para seleccionar o descartar los modelos de clasificación. En general, este conjunto de métricas se obtiene de la matriz de confusión que enfrenta las clases observadas y las predicciones realizadas por el modelo de ML.</p>
+<p>Definimos la matriz de confusión asociada a los valores predichos por un clasificador como:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th></th>
+<th></th>
+<th style="text-align: center;">Valor observado</th>
+<th style="text-align: center;"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td></td>
+<td style="text-align: center;">-1</td>
+<td style="text-align: center;">+1</td>
+</tr>
+<tr class="even">
+<td><strong>Valor Predicho</strong></td>
+<td>-1</td>
+<td style="text-align: center;">TN</td>
+<td style="text-align: center;">FN</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>+1</td>
+<td style="text-align: center;">FP</td>
+<td style="text-align: center;">TP</td>
+</tr>
+</tbody>
+</table>
+<p>Los elementos de la matriz de confusión son:</p>
+<ul>
+<li><strong>TP</strong>: “True positive” o verdaderos positivos, corresponde con las observaciones <span class="math inline">\(1\)</span> clasificadas efectivamente como <span class="math inline">\(1\)</span>.</li>
+<li><strong>TN</strong>: “True negative” o verdaderos negativos, corresponde con las observaciones <span class="math inline">\(-1\)</span> clasificadas efectivamente como <span class="math inline">\(-1\)</span>.</li>
+<li><strong>FP</strong>: “False positive” o falsos positivos, corresponde con las observaciones <span class="math inline">\(-1\)</span>, que son erróneamente clasificadas como <span class="math inline">\(1\)</span>.</li>
+<li><strong>FN</strong>; “False negative” o falsos negativos, corresponde con las observaciones <span class="math inline">\(1\)</span>, que son erróneamente clasificadas como <span class="math inline">\(-1\)</span>.</li>
+</ul>
+<p>Es muy importante recalcar que la importancia relativa de los dos errores (FP y FN) depende del problema que estemos considerando. Por ejemplo, en un estudio de control de accesos, un FP significa dejar entrar a una persona que debería de haber sido detenida, mientras que un FN significa no dejar entrar a una persona a la que se debería de haber permitido el paso. Si estamos en un entorno de seguridad restringida, es claro que el error FP es mucho más crítico que el error FN. Sin embargo, la respuesta sobre qué error es más relevante no es única y depende fuertemente del contexto.</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Para pensar
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Por ejemplo, ¿qué es más costoso para un sistema de detección de intrusiones, levantar falsas alarmas al detectar como anomalías situaciones que no lo son, o clasificar como normal una anomalía potencialmente peligrosa?</p>
+</div>
+</div>
+<p>A continuación, definimos las métricas de rendimiento más importantes en base a la matriz de confusión, siendo <span class="math inline">\(N\)</span> el número total de observaciones consideradas, es decir <span class="math inline">\(N=TP+TN+FP+FN\)</span>:</p>
+<p><strong>Exactitud</strong>: probablemente la exactitud es una de las medidas de rendimiento más comunes. Representa la proporción de observaciones correctamente predichas, es decir:</p>
+<p><span class="math display">\[ Exactitud=\frac{TP+TN}{N} \]</span> <strong>Error</strong>: recíproco de la exactitud: <span class="math display">\[Error=\frac{FP+FN}{N}\]</span></p>
+<p><strong>Sensibilidad</strong>: también conocida como Recuperación o Tasa de Verdaderos Positivos puede verse como la probabilidad de que un <span class="math inline">\(1\)</span> observado sea clasificado efectivamente como <span class="math inline">\(1\)</span>: <span class="math display">\[Recuperación=\frac{TP}{TP+FN}\]</span> <strong>Especificidad</strong>: también conocida Tasa de Verdaderos Negativos puede verse como la probabilidad de que un <span class="math inline">\(-1\)</span> observado sea clasificado efectivamente como <span class="math inline">\(-1\)</span>: <span class="math display">\[ Especificidad=\frac{TN}{TN+FP}\]</span> <strong>Precisión</strong>: también conocida Valor Predictivo Positivo puede verse como la probabilidad de que acierto cuando se predice un valor <span class="math inline">\(1\)</span>: <span class="math display">\[Precisión=\frac{TP}{TP+FP}\]</span> <strong>Valor Predictivo Positivo</strong> (NPV, del inglés “Negative Predictive Value”): tasa de acierto cuando se predice un valor <span class="math inline">\(-1\)</span>: <span class="math display">\[NPV=\frac{TN}{TN+FN}\]</span></p>
+<p><strong>F1-score</strong>: media armónica de Precisión y Recuperación: <span class="math display">\[F_1-score=2\frac{Precisión*Recuperación}{Precisión+Recuperación}\]</span></p>
+<p>Es una medida que tiene en cuenta tanto el acierto cuando se predice un valor <span class="math inline">\(1\)</span>, como el número de observaciones con etiqueta igual a <span class="math inline">\(1\)</span> que son correctamente predichas. Sin embargo, no se tienen en cuenta el número de aciertos en la clase <span class="math inline">\(-1\)</span>. Es decir, es una medida que no involucra a los verdaderos negativos (TN). Esta limitación puede ser una ventaja en algunos casos. Sin embargo, en la práctica, los costes de clasificación errónea no suelen ser iguales. En ese caso podemos emplear la siguiente medida de la lista.</p>
+<p><strong>F-score generalizado</strong>: media armónica ponderada de Precisión y Recuperación:</p>
+<p><span class="math display">\[F_\beta=(1+\beta^2) \frac{Precisión*Recuperación}{\beta^2 Precisión+Recuperación}\]</span></p>
+<p>Cuando <span class="math inline">\(\beta=1\)</span>, se tiene la medida anterior: <span class="math inline">\(F_1-score\)</span>. <span class="math inline">\(F_2\)</span> da el doble de peso a la Recuperación que a la Precisión. Por contra, <span class="math inline">\(F_{0.5}\)</span> da el doble de peso a la Precisión que a la Recuperación.</p>
+</section>
+</section>
+<section id="rendimiento-en-las-particiones" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="rendimiento-en-las-particiones"><span class="header-section-number">6.4</span> Rendimiento en las particiones</h2>
+<p>Tal y como se indicó en el <a href="data.html"><span>Capítulo&nbsp;2</span></a>, existen diversas formas de particionar los datos para llevar a cabo las labores de entrenamiento, prueba y validación. En este apartado nos vamos a centrar en realizar la evaluación de un modelo en las diferentes particiones. Para ello vamos a emplear el método de “<em>k-folds</em>”. La muestra de entrenamiento será dividida en <span class="math inline">\(k\)</span> grupos de entrenamiento. Cada uno de esos grupos queda fuera del entrenamiento una vez y se emplean las observaciones en el grupo para estimar el error. De este modo, se dispone de <span class="math inline">\(k\)</span> errores, medidos en la muestra de entrenamiento. Podemos calcular una media de los errores, junto con su desviación típica.</p>
+</section>
+<section id="ajuste-de-parámetros-de-modelos-de-ml" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="ajuste-de-parámetros-de-modelos-de-ml"><span class="header-section-number">6.5</span> Ajuste de parámetros de modelos de ML</h2>
+<p>Es común que el científico de datos necesite ajustar los parámetros de más alto nivel de los modelos de ML. Por ejemplo, en una SVM es necesario elegir el kernel y sus parámetros (aprenderás esta técnica de clasificación en asignaturas del próximo curso). En el método de los <span class="math inline">\(k\)</span> vecinos más cercanos se necesita fijar el número <span class="math inline">\(k\)</span>. En una Regresión Logística, el científico de datos ha de fijar los umbrales de significatividad estadística a partir de los cuales una variable debería (o no) formar parte del modelo. En un Árbol de Decisión, se necesita fijar varios parámetros, como, por ejemplo, la profundidad del árbol, o el número mínimo de observaciones para que un nodo sea considerado como un nodo terminal (lo trataremos en el próximo capítulo de estos apuntes).</p>
+<p>Sea como fuere, para ajustar los parámetros de un modelo de ML debemos seleccionar la medida de rendimiento sobre la que comparar dos modelos diferentes. A modo de ejemplo, supongamos un modelo de clasificación basado en los <span class="math inline">\(k\)</span> vecinos más cercanos, esto es con un único parámetro <span class="math inline">\(k\)</span>. En este caso, el error global es la métrica elegida. Podríamos replicar el experimento de clasificación cambiando el número de vecinos. De este modo, los diferentes modelos de ML corresponden a modelos de <span class="math inline">\(k\)</span> vecinos más cercanos con diferentes elecciones del parámetro <span class="math inline">\(k\)</span>. La tabla siguiente muestra los resultados para valores de <span class="math inline">\(k\)</span> entre <span class="math inline">\(1\)</span> y <span class="math inline">\(11\)</span>:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Número de vecinos <span class="math inline">\(k\)</span></th>
+<th>Media (Desv. Std.)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>1,54 (0,33)</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>1,75 (0,41)</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>1,68 (0,28)</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>1,68 (0,35)</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>1,70 (0,34)</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>1,89 (0,38)</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>1,91 (0,36)</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>2,12 (0,45)</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>2,25 (0,46)</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>2,34 (0,34)</td>
+</tr>
+<tr class="odd">
+<td>11</td>
+<td>2,33 (0,38)</td>
+</tr>
+</tbody>
+</table>
+<p>En este caso elegimos <span class="math inline">\(k=1\)</span> como parámetro para el modelo de los <span class="math inline">\(k\)</span>-vecinos más cercanos al ser el valor asociado con el menor error. Es decir, el modelo quedaría como sigue. El modelo, que veremos en el siguiente tema, funciona como sigue: para cada nueva observación calculamos su vecino más cercano en la muestra de entrenamiento y asignamos a la nueva observación la clase de dicho vecino.</p>
+<p>Podemos incluso llevar esta estrategia a su extremo mediante la técnica de “<em>leave-one-out</em>”, que consiste en hacer tantos folds como observaciones. En ese caso obtenemos errores similares. También podemos reducir el número de folds buscando mayor número de observaciones en cada uno de ellos, reduciendo de este modo la varianza en la media de los errores. Por ejemplo, con <span class="math inline">\(5\)</span> folds los errores, para diferentes elecciones de <span class="math inline">\(k\)</span> vecinos, son:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Número de vecinos <span class="math inline">\(k\)</span></th>
+<th>Media (Desv. Std.)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>1,59 (0,23)</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>1,87 (0,32)</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>1,78 (0,16)</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>1,84 (0,12)</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>1,86 (0,25)</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>2,05 (0,25)</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>2,06 (0,36)</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>2,34 (0,20)</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>2,33 (0,19)</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>2,36 (0,17)</td>
+</tr>
+<tr class="odd">
+<td>11</td>
+<td>2,45 (0,20)</td>
+</tr>
+</tbody>
+</table>
+<p>Vemos que, aunque la media de los errores es menor en <span class="math inline">\(k=1\)</span>, una elección como <span class="math inline">\(k=3\)</span>, o <span class="math inline">\(k=4\)</span> podría tener más sentido al obtener resultados similares con menor variabilidad (menos desviación estándar).</p>
+<p>A continuación, deberíamos de probar el modelo en la muestra de prueba (test). Por ejemplo, con <span class="math inline">\(k=1\)</span> vecino más cercanose obtiene un error similar al esperado, <span class="math inline">\(1,51\%\)</span>. Nótese que en este caso no hay desviación típica, pues es el error en una única partición. Cuando probamos el modelo elegido (<span class="math inline">\(k=3\)</span>) el resultado sí es algo mejor: <span class="math inline">\(1,47\%\)</span>. Normalmente el modelo del primer vecino más cercano no presenta un buen equilibrio entre el sesgo y la varianza, y elecciones de <span class="math inline">\(k&gt;1\)</span> suelen ser preferibles <span class="citation" data-cites="cover1967nearest">(<a href="references.html#ref-cover1967nearest" role="doc-biblioref">Cover y Hart 1967</a>)</span>.</p>
+<p>Entonces, cabe plantearse la duda ¿<em>cuál es la solución óptima para este problema</em>? La respuesta es que depende del objetivo y, en este caso, cualquier elección entre <span class="math inline">\(1\)</span> y <span class="math inline">\(3\)</span> vecinos parece razonable. Fíjate en la importancia de la medida de distancia elegida. El primer vecino más cercano, es el más cercano según esa media. Una medida diferente conduciría, probablemente, a otro vecino y en consecuencia a otros resultados de rendimiento.</p>
+<p>Supongamos que elegimos un modelo de <span class="math inline">\(k\)</span> vecinos más cercanos con <span class="math inline">\(k\)</span> igual <span class="math inline">\(3\)</span>. En estos momentos, estaríamos en disposición de llevar el modelo a “<em>producción</em>”. Es decir, si este fuera nuestro modelo elegido habríamos comprobado su buen funcionamiento en datos diferentes a aquellos sobre los que ha sido entrenado. El error esperado para nuevos datos está en torno al <span class="math inline">\(1,5\%\)</span>. Recordemos que aún hemos reservado una partición (validación) para simular este error. La partición de validación, no obstante, sólo debería de ser empleada con un modelo, sólo uno.</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Para recordar
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Entrenamos</strong> los modelos de ML en la partición de <strong>entrenamiento</strong>.</li>
+<li><strong>Probamos</strong> que el funcionamiento de los modelos elegidos en el entrenamiento es el correcto en la partición de <strong>prueba</strong>.</li>
+<li><strong>Simulamos</strong> el comportamiento en un entorno real del <strong>único</strong> modelo elegido en la partición de <strong>validación</strong> o producción.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="comparación-de-modelos" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="comparación-de-modelos"><span class="header-section-number">6.6</span> Comparación de modelos</h2>
+<p>La evaluación del modelo de clasificación realizada en los apartados anteriores puede ser extrapolada al resto de modelos de ML que veremos a lo largo del curso. De este modo, tendremos un montón de modelos con un montón de medidas de evaluación (preferiblemente la misma en todos ellos). Nos encontramos con el problema de comparar diferentes modelos de aprendizaje.</p>
+<p>Muchos de estos modelos devuelven como salida, para cada observación, la <strong>probabilidad de pertenencia</strong> a las diferentes clases de la variable respuesta. Por ejemplo, una SVM devuelve la probabilidad de pertenencia según una ecuación que depende de la distancia del nuevo punto al hiperplano separador óptimo. Dada esa probabilidad de clase, podemos asignar las nuevas observaciones a una u otra clase. En el caso de los <span class="math inline">\(k\)</span> vecinos más cercanos, la probabilidad de pertenencia a uno u otro grupo viene dada por la distribución de frecuencias de las clases de la variable respuesta en los <span class="math inline">\(k\)</span> vecinos más cercanos. Así, si los <span class="math inline">\(k\)</span> vecinos pertenecen a la misma clase, la probabilidad de pertenencia predicha será <span class="math inline">\(1\)</span>. Si dos tercios de los vecinos pertenecen a la misma clase, la probabilidad de pertenencia a dicha clase será de <span class="math inline">\(0,667\)</span>, etc.</p>
+<p>Lo habitual en problemas de clasificación donde se tienen clases equilibradas (frecuencia parecida de observaciones en las diferentes clases) es tomar como valor de referencia para comparar la probabilidad dada por el modelo el valor <span class="math inline">\(0,5\)</span>. Es decir, si la probabilidad de clase para una nueva observación es mayor que <span class="math inline">\(0,5\)</span>, entonces el modelo predice clase <span class="math inline">\(+1\)</span>, y clase <span class="math inline">\(-1\)</span> en caso contrario. Pero ese valor, <span class="math inline">\(0,5\)</span>, no es sino otro parámetro de nuestro modelo.</p>
+<p>Fíjate que para valores bajos del umbral habrá muchas observaciones clasificadas como <span class="math inline">\(+1\)</span>, probablemente más de las debidas. De este modo, se obtienen valores altos de <em>Sensibilidad</em> y <em>NPV</em>. Es decir, se recuperan la mayoría de las observaciones en la clase <span class="math inline">\(+1\)</span>, pero la <em>Precisión</em> no es tan alta como cuando usamos valores altos de umbral. Por contra, cuando se usan valores altos, habrá pocas observaciones clasificadas como <span class="math inline">\(-1\)</span>, probablemente menos de las debidas. De este modo, se obtienen valores más elevados de <em>Precisión</em> y <em>Especificidad</em>, pero más bajos valores de <em>Sensibilidad</em>.</p>
+<section id="curva-roc" class="level3" data-number="6.6.1">
+<h3 data-number="6.6.1" class="anchored" data-anchor-id="curva-roc"><span class="header-section-number">6.6.1</span> Curva ROC</h3>
+<p>Existe un método gráfico para ilustrar la capacidad predictiva de un modelo de Aprendizaje Máquina binario. Se trata de la <strong>curva ROC</strong> (del inglés “<em>Receiver Operating Characteristic curve</em>”, o curva característica de operación).</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Curva ROC
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para dibujar la curva ROC se enfrentan la Sensibilidad o Recuperación (TPR), frente a 1 - Especificidad, o tasa de falsos positivos (FPR).</p>
+</div>
+</div>
+<p>Un ejemplo de una curva ROC aparece en la figura <a href="#fig-roc">Figura&nbsp;<span>6.3</span></a>. Los valores de <em>False Positive Rate</em> y <em>True Positive Rate</em> de cada uno de los puntos de la curva se obtienen de las correspondientes matrices de confusión resultantes de modificar el umbral de decisión de clasificadores binarios. Es decir, se construye un modelo de clasificación que devuelve una probabilidad de clase para cada nuevo punto evaluado. Se establece un umbral. Se obtiene, para la partición correspondiente, la matriz de confusión. Se calculan las métricas de rendimiento y se grafica el punto. Este proceso se repite para una colección de umbrales, uniendo los puntos resultantes de la gráfica. De este modo se consigue la curva ROC.</p>
+<div id="fig-roc" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="eval/ROC.jpg" class="img-fluid figure-img" width="600"></p>
+<p></p><figcaption class="figure-caption">Figura 6.3: https://machinelearningmastery.com/roc-curves-and-precision-recall-curves-for-classification-in-python/</figcaption><p></p>
+</figure>
+</div>
+<p>Es claro que la mejor solución sería aquella que tiene <em>FPR</em> igual a <span class="math inline">\(0\)</span> y <em>TPR</em> igual a <span class="math inline">\(1\)</span>. En un caso tan ideal, no hay errores de clasificación, la Precisión es perfecta y la Sensibilidad también. Se corresponde con una matriz de confusión diagonal. En el ejemplo presentado en la figura anterior vemos como el modelo de clasificación propuesto no alcanza un rendimiento tan alto en ninguno de los umbrales de decisión.</p>
+<p>La curva ROC nos sirve, no sólo para elegir el valor óptimo (el más cercano al ùnto dideal <span class="math inline">\((0,1)\)</span>), sino para elegir en qué modo de funcionamiento ajustar nuestro modelo. Podemos emplear un modelo con muy alta recuperación (<em>TPR</em>), sacrificando la <em>FPR</em> (baja especificidad), o bien decantarnos por un modelo con baja recuperación y alta especificidad. Lo ideal sería contar con un modelo con valores altos de las dos métricas.</p>
+<p>Así mismo, es típico proporcionar el área bajo la curva (<strong>AUC</strong>, de “Area Under Curve”) como medida resumen de la curva ROC. Un valor de AUC cercano a <span class="math inline">\(1\)</span> indica un mejor modelo. Valores de AUC próximos a <span class="math inline">\(0,5\)</span> indican una predicción cercana al azar.</p>
+<p>En ocasiones se grafican las curvas ROC de varios modelos simultáneamente con el objeto de realizar comparaciones entre modelos. En principio deberías de elegir aquel modelo con mayor <em>AUC</em>. Sin embargo, no es extraño emplear varios modelos de clasificación en función de la configuración del sistema a predecir. Hay ocasiones en las que las curvas se cruzan. Es decir, una está por encima de la otra en una zona del espacio, y por debajo en otra zona diferente. Si deseamos un modelo con muy alta Especificidad a costa de sacrificar la Sensibilidad, esto es, un modelo que recupere correctamente las observaciones <span class="math inline">\(-1\)</span> a costa de fallar en algunas de las <span class="math inline">\(+1\)</span>, entonces nos quedaremos con un modelo A. Por contra, si deseamos un modelo con muy alta Especificidad a costa de sacrificar la sensibilidad, esto es, un modelo que recupere correctamente las observaciones <span class="math inline">\(+1\)</span> a costa de fallar en algunas de las <span class="math inline">\(-1\)</span>, entonces nos quedaremos con un modelo B. El hecho de emplear dos modelos (o más) de ML según el contexto, puede sonar un poco confuso para el científico de datos más novel, pero es algo que, desde un punto de vista meramente matemático, tiene todo el sentido del mundo. A fin de cuentas, se trata de establecer, bajo unas circunstancias determinadas (el contexto), la probabilidad de ocurrencia de un evento. Emplear métodos diferentes según esas circunstancias es algo bastante lógico.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="eval/roc-curve-original.jpg" class="img-fluid figure-img" width="600"></p>
+<p></p><figcaption class="figure-caption">https://sefiks.com/2020/12/10/a-gentle-introduction-to-roc-curve-and-auc/</figcaption><p></p>
+</figure>
+</div>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
+<div id="ref-cover1967nearest" class="csl-entry" role="doc-biblioentry">
+Cover, Thomas, y Peter Hart. 1967. <span>«Nearest neighbor pattern classification»</span>. <em>IEEE transactions on information theory</em> 13 (1): 21-27.
+</div>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiada");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./aprnosup.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Aprendizaje no supervisado</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./aprsup.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Aprendizaje supervisado</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

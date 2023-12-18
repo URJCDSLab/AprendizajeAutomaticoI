@@ -1,0 +1,35 @@
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+
+
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+ \pagestyle{fancy}
+ \fancyhead[LO,LE]{\thetitle}
+ \fancyhead[RO,RE]{\includegraphics[width=0.5cm]{DSLab_logo_2.png}}
+ \fancyfoot[LO,LE]{DSLab, \thedate}
+ \cfoot{}
+ \fancyfoot[RE,RO]{Page\ \thepage\ of\ \protect\pageref{LastPage}}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\pretitle{%
+  \begin{center}
+  \LARGE
+  \includegraphics[width=8cm]{DSLab_logo_1.png}\\ 
+\vspace{0.5cm}
+\textbf{Aprendizaje Automático I}\\
+}
+\posttitle{\end{center}}
+
+
+

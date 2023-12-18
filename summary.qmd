@@ -1,0 +1,38 @@
+# Cositas Quarto
+
+In summary, this book has no content whatsoever.
+
+```{r}
+1 + 1
+```
+
+::: callout-important
+Note that there are five types of callouts, including: `note`, `warning`, `important`, `tip`, and `caution`. caution: ATENCION / AVISOS / TAREAS important: PARA RECORDAR note: información warning: PELIGRO tip: definiciones/citas
+:::
+
+::: callout-tip
+## Tip with Title
+
+This is an example of a callout with a title.
+:::
+
+::: {.callout-caution collapse="true"}
+## Expand To Learn About Collapse
+
+This is an example of a 'folded' caution callout that can be expanded by the user. You can use `collapse="true"` to collapse it by default or `collapse="false"` to make a collapsible callout that is expanded by default.
+:::
+
+```{r}
+#| label: peng1
+#| include: true
+#| warning: false
+#| echo: true
+#| code-fold: true
+#| code-summary: "Click para ver el código"
+
+
+library(tidyverse)
+library(palmerpenguins)
+
+summary(penguins)
+```

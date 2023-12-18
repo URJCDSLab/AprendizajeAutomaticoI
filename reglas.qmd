@@ -1,0 +1,100 @@
+# Reglas de asociación
+
+Las reglas de asociación son una técnica fundamental en ML que se utiliza para descubrir patrones significativos y relaciones ocultas en conjuntos de datos, especialmente aquellos que involucran transacciones o **cestas de la compra**. Estas reglas desempeñan un papel crucial en la extracción de conocimiento de datos, y su aplicación abarca una amplia variedad de dominios.
+
+**Descubriendo Patrones Relevantes:** Las reglas de asociación son un enfoque de ML diseñado para identificar patrones de co-ocurrencia entre elementos o características en conjuntos de datos. Estas reglas permiten revelar conexiones interesantes y relaciones significativas que a menudo pasan desapercibidas a simple vista. Los escenarios ideales para su aplicación incluyen, pero no se limitan a, datos de transacciones de compras de clientes, registros de usuarios en línea y registros de interacciones de productos.
+
+::: {.callout-note title="Ejemplo"}
+Supongamos que disponemos de un conjunto de datos de compras de clientes en una tienda en línea. Los datos pueden verse de la siguiente manera:
+
+| Transacción | Productos comprados     |
+|-------------|-------------------------|
+| 1           | Pan, Leche, Huevos      |
+| 2           | Leche, Queso, Yogur     |
+| 3           | Pan, Leche, Mantequilla |
+| 4           | Pan, Huevos             |
+| 5           | Leche, Huevos, Queso    |
+
+En este conjunto de datos, cada fila representa una transacción y los productos comprados en esa transacción. Las reglas de asociación se utilizan para descubrir patrones de co-ocurrencia entre productos. Por ejemplo, podríamos encontrar las siguientes reglas de asociación:
+
+Si un cliente compra Pan y Leche, entonces también compra Huevos. Si un cliente compra Leche y Queso, entonces también compra Yogur.
+:::
+
+**La Estructura de "Si... Entonces...":** Como acabas de ver en el ejemplo, estas reglas de asociación se expresan típicamente en una estructura condicional "si... entonces...", donde se establece una relación entre los elementos o características. Esta estructura es fácilmente interpretable y ofrece una base sólida para la toma de decisiones y la generación de recomendaciones.
+
+**Mediciones de Fuerza de Asociación:** Para cuantificar la importancia de estas reglas, se utilizan dos métricas clave: el soporte (support) y la confianza (confidence). El soporte mide la frecuencia con la que aparece una asociación en el conjunto de datos, lo que indica su relevancia en términos de ocurrencia. La confianza, por otro lado, mide la probabilidad de que se cumpla una regla dada. Estas métricas ayudan a determinar la solidez y la utilidad de las reglas de asociación descubiertas. **Aplicaciones en Diversos Campos:** Las reglas de asociación tienen una amplia gama de aplicaciones en el mundo real. Desde el ámbito del comercio electrónico, donde se utilizan para generar recomendaciones de productos personalizadas, hasta la investigación de mercado, donde ayudan a identificar tendencias y patrones de consumo. También se aplican en la optimización de la colocación de productos en tiendas y la detección de anomalías en datos, como fraudes o comportamientos inusuales.
+
+**Algoritmos Especializados:** Para extraer reglas de asociación, se utilizan algoritmos especializados como Apriori y FP-Growth. Estos algoritmos son capaces de manejar grandes conjuntos de datos y descubrir patrones complejos de manera eficiente.
+
+## Reglas de asociación en R
+
+Vamos a emplear un ejemplo en R. El conjunto de datos `Groceries` contiene datos de ventas de una tienda de comestibles con $9835$ transacciones y $169$ artículos (grupos de productos).
+
+```{r}
+library(arulesViz)
+
+# Limitamos el número de decimales en la salida
+ options(digits = 2)
+# reproducible
+ set.seed(1234)
+ 
+ data("Groceries")
+ summary(Groceries)
+```
+
+El resumen muestra algunas estadísticas básicas del conjunto de datos. Por ejemplo, que el conjunto de datos es bastante disperso, con una densidad ligeramente superior al $2,6\%$, que la *`leche entera`* es el artículo más popular y que la `transacción media` contiene menos de $1.000$ unidades.
+
+A continuación, extraemos reglas de asociación mediante el algoritmo *Apriori* implementado en la librería `arules`.
+
+```{r}
+rules <- apriori(Groceries, parameter=list(support=0.001, confidence=0.5))
+rules
+```
+
+El resultado es un conjunto de $5668$ reglas de asociación. Las tres reglas más importantes con respecto a la *medida lift*, una medida popular de la fuerza de las reglas, son:
+
+```{r}
+inspect(head(rules, n = 3, by ="lift"))
+```
+
+Aquí podemos ver el soporte, esto es, la relevancia en términos de la ocurrencia de cada regla, así como la confianza, o probablidad de que se cumpla.
+
+## Visualizando las reglas
+
+En conjuntos de datos reales, es imposible repasar manualmente el elevado número de reglas de asociación que se crean. ¡En el ejemplo anterior se habían creado $5668$ reglas!
+
+Una visualización sencilla de las reglas de asociación es utilizar un gráfico de dispersión con dos medidas de interés en los ejes.
+
+```{r, warning=FALSE}
+plot(rules)
+```
+
+Podemos ver que las normas con gran elevación (*lift*) suelen tener un soporte relativamente bajo. Las reglas más interesantes aparecen en la frontera *support/confidence*. Otro gráfico intersante es el siguiente. En este caso, , el soporte y la confianza se utilizan para los ejes X e Y, y el color de los puntos se utiliza para indicar el "*orden*", es decir, el número de elementos que contiene la regla.
+
+```{r, warning=FALSE}
+ plot(rules, method = "two-key plot")
+```
+
+Del gráfico se desprende claramente que el orden y el soporte tienen una relación inversa muy fuerte, lo que es un hecho conocido para las reglas de asociación.
+
+Podemos visualizar grupos de reglas más específicamente:
+
+```{r}
+subrules <- rules[quality(rules)$confidence > 0.9]
+plot(subrules,method="grouped")
+```
+
+El grupo de reglas más interesantes según (la medida por defecto) se muestran en la esquina superior izquierda del gráfico. Hay $3$ reglas que contienen "*productos alimenticios instantáneos*" y hasta otros $2$ elementos en el antecedente y el consecuente es "*carne de hamburguesa*".
+
+Finalmente, podemos visualizar las reglas de asociación mediante vértices y aristas en los que los vértices anotados con etiquetas de elementos representan elementos y los conjuntos de elementos o reglas se representan como un segundo conjunto de vértices. Los elementos se conectan con los conjuntos de elementos/reglas mediante flechas. En el caso de las reglas, las flechas que apuntan de los artículos a los vértices de las reglas indican los artículos del LHS y una flecha de una regla a un artículo indica el RHS. Las medidas de interés suelen añadirse al gráfico mediante el color o el tamaño de los vértices que representan los conjuntos de elementos/reglas. La visualización basada en gráficos ofrece una representación muy clara de las reglas, pero tienden a saturarse con facilidad, por lo que sólo son viables para conjuntos de reglas muy pequeños.
+
+```{r}
+subrules2 <- head(rules, n = 10, by = "lift")
+plot(subrules2, method = "graph")
+```
+
+La representación anterior se centra en cómo las reglas se componen de elementos individuales y muestra qué reglas comparten elementos.
+
+```{r}
+plot(subrules2, method = "paracoord", control = list(reorder = TRUE))
+```

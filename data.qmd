@@ -1,0 +1,580 @@
+# Datos {#sec-data}
+
+Este tema se centra en la importancia de los datos en el contexto del ML, explorando cómo su almacenamiento y procesamiento permiten a los sistemas informáticos y a los usuarios extraer información valiosa. Si reflexionamos sobre el ciclo de vida de un proyecto de ciencia de datos (recuerda la Figura [@fig-ds2]), podemos observar cómo los datos ocupan el centro de todo el proceso, mientras que las demás tareas y etapas se desarrollan en torno a ellos.
+
+En el contexto del ML, los datos representan el recurso fundamental. Desde el inicio de un proyecto en ciencia de datos, se habrá dedicado tiempo y esfuerzo a comprender el problema y definir los objetivos a alcanzar. Estas etapas se han planificado meticulosamente con un enfoque centrado en los datos, contemplando aspectos como la naturaleza de los datos a recopilar, las estrategias para su adquisición, así como las mejores prácticas para su almacenamiento y gestión, entre otros factores cruciales. Piensa que sin una adecuada recolección y mantenimiento de los datos, ningún proyecto de datos puede prosperar.
+
+En el transcurso de este tema, exploraremos brevemente temas de importancia crítica, como la salvaguardia de los datos, cuestiones éticas y la preservación de la privacidad. Estos aspectos son fundamentales en cualquier proyecto vinculado a este campo, ya que garantizar la integridad y la seguridad de los datos, así como respetar los principios éticos y legales, son pilares esenciales en la construcción de soluciones de aprendizaje automático que sean responsables y confiables.
+
+## Tipos de datos
+
+En primer lugar, tratamos los tipos de datos más comunes organizándose mediante dos clasificaciones distintas.
+
+::: {.callout-note title="Atención"}
+Según su **estructura**, los datos pueden dividirse en datos estructurados y datos no estructurados.
+
+Según su comportamiento a lo largo del **tiempo**, los datos pueden calificarse como datos estáticos o datos dinámicos.
+:::
+
+### Datos Estructurados frente a Datos No Estructurados
+
+Esta organización se enfoca en determinar si los datos exhiben una estructura definida en el momento de su obtención o si, por el contrario, carecen de un esquema determinista. A continuación, describiremos las distintas categorías de datos de acuerdo con esta clasificación:
+
+::: {.callout-note collapse="true" title="Datos estructurados"}
+Los datos estructurados son aquellos que poseen una longitud, un tipo, un formato y un tamaño definidos. Por lo general, estos datos se organizan en forma de tabla o se almacenan en una base de datos relacional (tablas de columnas y filas), que establece relaciones entre las diversas propiedades de las observaciones.
+:::
+
+::: {.callout-note collapse="true" title="Datos no estructurados"}
+Los datos no estructurados, en cambio, carecen de un formato específico. Suelen extraerse de documentos de texto, videos u otras fuentes similares. Como ejemplo, la oración que estás leyendo en este momento contiene datos no estructurados, ya que no sigue un formato particular, y los usuarios no pueden anticipar si se organiza de acuerdo con algún esquema predefinido.
+:::
+
+### Datos estáticos frente a datos dinámicos
+
+Esta organización atiende al comportamiento de los datos a lo largo del tiempo. Los datos estáticos son los datos que no cambian a lo largo del tiempo. Por el contrario, los datos pueden evolucionar en el tiempo, llegando nuevas observaciones, o nuevos valores de las variables de interés, que obliguen a los modelos construidos sobre ellos a realizar ajustes de manera constante. En estas situaciones hablaremos de datos dinámicos.
+
+Los datos dinámicos son los que presentan un nivel de complejidad más alto en términos de su tratamiento. Es habitual crear esquemas con el fin de simplificar las posibles operaciones que se llevarán a cabo con los datos dinámicos. Estos esquemas son aplicables principalmente a datos estructurados. Sin embargo, en el caso de los datos dinámicos no estructurados, la tarea radica en procesar estos datos de manera dinámica a medida que evolucionan, sin la capacidad de anticipar de antemano la estructura o dimensión que puedan adquirir.
+
+Para más información sobre este tema, consultar [@weiss2012data].
+
+## Obtención de datos
+
+El proceso de obtención de los datos consiste en la recopilación de información en un dominio específico. Una vez obtenidos los datos, estos deben ser procesados con el objetivo de generar conocimiento a partir de ellos. Despliega los siguientes paneles para conocer algunas de las técnicas más comunes en el proceso de obtención de datos.
+
+::: {.callout-note collapse="true"}
+## Encuestas y entrevistas
+
+Estas técnicas involucran la formulación de preguntas a expertos dentro de un área de interés. En ocasiones, se utilizan para etiquetar los datos, es decir, para asignar categorías o etiquetas a los datos en función de las respuestas proporcionadas. Las preguntas en una encuesta pueden ser abiertas, lo que significa que no tienen restricciones en la respuesta, o cerradas, donde se ofrecen opciones predefinidas para elegir. Por ejemplo, en el campo de la ciberseguridad, los sistemas de detección de virus a menudo utilizan etiquetas para identificar y clasificar virus. Estos sistemas aprovechan el conocimiento de los expertos para tomar decisiones en ese dominio.
+:::
+
+::: {.callout-note collapse="true"}
+## Observación
+
+Esta técnica implica observar y verificar lo que está sucediendo con el conjunto de datos de interés desde una distancia. La observación puede ser directa o indirecta. En el primer caso, un observador se limita a verificar los datos directamente. En el segundo caso, el observador se enfoca en los resultados de los análisis realizados en los datos. Un ejemplo de observación directa son los filtros antispam en correos electrónicos, que observan y toman medidas en función de las observaciones realizadas en los mensajes. Los usuarios que revisan la carpeta de *spam* y ven el número de mensajes rechazados son observadores indirectos en este contexto.
+:::
+
+::: {.callout-note collapse="true"}
+## Toma de muestras
+
+Esta técnica consiste en obtener subconjuntos representativos de los datos en lugar de analizar todos los datos disponibles. A menudo, no es necesario analizar todos los datos, especialmente cuando se trata de conjuntos de datos extensos. En su lugar, se toma una muestra lo suficientemente grande y diversa que sea representativa. Por ejemplo, para determinar si ha ocurrido un ciberataque y se ha producido un robo de información, puede ser suficiente analizar un porcentaje de los datos de red de los últimos días u horas en lugar de examinar todos los datos durante períodos más largos, como meses o años.
+:::
+
+::: {.callout-note collapse="true"}
+## Web Scraping
+
+Esta técnica implica la extracción de datos directamente desde sitios web. Los *web scrapers* automatizan el proceso de navegación web y recuperación de información de páginas web, lo que permite obtener datos de fuentes públicas en línea.
+:::
+
+::: {.callout-note collapse="true"}
+### Sensores y Dispositivos IoT
+
+Los sensores y dispositivos de Internet de las cosas (IoT) generan datos en tiempo real, que pueden incluir información sobre temperatura, humedad, ubicación geográfica, entre otros. Estos datos pueden ser recopilados y utilizados para análisis.
+:::
+
+::: {.callout-note collapse="true"}
+### Registros y Bitácoras (Logs)
+
+Muchos sistemas y aplicaciones generan registros (logs) que registran eventos y actividades. Estos registros pueden ser valiosos para el análisis de problemas, seguimiento de comportamientos y seguridad.
+:::
+
+::: {.callout-note collapse="true"}
+### Extracción de Texto de Documentos
+
+Para datos no estructurados, como texto en documentos, se pueden utilizar técnicas de extracción de texto para convertir la información en un formato procesable. Esto es útil en áreas como el procesamiento de documentos legales o médicos.
+:::
+
+::: {.callout-note collapse="true"}
+### Captura de Imágenes y Video
+
+Las cámaras y sistemas de captura de imágenes y video generan grandes cantidades de datos visuales que pueden ser analizados para reconocimiento de patrones, detección de objetos, análisis de imágenes médicas y más.
+:::
+
+::: {.callout-note collapse="true"}
+### APIs (Interfaces de Programación de Aplicaciones)
+
+Muchas aplicaciones y servicios ofrecen APIs que permiten acceder a sus datos de manera estructurada y programática. Esto es común en aplicaciones de redes sociales, servicios de mapas, pronósticos del tiempo y más.
+:::
+
+::: {.callout-note collapse="true"}
+### Datos de Redes Sociales
+
+Las plataformas de redes sociales generan una gran cantidad de datos en forma de publicaciones, comentarios y actividad de usuarios. Estos datos pueden ser recopilados y analizados para comprender tendencias, opiniones del público y más.
+:::
+
+::: {.callout-note collapse="true"}
+### Datos de Dispositivos Móviles
+
+Las aplicaciones móviles pueden recopilar datos del dispositivo, como la ubicación GPS, el uso de la aplicación y la interacción del usuario. Estos datos pueden utilizarse para análisis de comportamiento del usuario y personalización.
+:::
+
+::: {.callout-note collapse="true"}
+### Datos de Sensores Biométricos
+
+En aplicaciones de salud y bienestar, se pueden utilizar sensores biométricos, como los dispositivos de seguimiento de actividad física y las pulseras de ritmo cardíaco, para recopilar datos sobre la salud y el estado físico de los individuos.
+:::
+
+### Fuentes de datos para las prácticas
+
+Para las prácticas que se van a llevar a cabo a lo largo de este curso, vamos a necesitar datos. En un entorno educativo como el nuestro, es habitual recurrir a los llamados "*benchmarks*". Un *benchmark* se refiere a un conjunto de datos de referencia o estándar que se utiliza como punto de comparación para evaluar y medir el rendimiento de algoritmos, modelos y técnicas de análisis de datos. Los *benchmarks* son esenciales en la ciencia de datos porque proporcionan un punto de referencia común y objetivo para evaluar la calidad y eficacia de diferentes enfoques. Puedes encontrarlos en diferentes portales y su uso es habitual en artículos de investigación.
+
+Despliega el siguiente panel para averiguar dónde localizar numerosos conjuntos de datos de referencia.
+
+::: {.callout-note collapse="true"}
+### Fuentes de datos
+
+Existen varias fuentes de conjuntos de datos de *benchmark* que puedes utilizar en proyectos de ciencia de datos. Algunas de las fuentes más populares y confiables incluyen:
+
+1.  **Kaggle:** Kaggle es una plataforma en línea que alberga competiciones de ciencia de datos y proporciona una amplia variedad de conjuntos de datos para prácticas y competiciones. Puedes explorar conjuntos de datos en su [sección de datasets](https://www.kaggle.com/datasets). Cuidado con los análisis de estos datos en la plataforma Kaggle, pues no siempre son correctos o precisos. ¡Ojo!
+
+2.  **UCI Machine Learning Repository:** La Universidad de California, Irvine (UCI), ofrece un amplio repositorio de conjuntos de datos de *benchmark* para ML. Puedes encontrarlos en su [página web](#0).
+
+3.  **OpenML:** OpenML es una plataforma en línea que recopila y comparte conjuntos de datos, así como flujos de trabajo y resultados de la comunidad de ciencia de datos. Puedes explorar conjuntos de datos en su [sitio web](https://www.openml.org/).
+
+4.  **GitHub:** GitHub es una plataforma de desarrollo de software que también alberga una gran cantidad de repositorios públicos que contienen conjuntos de datos. Puedes utilizar la función de búsqueda de GitHub para encontrar conjuntos de datos relevantes.
+
+5.  **Data.gov:** Data.gov es el portal de datos abiertos del gobierno de los Estados Unidos. Ofrece una amplia variedad de conjuntos de datos gubernamentales en áreas como salud, medio ambiente, educación y más.
+
+6.  **Google Dataset Search:** Google Dataset Search es una herramienta de búsqueda específica para conjuntos de datos. Te permite buscar conjuntos de datos en línea utilizando palabras clave relevantes.
+
+7.  **Awesome Public Datasets:** Este repositorio de GitHub contiene una lista de conjuntos de datos públicos en diversas categorías. Puedes encontrarlo [aquí](https://github.com/awesomedata/awesome-public-datasets).
+
+8.  **Datasets Subreddit:** La comunidad de Reddit tiene un subreddit llamado "*datasets*" donde los usuarios comparten y discuten conjuntos de datos interesantes. Puedes explorarlo en [r/datasets](https://www.reddit.com/r/datasets/).
+
+9.  **World Bank Data:** El Banco Mundial ofrece una gran cantidad de datos relacionados con el desarrollo económico y social de países de todo el mundo. Puedes acceder a estos datos en su [sitio web](https://data.worldbank.org/).
+
+10. **Eurostat:** Eurostat es la oficina de estadísticas de la Unión Europea y proporciona una amplia gama de datos relacionados con la UE y sus países miembros. Puedes encontrar datos en su [sitio web](https://ec.europa.eu/eurostat/data/database).
+
+Recuerda que, antes de utilizar cualquier conjunto de datos, es importante verificar los términos de uso y asegurarte de tener permiso para utilizarlos según tus necesidades. Además, ten en cuenta las consideraciones éticas y de privacidad al trabajar con datos, especialmente si contienen información personal o sensible.
+:::
+
+### Datos en R
+
+R incluye en sus librerías numerosos conjuntos de datos. Para acceder a ellos, basta con cargar la librería correspondiente.
+
+```{r}
+#| label: peng1
+#| include: true
+#| warning: false
+#| echo: true
+
+library(tidyverse)
+library(palmerpenguins)
+
+summary(penguins)
+```
+
+Es posible leer datos desde una cuenta de git.
+
+```{r}
+#| label: read1
+#| include: true
+#| warning: false
+#| echo: true
+
+
+library (readr)
+
+urlfile="https://raw.githubusercontent.com/IsaacMartindeDiego/IA/master/datasets/california_housing.csv"
+
+mydata<-read_csv(url(urlfile))
+
+head(mydata)
+dim(mydata)
+summary(mydata)
+```
+
+La estructura de datos más habitual para realizar análisis de datos es el **data frame**. ¿Has estudiado este concepto en cursos anteriores?. Los data frame son estructuras de datos de dos dimensiones (como una matriz) que pueden contener datos de diferentes tipos. Normalmente nos referimos a las filas de un data frame como observaciones o registros, mientras que las columnas reciben el nombre de campos, variables, o características.
+
+```{r}
+#| label: dataframe1
+#| include: true
+#| warning: false
+#| echo: true
+
+L3 <- LETTERS[1:3]
+char <- sample(L3, 10, replace = TRUE)
+datos <- data.frame(x = 1, y = 1:10, char = char)
+datos
+is.data.frame(datos)
+```
+
+Un **tibble**, o tbl_df, es una actualización del concepto del data frame. Los tibbles son data.frames perezosos. Esto le obliga a enfrentarse a los problemas antes, lo que normalmente conduce a un código más limpio y expresivo. Los tibbles también tienen un método print() mejorado que facilita su uso con grandes conjuntos de datos que contienen objetos complejos.
+
+```{r}
+#| label: tibble1
+#| include: true
+#| warning: false
+#| echo: true
+
+library(tidyverse)
+as.tibble(iris)
+```
+
+::: {.callout-caution title="Práctica"}
+Es importante que realices algún ejercicio en R, leyendo datos de diferentes fuentes y familiarizándote con las diferentes estructuras de datos que R proporciona.
+:::
+
+### Particiones de los datos
+
+El científico de datos normalmente se enfrenta a una base de datos sobre la que trabajar. Puede ser la base de datos completa o una muestra de esta que no incluya el total de las observaciones. Quizás se ha tomado una muestra de datos empleando técnicas de muestreo. El muestreo es un concepto de gran interés que deberías de estudiar en algún curso básico de estadística. En cualquier caso, una de las primeras tareas que vamos a realizar, siempre, es la de dividir la muestra en varias particiones. En este punto es necesario comentar que una de las principales diferencias entre el ML y la estadística clásica es su propósito. Por un lado, los modelos de ML están diseñados para hacer las predicciones más exactas posibles. Por otro lado, los modelos estadísticos están diseñados para inferir las relaciones entre las variables.
+
+Para llevar a cabo una correcta tarea de predicción será necesario contar con las siguientes particiones de los datos:
+
+::: {.callout-note collapse="true"}
+## Entrenamiento
+
+La partición de entrenamiento estará compuesta por las observaciones sobre las que vamos a entrenar nuestro modelo. En esta partición podemos entrenar alternativas a nuestro modelo cuantas veces sea necesario. Estas alternativas vendrán dadas por diferentes elecciones de los parámetros del modelo. ¡Sobre la partición de entrenamiento puedes probar todos los modelos que se te ocurran!
+:::
+
+::: {.callout-note collapse="true"}
+## Prueba
+
+La partición de prueba estará compuesta por las observaciones sobre las que vamos a probar nuestro modelo entrenado. Si los resultados del modelo no son los deseados podremos volver a entrenar el modelo con otros parámetros o bien cambiar de modelo. Usa esta partición para probar tus modelos y ver cómo de buenos son al enfrentarse a nuevas observaciones, diferentes a las empleadas para crear el modelo.
+:::
+
+::: {.callout-note collapse="true"}
+## Validación
+
+La partición de validación estará compuesta por las observaciones sobre las que vamos a validar nuestro modelo. Esta partición se emplea una vez seleccionado el mejor modelo. Simula la situación en la que unos nuevos datos llegan al modelo y sobre ellos se emplea el modelo para realizar una predicción. Esta partición trata de reflejar el comportamiento del modelo de ML en un entorno real. Si la base de datos original es dividida aleatoriamente en las tres particiones mencionadas, la distribución de las variables será similar en todas ellas. Es decir, el modelo entrenado en la partición de entrenamiento y probado en la partición de prueba, debe de presentar un rendimiento similar en la partición de validación. A veces nos referimos a esta partición como los **datos en producción**.
+:::
+
+La partición de validación no será empleada sino al final del proceso. Cuando se pruebe el modelo de aprendizaje sobre ese conjunto de datos ya no podremos volver atrás. Cualquier tarea de entrenamiento del modelo será realizada única y exclusivamente sobre las particiones de entrenamiento y prueba. Es necesario indicar que algunos autores cambian el nombre de las particiones, llamando prueba a validación y validación a prueba. Tienes que comprender que es una mera cuestión de nomenclatura, podrían llamarse particiones 1, 2 y 3, (o A, B, C) siempre que su uso sea el adecuado. En cada una de estas particiones estimaremos el error (y el acierto) de los métodos de ML que consideremos. Este error será evaluado mediante métricas adecuadas que serán presentadas en el tema 6 de este curso.
+
+::: {.callout-important title="Para recordar"}
+Emplear particiones de los datos pretende minimizar el llamado **sobreajuste** del modelo que aparece cuando un modelo tiene un funcionamiento altamente dependiente de los datos con los que ha sido entrenado. Estudiaremos este problema más adelante.
+:::
+
+En caso de sobreajuste, cuando el modelo se enfrenta a datos nuevos su rendimiento se ve deteriorado.
+
+Existen varias técnicas estadísticas para la construcción de particiones. La primera de ellas es la más sencilla y consiste, simplemente, en reservar un conjunto (fijo) de observaciones para probar los modelos. Podemos aconsejar reservar en torno al 60% de las observaciones para la muestra de entrenamiento, en torno al 20% para la muestra de prueba y el restante 20% para validación. Sin embargo, estos valores son muy dependientes del volumen de datos y de los objetivos particulares del problema. La principal desventaja de este método es que la estimación del error en la partición de prueba puede ser muy variable, dependiendo precisamente de las observaciones que se incluyan en el conjunto de entrenamiento y de las que se incluyan en el conjunto de prueba. Además, si te fijas bien, solo un conjunto de observaciones, siempre el mismo, se emplea para entrenar el modelo. Este hecho sugiere que esta aproximación tiende a sobreestimar el modelo. Una técnica ampliamente utilizada es la conocida como "*k-folds cross validation*". La idea es dividir el conjunto de entrenamiento en *k* partes iguales. Para cada de esas partes se ajusta el modelo de ML en los datos de las otras *k-1* partes (combinadas), y se obtiene el error de predicción en la k- ésima parte. De este modo se tienen *k* errores de los que podremos obtener la media y desviación típica. En la práctica, es muy común elegir *k* igual a 5 o 10. En el caso extremo de *k* igual número de observaciones en la muestra de entrenamiento y test, la técnica se conoce con el nombre de "*leave-one out cross validation*", aunque este método podría no mezclar los datos lo suficiente. Es decir, los datos de cada partición están altamente correlacionados y por lo tanto la varianza del error suele ser muy elevada.
+
+#### Particiones en R
+
+Hay varias formas comunes de dividir los datos en conjuntos de entrenamiento y de prueba en R:
+
+-   Base R
+-   caTools
+-   dplyr
+
+En primer lugar os presentamos una forma muy manual de hacerlo. A veces es la más sencilla de entender y la más inmediata de razonar.
+
+```{r}
+#| label: particion0
+#| include: true
+#| warning: false
+#| echo: true
+
+# cargamos los datos
+data(penguins)
+dim(penguins)
+
+# mediante una semilla conseguimos que el ejercicio sea reproducible
+set.seed(1)
+
+# creamos índices
+ntotal <- dim(penguins)[1]
+indices <- 1:ntotal
+ntrain <- ntotal * .7
+indices.train <- sample(indices, ntrain, replace = FALSE)
+indices.test <- indices[-indices.train]
+
+# Usamos el 70% de la base de datos como conjunto de entrenamiento y el resto como conjunto de test
+train  <- penguins[indices.train, ]
+test   <- penguins[indices.test, ]
+
+dim(train)
+dim(test)
+```
+
+Otra forma alternativa.
+
+```{r}
+#| label: particion1
+#| include: true
+#| warning: false
+#| echo: true
+
+# cargamos los datos
+data(penguins)
+dim(penguins)
+
+# mediante una semilla conseguimos que el ejercicio sea reproducible
+set.seed(1)
+
+# Usamos el 70% de la base de datos como conjunto de entrenamiento y el resto como conjunto de test
+sample <- sample(c(TRUE, FALSE), nrow(penguins), replace=TRUE, prob=c(0.7,0.3))
+train  <- penguins[sample, ]
+test   <- penguins[!sample, ]
+
+dim(train)
+dim(test)
+```
+
+Usando el paquete `caTools` indicamos directamente el ratio de entrenamiento.
+
+```{r}
+#| label: particion2
+#| include: true
+#| warning: false
+#| echo: true
+
+# cargamos el paquete
+library(caTools)
+
+# cargamos los datos
+data(penguins)
+dim(penguins)
+
+# mediante una semilla conseguimos que el ejercicio sea reproducible
+set.seed(1)
+
+# Usamos el 70% de la base de datos como conjunto de entrenamiento y el resto como conjunto de test
+sample <- sample.split(penguins$species, SplitRatio=0.7)
+train  <- subset(penguins, sample==TRUE)
+test   <- subset(penguins, sample==FALSE)
+
+dim(train)
+dim(test)
+```
+
+Podemos emplear el paquete dplyr tal y como sigue:
+
+```{r}
+#| label: particion3
+#| include: true
+#| warning: false
+#| echo: true
+
+# cargamos el paquete
+library(dplyr)
+
+# cargamos los datos
+data(penguins)
+dim(penguins)
+
+# mediante una semilla conseguimos que el ejercicio sea reproducible
+set.seed(1)
+
+# creamos una variable índice
+penguins$id <- 1:nrow(penguins)
+
+# Usamos el 70% de la base de datos como conjunto de entrenamiento y el resto como conjunto de test
+train  <- penguins %>% dplyr::sample_frac(0.7)
+test   <- dplyr::anti_join(penguins, train, by = 'id')
+
+dim(train)
+dim(test)
+```
+
+## Mantenimiento de los datos
+
+Una vez que los datos han sido adquiridos, es esencial asegurar su mantenimiento y almacenamiento en entornos adecuados. Para lograr este objetivo, se han desarrollado múltiples sistemas de gestión de bases de datos, diseñados para satisfacer las diversas necesidades de usuarios y organizaciones. Estos sistemas de gestión de bases de datos se integran en infraestructuras más amplias y complejas que permiten el manejo eficaz y eficiente de los datos.
+
+### Tipos de bases de datos
+
+Las bases de datos se pueden clasificar en relacionales y no relacionales.
+
+Las **bases de datos relacionales** son aquellas que siguen el modelo entidad-relación, también llamado modelo relacional, en donde cada una de las tablas (o entidades) presenta algún tipo de enlace con otras (relaciones).
+
+::: {.callout-important title="Para recordar"}
+Los datos almacenados en bases de datos relacionales suelen ser datos estructurados.
+:::
+
+Para el manejo de estas bases de datos, se utiliza un lenguaje ampliamente conocido en el mundo de la Ciencia de la Computación llamado "Structured Query Language" (más conocido por sus siglas, **SQL**). Este lenguaje permite realizar consultas sobre las distintas tablas y sus relaciones, así como la gestión y mantenimiento de los datos.
+
+Las **bases de datos no relacionales**, también llamadas NoSQL, están diseñadas para representar un modelo de datos específicos en donde su estructura y esquema son flexibles (principalmente datos no estructurados). Presentan una gran relajación respecto a las restricciones que deben cumplir por lo que favorecen una gran escalabilidad horizontal (muchos elementos del mismo tipo pueden ser fácilmente almacenados en un único documento que hace las veces de tabla). Las bases de datos no relacionales se pueden organizar como sigue:
+
+::: {.callout-note collapse="true"}
+## Basadas en documentos
+
+Estas bases de datos permiten el almacenamiento de documentos completos (normalmente textuales) y partes de interés de estos. Son ampliamente utilizadas en los sistemas de gestión documental, o sistemas de recomendación, los cuales son capaces de proporcionar información de interés de acuerdo con una búsqueda determinada. Ejemplo: ElasticSearch [@dixit2017elasticsearch].
+:::
+
+::: {.callout-note collapse="true"}
+## Gestión mediante clave-valor
+
+Son las bases de datos más comunes y tienen cierta similitud con las bases de datos relacionales. La clave actúa como clave primaria, mientras que el valor puede ser un único elemento o un conjunto de atributos relacionados. Ejemplo: MongoDB [@bradshaw2019mongodb].
+:::
+
+::: {.callout-note collapse="true"}
+## Basadas en grafos
+
+Son bases de datos que almacenan su información por medio de nodos y aristas. Los elementos principales son los nodos, que suelen contener una serie de atributos, los cuales se relacionan con otros nodos mediante las aristas. Son muy útiles para organizar datos no estructurados como pueden ser la información que se extrae del contenido textual. Ejemplo: Neo4J [@webber2012programmatic]
+:::
+
+::: {.callout-note collapse="true"}
+## Orientadas a objetos
+
+Son bases de datos capaces de emular la abstracción proporcionada por la programación orientada a objetos. Por lo tanto, contienen entidades (clases) que incluyen atributos y métodos de acceso y modificación de estos, produciendo encapsulamiento. Ejemplo: Gemstone [@ra1994flexible]
+:::
+
+::: {.callout-note collapse="true"}
+## De trabajo en memoria
+
+Estas bases de datos suelen estar constituidas por estructuras simples con el objetivo de poder ser alojadas en la memoria principal del computador. De esta manera se consigue que el tiempo de respuesta y la gestión y manejo de los datos sea mucho más rápida que en el resto de las bases de datos, que utilizan el disco duro del computador como lugar físico de almacenamiento. Debido a estas características son utilizadas en aplicaciones de alto rendimiento que gestionen volúmenes de datos asequibles. Ejemplo: Redis [@nelson2016mastering]
+:::
+
+::: {.callout-note collapse="true"}
+## Para saber más sobre bases de datos
+
+Las distintas clasificaciones presentadas en este curso son una pequeña aproximación al mundo de las bases de datos. Para más detalles respecto a los conceptos detallados en este apartado ver [@harrington2016relational] para las bases de datos relacionales y [@meier2019sql] para las bases de datos no relacionales.
+:::
+
+### Infraestructuras
+
+La infraestructura para el almacenamiento de datos en el contexto de un proyecto de ciencia de datos desempeña un papel crítico en la capacidad de procesar y analizar información de manera efectiva. Esta infraestructura se compone de sistemas y tecnologías diseñados para almacenar, gestionar y acceder a grandes volúmenes de datos de manera eficiente y segura.
+
+En un proyecto de ciencia de datos, es común utilizar sistemas de bases de datos que pueden ser de diversos tipos, como bases de datos relacionales, bases de datos NoSQL (orientadas a documentos, columnares, gráficas, etc.) o almacenes de datos en la nube. Estos sistemas permiten organizar los datos de manera estructurada o semiestructurada, facilitando su recuperación y análisis.
+
+Además, se pueden implementar tecnologías de almacenamiento distribuido que escalen horizontalmente para manejar conjuntos de datos masivos. Estas tecnologías permiten la redundancia y la disponibilidad continua de los datos, lo que es esencial para proyectos que requieren un alto grado de confiabilidad y rendimiento.
+
+La elección de la infraestructura de almacenamiento adecuada dependerá de la naturaleza de los datos y de los objetivos del proyecto. La capacidad de gestionar y acceder a los datos de manera efectiva es un componente clave en la cadena de valor de la ciencia de datos, ya que permite a los científicos de datos realizar análisis, modelado y generación de conocimiento de manera más eficiente y precisa.
+
+Aquí presentamos algunos ejemplos de infraestructuras de almacenmiento de datos:
+
+::: {.callout-note collapse="true"}
+## Bases de Datos Relacionales
+
+Ejemplos populares incluyen MySQL, PostgreSQL, Microsoft SQL Server y Oracle. Son ideales para datos estructurados y son ampliamente utilizados en aplicaciones empresariales y proyectos de análisis de datos.
+:::
+
+::: {.callout-note collapse="true"}
+## Bases de Datos NoSQL
+
+Incluyen bases de datos orientadas a documentos como MongoDB, bases de datos columnares como Apache Cassandra, y bases de datos gráficas como Neo4j. Estas bases de datos son adecuadas para datos semiestructurados y no estructurados, y son especialmente útiles en aplicaciones web y análisis de redes sociales.
+:::
+
+::: {.callout-note collapse="true"}
+## Almacenes de Datos en la Nube
+
+Servicios como Amazon S3, Google Cloud Storage y Microsoft Azure Blob Storage ofrecen soluciones de almacenamiento altamente escalables y rentables en la nube para datos estructurados y no estructurados. Son ideales para proyectos que requieren almacenamiento y acceso a gran escala. Los sistemas de computación en la nube son capaces de ofrecer un conjunto de características estandarizadas que se adaptan al consumidor, lo que los hace muy flexibles.
+:::
+
+::: {.callout-note collapse="true"}
+## Hadoop Distributed File System (HDFS)
+
+Es una parte integral del ecosistema Hadoop y se utiliza para almacenar y gestionar grandes conjuntos de datos distribuidos en clústeres de servidores. Es comúnmente utilizado en proyectos de big data y análisis de datos masivos.
+:::
+
+::: {.callout-note collapse="true"}
+## Sistemas de Almacenamiento en Memoria
+
+Ejemplos incluyen Redis y Apache Kafka. Estos sistemas permiten el almacenamiento y la recuperación ultrarrápidos de datos en memoria, lo que es esencial para aplicaciones en tiempo real y análisis de transmisiones de datos.
+:::
+
+::: {.callout-note collapse="true"}
+## Sistemas de Almacenamiento Distribuido
+
+Ejemplos incluyen Apache HBase y Apache CouchDB. Estos sistemas ofrecen alta disponibilidad y escalabilidad, lo que es crucial para aplicaciones que requieren acceso y actualización concurrentes de datos distribuidos.
+:::
+
+::: {.callout-note collapse="true"}
+## Sistemas de Almacenamiento de Datos Geoespaciales
+
+Ejemplos incluyen PostGIS y MongoDB con capacidades geoespaciales habilitadas. Estos sistemas son esenciales para proyectos que involucran datos de ubicación y análisis geoespaciales.
+:::
+
+::: {.callout-note collapse="true"}
+## Almacenamiento de Datos en Almacenes de Datos Empresariales
+
+Ejemplos incluyen sistemas como Teradata y SAP HANA. Estas soluciones se utilizan en empresas para el almacenamiento y análisis de grandes volúmenes de datos de negocios.
+:::
+
+La elección de la infraestructura de almacenamiento dependerá de los requisitos específicos del proyecto, como el volumen de datos, la naturaleza de los datos y las necesidades de rendimiento y escalabilidad. Cada una de estas infraestructuras tiene sus propias ventajas y desafíos, y la elección adecuada contribuirá al éxito del proyecto de ciencia de datos.
+
+## Calidad de los datos
+
+La calidad de los datos es un elemento fundamental en cualquier proyecto de ciencia de datos, ya que influye directamente en la confiabilidad y el valor de los resultados obtenidos. La calidad de los datos se refiere a la precisión, la integridad, la consistencia y la relevancia de los datos que se utilizan en el análisis.
+
+::: {.callout-important title="Para recordar"}
+La calidad de los datos es la piedra angular de la confiabilidad y precisión en la ciencia de datos.
+:::
+
+Despliega los paneles para averiguar algunas consideraciones clave sobre la calidad de los datos en un proyecto de ciencia de datos.
+
+::: {.callout-note collapse="true"}
+## Precisión
+
+Los datos deben ser precisos y libres de errores. Los errores en los datos pueden surgir de diversas fuentes, como entradas incorrectas, mediciones inexactas o problemas de registro. Es fundamental garantizar la precisión de los datos para evitar interpretaciones erróneas y resultados incorrectos.
+:::
+
+::: {.callout-note collapse="true"}
+## Integridad
+
+La integridad de los datos se refiere a su completitud y coherencia. Los datos incompletos o faltantes pueden dificultar el análisis y llevar a conclusiones sesgadas. La integridad también se relaciona con la consistencia de los datos a lo largo del tiempo y entre diferentes fuentes.
+:::
+
+::: {.callout-note collapse="true"}
+## Consistencia
+
+Los datos deben ser coherentes en su estructura y formato. Esto implica que las mismas categorías, unidades de medida y convenciones deben aplicarse de manera consistente en todo el conjunto de datos. La falta de consistencia puede dificultar la combinación y el análisis de datos de múltiples fuentes.
+:::
+
+::: {.callout-note collapse="true"}
+## Relevancia
+
+Los datos deben ser relevantes para los objetivos del proyecto. Incluir datos irrelevantes puede aumentar la complejidad del análisis sin aportar valor. Es importante definir claramente qué datos son necesarios para abordar las preguntas o problemas específicos que se plantean en el proyecto.
+:::
+
+::: {.callout-note collapse="true"}
+## Actualización
+
+Los datos deben mantenerse actualizados. En muchos proyectos de ciencia de datos, la información envejece con el tiempo y puede perder su relevancia o precisión. Es esencial establecer procesos para la actualización y el mantenimiento continuo de los datos.
+:::
+
+::: {.callout-note collapse="true"}
+## Limpieza de Datos
+
+La limpieza de datos es el proceso de identificar y corregir errores, duplicados y valores atípicos en el conjunto de datos. Es una etapa crítica para mejorar la calidad de los datos antes de su análisis. Abordaremos esta etapa en el tema 3, cuando tratemos el Análisis Exploratorio de Datos.
+:::
+
+::: {.callout-note collapse="true"}
+## Documentación
+
+Es importante documentar el origen de los datos, las transformaciones realizadas, las decisiones tomadas durante la preparación de los datos y cualquier asunción que se haya hecho. La documentación adecuada facilita la comprensión y la replicación de los análisis.
+:::
+
+La calidad de los datos influye en todas las etapas de un proyecto de ciencia de datos, desde la recopilación y preparación de datos hasta el modelado y la interpretación de resultados. Los científicos de datos y analistas deben ser conscientes de la calidad de los datos y trabajar activamente para garantizar que los datos sean confiables y adecuados para los objetivos del proyecto. La inversión en la calidad de los datos es esencial para tomar decisiones informadas y obtener conocimientos precisos y significativos.
+
+## Ética, privacidad y seguridad en los datos
+
+La ética, privacidad y seguridad en los datos son aspectos entrelazados y fundamentales para garantizar que la recopilación, el análisis y el uso de datos se realicen de manera responsable y en beneficio de la sociedad. No solo son cuestiones éticas, sino que también tienen implicaciones legales y pueden afectar la reputación de las organizaciones. Los profesionales de datos y las empresas deben adoptar un enfoque proactivo para garantizar que sus prácticas de datos sean éticas y cumplan con las regulaciones aplicables, lo que a su vez contribuye a la construcción de la confianza del público en el uso de la ciencia de datos en la sociedad.
+
+::: {.callout-note collapse="true"}
+## Ética
+
+La **ética** en la ciencia de datos se refiere a la conducta y las decisiones éticas de los profesionales de datos en todas las etapas del proceso, desde la recopilación hasta la interpretación y comunicación de resultados. Algunos puntos clave incluyen:
+
+-   **Transparencia**: Debe existir claridad sobre cómo se obtienen y utilizan los datos, así como sobre los métodos de análisis.
+
+-   **Consentimiento**: Es fundamental obtener el consentimiento informado de las personas cuyos datos se recopilan, especialmente en el contexto de datos personales.
+
+-   **Equidad**: Los análisis deben ser imparciales y justos, evitando la discriminación y el sesgo en los resultados.
+
+-   **Responsabilidad**: Los profesionales de datos deben asumir la responsabilidad de los posibles impactos de sus decisiones y comunicar sus hallazgos de manera precisa y ética.
+:::
+
+::: {.callout-note collapse="true"}
+## Privacidad
+
+La **privacidad** de los datos se refiere a la protección de la información personal y sensible. En la ciencia de datos, es crucial proteger la privacidad de las personas y cumplir con las regulaciones de privacidad aplicables. Algunos aspectos importantes son:
+
+-   **Anonimización**: La eliminación o la codificación de información identificable en los datos es esencial para proteger la privacidad.
+
+-   **Seguridad de los Datos**: Los datos deben ser almacenados y transmitidos de manera segura para evitar la exposición no autorizada.
+
+-   **Cumplimiento Normativo**: Es necesario cumplir con leyes y regulaciones de privacidad, como el Reglamento General de Protección de Datos (RGPD) en la Unión Europea.
+:::
+
+::: {.callout-note collapse="true"}
+## Seguridad
+
+La **seguridad** de los datos es la protección contra el acceso no autorizado, la alteración o la destrucción de los datos. Para garantizar la seguridad de los datos, es importante:
+
+-   **Control de Acceso**: Limitar el acceso a los datos solo a personas autorizadas mediante autenticación y autorización adecuadas.
+
+-   **Cifrado**: Utilizar técnicas de cifrado para proteger los datos tanto en reposo como en tránsito.
+
+-   **Monitoreo y Detección de Amenazas**: Implementar sistemas de monitoreo y detección de amenazas para identificar y responder a posibles ataques o violaciones de seguridad.
+
+-   **Respaldo de Datos**: Realizar copias de seguridad regulares para evitar la pérdida de datos en caso de incidentes de seguridad.
+:::
