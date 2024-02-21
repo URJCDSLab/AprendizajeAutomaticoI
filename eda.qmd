@@ -3,6 +3,8 @@
 El análisis exploratorio de datos o (EDA, del inglés "Exploratory Data Analysis") representa un conjunto de técnicas que permiten resumir los aspectos más importantes de un conjunto de datos, normalmente con especial énfasis en el uso de métodos de visualización gráfica. El término fue popularizado, entre otros, por el estadístico norteamericano *John W. Tukey* como método para descubrir información importante (y no evidente) contenida en los datos [@tukey1977exploratory]. Estas técnicas se emplean habitualmente como paso previo a la inferencia estadística, orientada hacia un análisis confirmatorio. Así, con EDA se estudian los datos, se descubre cómo son y cómo se comportan y con la inferencia estadística se comprueba analíticamente si esos comportamientos y diferencias halladas son realmente significativos (desde un punto de vista estadístico). El EDA es, sin duda, fundamental para adquirir conocimiento de los datos, antes de emplearlos dentro de un modelo de ML como los que vais a aprendener a lo largo del grado en Ciencia e Ingeniería de Datos. Es un error muy típico de algunos analistas de datos aplicar modelos a sus datos en cuanto estos están disponibles sin pasar previamente por el necesario análisis exploratorio de los mismos.
 
 ::: {.callout-tip title="John Tukey"}
+## John Tukey
+
 "El análisis exploratorio de datos es una actitud, un estado de flexibilidad, una voluntad de buscar aquellas cosas que creemos que no están ahí, así como aquellas que creemos que están ahí."
 :::
 
@@ -29,6 +31,8 @@ Tu objetivo principal durante el EDA es adquirir una comprensión profunda de lo
 EDA es un proceso creativo y como tal, la clave para llevarlo a cabo consiste en el planteamiento de preguntas de calidad. ¿Qué preguntas son las correctas? La respuesta es que depende del conjunto de datos con el que se trabaje.
 
 ::: {.callout-tip title="John Tukey"}
+## John Tukey
+
 Mucho mejor una respuesta aproximada a la pregunta correcta, que a menudo es vaga, que una respuesta exacta a la pregunta incorrecta, que siempre se puede precisar
 :::
 
@@ -89,6 +93,8 @@ La comprensión del problema que estamos abordando representa una de las primera
 ![Jerarquía de Conocimiento](EDA/conocimiento.png){#fig-cono width="80%"}
 
 ::: {.callout-tip title="Claude Lévi-Strauss"}
+## Claude Lévi-Strauss
+
 "El científico no es una persona que da las respuestas correctas, sino una persona que hace las preguntas correctas."
 :::
 
@@ -195,6 +201,8 @@ bank.valid=bank[indices.valid,]
 ```
 
 ::: {.callout-caution title="Atrévete"}
+## Atrévete
+
 ¿Te has hecho (ya) alguna pregunta sobre los datos? Si es así, no esperes más, busca la respuesta!
 :::
 
@@ -257,6 +265,8 @@ bank.train %>%
 ```
 
 ::: {.callout-caution title="Repaso"}
+## Repaso
+
 `dplyr` es un paquete en R diseñado para facilitar la manipulación y transformación de datos de manera eficiente y estructurada. Fue desarrollado por **Hadley Wickham** y se ha convertido en una de las herramientas más populares en la ciencia de datos y análisis de datos.
 :::
 
@@ -391,6 +401,8 @@ La forma más sencilla de detectar que alguna de nuestras variables necesita ser
 El uso de los logaritmos tiene su propia recomendación en preparación de datos [@fox2018r]:
 
 ::: {.callout-tip title="John Fox"}
+## John Fox
+
 "Si la variable es estrictamente positiva, no tiene un límite superior para sus valores, y su rango abarca dos o más órdenes de magnitud (potencias de 10), entonces la transformación logarítmica suele ser útil. A la inversa, cuando la variable tiene un rango de valores pequeño (menor de un orden de magnitud), el logaritmo o cualquier otra transformación simple no ayudará mucho."
 :::
 

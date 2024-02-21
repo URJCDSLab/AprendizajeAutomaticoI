@@ -296,9 +296,12 @@ siendo $P(C=1|\mathbf{X}=\mathbf{x})$ la probabilidad a posteriori, es decir, la
 
 Además, también se asume que las clases comparten la misma matriz de varianzas covarianzas $\Sigma_c=\Sigma, \ \forall c$.
 
-En base a estas asunciones, comparemos las probabilidades de ambas clases: $$
-log\left( \frac{P(C=1|\mathbf{X}=\mathbf{x})}{P(C=0|\mathbf{X}=\mathbf{x})} \right) = log\left( \frac{f_1(\mathbf{x})}{f_0(\mathbf{x})} \right) + log\left( \frac{P(1)}{P(0)} \right) =$$ $$= log\left( \frac{P(1)}{P(0)} \right) - \frac{1}{2}(\mu_1 + \mu_0)^{t}\Sigma^{-1}(\mu_1-\mu_0) + \mathbf{x}^{t}\Sigma^{-1}(\mu_1-\mu_0)
+En base a estas asunciones, comparemos las probabilidades de ambas clases:
+
 $$
+log\left( \frac{P(C=1|\mathbf{X}=\mathbf{x})}{P(C=0|\mathbf{X}=\mathbf{x})} \right) = log\left( \frac{f_1(\mathbf{x})}{f_0(\mathbf{x})} \right) + log\left( \frac{P(1)}{P(0)} \right) =$$
+
+$$ = log\left( \frac{P(1)}{P(0)} \right) - \frac{1}{2}(\mu_1 + \mu_0)^{t}\Sigma^{-1}(\mu_1-\mu_0) + \mathbf{x}^{t}\Sigma^{-1}(\mu_1-\mu_0) $$
 
 Obtenemos una ecuación que es lineal en $\mathbf{x}$. Es decir, la frontera de decisión entre las clases $0$ y $1$ es una ecuación lineal, un hiperplano en dimensión $p$.
 
@@ -316,23 +319,21 @@ $$ log\left( \frac{P(C=1|\mathbf{X}=\mathbf{x})}{P(C=0|\mathbf{X}=\mathbf{x})} \
 
 y esto es equivalente a
 
-$$
-\mathbf{x}^{t}\widehat{\Sigma}^{-1}(\widehat{\mu}_1 - \widehat{\mu}_0) > \frac{1}{2}(\widehat{\mu}_1 + \widehat{\mu}_0)^{t}\widehat{\Sigma}^{-1}(\widehat{\mu}_1 - \widehat{\mu}_0) - log(n_1/n_0)
-$$
+$$ \mathbf{x}^{t} \widehat{\Sigma}^{-1}(\widehat{\mu}_1 - \widehat{\mu}_0) > \frac{1}{2}(\widehat{\mu}_1 + \widehat{\mu}_0)^{t}\widehat{\Sigma}^{-1}(\widehat{\mu}_1 - \widehat{\mu}_0) - log(n_1/n_0) $$
 
 Si, en esta ecuación, llamamos $\mathbf{w}=\widehat{\Sigma}^{-1}(\widehat{\mu}_1 - \widehat{\mu}_0)$, podemos reescribir la expresión anterior anterior como
 
-$$
-\mathbf{x}^{t}\mathbf{w} > \frac{1}{2}(\widehat{\mu}_1 + \widehat{\mu}_0)^{t}\mathbf{w} - log(n_1/n_0)
-$$ La frontera de decisión entre ambas clases es
+$$ \mathbf{x}^{t} \mathbf{w} > \frac{1}{2}(\widehat{\mu}_1 + \widehat{\mu}_0)^{t}\mathbf{w} - log(n_1/n_0) $$
+La frontera de decisión entre ambas clases es
 
-$$
-\mathbf{x}^{t}\mathbf{w} = \frac{1}{2}(\widehat{\mu}_1 + \widehat{\mu}_0)^{t}\mathbf{w} - log(n_1/n_0)
-$$ que es una combinación lineal de las variables explicativas.
+$$ \mathbf{x}^{t} \mathbf{w} = \frac{1}{2}(\widehat{\mu}_1 + \widehat{\mu}_0)^{t}\mathbf{w} - log(n_1/n_0) $$
+que es una combinación lineal de las variables explicativas.
 
 ¿Cómo se interpreta este procedimiento? Se está proyectando la observación a clasificar y las medias de las clases en una recta y se asigna la observación a la clase cuya media sea la más cercana.
 
 ::: {.callout-note collapse="true" title="Ventajas"}
+## Ventajas
+
 -   **Simple y rápido**
 
 -   **Eficiente cuando se cumple las hipótesis**
@@ -343,6 +344,8 @@ $$ que es una combinación lineal de las variables explicativas.
 :::
 
 ::: {.callout-note collapse="true" title="Desventajas"}
+## Desventajas
+
 -   **Asume normalidad y homocedasticidad**. LDA puede ser sensible a la falta de normalidad en las variables y a la diferente variabilidad en las mismas.
 
 -   **Sensible a outliers**. LDA puede ser sensible a la presencia de valores atípicos en los datos, lo que puede afectar negativamente la calidad del modelo.

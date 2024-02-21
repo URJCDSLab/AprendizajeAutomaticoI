@@ -11,6 +11,8 @@ En el transcurso de este tema, exploraremos brevemente temas de importancia crí
 En primer lugar, tratamos los tipos de datos más comunes organizándose mediante dos clasificaciones distintas.
 
 ::: {.callout-note title="Atención"}
+## Atención
+
 Según su **estructura**, los datos pueden dividirse en datos estructurados y datos no estructurados.
 
 Según su comportamiento a lo largo del **tiempo**, los datos pueden calificarse como datos estáticos o datos dinámicos.
@@ -21,10 +23,14 @@ Según su comportamiento a lo largo del **tiempo**, los datos pueden calificarse
 Esta organización se enfoca en determinar si los datos exhiben una estructura definida en el momento de su obtención o si, por el contrario, carecen de un esquema determinista. A continuación, describiremos las distintas categorías de datos de acuerdo con esta clasificación:
 
 ::: {.callout-note collapse="true" title="Datos estructurados"}
+## Datos estructurados
+
 Los datos estructurados son aquellos que poseen una longitud, un tipo, un formato y un tamaño definidos. Por lo general, estos datos se organizan en forma de tabla o se almacenan en una base de datos relacional (tablas de columnas y filas), que establece relaciones entre las diversas propiedades de las observaciones.
 :::
 
 ::: {.callout-note collapse="true" title="Datos no estructurados"}
+## Datos no estructurados
+
 Los datos no estructurados, en cambio, carecen de un formato específico. Suelen extraerse de documentos de texto, videos u otras fuentes similares. Como ejemplo, la oración que estás leyendo en este momento contiene datos no estructurados, ya que no sigue un formato particular, y los usuarios no pueden anticipar si se organiza de acuerdo con algún esquema predefinido.
 :::
 

@@ -844,9 +844,10 @@ Tarea
     f_c(\mathbf{x}) = \frac{1}{(2\pi)^{p/2}|\Sigma_k|^{1/2}}e^{-\frac{1}{2}(\mathbf{x}-\mu_k)^{t}\Sigma_k^{-1}(\mathbf{x}-\mu_k)}
     \]</span></p>
 <p>Además, también se asume que las clases comparten la misma matriz de varianzas covarianzas <span class="math inline">\(\Sigma_c=\Sigma, \ \forall c\)</span>.</p>
-<p>En base a estas asunciones, comparemos las probabilidades de ambas clases: <span class="math display">\[
-log\left( \frac{P(C=1|\mathbf{X}=\mathbf{x})}{P(C=0|\mathbf{X}=\mathbf{x})} \right) = log\left( \frac{f_1(\mathbf{x})}{f_0(\mathbf{x})} \right) + log\left( \frac{P(1)}{P(0)} \right) =\]</span> $$= log( ) - (_1 + _0)<sup>{t}</sup>{-1}(_1-_0) + <sup>{t}</sup>{-1}(_1-_0)</p>
-<p>$$</p>
+<p>En base a estas asunciones, comparemos las probabilidades de ambas clases:</p>
+<p><span class="math display">\[
+log\left( \frac{P(C=1|\mathbf{X}=\mathbf{x})}{P(C=0|\mathbf{X}=\mathbf{x})} \right) = log\left( \frac{f_1(\mathbf{x})}{f_0(\mathbf{x})} \right) + log\left( \frac{P(1)}{P(0)} \right) =\]</span></p>
+<p><span class="math display">\[ = log\left( \frac{P(1)}{P(0)} \right) - \frac{1}{2}(\mu_1 + \mu_0)^{t}\Sigma^{-1}(\mu_1-\mu_0) + \mathbf{x}^{t}\Sigma^{-1}(\mu_1-\mu_0) \]</span></p>
 <p>Obtenemos una ecuación que es lineal en <span class="math inline">\(\mathbf{x}\)</span>. Es decir, la frontera de decisión entre las clases <span class="math inline">\(0\)</span> y <span class="math inline">\(1\)</span> es una ecuación lineal, un hiperplano en dimensión <span class="math inline">\(p\)</span>.</p>
 <p>En la práctica, se desconocen los parámetros de la distribución Normal. Se estiman con los datos de entrenamiento:</p>
 <ul>
@@ -857,16 +858,12 @@ log\left( \frac{P(C=1|\mathbf{X}=\mathbf{x})}{P(C=0|\mathbf{X}=\mathbf{x})} \rig
 <p>¿Cómo se lleva entonces a cabo la clasificación? Como la frontera es un hiperplano separador, se comparará a qué población está más cercano cada observación. Esto es, para clasificar una observación como perteneciente a la clase <span class="math inline">\(1\)</span>, tendrá que ocurrir que</p>
 <p><span class="math display">\[ log\left( \frac{P(C=1|\mathbf{X}=\mathbf{x})}{P(C=0|\mathbf{X}=\mathbf{x})} \right) &gt;0\]</span></p>
 <p>y esto es equivalente a</p>
-<p>$$</p>
-<p><sup>{t}</sup>{-1}(_1 - _0) &gt; (_1 + _0)<sup>{t}</sup>{-1}(_1 - _0) - log(n_1/n_0)</p>
-<p>$$</p>
+<p><span class="math display">\[ \mathbf{x}^{t} \widehat{\Sigma}^{-1}(\widehat{\mu}_1 - \widehat{\mu}_0) &gt; \frac{1}{2}(\widehat{\mu}_1 + \widehat{\mu}_0)^{t}\widehat{\Sigma}^{-1}(\widehat{\mu}_1 - \widehat{\mu}_0) - log(n_1/n_0) \]</span></p>
 <p>Si, en esta ecuación, llamamos <span class="math inline">\(\mathbf{w}=\widehat{\Sigma}^{-1}(\widehat{\mu}_1 - \widehat{\mu}_0)\)</span>, podemos reescribir la expresión anterior anterior como</p>
-<p>$$</p>
-<p>^{t} &gt; (_1 + _0)^{t} - log(n_1/n_0)</p>
-<p>$$ La frontera de decisión entre ambas clases es</p>
-<p>$$</p>
-<p>^{t} = (_1 + _0)^{t} - log(n_1/n_0)</p>
-<p>$$ que es una combinación lineal de las variables explicativas.</p>
+<p><span class="math display">\[ \mathbf{x}^{t} \mathbf{w} &gt; \frac{1}{2}(\widehat{\mu}_1 + \widehat{\mu}_0)^{t}\mathbf{w} - log(n_1/n_0) \]</span></p>
+<p>La frontera de decisión entre ambas clases es</p>
+<p><span class="math display">\[ \mathbf{x}^{t} \mathbf{w} = \frac{1}{2}(\widehat{\mu}_1 + \widehat{\mu}_0)^{t}\mathbf{w} - log(n_1/n_0) \]</span></p>
+<p>que es una combinación lineal de las variables explicativas.</p>
 <p>¿Cómo se interpreta este procedimiento? Se está proyectando la observación a clasificar y las medias de las clases en una recta y se asigna la observación a la clase cuya media sea la más cercana.</p>
 <div class="callout-note callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
@@ -874,7 +871,7 @@ log\left( \frac{P(C=1|\mathbf{X}=\mathbf{x})}{P(C=0|\mathbf{X}=\mathbf{x})} \rig
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Nota
+Ventajas
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -895,7 +892,7 @@ Nota
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Nota
+Desventajas
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>

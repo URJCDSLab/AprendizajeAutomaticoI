@@ -25,6 +25,8 @@ Cuando incrementamos la **información** (en forma de variables o combinación d
 -   **Pérdida de generalidad**: Si añadimos demasiados parámetros de entrada a un modelo es posible representar exactamente la información de los datos de entrenamiento, pero es muy probable que el modelo sea pésimo para nuevos datos. Es lo que se conoce como **sobreajuste** ("*overfitting*" en inglés).
 
 ::: {.callout-tip title="George E.P. Box"}
+## George E. P. Box
+
 "Todos los modelos están equivocados, pero algunos son útiles"
 :::
 
@@ -71,38 +73,56 @@ Normalmente, a medida que aumenta la complejidad del modelo, se observa una redu
 A continuación te explicaremos algunas técnicas para conseguir evitar el problema del sobreajuste. Despliega los paneles siguientes para obtener más información.
 
 ::: {.callout-note collapse="true" title="Aumentar el tamaño de la muestra"}
+## Aumentar el tamaño de la muestra
+
 Obtener más datos de entrenamiento puede ayudar a reducir el riesgo de sobreajuste. Cuanto más datos tengas disponibles, más probable es que el modelo aprenda patrones reales en lugar de ruido.
 :::
 
 ::: {.callout-note collapse="true" title="Validación cruzada"}
+## Validación cruzada
+
 Utiliza técnicas de validación cruzada, como la validación cruzada $k$-fold, para evaluar el rendimiento del modelo en diferentes subconjuntos de datos de entrenamiento y prueba. Esto puede ayudar a identificar si el modelo está sobreajustando en una sola partición de los datos. Ver @sec-data para una completa descripción.
 :::
 
 ::: {.callout-note collapse="true" title="Regularización"}
+## Regularización
+
 Aplica técnicas de regularización como la regularización L1 (Lasso) y L2 (Ridge) para penalizar los coeficientes de las características menos importantes. Esto ayuda a simplificar el modelo, eliminando parámetros del modelo, y evitar que se ajuste demasiado a los datos. Es probable que estudies estas técnicas en asignaturas de cursos más avanzados.
 :::
 
 ::: {.callout-note collapse="true" title="Selección de características"}
+## Selección de características
+
 Elimina características irrelevantes o redundantes que no contribuyan significativamente a la capacidad predictiva del modelo. Una menor dimensionalidad puede reducir el riesgo de sobreajuste.
 :::
 
 ::: {.callout-note collapse="true" title="Modelos más simples"}
+## Modelos más simples
+
 Considera modelos más simples con menos parámetros, como regresiones lineales en lugar de modelos polinómicos complejos. Los modelos simples tienden a tener menos probabilidad de sobreajuste.
 :::
 
 ::: {.callout-note collapse="true" title="Dropout"}
+## Dropout
+
 En modelos de redes neuronales, el *dropout* es una técnica que consiste en apagar aleatoriamente una fracción de las neuronas durante el entrenamiento. Esto evita que las neuronas se vuelvan demasiado dependientes entre sí y reduce el riesgo de sobreajuste.
 :::
 
 ::: {.callout-note collapse="true" title="Partición de los datos"}
+## Partición de los datos
+
 Tal y como te explicamos en el @sec-data, divide tus datos en tres conjuntos: entrenamiento, validación y prueba. Utiliza el conjunto de validación para ajustar los hiperparámetros del modelo y el conjunto de prueba solo para la evaluación final.
 :::
 
 ::: {.callout-note collapse="true" title="Seguimiento del rendimiento"}
+## Seguimiento del rendimiento
+
 Controla regularmente el rendimiento del modelo en el conjunto de prueba durante el entrenamiento. Si el rendimiento en el conjunto de prueba comienza a empeorar mientras mejora en el conjunto de entrenamiento, es una señal de posible sobreajuste.
 :::
 
 ::: {.callout-note collapse="true" title="Ensemble Learning"}
+## Ensemble Learning
+
 Combina múltiples modelos juntos, como *Random Forests* o *Gradient Boosting*, que pueden reducir el riesgo de sobreajuste al promediar las predicciones de varios modelos. Trataremos estas técnicas en el @sec-aprsup.
 :::
 

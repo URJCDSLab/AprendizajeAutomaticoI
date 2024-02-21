@@ -27,10 +27,14 @@ Podéis encontrar una amplia revisión de los algoritmos de agrupamiento en [@xu
 En ocasiones los algoritmos de agrupamiento se clasifican en agrupamiento jerárquico y agrupamiento no jerárquico.
 
 ::: {.callout-note collapse="true" title="Agrupamiento jerárquico"}
+## Agrupamiento jerárquico
+
 El agrupamiento jerárquico tiene la particularidad de que encuentra grupos **anidados** de clústeres. Es decir, cuando una observación forma parte de un clúster, no lo abandona, pudiéndose unir el clúster a otros clústeres en etapas posteriores.
 :::
 
 ::: {.callout-note collapse="true" title="Agrupamiento no jerárquico"}
+## Agrupamiento no jerárquico
+
 Por contra, el agrupamiento no jerárquico genera una clasificación mediante la partición del conjunto de datos, obteniendo un conjunto de clústeres **no superpuestos** que no tienen relaciones jerárquicas entre sí.
 :::
 
@@ -43,10 +47,14 @@ Un parámetro es un valor que el algoritmo del modelo de ML ajusta durante el pr
 En ocasiones se diferencia entre dos tipos de parámetros en un modelo de ML:
 
 ::: {.callout-note collapse="true" title="Parámetros del modelo"}
+## Parámetros del modelo
+
 Estos son los componentes internos del modelo que definen su estructura y su capacidad para representar relaciones en los datos. Por ejemplo, en una red neuronal, los pesos y sesgos en las capas de neuronas son parámetros del modelo. En una regresión lineal, los coeficientes son parámetros del modelo.
 :::
 
 ::: {.callout-note collapse="true" title="Hiperparámetros del modelo"}
+## Hiperpárametros del modelo
+
 A diferencia de los parámetros del modelo, los **hiperparámetros** son valores que se establecen antes del proceso de entrenamiento y controlan aspectos más generales del modelo. Ejemplos de hiperparámetros incluyen la tasa de aprendizaje, la cantidad de capas ocultas en una red neuronal, el valor $k$ en el modelo de $k$ vecinos, la profundidad de un árbol de decisión, etc. Los hiperparámetros afectan cómo se ajustan los parámetros del modelo durante el entrenamiento.
 :::
 
@@ -77,10 +85,14 @@ Se iteran estos dos últimos pasos hasta la convergencia de los centroides. Esto
 Despliega los paneles siguientes para averiguar las principales ventajas y desventajas de este modelo de ML.
 
 ::: {.callout-note collapse="true" title="Ventajas"}
+## Ventajas
+
 Las principales ventajas del algoritmo de las $k$-medias son su **sencillez** y su **escalabilidad** (aplicable con facilidad a grandes conjuntos de datos).
 :::
 
 ::: {.callout-note collapse="true" title="Desventajas"}
+## Desventajas
+
 Las principales desventajas son la necesidad de elegir $k$ manualmente y la alta **dependencia** de los valores iniciales, las medias con las que comienza el algoritmo. Para evitar esta última desventaja se suele replicar el algoritmo varias veces con distintas inicializaciones. Además, los centroides pueden verse fuertemente influidos por **valores atípicos**.
 :::
 
@@ -305,22 +317,32 @@ Las técnicas de agrupamiento jerárquico generan una clasificación iterativa d
 Se necesita un criterio de conexión o "*linkage*" que especifique cómo se determina el parecido (o la disimilitud) entre dos clústeres. Este criterio no es único. Algunos de los criterios más comunes son:
 
 ::: {.callout-note title="Método de Ward"}
+## Método de Ward
+
 Minimiza la suma de las diferencias cuadradas dentro de los clústeres. Minimiza la varianza total dentro del conglomerado.
 :::
 
 ::: {.callout-note title="Agrupamiento de enlace completo"}
+## Agrupamiento de enlace completo
+
 Minimiza la disimilitud máxima entre las observaciones de dos clústeres. Calcula todas las disimilitudes por pares entre los elementos del conglomerado A y los elementos del conglomerado B, y considera el mayor valor (es decir, el valor máximo) de estas disimilitudes como la distancia entre los dos conglomerados. Tiende a producir clusters más compactos.
 :::
 
 ::: {.callout-note title="Agrupamiento de enlace promedio"}
+## Agrupamiento de enlace promedio
+
 Minimiza el promedio de las disimilitudes entre las observaciones de dos clústeres. Calcula todas las disimilitudes por pares entre los elementos del conglomerado A y los elementos del conglomerado B, y considera la media de estas disimilitudes como la distancia entre los dos conglomerados.
 :::
 
 ::: {.callout-note title="Agrupamiento de enlace mínimo o simple"}
+## Agrupamiento de enlace mínimo o simple
+
 Minimiza las disimilitudes entre las observaciones más cercanas de dos clústeres. Es decir, calcula todas las disimilitudes por pares entre los elementos del conglomerado A y los elementos del conglomerado B, y considera la menor de estas disimilitudes como criterio de vinculación. Tiende a producir clusters largos y "dispersos".
 :::
 
 ::: {.callout-note title="Agrupamiento de enlace de centroides"}
+## Agrupamiento de enlace de centroides
+
 Calcula la disimilitud entre el centroide del conglomerado A y el centroide del conglomerado B. Agrupación de enlace de centroides.
 :::
 
@@ -480,6 +502,8 @@ fviz_gap_stat(gap_stat)
 ```
 
 ::: {.callout-note collapse="true" title="Ventajas del clustering jerárquico"}
+## Ventajas del clustering jerárquico
+
 -   **Jerarquía de Clusters**: El clustering jerárquico crea una jerarquía de clusters que permite analizar los datos a diferentes niveles de granularidad. Es posible, por tanto, explorar tanto clusters globales como subgrupos más específicos. Al tener una jerarquía de clusters, puedes tomar decisiones a diferentes niveles de detalle. Esto es valioso para la segmentación de mercado, la taxonomía de especies, la organización de documentos, entre otros.
 
 -   **Interpretación Visual**: El dendrograma facilita la interpretación visual de cómo se agrupan los datos y cómo se relacionan entre sí.
@@ -496,6 +520,8 @@ fviz_gap_stat(gap_stat)
 :::
 
 ::: {.callout-note collapse="true" title="Desventajas del clustering jerárquico"}
+## Desventajas del clustering jerárquico
+
 -   **Requiere definir un criterio de corte**: Para convertir la jerarquía en clusters finales, es necesario definir un criterio de corte en el dendrograma. Esta elección puede ser subjetiva y afectar los resultados. Así mismo hay que definir el tipo de enlace a emplear (y la medida de disimilitud) Cada una de estas decisiones puede influir mucho en los resultados obtenidos. En la práctica, probamos varias opciones diferentes y buscamos la que ofrece la solución más útil o interpretable.
 
 -   Con estos métodos, **no hay una única respuesta correcta**: debe considerarse cualquier solución que exponga algunos aspectos interesantes de los datos.
@@ -524,6 +550,8 @@ El proceso de clustering con SOM implica organizar datos en grupos o clusters de
 4.  **Agrupación en Clusters**: Después del entrenamiento, las neuronas en el mapa SOM que están cerca una de la otra representan clusters de datos. Los datos que se asignaron a estas neuronas durante el entrenamiento se consideran miembros de un mismo cluster.
 
 ::: {.callout-note collapse="true" title="Ventajas"}
+## Ventajas
+
 -   **Topología Preservada**: Una ventaja clave de los SOM en el clustering es que preservan la topología de los datos. Esto significa que los clusters en el SOM reflejan la estructura de vecindad en los datos originales, lo que facilita la interpretación de los resultados.
 
 -   **Escalabilidad**: Los SOM pueden manejar grandes conjuntos de datos y dimensiones elevadas, lo que los hace útiles para aplicaciones del mundo real con datos complejos.
@@ -538,6 +566,8 @@ El proceso de clustering con SOM implica organizar datos en grupos o clusters de
 :::
 
 ::: {.callout-note collapse="true" title="Desventajas"}
+## Desventajas
+
 -   **Sensibilidad a la Inicialización**: Los SOM son sensibles a la inicialización de los pesos de las neuronas. Los resultados pueden variar significativamente según cómo se configuren los pesos iniciales, lo que significa que pueden converger a soluciones subóptimas si no se seleccionan adecuadamente los valores iniciales.
 
 -   **Determinación del Tamaño del Mapa**: Elegir el tamaño adecuado para el mapa SOM puede ser un desafío. Si el mapa es demasiado pequeño, puede no capturar la estructura de los datos correctamente, mientras que si es demasiado grande, puede sobreajustarse a los datos y perder la capacidad de generalización.
