@@ -779,7 +779,7 @@ Prediction   no  yes
                                           </code></pre>
 </div>
 </div>
-<p>En la salida tenemos algunas de las medidas de rendimiento estudiadas en el <a href="eval.html"><span>Capítulo&nbsp;6</span></a>. Sin embargo, no aparece el <span class="math inline">\(F_1-score\)</span>, media harmónica de la Precisión y la Recuperación. En cualquier caso, es fácil de programar:</p>
+<p>En la salida tenemos algunas de las medidas de rendimiento estudiadas en el <a href="eval.html"><span>Capítulo&nbsp;6</span></a>. Sin embargo, no aparece el <span class="math inline">\(F_1-score\)</span>, media armónica de la Precisión y la Recuperación. En cualquier caso, es fácil de programar:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>clase.pred<span class="ot">=</span><span class="fu">ifelse</span>(predicciones<span class="sc">&gt;</span><span class="fl">0.5</span>,<span class="st">"yes"</span>,<span class="st">"no"</span>)</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -860,10 +860,8 @@ log\left( \frac{P(C=1|\mathbf{X}=\mathbf{x})}{P(C=0|\mathbf{X}=\mathbf{x})} \rig
 <p>y esto es equivalente a</p>
 <p><span class="math display">\[ \mathbf{x}^{t} \widehat{\Sigma}^{-1}(\widehat{\mu}_1 - \widehat{\mu}_0) &gt; \frac{1}{2}(\widehat{\mu}_1 + \widehat{\mu}_0)^{t}\widehat{\Sigma}^{-1}(\widehat{\mu}_1 - \widehat{\mu}_0) - log(n_1/n_0) \]</span></p>
 <p>Si, en esta ecuación, llamamos <span class="math inline">\(\mathbf{w}=\widehat{\Sigma}^{-1}(\widehat{\mu}_1 - \widehat{\mu}_0)\)</span>, podemos reescribir la expresión anterior anterior como</p>
-<p><span class="math display">\[ \mathbf{x}^{t} \mathbf{w} &gt; \frac{1}{2}(\widehat{\mu}_1 + \widehat{\mu}_0)^{t}\mathbf{w} - log(n_1/n_0) \]</span></p>
-<p>La frontera de decisión entre ambas clases es</p>
-<p><span class="math display">\[ \mathbf{x}^{t} \mathbf{w} = \frac{1}{2}(\widehat{\mu}_1 + \widehat{\mu}_0)^{t}\mathbf{w} - log(n_1/n_0) \]</span></p>
-<p>que es una combinación lineal de las variables explicativas.</p>
+<p><span class="math display">\[ \mathbf{x}^{t} \mathbf{w} &gt; \frac{1}{2}(\widehat{\mu}_1 + \widehat{\mu}_0)^{t}\mathbf{w} - log(n_1/n_0) \]</span> La frontera de decisión entre ambas clases es</p>
+<p><span class="math display">\[ \mathbf{x}^{t} \mathbf{w} = \frac{1}{2}(\widehat{\mu}_1 + \widehat{\mu}_0)^{t}\mathbf{w} - log(n_1/n_0) \]</span> que es una combinación lineal de las variables explicativas.</p>
 <p>¿Cómo se interpreta este procedimiento? Se está proyectando la observación a clasificar y las medias de las clases en una recta y se asigna la observación a la clase cuya media sea la más cercana.</p>
 <div class="callout-note callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
@@ -983,7 +981,7 @@ Desventajas
 </div>
 <p>Aplicamos el algoritmo a nuestro problema de los datos bancarios.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Uzamos 10-fold cross validation </span></span>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Usamos 10-fold cross validation </span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>trainControl <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method=</span><span class="st">"repeatedcv"</span>, <span class="at">number=</span><span class="dv">10</span>, <span class="at">repeats=</span><span class="dv">3</span>)</span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>metric <span class="ot">&lt;-</span> <span class="st">"Accuracy"</span></span>
 <span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -1857,12 +1855,13 @@ callbacks:
 niter: 10
 nfeatures : 8 
 evaluation_log:
-    iter train_logloss
-       1     0.6204931
-       2     0.5761893
----                   
-       9     0.4676060
-      10     0.4620354</code></pre>
+     iter train_logloss
+    &lt;num&gt;         &lt;num&gt;
+        1     0.6204931
+        2     0.5761893
+---                    
+        9     0.4676060
+       10     0.4620354</code></pre>
 </div>
 </div>
 <p>Ahora podemos examinar e interpretar nuestro modelo XGBoost. Una forma en que podemos examinar nuestro modelo es observando una representación de la combinación de todos los DTs en nuestro modelo. Dado que todos los árboles tienen la misma profundidad podemos apilarlos unos encima de otros y elegir las características que aparecen con más frecuencia en cada nodo.</p>

@@ -231,7 +231,7 @@ confusionMatrix(data=as.factor(clase.pred),reference=as.factor(bank.train$deposi
 
 ```
 
-En la salida tenemos algunas de las medidas de rendimiento estudiadas en el @sec-eval. Sin embargo, no aparece el $F_1-score$, media harmónica de la Precisión y la Recuperación. En cualquier caso, es fácil de programar:
+En la salida tenemos algunas de las medidas de rendimiento estudiadas en el @sec-eval. Sin embargo, no aparece el $F_1-score$, media armónica de la Precisión y la Recuperación. En cualquier caso, es fácil de programar:
 
 ```{r}
 clase.pred=ifelse(predicciones>0.5,"yes","no")
@@ -323,11 +323,9 @@ $$ \mathbf{x}^{t} \widehat{\Sigma}^{-1}(\widehat{\mu}_1 - \widehat{\mu}_0) > \fr
 
 Si, en esta ecuación, llamamos $\mathbf{w}=\widehat{\Sigma}^{-1}(\widehat{\mu}_1 - \widehat{\mu}_0)$, podemos reescribir la expresión anterior anterior como
 
-$$ \mathbf{x}^{t} \mathbf{w} > \frac{1}{2}(\widehat{\mu}_1 + \widehat{\mu}_0)^{t}\mathbf{w} - log(n_1/n_0) $$
-La frontera de decisión entre ambas clases es
+$$ \mathbf{x}^{t} \mathbf{w} > \frac{1}{2}(\widehat{\mu}_1 + \widehat{\mu}_0)^{t}\mathbf{w} - log(n_1/n_0) $$ La frontera de decisión entre ambas clases es
 
-$$ \mathbf{x}^{t} \mathbf{w} = \frac{1}{2}(\widehat{\mu}_1 + \widehat{\mu}_0)^{t}\mathbf{w} - log(n_1/n_0) $$
-que es una combinación lineal de las variables explicativas.
+$$ \mathbf{x}^{t} \mathbf{w} = \frac{1}{2}(\widehat{\mu}_1 + \widehat{\mu}_0)^{t}\mathbf{w} - log(n_1/n_0) $$ que es una combinación lineal de las variables explicativas.
 
 ¿Cómo se interpreta este procedimiento? Se está proyectando la observación a clasificar y las medias de las clases en una recta y se asigna la observación a la clase cuya media sea la más cercana.
 
@@ -416,7 +414,7 @@ Para determinar el valor óptimo de $k$ en función de los datos, ejecutamos el 
 Aplicamos el algoritmo a nuestro problema de los datos bancarios.
 
 ```{r}
-# Uzamos 10-fold cross validation 
+# Usamos 10-fold cross validation 
 trainControl <- trainControl(method="repeatedcv", number=10, repeats=3)
 metric <- "Accuracy"
 
