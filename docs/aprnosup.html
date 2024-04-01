@@ -507,17 +507,17 @@ Colorado   0.02571456 0.3988593  0.8608085  1.864967207</code></pre>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(k2)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>List of 9
- $ cluster     : Named int [1:50] 1 1 1 2 1 1 2 2 1 1 ...
+ $ cluster     : Named int [1:50] 2 2 2 1 2 2 1 1 2 2 ...
   ..- attr(*, "names")= chr [1:50] "Alabama" "Alaska" "Arizona" "Arkansas" ...
- $ centers     : num [1:2, 1:4] 1.005 -0.67 1.014 -0.676 0.198 ...
+ $ centers     : num [1:2, 1:4] -0.67 1.005 -0.676 1.014 -0.132 ...
   ..- attr(*, "dimnames")=List of 2
   .. ..$ : chr [1:2] "1" "2"
   .. ..$ : chr [1:4] "Murder" "Assault" "UrbanPop" "Rape"
  $ totss       : num 196
- $ withinss    : num [1:2] 46.7 56.1
+ $ withinss    : num [1:2] 56.1 46.7
  $ tot.withinss: num 103
  $ betweenss   : num 93.1
- $ size        : int [1:2] 20 30
+ $ size        : int [1:2] 30 20
  $ iter        : int 1
  $ ifault      : int 0
  - attr(*, "class")= chr "kmeans"</code></pre>
@@ -540,37 +540,37 @@ Tarea
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>k2 </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>K-means clustering with 2 clusters of sizes 20, 30
+<pre><code>K-means clustering with 2 clusters of sizes 30, 20
 
 Cluster means:
      Murder    Assault   UrbanPop       Rape
-1  1.004934  1.0138274  0.1975853  0.8469650
-2 -0.669956 -0.6758849 -0.1317235 -0.5646433
+1 -0.669956 -0.6758849 -0.1317235 -0.5646433
+2  1.004934  1.0138274  0.1975853  0.8469650
 
 Clustering vector:
        Alabama         Alaska        Arizona       Arkansas     California 
-             1              1              1              2              1 
+             2              2              2              1              2 
       Colorado    Connecticut       Delaware        Florida        Georgia 
-             1              2              2              1              1 
-        Hawaii          Idaho       Illinois        Indiana           Iowa 
-             2              2              1              2              2 
-        Kansas       Kentucky      Louisiana          Maine       Maryland 
-             2              2              1              2              1 
- Massachusetts       Michigan      Minnesota    Mississippi       Missouri 
-             2              1              2              1              1 
-       Montana       Nebraska         Nevada  New Hampshire     New Jersey 
-             2              2              1              2              2 
-    New Mexico       New York North Carolina   North Dakota           Ohio 
-             1              1              1              2              2 
-      Oklahoma         Oregon   Pennsylvania   Rhode Island South Carolina 
-             2              2              2              2              1 
-  South Dakota      Tennessee          Texas           Utah        Vermont 
              2              1              1              2              2 
+        Hawaii          Idaho       Illinois        Indiana           Iowa 
+             1              1              2              1              1 
+        Kansas       Kentucky      Louisiana          Maine       Maryland 
+             1              1              2              1              2 
+ Massachusetts       Michigan      Minnesota    Mississippi       Missouri 
+             1              2              1              2              2 
+       Montana       Nebraska         Nevada  New Hampshire     New Jersey 
+             1              1              2              1              1 
+    New Mexico       New York North Carolina   North Dakota           Ohio 
+             2              2              2              1              1 
+      Oklahoma         Oregon   Pennsylvania   Rhode Island South Carolina 
+             1              1              1              1              2 
+  South Dakota      Tennessee          Texas           Utah        Vermont 
+             1              2              2              1              1 
       Virginia     Washington  West Virginia      Wisconsin        Wyoming 
-             2              2              2              2              2 
+             1              1              1              1              1 
 
 Within cluster sum of squares by cluster:
-[1] 46.74796 56.11445
+[1] 56.11445 46.74796
  (between_SS / total_SS =  47.5 %)
 
 Available components:
@@ -655,8 +655,8 @@ Nombrar los grupos
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_silhouette</span>(sil)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  cluster size ave.sil.width
-1       1   20          0.37
-2       2   30          0.43</code></pre>
+1       1   30          0.43
+2       2   20          0.37</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="aprnosup_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>

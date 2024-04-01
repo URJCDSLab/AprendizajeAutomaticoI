@@ -53,7 +53,7 @@ La **distribución de probabilidad** (componente aleatoria) describe cómo se di
 | ANCOVA               | Normal               | Identidad         | Cuantitativas y Cualitativas   |
 | Regresión Logística  | Binomial             | Logit             | Cuantitativas y Cualitativas   |
 | LogLinear            | Poisson              | Log               | Cualitativas                   |
-| Regresión de Poisson | Posisson             | Log               | Cuantitativas y Cualitativas   |
+| Regresión de Poisson | Poisson              | Log               | Cuantitativas y Cualitativas   |
 
 ::: callout-important
 # Para recordar
