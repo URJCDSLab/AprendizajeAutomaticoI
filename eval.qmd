@@ -18,7 +18,7 @@ En modelos de ML, se utilizan diferentes medidas de rendimiento para evaluar el 
 
 ## Complejidad de un modelo
 
-Cuando incrementamos la **información** (en forma de variables o combinación de las mismas) con la que se entrena el modelo, el error casi siempre suele reducirse, lo cual es bueno (¡a primera vista!). Sin embargo, cuantas más variables de entrada tengamos en el modelo más complicado se vuelve. Esto no es tan bueno por dos motivos fundmentales:
+Cuando incrementamos la **información** (en forma de variables o combinación de las mismas) con la que se entrena el modelo, el error casi siempre suele reducirse, lo cual es bueno (¡a primera vista!). Sin embargo, cuantas más variables de entrada tengamos en el modelo más complicado se vuelve. Esto no es tan bueno por dos motivos fundamentales:
 
 -   **Principio de parsimonia**: Preferimos modelos sencillos y fáciles de explicar, a modelos complicados. Este principio también es conocido como "*navaja de Occam*".
 
