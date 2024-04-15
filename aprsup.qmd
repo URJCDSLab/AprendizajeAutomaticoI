@@ -47,7 +47,7 @@ $$g(E(y|x))=\eta(x)$$
 La **distribución de probabilidad** (componente aleatoria) describe cómo se distribuyen los datos alrededor de la media y puede adaptarse a diferentes tipos de datos, como datos binarios, Poisson, binomiales o exponenciales, entre otros. Esto brinda flexibilidad para modelar una variedad de escenarios de datos. Por ejemplo, en el caso de la conocida *regresión lineal* se asume que la variable respuesta sigue una distribución *Normal*. Mediante la componente aleatoria determinamos cómo añadir el ruido o error aleatorio a la predicción que se obtiene de la función de enlace. La tabla siguiente, adaptada de [@agresti2015foundations], resume los GLM:
 
 | Modelo               | Componente aleatoria | Función de enlace | Tipo de variables explicativas |
-|----------------------|----------------------|-------------------|--------------------------------|
+|-----------------|-----------------|-----------------|-----------------------|
 | Regresión Lineal     | Normal               | Identidad         | Cuantitativas                  |
 | ANOVA                | Normal               | Identidad         | Cuantitativas                  |
 | ANCOVA               | Normal               | Identidad         | Cuantitativas y Cualitativas   |
@@ -586,7 +586,7 @@ No se están teniendo en cuenta *todas* las variables disponibles en el conjunto
 Podemos interpretar el resto de los nodos terminales del ejemplo como sigue:
 
 | Nodo | Descripción                                                                          | Tamaño relativo (%) | Prob("yes") |
-|------|--------------------------------------------------------------------------------------|:--------------------|:------------|
+|-----------|----------------------------------------|:----------|:----------|
 | 1    | duration \< 343, poutcome=failure,other or unkonwn, housing=yes                      | 26.0                | 0.11        |
 | 2    | duration \< 124, poutcome=failure,other or unkonwn, housing=yes                      | 9.0                 | 0.13        |
 | 3    | 124\<=duration \< 343, poutcome=failure,other or unkonwn, housing=yes, balance\<274  | 7.0                 | 0.29        |
@@ -991,7 +991,7 @@ La probabilidad de clase $P(Y_k)$ se denomina probabilidad a priori, y:
 
 $$\prod_{j=1}^nP(X_j|Y_k) $$
 
-es la verosimilitud. La verosimilitud mide cómo de verosímiles son las observaciones de las variables explicativas dado que se ha observado una determinada etiqueta en la variable respuesta. Si la variable es cualitativa, habitualmente se asume una distribución Normal. En caso de variables cuantitativas, se suele asumir la distribución Multinomial.
+es la verosimilitud. La verosimilitud mide cómo de verosímiles son las observaciones de las variables explicativas dado que se ha observado una determinada etiqueta en la variable respuesta. Si la variable $X_j$ es cualitativa, para estimar la verosimilitud de la clase $k$ con el predictor $j$, se cuenta la proporción de observaciones de la muestra de entrenamiento de la clase $k$ en cada categoría de dicha variable. Si la variable $X_j$ es cuantitativa, habitualmente se asume una distribución Normal (aunque también se pueden usar opciones no paramétricas como histogramas).
 
 Finalmente se predice para cada conjunto de variables explicativas la clase con mayor probabilidad de clase condicionada $P(Y_k|X_1,\ldots,X_n)$.
 
