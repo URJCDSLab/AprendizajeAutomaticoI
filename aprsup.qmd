@@ -47,7 +47,7 @@ $$g(E(y|x))=\eta(x)$$
 La **distribución de probabilidad** (componente aleatoria) describe cómo se distribuyen los datos alrededor de la media y puede adaptarse a diferentes tipos de datos, como datos binarios, Poisson, binomiales o exponenciales, entre otros. Esto brinda flexibilidad para modelar una variedad de escenarios de datos. Por ejemplo, en el caso de la conocida *regresión lineal* se asume que la variable respuesta sigue una distribución *Normal*. Mediante la componente aleatoria determinamos cómo añadir el ruido o error aleatorio a la predicción que se obtiene de la función de enlace. La tabla siguiente, adaptada de [@agresti2015foundations], resume los GLM:
 
 | Modelo               | Componente aleatoria | Función de enlace | Tipo de variables explicativas |
-|-----------------|-----------------|-----------------|-----------------------|
+|-----------------|-----------------|-----------------|---------------------|
 | Regresión Lineal     | Normal               | Identidad         | Cuantitativas                  |
 | ANOVA                | Normal               | Identidad         | Cuantitativas                  |
 | ANCOVA               | Normal               | Identidad         | Cuantitativas y Cualitativas   |
@@ -586,7 +586,7 @@ No se están teniendo en cuenta *todas* las variables disponibles en el conjunto
 Podemos interpretar el resto de los nodos terminales del ejemplo como sigue:
 
 | Nodo | Descripción                                                                          | Tamaño relativo (%) | Prob("yes") |
-|-----------|----------------------------------------|:----------|:----------|
+|-------------|---------------------------------|:------------|:------------|
 | 1    | duration \< 343, poutcome=failure,other or unkonwn, housing=yes                      | 26.0                | 0.11        |
 | 2    | duration \< 124, poutcome=failure,other or unkonwn, housing=yes                      | 9.0                 | 0.13        |
 | 3    | 124\<=duration \< 343, poutcome=failure,other or unkonwn, housing=yes, balance\<274  | 7.0                 | 0.29        |
@@ -773,7 +773,12 @@ print(cf)
 Podemos averiguar la importancia de las variables en el modelo.
 
 ```{r}
-varImp(rf)
+importance(rf)
+```
+
+Las tres primeras columnas hacen referencia a la medida MeanDecreaseAccuracy. La disminución del accuracy se mide permutando los valores del target en las muestras OOB y calculando la disminución correspondiente. Esto se hace para cada árbol y con sus muestras OOB correspondientes para obtener la media y la desviación estándar. La segunda medida es la disminución total de impurezas de nodos a partir de la división en la variable, promediada en todos los árboles.
+
+```{r}
 varImpPlot(rf)
 ```
 

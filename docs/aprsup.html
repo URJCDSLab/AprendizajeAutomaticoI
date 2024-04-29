@@ -324,10 +324,10 @@ Repaso
 <p>La <strong>distribución de probabilidad</strong> (componente aleatoria) describe cómo se distribuyen los datos alrededor de la media y puede adaptarse a diferentes tipos de datos, como datos binarios, Poisson, binomiales o exponenciales, entre otros. Esto brinda flexibilidad para modelar una variedad de escenarios de datos. Por ejemplo, en el caso de la conocida <em>regresión lineal</em> se asume que la variable respuesta sigue una distribución <em>Normal</em>. Mediante la componente aleatoria determinamos cómo añadir el ruido o error aleatorio a la predicción que se obtiene de la función de enlace. La tabla siguiente, adaptada de <span class="citation" data-cites="agresti2015foundations">(<a href="references.html#ref-agresti2015foundations" role="doc-biblioref">Agresti 2015</a>)</span>, resume los GLM:</p>
 <table class="table">
 <colgroup>
-<col style="width: 22%">
-<col style="width: 22%">
-<col style="width: 22%">
-<col style="width: 31%">
+<col style="width: 23%">
+<col style="width: 23%">
+<col style="width: 23%">
+<col style="width: 29%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1304,10 +1304,10 @@ Tarea
 <p>Podemos interpretar el resto de los nodos terminales del ejemplo como sigue:</p>
 <table class="table">
 <colgroup>
-<col style="width: 15%">
-<col style="width: 54%">
-<col style="width: 15%">
-<col style="width: 15%">
+<col style="width: 18%">
+<col style="width: 45%">
+<col style="width: 18%">
+<col style="width: 18%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1678,21 +1678,24 @@ Prediction   no  yes
 </div>
 <p>Podemos averiguar la importancia de las variables en el modelo.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">varImp</span>(rf)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">importance</span>(rf)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>                  no        yes
-age        32.275333  32.275333
-job        11.934786  11.934786
-housing    37.597656  37.597656
-marital     9.492926   9.492926
-education  15.716137  15.716137
-duration  143.795574 143.795574
-poutcome   63.717485  63.717485
-balance    19.018701  19.018701</code></pre>
+<pre><code>                  no       yes MeanDecreaseAccuracy MeanDecreaseGini
+age        31.438028  33.11264             45.60845        301.41991
+job        10.430697  13.43887             18.13609        132.83654
+housing    34.414522  40.78079             47.86956        111.65045
+marital     1.996905  16.98895             15.37603         62.10728
+education  14.223616  17.20866             22.88143         79.54597
+duration  132.331218 155.25993            160.32238       1043.86600
+poutcome   67.541227  59.89374             76.32751        207.81210
+balance    15.950109  22.08729             27.35226        330.12680</code></pre>
 </div>
+</div>
+<p>Las tres primeras columnas hacen referencia a la medida MeanDecreaseAccuracy. La disminución del accuracy se mide permutando los valores del target en las muestras OOB y calculando la disminución correspondiente. Esto se hace para cada árbol y con sus muestras OOB correspondientes para obtener la media y la desviación estándar. La segunda medida es la disminución total de impurezas de nodos a partir de la división en la variable, promediada en todos los árboles.</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">varImpPlot</span>(rf)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="aprsup_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="672"></p>
+<p><img src="aprsup_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Este gráfico muestra la importancia de las variables, ordenadas de mayor a menor. En este caso particular la variable más relevante dentro del modelo es la duración de la llamada.</p>
@@ -1899,7 +1902,7 @@ evaluation_log:
 <span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a><span class="fu">xgb.plot.importance</span>(importance_matrix)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="aprsup_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid" width="672"></p>
+<p><img src="aprsup_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Pasamos a obtener las predicciones. El resultado es un vector de valores numéricos, cada uno representando la probabilidad de que un caso en particular pertenezca al valor <span class="math inline">\(1\)</span> de nuestra variable objetivo. Es decir, la probabilidad de que esa observación sea un “<em>yes</em>”.</p>
@@ -2111,7 +2114,7 @@ Area under the curve: 64.33%</code></pre>
 <span id="cb87-5"><a href="#cb87-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">col=</span><span class="fu">c</span>(<span class="st">"#377eb8"</span>, <span class="st">"#4daf4a"</span>, <span class="st">"goldenrod"</span>,<span class="st">"salmon"</span>,<span class="st">"#977eb8"</span>),</span>
 <span id="cb87-6"><a href="#cb87-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">cex =</span>.<span class="dv">5</span>, <span class="at">xpd =</span> <span class="cn">TRUE</span>, <span class="at">horiz =</span> <span class="cn">TRUE</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="aprsup_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid" width="672"></p>
+<p><img src="aprsup_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <div class="callout-caution callout callout-style-default callout-captioned">
