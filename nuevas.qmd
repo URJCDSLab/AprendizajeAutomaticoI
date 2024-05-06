@@ -4,7 +4,9 @@
 
 La ética en ML es un tema crucial en la actualidad, ya que el uso de algoritmos y modelos de aprendizaje automático está cada vez más presente, a veces sin darnos cuenta, en nuestra vida cotidiana. La toma de decisiones automatizada basada en datos plantea **desafíos éticos y sociales** que deben ser abordados de manera responsable.
 
-::: {.callout-tip title="Ética"}
+::: callout-note
+# Ética
+
 1.  Disciplina filosófica que estudia el bien y el mal y sus relaciones con la moral y el comportamiento humano.
 2.  Conjunto de costumbres y normas que dirigen o valoran el comportamiento humano en una comunidad.
 :::
