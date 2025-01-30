@@ -138,6 +138,7 @@ div.csl-indent {
   }
 }</script>
 
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -248,7 +249,8 @@ div.csl-indent {
   <ul class="collapse">
   <li><a href="#fuentes-de-datos-para-las-prácticas" id="toc-fuentes-de-datos-para-las-prácticas" class="nav-link" data-scroll-target="#fuentes-de-datos-para-las-prácticas"> <span class="header-section-number">2.2.1</span> Fuentes de datos para las prácticas</a></li>
   <li><a href="#datos-en-r" id="toc-datos-en-r" class="nav-link" data-scroll-target="#datos-en-r"> <span class="header-section-number">2.2.2</span> Datos en R</a></li>
-  <li><a href="#particiones-de-los-datos" id="toc-particiones-de-los-datos" class="nav-link" data-scroll-target="#particiones-de-los-datos"> <span class="header-section-number">2.2.3</span> Particiones de los datos</a></li>
+  <li><a href="#con-qué-tipo-de-datos-trabajaremos-en-esta-asignatura" id="toc-con-qué-tipo-de-datos-trabajaremos-en-esta-asignatura" class="nav-link" data-scroll-target="#con-qué-tipo-de-datos-trabajaremos-en-esta-asignatura"> <span class="header-section-number">2.2.3</span> ¿Con qué tipo de datos trabajaremos en esta asignatura?</a></li>
+  <li><a href="#particiones-de-los-datos" id="toc-particiones-de-los-datos" class="nav-link" data-scroll-target="#particiones-de-los-datos"> <span class="header-section-number">2.2.4</span> Particiones de los datos</a></li>
   </ul></li>
   <li><a href="#mantenimiento-de-los-datos" id="toc-mantenimiento-de-los-datos" class="nav-link" data-scroll-target="#mantenimiento-de-los-datos"> <span class="header-section-number">2.3</span> Mantenimiento de los datos</a>
   <ul class="collapse">
@@ -315,6 +317,7 @@ Datos estructurados
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body" title="Datos estructurados">
 <p>Los datos estructurados son aquellos que poseen una longitud, un tipo, un formato y un tamaño definidos. Por lo general, estos datos se organizan en forma de tabla o se almacenan en una base de datos relacional (tablas de columnas y filas), que establece relaciones entre las diversas propiedades de las observaciones.</p>
+<p><img src="datos_images/paste-F6017616.png" class="img-fluid"></p>
 </div>
 </div>
 </div>
@@ -415,7 +418,7 @@ Web Scraping
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Sensores y Dispositivos IoT
+Sensores y dispositivos IoT
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -431,7 +434,7 @@ Sensores y Dispositivos IoT
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Registros y Bitácoras (Logs)
+Registros y bitácoras (Logs)
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -447,7 +450,7 @@ Registros y Bitácoras (Logs)
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Extracción de Texto de Documentos
+Extracción de texto de documentos
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -463,7 +466,7 @@ Extracción de Texto de Documentos
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Captura de Imágenes y Video
+Captura de imágenes y video
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -495,7 +498,7 @@ APIs (Interfaces de Programación de Aplicaciones)
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Datos de Redes Sociales
+Datos de redes sociales
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -511,7 +514,7 @@ Datos de Redes Sociales
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Datos de Dispositivos Móviles
+Datos de dispositivos móviles
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -527,7 +530,7 @@ Datos de Dispositivos Móviles
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Datos de Sensores Biométricos
+Datos de sensores biométricos
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -565,6 +568,8 @@ Fuentes de datos
 <li><p><strong>Datasets Subreddit:</strong> La comunidad de Reddit tiene un subreddit llamado “<em>datasets</em>” donde los usuarios comparten y discuten conjuntos de datos interesantes. Puedes explorarlo en <a href="https://www.reddit.com/r/datasets/">r/datasets</a>.</p></li>
 <li><p><strong>World Bank Data:</strong> El Banco Mundial ofrece una gran cantidad de datos relacionados con el desarrollo económico y social de países de todo el mundo. Puedes acceder a estos datos en su <a href="https://data.worldbank.org/">sitio web</a>.</p></li>
 <li><p><strong>Eurostat:</strong> Eurostat es la oficina de estadísticas de la Unión Europea y proporciona una amplia gama de datos relacionados con la UE y sus países miembros. Puedes encontrar datos en su <a href="https://ec.europa.eu/eurostat/data/database">sitio web</a>.</p></li>
+<li><p><a href="https://datos.gob.es/es">Datos abiertos del Gobierno de España</a></p></li>
+<li><p><a href="https://epistasislab.github.io/pmlb/">Penn Machine Learning Benchmarks</a> (<a href="https://link.springer.com/article/10.1186/s13040-017-0154-4">Artículo de referencia</a>)</p></li>
 </ol>
 <p>Recuerda que, antes de utilizar cualquier conjunto de datos, es importante verificar los términos de uso y asegurarte de tener permiso para utilizarlos según tus necesidades. Además, ten en cuenta las consideraciones éticas y de privacidad al trabajar con datos, especialmente si contienen información personal o sensible.</p>
 </div>
@@ -660,16 +665,16 @@ Fuentes de datos
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>datos</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   x  y char
-1  1  1    B
-2  1  2    C
-3  1  3    A
-4  1  4    B
+1  1  1    C
+2  1  2    B
+3  1  3    C
+4  1  4    A
 5  1  5    A
-6  1  6    A
-7  1  7    B
-8  1  8    B
+6  1  6    B
+7  1  7    C
+8  1  8    C
 9  1  9    A
-10 1 10    A</code></pre>
+10 1 10    B</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.data.frame</span>(datos)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -711,8 +716,42 @@ Precaución
 </div>
 </div>
 </section>
-<section id="particiones-de-los-datos" class="level3" data-number="2.2.3">
-<h3 data-number="2.2.3" class="anchored" data-anchor-id="particiones-de-los-datos"><span class="header-section-number">2.2.3</span> Particiones de los datos</h3>
+<section id="con-qué-tipo-de-datos-trabajaremos-en-esta-asignatura" class="level3" data-number="2.2.3">
+<h3 data-number="2.2.3" class="anchored" data-anchor-id="con-qué-tipo-de-datos-trabajaremos-en-esta-asignatura"><span class="header-section-number">2.2.3</span> ¿Con qué tipo de datos trabajaremos en esta asignatura?</h3>
+<p>En la asignatura de Aprendizaje Automático I trabajaremos principalmente con datos tabulares. Los datos tabulares se representan como un conjunto de observaciones organizadas en filas y columnas. Matemáticamente, se pueden denotar como:</p>
+<p><span class="math display">\[\mathcal{D}=\{(\mathbf{x}_i,y_i)\}_{i=1}^n\]</span></p>
+<p>donde</p>
+<ul>
+<li><p><span class="math inline">\(\mathbf{x}_i = (x_{i1},x_{i2},\dots,x_{ip})\)</span> representa el conjunto de variables explicativas para la <span class="math inline">\(i\)</span>-ésima observación.</p></li>
+<li><p><span class="math inline">\(y_i\)</span> es la variable respuesta correspondiente a esa observación. Si <span class="math inline">\(y_i \in \mathbb{R}\)</span>, estaríamos ante un problema de regresión y si <span class="math inline">\(y_i\)</span> es categórica, es decir, <span class="math inline">\(y_i \in \{1,2,\dots, C\}\)</span> siendo <span class="math inline">\(C\)</span> el número total de categorías, estaríamos ante un problema de clasificación.</p></li>
+</ul>
+<p>Veámos a continuación la representación matricial de estos datos. En forma de matriz, cada fila representa una observación y cada columna una variable:</p>
+<p><span class="math display">\[
+\mathbf{X}=
+\begin{bmatrix}
+x_{11} &amp; \cdots &amp; x_{1j} &amp; \cdots &amp; x_{1p} \\
+\vdots &amp; \ddots &amp; \vdots &amp; \ddots &amp; \vdots \\
+x_{i1} &amp; \cdots &amp; x_{ij} &amp; \cdots &amp; x_{ip} \\
+\vdots &amp; \ddots &amp; \vdots &amp; \ddots &amp; \vdots \\
+x_{n1} &amp; \cdots &amp; x_{nj} &amp; \cdots &amp; x_{np}
+\end{bmatrix}
+\quad
+\mathbf{y}=
+\begin{bmatrix}
+y_1 \\
+\vdots \\
+y_i \\
+\vdots \\
+y_n
+\end{bmatrix}
+\]</span></p>
+<ul>
+<li><p>Cada observación <span class="math inline">\(\mathbf{x}_i\)</span> es una fila del conjunto de datos que está medida en un total de <span class="math inline">\(p\)</span> variables explicativas. Estas observaciones también pueden recibir el nombre de instancias, items, puntos, elementos, entidades o registros del conjunto de datos.</p></li>
+<li><p>Cada columna es una variable que toma valores para cada una de las observaciones. Las variables también son conocidas como atributos o características (del inglés <em>features</em>): <span class="math inline">\(\mathbf{f}_j = \mathbf{x}_j = (x_{1j},\dots,x_{nj})\)</span>.</p></li>
+</ul>
+</section>
+<section id="particiones-de-los-datos" class="level3" data-number="2.2.4">
+<h3 data-number="2.2.4" class="anchored" data-anchor-id="particiones-de-los-datos"><span class="header-section-number">2.2.4</span> Particiones de los datos</h3>
 <p>El científico de datos normalmente se enfrenta a una base de datos sobre la que trabajar. Puede ser la base de datos completa o una muestra de esta que no incluya el total de las observaciones. Quizás se ha tomado una muestra de datos empleando técnicas de muestreo. El muestreo es un concepto de gran interés que deberías de estudiar en algún curso básico de estadística. En cualquier caso, una de las primeras tareas que vamos a realizar, siempre, es la de dividir la muestra en varias particiones. En este punto es necesario comentar que una de las principales diferencias entre el ML y la estadística clásica es su propósito. Por un lado, los modelos de ML están diseñados para hacer las predicciones más exactas posibles. Por otro lado, los modelos estadísticos están diseñados para inferir las relaciones entre las variables.</p>
 <p>Para llevar a cabo una correcta tarea de predicción será necesario contar con las siguientes particiones de los datos:</p>
 <div class="callout-note callout callout-style-default callout-captioned">
@@ -778,9 +817,23 @@ Importante
 </div>
 </div>
 <p>En caso de sobreajuste, cuando el modelo se enfrenta a datos nuevos su rendimiento se ve deteriorado.</p>
-<p>Existen varias técnicas estadísticas para la construcción de particiones. La primera de ellas es la más sencilla y consiste, simplemente, en reservar un conjunto (fijo) de observaciones para probar los modelos. Podemos aconsejar reservar en torno al 60% de las observaciones para la muestra de entrenamiento, en torno al 20% para la muestra de prueba y el restante 20% para validación. Sin embargo, estos valores son muy dependientes del volumen de datos y de los objetivos particulares del problema. La principal desventaja de este método es que la estimación del error en la partición de prueba puede ser muy variable, dependiendo precisamente de las observaciones que se incluyan en el conjunto de entrenamiento y de las que se incluyan en el conjunto de prueba. Además, si te fijas bien, solo un conjunto de observaciones, siempre el mismo, se emplea para entrenar el modelo. Este hecho sugiere que esta aproximación tiende a sobreestimar el modelo. Una técnica ampliamente utilizada es la conocida como “<em>k-folds cross validation</em>”. La idea es dividir el conjunto de entrenamiento en <em>k</em> partes iguales. Para cada de esas partes se ajusta el modelo de ML en los datos de las otras <em>k-1</em> partes (combinadas), y se obtiene el error de predicción en la k- ésima parte. De este modo se tienen <em>k</em> errores de los que podremos obtener la media y desviación típica. En la práctica, es muy común elegir <em>k</em> igual a 5 o 10. En el caso extremo de <em>k</em> igual número de observaciones en la muestra de entrenamiento y test, la técnica se conoce con el nombre de “<em>leave-one out cross validation</em>”, aunque este método podría no mezclar los datos lo suficiente. Es decir, los datos de cada partición están altamente correlacionados y por lo tanto la varianza del error suele ser muy elevada.</p>
-<section id="particiones-en-r" class="level4" data-number="2.2.3.1">
-<h4 data-number="2.2.3.1" class="anchored" data-anchor-id="particiones-en-r"><span class="header-section-number">2.2.3.1</span> Particiones en R</h4>
+<p>Existen varias técnicas estadísticas para la construcción de particiones. La primera de ellas, división en entrenamiento, test y validación, es la más sencilla y consiste, simplemente, en reservar un conjunto (fijo) de observaciones para probar los modelos. La Figura <a href="#fig-particion">Figura&nbsp;<span>2.1</span></a> siguiente figura lo muestra de forma esquemática:</p>
+<div id="fig-particion" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="datos_images/train_test_val.png" class="img-fluid figure-img" width="620"></p>
+<p></p><figcaption class="figure-caption">Figura 2.1: Partición en entrenamiento, test y validación</figcaption><p></p>
+</figure>
+</div>
+<p>¿Cómo seleccionamos el tamaño de cada trozo? Podemos aconsejar reservar en torno al 60% de las observaciones para la muestra de entrenamiento, en torno al 20% para la muestra de prueba y el restante 20% para validación. Sin embargo, estos valores son muy dependientes del volumen de datos y de los objetivos particulares del problema. La principal desventaja de este método es que la estimación del error en la partición de prueba puede ser muy variable, dependiendo precisamente de las observaciones que se incluyan en el conjunto de entrenamiento y de las que se incluyan en el conjunto de prueba. Además, si te fijas bien, solo un conjunto de observaciones, siempre el mismo, se emplea para entrenar el modelo. Este hecho sugiere que esta aproximación tiende a sobreestimar el modelo. Una técnica ampliamente utilizada es la conocida como “<em>k-folds cross validation</em>” (véase Figura <a href="#fig-kfold">Figura&nbsp;<span>2.2</span></a>).</p>
+<div id="fig-kfold" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="datos_images/k_fold_partition.png" class="img-fluid figure-img" width="620"></p>
+<p></p><figcaption class="figure-caption">Figura 2.2: Validación cruzada con k trozos (k-fold cross validation). Ejemplo con k=3</figcaption><p></p>
+</figure>
+</div>
+<p>La idea del <em>k-folds cross validation</em> es dividir el conjunto de entrenamiento en <em>k</em> partes iguales. Para cada de esas partes se ajusta el modelo de ML en los datos de las otras <em>k-1</em> partes (combinadas), y se obtiene el error de predicción en la k- ésima parte. De este modo se tienen <em>k</em> errores de los que podremos obtener la media y desviación típica. En la práctica, es muy común elegir <em>k</em> igual a 5 o 10. En el caso extremo de <em>k</em> igual número de observaciones en la muestra de entrenamiento y test, la técnica se conoce con el nombre de “<em>leave-one out cross validation</em>”, aunque este método podría no mezclar los datos lo suficiente. Es decir, los datos de cada partición están altamente correlacionados y por lo tanto la varianza del error suele ser muy elevada.</p>
+<section id="particiones-en-r" class="level4" data-number="2.2.4.1">
+<h4 data-number="2.2.4.1" class="anchored" data-anchor-id="particiones-en-r"><span class="header-section-number">2.2.4.1</span> Particiones en R</h4>
 <p>Hay varias formas comunes de dividir los datos en conjuntos de entrenamiento y de prueba en R:</p>
 <ul>
 <li>Base R</li>
@@ -901,6 +954,24 @@ Importante
 <pre><code>[1] 103   9</code></pre>
 </div>
 </div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Truquito para no olvidar
+</div>
+</div>
+<div class="callout-body-container callout-body" title="Para no olvidar">
+<p>Christoph Molnar, experto en Machine Learning explicable, ilustra de forma divertida el engaño de solo evaluar con los datos de entrenamiento:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="datos_images/TrainMother.png" class="img-fluid figure-img" width="700"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 </section>
 </section>
@@ -927,7 +998,7 @@ Importante
 <p>Para el manejo de estas bases de datos, se utiliza un lenguaje ampliamente conocido en el mundo de la Ciencia de la Computación llamado “Structured Query Language” (más conocido por sus siglas, <strong>SQL</strong>). Este lenguaje permite realizar consultas sobre las distintas tablas y sus relaciones, así como la gestión y mantenimiento de los datos.</p>
 <p>Las <strong>bases de datos no relacionales</strong>, también llamadas NoSQL, están diseñadas para representar un modelo de datos específicos en donde su estructura y esquema son flexibles (principalmente datos no estructurados). Presentan una gran relajación respecto a las restricciones que deben cumplir por lo que favorecen una gran escalabilidad horizontal (muchos elementos del mismo tipo pueden ser fácilmente almacenados en un único documento que hace las veces de tabla). Las bases de datos no relacionales se pueden organizar como sigue:</p>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-23-contents" aria-controls="callout-23" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-24-contents" aria-controls="callout-24" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -936,25 +1007,9 @@ Basadas en documentos
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-23" class="callout-23-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Estas bases de datos permiten el almacenamiento de documentos completos (normalmente textuales) y partes de interés de estos. Son ampliamente utilizadas en los sistemas de gestión documental, o sistemas de recomendación, los cuales son capaces de proporcionar información de interés de acuerdo con una búsqueda determinada. Ejemplo: ElasticSearch <span class="citation" data-cites="dixit2017elasticsearch">(<a href="references.html#ref-dixit2017elasticsearch" role="doc-biblioref">Dixit et&nbsp;al. 2017</a>)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-24-contents" aria-controls="callout-24" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-caption-container flex-fill">
-Gestión mediante clave-valor
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
 <div id="callout-24" class="callout-24-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Son las bases de datos más comunes y tienen cierta similitud con las bases de datos relacionales. La clave actúa como clave primaria, mientras que el valor puede ser un único elemento o un conjunto de atributos relacionados. Ejemplo: MongoDB <span class="citation" data-cites="bradshaw2019mongodb">(<a href="references.html#ref-bradshaw2019mongodb" role="doc-biblioref">Bradshaw, Brazil, y Chodorow 2019</a>)</span>.</p>
+<p>Estas bases de datos permiten el almacenamiento de documentos completos (normalmente textuales) y partes de interés de estos. Son ampliamente utilizadas en los sistemas de gestión documental, o sistemas de recomendación, los cuales son capaces de proporcionar información de interés de acuerdo con una búsqueda determinada. Ejemplo: ElasticSearch <span class="citation" data-cites="dixit2017elasticsearch">(<a href="references.html#ref-dixit2017elasticsearch" role="doc-biblioref">Dixit et&nbsp;al. 2017</a>)</span>.</p>
 </div>
 </div>
 </div>
@@ -964,13 +1019,13 @@ Gestión mediante clave-valor
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Basadas en grafos
+Gestión mediante clave-valor
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-25" class="callout-25-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Son bases de datos que almacenan su información por medio de nodos y aristas. Los elementos principales son los nodos, que suelen contener una serie de atributos, los cuales se relacionan con otros nodos mediante las aristas. Son muy útiles para organizar datos no estructurados como pueden ser la información que se extrae del contenido textual. Ejemplo: Neo4J <span class="citation" data-cites="webber2012programmatic">(<a href="references.html#ref-webber2012programmatic" role="doc-biblioref">Webber 2012</a>)</span></p>
+<p>Son las bases de datos más comunes y tienen cierta similitud con las bases de datos relacionales. La clave actúa como clave primaria, mientras que el valor puede ser un único elemento o un conjunto de atributos relacionados. Ejemplo: MongoDB <span class="citation" data-cites="bradshaw2019mongodb">(<a href="references.html#ref-bradshaw2019mongodb" role="doc-biblioref">Bradshaw, Brazil, y Chodorow 2019</a>)</span>.</p>
 </div>
 </div>
 </div>
@@ -980,13 +1035,13 @@ Basadas en grafos
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Orientadas a objetos
+Basadas en grafos
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-26" class="callout-26-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Son bases de datos capaces de emular la abstracción proporcionada por la programación orientada a objetos. Por lo tanto, contienen entidades (clases) que incluyen atributos y métodos de acceso y modificación de estos, produciendo encapsulamiento. Ejemplo: Gemstone <span class="citation" data-cites="ra1994flexible">(<a href="references.html#ref-ra1994flexible" role="doc-biblioref">Ra, Kuno, y Rundensteiner 1994</a>)</span></p>
+<p>Son bases de datos que almacenan su información por medio de nodos y aristas. Los elementos principales son los nodos, que suelen contener una serie de atributos, los cuales se relacionan con otros nodos mediante las aristas. Son muy útiles para organizar datos no estructurados como pueden ser la información que se extrae del contenido textual. Ejemplo: Neo4J <span class="citation" data-cites="webber2012programmatic">(<a href="references.html#ref-webber2012programmatic" role="doc-biblioref">Webber 2012</a>)</span></p>
 </div>
 </div>
 </div>
@@ -996,13 +1051,13 @@ Orientadas a objetos
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-De trabajo en memoria
+Orientadas a objetos
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-27" class="callout-27-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Estas bases de datos suelen estar constituidas por estructuras simples con el objetivo de poder ser alojadas en la memoria principal del computador. De esta manera se consigue que el tiempo de respuesta y la gestión y manejo de los datos sea mucho más rápida que en el resto de las bases de datos, que utilizan el disco duro del computador como lugar físico de almacenamiento. Debido a estas características son utilizadas en aplicaciones de alto rendimiento que gestionen volúmenes de datos asequibles. Ejemplo: Redis <span class="citation" data-cites="nelson2016mastering">(<a href="references.html#ref-nelson2016mastering" role="doc-biblioref">Nelson 2016</a>)</span></p>
+<p>Son bases de datos capaces de emular la abstracción proporcionada por la programación orientada a objetos. Por lo tanto, contienen entidades (clases) que incluyen atributos y métodos de acceso y modificación de estos, produciendo encapsulamiento. Ejemplo: Gemstone <span class="citation" data-cites="ra1994flexible">(<a href="references.html#ref-ra1994flexible" role="doc-biblioref">Ra, Kuno, y Rundensteiner 1994</a>)</span></p>
 </div>
 </div>
 </div>
@@ -1012,11 +1067,27 @@ De trabajo en memoria
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Para saber más sobre bases de datos
+De trabajo en memoria
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-28" class="callout-28-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Estas bases de datos suelen estar constituidas por estructuras simples con el objetivo de poder ser alojadas en la memoria principal del computador. De esta manera se consigue que el tiempo de respuesta y la gestión y manejo de los datos sea mucho más rápida que en el resto de las bases de datos, que utilizan el disco duro del computador como lugar físico de almacenamiento. Debido a estas características son utilizadas en aplicaciones de alto rendimiento que gestionen volúmenes de datos asequibles. Ejemplo: Redis <span class="citation" data-cites="nelson2016mastering">(<a href="references.html#ref-nelson2016mastering" role="doc-biblioref">Nelson 2016</a>)</span></p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-29-contents" aria-controls="callout-29" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Para saber más sobre bases de datos
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-29" class="callout-29-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Las distintas clasificaciones presentadas en este curso son una pequeña aproximación al mundo de las bases de datos. Para más detalles respecto a los conceptos detallados en este apartado ver <span class="citation" data-cites="harrington2016relational">(<a href="references.html#ref-harrington2016relational" role="doc-biblioref">Harrington 2016</a>)</span> para las bases de datos relacionales y <span class="citation" data-cites="meier2019sql">(<a href="references.html#ref-meier2019sql" role="doc-biblioref">Meier y Kaufmann 2019</a>)</span> para las bases de datos no relacionales.</p>
 </div>
@@ -1031,34 +1102,18 @@ Para saber más sobre bases de datos
 <p>La elección de la infraestructura de almacenamiento adecuada dependerá de la naturaleza de los datos y de los objetivos del proyecto. La capacidad de gestionar y acceder a los datos de manera efectiva es un componente clave en la cadena de valor de la ciencia de datos, ya que permite a los científicos de datos realizar análisis, modelado y generación de conocimiento de manera más eficiente y precisa.</p>
 <p>Aquí presentamos algunos ejemplos de infraestructuras de almacenmiento de datos:</p>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-29-contents" aria-controls="callout-29" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-caption-container flex-fill">
-Bases de Datos Relacionales
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-29" class="callout-29-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Ejemplos populares incluyen MySQL, PostgreSQL, Microsoft SQL Server y Oracle. Son ideales para datos estructurados y son ampliamente utilizados en aplicaciones empresariales y proyectos de análisis de datos.</p>
-</div>
-</div>
-</div>
-<div class="callout-note callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-30-contents" aria-controls="callout-30" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Bases de Datos NoSQL
+Bases de datos relacionales
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-30" class="callout-30-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Incluyen bases de datos orientadas a documentos como MongoDB, bases de datos columnares como Apache Cassandra, y bases de datos gráficas como Neo4j. Estas bases de datos son adecuadas para datos semiestructurados y no estructurados, y son especialmente útiles en aplicaciones web y análisis de redes sociales.</p>
+<p>Ejemplos populares incluyen MySQL, PostgreSQL, Microsoft SQL Server y Oracle. Son ideales para datos estructurados y son ampliamente utilizados en aplicaciones empresariales y proyectos de análisis de datos.</p>
 </div>
 </div>
 </div>
@@ -1068,13 +1123,13 @@ Bases de Datos NoSQL
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Almacenes de Datos en la Nube
+Bases de datos NoSQL
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-31" class="callout-31-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Servicios como Amazon S3, Google Cloud Storage y Microsoft Azure Blob Storage ofrecen soluciones de almacenamiento altamente escalables y rentables en la nube para datos estructurados y no estructurados. Son ideales para proyectos que requieren almacenamiento y acceso a gran escala. Los sistemas de computación en la nube son capaces de ofrecer un conjunto de características estandarizadas que se adaptan al consumidor, lo que los hace muy flexibles.</p>
+<p>Incluyen bases de datos orientadas a documentos como MongoDB, bases de datos columnares como Apache Cassandra, y bases de datos gráficas como Neo4j. Estas bases de datos son adecuadas para datos semiestructurados y no estructurados, y son especialmente útiles en aplicaciones web y análisis de redes sociales.</p>
 </div>
 </div>
 </div>
@@ -1084,13 +1139,13 @@ Almacenes de Datos en la Nube
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Hadoop Distributed File System (HDFS)
+Almacenes de datos en la nube
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-32" class="callout-32-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Es una parte integral del ecosistema Hadoop y se utiliza para almacenar y gestionar grandes conjuntos de datos distribuidos en clústeres de servidores. Es comúnmente utilizado en proyectos de big data y análisis de datos masivos.</p>
+<p>Servicios como Amazon S3, Google Cloud Storage y Microsoft Azure Blob Storage ofrecen soluciones de almacenamiento altamente escalables y rentables en la nube para datos estructurados y no estructurados. Son ideales para proyectos que requieren almacenamiento y acceso a gran escala. Los sistemas de computación en la nube son capaces de ofrecer un conjunto de características estandarizadas que se adaptan al consumidor, lo que los hace muy flexibles.</p>
 </div>
 </div>
 </div>
@@ -1100,13 +1155,13 @@ Hadoop Distributed File System (HDFS)
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Sistemas de Almacenamiento en Memoria
+Hadoop Distributed File System (HDFS)
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-33" class="callout-33-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Ejemplos incluyen Redis y Apache Kafka. Estos sistemas permiten el almacenamiento y la recuperación ultrarrápidos de datos en memoria, lo que es esencial para aplicaciones en tiempo real y análisis de transmisiones de datos.</p>
+<p>Es una parte integral del ecosistema Hadoop y se utiliza para almacenar y gestionar grandes conjuntos de datos distribuidos en clústeres de servidores. Es comúnmente utilizado en proyectos de big data y análisis de datos masivos.</p>
 </div>
 </div>
 </div>
@@ -1116,13 +1171,13 @@ Sistemas de Almacenamiento en Memoria
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Sistemas de Almacenamiento Distribuido
+Sistemas de almacenamiento en memoria
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-34" class="callout-34-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Ejemplos incluyen Apache HBase y Apache CouchDB. Estos sistemas ofrecen alta disponibilidad y escalabilidad, lo que es crucial para aplicaciones que requieren acceso y actualización concurrentes de datos distribuidos.</p>
+<p>Ejemplos incluyen Redis y Apache Kafka. Estos sistemas permiten el almacenamiento y la recuperación ultrarrápidos de datos en memoria, lo que es esencial para aplicaciones en tiempo real y análisis de transmisiones de datos.</p>
 </div>
 </div>
 </div>
@@ -1132,13 +1187,13 @@ Sistemas de Almacenamiento Distribuido
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Sistemas de Almacenamiento de Datos Geoespaciales
+Sistemas de almacenamiento distribuido
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-35" class="callout-35-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Ejemplos incluyen PostGIS y MongoDB con capacidades geoespaciales habilitadas. Estos sistemas son esenciales para proyectos que involucran datos de ubicación y análisis geoespaciales.</p>
+<p>Ejemplos incluyen Apache HBase y Apache CouchDB. Estos sistemas ofrecen alta disponibilidad y escalabilidad, lo que es crucial para aplicaciones que requieren acceso y actualización concurrentes de datos distribuidos.</p>
 </div>
 </div>
 </div>
@@ -1148,11 +1203,27 @@ Sistemas de Almacenamiento de Datos Geoespaciales
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Almacenamiento de Datos en Almacenes de Datos Empresariales
+Sistemas de almacenamiento de datos geoespaciales
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-36" class="callout-36-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Ejemplos incluyen PostGIS y MongoDB con capacidades geoespaciales habilitadas. Estos sistemas son esenciales para proyectos que involucran datos de ubicación y análisis geoespaciales.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-37-contents" aria-controls="callout-37" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Almacenamiento de datos en almacenes de datos empresariales
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-37" class="callout-37-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Ejemplos incluyen sistemas como Teradata y SAP HANA. Estas soluciones se utilizan en empresas para el almacenamiento y análisis de grandes volúmenes de datos de negocios.</p>
 </div>
@@ -1179,7 +1250,7 @@ Importante
 </div>
 <p>Despliega los paneles para averiguar algunas consideraciones clave sobre la calidad de los datos en un proyecto de ciencia de datos.</p>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-38-contents" aria-controls="callout-38" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-39-contents" aria-controls="callout-39" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1188,25 +1259,9 @@ Precisión
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-38" class="callout-38-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Los datos deben ser precisos y libres de errores. Los errores en los datos pueden surgir de diversas fuentes, como entradas incorrectas, mediciones inexactas o problemas de registro. Es fundamental garantizar la precisión de los datos para evitar interpretaciones erróneas y resultados incorrectos.</p>
-</div>
-</div>
-</div>
-<div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-39-contents" aria-controls="callout-39" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-caption-container flex-fill">
-Integridad
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
 <div id="callout-39" class="callout-39-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>La integridad de los datos se refiere a su completitud y coherencia. Los datos incompletos o faltantes pueden dificultar el análisis y llevar a conclusiones sesgadas. La integridad también se relaciona con la consistencia de los datos a lo largo del tiempo y entre diferentes fuentes.</p>
+<p>Los datos deben ser precisos y libres de errores. Los errores en los datos pueden surgir de diversas fuentes, como entradas incorrectas, mediciones inexactas o problemas de registro. Es fundamental garantizar la precisión de los datos para evitar interpretaciones erróneas y resultados incorrectos.</p>
 </div>
 </div>
 </div>
@@ -1216,13 +1271,13 @@ Integridad
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Consistencia
+Integridad
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-40" class="callout-40-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Los datos deben ser coherentes en su estructura y formato. Esto implica que las mismas categorías, unidades de medida y convenciones deben aplicarse de manera consistente en todo el conjunto de datos. La falta de consistencia puede dificultar la combinación y el análisis de datos de múltiples fuentes.</p>
+<p>La integridad de los datos se refiere a su completitud y coherencia. Los datos incompletos o faltantes pueden dificultar el análisis y llevar a conclusiones sesgadas. La integridad también se relaciona con la consistencia de los datos a lo largo del tiempo y entre diferentes fuentes.</p>
 </div>
 </div>
 </div>
@@ -1232,13 +1287,13 @@ Consistencia
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Relevancia
+Consistencia
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-41" class="callout-41-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Los datos deben ser relevantes para los objetivos del proyecto. Incluir datos irrelevantes puede aumentar la complejidad del análisis sin aportar valor. Es importante definir claramente qué datos son necesarios para abordar las preguntas o problemas específicos que se plantean en el proyecto.</p>
+<p>Los datos deben ser coherentes en su estructura y formato. Esto implica que las mismas categorías, unidades de medida y convenciones deben aplicarse de manera consistente en todo el conjunto de datos. La falta de consistencia puede dificultar la combinación y el análisis de datos de múltiples fuentes.</p>
 </div>
 </div>
 </div>
@@ -1248,13 +1303,13 @@ Relevancia
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Actualización
+Relevancia
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-42" class="callout-42-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Los datos deben mantenerse actualizados. En muchos proyectos de ciencia de datos, la información envejece con el tiempo y puede perder su relevancia o precisión. Es esencial establecer procesos para la actualización y el mantenimiento continuo de los datos.</p>
+<p>Los datos deben ser relevantes para los objetivos del proyecto. Incluir datos irrelevantes puede aumentar la complejidad del análisis sin aportar valor. Es importante definir claramente qué datos son necesarios para abordar las preguntas o problemas específicos que se plantean en el proyecto.</p>
 </div>
 </div>
 </div>
@@ -1264,13 +1319,13 @@ Actualización
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Limpieza de Datos
+Actualización
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-43" class="callout-43-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>La limpieza de datos es el proceso de identificar y corregir errores, duplicados y valores atípicos en el conjunto de datos. Es una etapa crítica para mejorar la calidad de los datos antes de su análisis. Abordaremos esta etapa en el tema 3, cuando tratemos el Análisis Exploratorio de Datos.</p>
+<p>Los datos deben mantenerse actualizados. En muchos proyectos de ciencia de datos, la información envejece con el tiempo y puede perder su relevancia o precisión. Es esencial establecer procesos para la actualización y el mantenimiento continuo de los datos.</p>
 </div>
 </div>
 </div>
@@ -1280,11 +1335,27 @@ Limpieza de Datos
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Documentación
+Limpieza de datos
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-44" class="callout-44-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>La limpieza de datos es el proceso de identificar y corregir errores, duplicados y valores atípicos en el conjunto de datos. Es una etapa crítica para mejorar la calidad de los datos antes de su análisis. Abordaremos esta etapa en el tema 3, cuando tratemos el Análisis Exploratorio de Datos.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-45-contents" aria-controls="callout-45" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Documentación
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-45" class="callout-45-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Es importante documentar el origen de los datos, las transformaciones realizadas, las decisiones tomadas durante la preparación de los datos y cualquier asunción que se haya hecho. La documentación adecuada facilita la comprensión y la replicación de los análisis.</p>
 </div>
@@ -1296,7 +1367,7 @@ Documentación
 <h2 data-number="2.5" class="anchored" data-anchor-id="ética-privacidad-y-seguridad-en-los-datos"><span class="header-section-number">2.5</span> Ética, privacidad y seguridad en los datos</h2>
 <p>La ética, privacidad y seguridad en los datos son aspectos entrelazados y fundamentales para garantizar que la recopilación, el análisis y el uso de datos se realicen de manera responsable y en beneficio de la sociedad. No solo son cuestiones éticas, sino que también tienen implicaciones legales y pueden afectar la reputación de las organizaciones. Los profesionales de datos y las empresas deben adoptar un enfoque proactivo para garantizar que sus prácticas de datos sean éticas y cumplan con las regulaciones aplicables, lo que a su vez contribuye a la construcción de la confianza del público en el uso de la ciencia de datos en la sociedad.</p>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-45-contents" aria-controls="callout-45" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-46-contents" aria-controls="callout-46" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1305,7 +1376,7 @@ Documentación
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-45" class="callout-45-contents callout-collapse collapse">
+<div id="callout-46" class="callout-46-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>La <strong>ética</strong> en la ciencia de datos se refiere a la conducta y las decisiones éticas de los profesionales de datos en todas las etapas del proceso, desde la recopilación hasta la interpretación y comunicación de resultados. Algunos puntos clave incluyen:</p>
 <ul>
@@ -1318,7 +1389,7 @@ Documentación
 </div>
 </div>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-46-contents" aria-controls="callout-46" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-47-contents" aria-controls="callout-47" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1327,19 +1398,19 @@ Privacidad
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-46" class="callout-46-contents callout-collapse collapse">
+<div id="callout-47" class="callout-47-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>La <strong>privacidad</strong> de los datos se refiere a la protección de la información personal y sensible. En la ciencia de datos, es crucial proteger la privacidad de las personas y cumplir con las regulaciones de privacidad aplicables. Algunos aspectos importantes son:</p>
 <ul>
 <li><p><strong>Anonimización</strong>: La eliminación o la codificación de información identificable en los datos es esencial para proteger la privacidad.</p></li>
-<li><p><strong>Seguridad de los Datos</strong>: Los datos deben ser almacenados y transmitidos de manera segura para evitar la exposición no autorizada.</p></li>
-<li><p><strong>Cumplimiento Normativo</strong>: Es necesario cumplir con leyes y regulaciones de privacidad, como el Reglamento General de Protección de Datos (RGPD) en la Unión Europea.</p></li>
+<li><p><strong>Seguridad de los datos</strong>: Los datos deben ser almacenados y transmitidos de manera segura para evitar la exposición no autorizada.</p></li>
+<li><p><strong>Cumplimiento normativo</strong>: Es necesario cumplir con leyes y regulaciones de privacidad, como el Reglamento General de Protección de Datos (RGPD) en la Unión Europea.</p></li>
 </ul>
 </div>
 </div>
 </div>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-47-contents" aria-controls="callout-47" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-48-contents" aria-controls="callout-48" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1348,14 +1419,14 @@ Seguridad
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-47" class="callout-47-contents callout-collapse collapse">
+<div id="callout-48" class="callout-48-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>La <strong>seguridad</strong> de los datos es la protección contra el acceso no autorizado, la alteración o la destrucción de los datos. Para garantizar la seguridad de los datos, es importante:</p>
 <ul>
-<li><p><strong>Control de Acceso</strong>: Limitar el acceso a los datos solo a personas autorizadas mediante autenticación y autorización adecuadas.</p></li>
+<li><p><strong>Control de acceso</strong>: Limitar el acceso a los datos solo a personas autorizadas mediante autenticación y autorización adecuadas.</p></li>
 <li><p><strong>Cifrado</strong>: Utilizar técnicas de cifrado para proteger los datos tanto en reposo como en tránsito.</p></li>
-<li><p><strong>Monitoreo y Detección de Amenazas</strong>: Implementar sistemas de monitoreo y detección de amenazas para identificar y responder a posibles ataques o violaciones de seguridad.</p></li>
-<li><p><strong>Respaldo de Datos</strong>: Realizar copias de seguridad regulares para evitar la pérdida de datos en caso de incidentes de seguridad.</p></li>
+<li><p><strong>Monitoreo y detección de amenazas</strong>: Implementar sistemas de monitoreo y detección de amenazas para identificar y responder a posibles ataques o violaciones de seguridad.</p></li>
+<li><p><strong>Respaldo de datos</strong>: Realizar copias de seguridad regulares para evitar la pérdida de datos en caso de incidentes de seguridad.</p></li>
 </ul>
 </div>
 </div>

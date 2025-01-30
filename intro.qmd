@@ -53,7 +53,7 @@ Aquí se detallan algunos de los aspectos clave de la Industria 4.0:
 
 \-**Big Data**: La recopilación y el análisis de grandes volúmenes de datos son esenciales en la Industria 4.0. El Big Data permite identificar patrones, tendencias y oportunidades que antes eran difíciles de detectar.
 
-\-**Computación en la Nube (Cloud Computing)**: La infraestructura en la nube proporciona almacenamiento y procesamiento escalables, lo que facilita el acceso y el uso de datos y aplicaciones desde cualquier lugar.
+\-**Computación en la nube (Cloud Computing)**: La infraestructura en la nube proporciona almacenamiento y procesamiento escalables, lo que facilita el acceso y el uso de datos y aplicaciones desde cualquier lugar.
 
 \-**Hiperconectividad**: La hiperconectividad es la interconexión de dispositivos, sistemas y personas a través de Internet. Esto crea una red global que permite la comunicación y la colaboración en tiempo real.
 
@@ -107,15 +107,15 @@ Como puedes ver, la IA es un campo diverso que se beneficia de una variedad de d
 
 3.  **Procesamiento de Lenguaje Natural (NLP)**: El NLP se ocupa de la interacción entre las computadoras y el lenguaje humano. Se utiliza en la traducción automática, chatbots, análisis de sentimientos y otras aplicaciones relacionadas con el lenguaje.
 
-4.  **Visión por Computador**: La visión por computador se centra en la capacidad de las máquinas para comprender y procesar imágenes y videos. Esto se aplica en reconocimiento facial, conducción autónoma y diagnóstico médico, entre otros.
+4.  **Visión por computador**: La visión por computador se centra en la capacidad de las máquinas para comprender y procesar imágenes y videos. Esto se aplica en reconocimiento facial, conducción autónoma y diagnóstico médico, entre otros.
 
-5.  **Lógica Difusa**: La lógica difusa permite manejar la incertidumbre y la imprecisión en la toma de decisiones. Se utiliza en sistemas de control automático y en aplicaciones donde la información es vaga o ambigua.
+5.  **Lógica difusa**: La lógica difusa permite manejar la incertidumbre y la imprecisión en la toma de decisiones. Se utiliza en sistemas de control automático y en aplicaciones donde la información es vaga o ambigua.
 
 6.  **Redes Neuronales Artificiales**: Inspiradas en el funcionamiento del cerebro humano, las redes neuronales artificiales son modelos de aprendizaje profundo que se utilizan en una variedad de aplicaciones, desde el reconocimiento de voz hasta el procesamiento de imágenes. De ellas surge el llamado Deep Learning.
 
-7.  **Reconocimiento de Patrones**: El reconocimiento de patrones implica la identificación de estructuras y tendencias en datos. Esto es fundamental en aplicaciones como la bioinformática, la seguridad y la análisis financiero.
+7.  **Reconocimiento de patrones**: El reconocimiento de patrones implica la identificación de estructuras y tendencias en datos. Esto es fundamental en aplicaciones como la bioinformática, la seguridad y la análisis financiero.
 
-8.  **Computación Evolutiva**: La computación evolutiva se basa en principios biológicos como la selección natural y la evolución para optimizar algoritmos y resolver problemas complejos.
+8.  **Computación evolutiva**: La computación evolutiva se basa en principios biológicos como la selección natural y la evolución para optimizar algoritmos y resolver problemas complejos.
 
 Estas áreas interconectadas colaboran para impulsar el avance de la IA en diversas aplicaciones, desde la automatización industrial y la atención médica hasta la conducción autónoma y la atención al cliente. A medida que la IA continúa evolucionando, la integración de estas disciplinas se vuelve cada vez más importante para desarrollar sistemas inteligentes y capaces de adaptarse al mundo real. En este curso iniciamos un camino en una de estas áreas, el Aprendizaje Automático.
 
@@ -172,7 +172,7 @@ Estudio del diseño y la arquitectura de los ordenadores y su aplicación en el 
 :::
 
 ::: {.callout-note collapse="true"}
-## Conocimiento del Dominio
+## Conocimiento del dominio
 
 Representa el problema que deseamos estudiar, la organización que lo proporciona y su dominio de aplicación. Existen casos de éxito de la ciencia de datos en prácticamente todos los dominios de interés que podamos mencionar: medicina, ciudades inteligentes, energía, telecomunicaciones, finanzas, seguros, ganadería, agricultura, ciencias sociales, ciberseguridad, etc. Un equipo de ciencia de datos ha de contar con uno o varios expertos en el dominio de aplicación. Estos expertos han de implicarse, fuertemente, en el problema que se quiere resolver. En [@kelleher2020fundamentals] podéis encontrar ejemplos muy interesantes de cómo la ciencia de datos es aplicada en diferentes dominios.
 :::
@@ -242,7 +242,7 @@ En general, dispondremos de un conjunto de observaciones con un número de varia
 Para concluir esta introducción, párate un momento en la siguiente tabla que presenta algunos ejemplos de aplicación de ML junto con los algoritmos empleados.
 
 | **Ejemplo**                                                                                            | **Aprendizaje Máquina**                                                                                                                                                     | **Algoritmos**                                                                      |
-|--------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
+|---------------------|----------------------------------|------------------|
 | Identificación de spam                                                                                 | Clasificación: decidir si un correo es spam o no                                                                                                                            | Árboles de decisión, Naïve Bayes, Regresión Logística, Máquinas de Vectores Soporte |
 | Predecir cuánto incrementará las ventas de una compañía una campaña de marketing                       | Regresión: predecir valores futuros de una variable cualitativa                                                                                                             | Regresión Lineal                                                                    |
 | Identificar páginas web que son visitadas a menudo durante la misma sesión                             | Reglas de asociación: encontrar correlaciones o causas potenciales de los efectos vistos en los datos, encontrar objetos que tienden a aparecer en el conjunto de los datos | Reglas de asociación                                                                |

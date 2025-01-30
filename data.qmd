@@ -26,6 +26,8 @@ Esta organización se enfoca en determinar si los datos exhiben una estructura d
 ## Datos estructurados
 
 Los datos estructurados son aquellos que poseen una longitud, un tipo, un formato y un tamaño definidos. Por lo general, estos datos se organizan en forma de tabla o se almacenan en una base de datos relacional (tablas de columnas y filas), que establece relaciones entre las diversas propiedades de las observaciones.
+
+![](datos_images/paste-F6017616.png)
 :::
 
 ::: {.callout-note collapse="true" title="Datos no estructurados"}
@@ -71,25 +73,25 @@ Esta técnica implica la extracción de datos directamente desde sitios web. Los
 :::
 
 ::: {.callout-note collapse="true"}
-### Sensores y Dispositivos IoT
+### Sensores y dispositivos IoT
 
 Los sensores y dispositivos de Internet de las cosas (IoT) generan datos en tiempo real, que pueden incluir información sobre temperatura, humedad, ubicación geográfica, entre otros. Estos datos pueden ser recopilados y utilizados para análisis.
 :::
 
 ::: {.callout-note collapse="true"}
-### Registros y Bitácoras (Logs)
+### Registros y bitácoras (Logs)
 
 Muchos sistemas y aplicaciones generan registros (logs) que registran eventos y actividades. Estos registros pueden ser valiosos para el análisis de problemas, seguimiento de comportamientos y seguridad.
 :::
 
 ::: {.callout-note collapse="true"}
-### Extracción de Texto de Documentos
+### Extracción de texto de documentos
 
 Para datos no estructurados, como texto en documentos, se pueden utilizar técnicas de extracción de texto para convertir la información en un formato procesable. Esto es útil en áreas como el procesamiento de documentos legales o médicos.
 :::
 
 ::: {.callout-note collapse="true"}
-### Captura de Imágenes y Video
+### Captura de imágenes y video
 
 Las cámaras y sistemas de captura de imágenes y video generan grandes cantidades de datos visuales que pueden ser analizados para reconocimiento de patrones, detección de objetos, análisis de imágenes médicas y más.
 :::
@@ -101,19 +103,19 @@ Muchas aplicaciones y servicios ofrecen APIs que permiten acceder a sus datos de
 :::
 
 ::: {.callout-note collapse="true"}
-### Datos de Redes Sociales
+### Datos de redes sociales
 
 Las plataformas de redes sociales generan una gran cantidad de datos en forma de publicaciones, comentarios y actividad de usuarios. Estos datos pueden ser recopilados y analizados para comprender tendencias, opiniones del público y más.
 :::
 
 ::: {.callout-note collapse="true"}
-### Datos de Dispositivos Móviles
+### Datos de dispositivos móviles
 
 Las aplicaciones móviles pueden recopilar datos del dispositivo, como la ubicación GPS, el uso de la aplicación y la interacción del usuario. Estos datos pueden utilizarse para análisis de comportamiento del usuario y personalización.
 :::
 
 ::: {.callout-note collapse="true"}
-### Datos de Sensores Biométricos
+### Datos de sensores biométricos
 
 En aplicaciones de salud y bienestar, se pueden utilizar sensores biométricos, como los dispositivos de seguimiento de actividad física y las pulseras de ritmo cardíaco, para recopilar datos sobre la salud y el estado físico de los individuos.
 :::
@@ -148,6 +150,10 @@ Existen varias fuentes de conjuntos de datos de *benchmark* que puedes utilizar 
 9.  **World Bank Data:** El Banco Mundial ofrece una gran cantidad de datos relacionados con el desarrollo económico y social de países de todo el mundo. Puedes acceder a estos datos en su [sitio web](https://data.worldbank.org/).
 
 10. **Eurostat:** Eurostat es la oficina de estadísticas de la Unión Europea y proporciona una amplia gama de datos relacionados con la UE y sus países miembros. Puedes encontrar datos en su [sitio web](https://ec.europa.eu/eurostat/data/database).
+
+11. [Datos abiertos del Gobierno de España](https://datos.gob.es/es)
+
+12. [Penn Machine Learning Benchmarks](https://epistasislab.github.io/pmlb/) ([Artículo de referencia](https://link.springer.com/article/10.1186/s13040-017-0154-4))
 
 Recuerda que, antes de utilizar cualquier conjunto de datos, es importante verificar los términos de uso y asegurarte de tener permiso para utilizarlos según tus necesidades. Además, ten en cuenta las consideraciones éticas y de privacidad al trabajar con datos, especialmente si contienen información personal o sensible.
 :::
@@ -219,6 +225,44 @@ as.tibble(iris)
 Es importante que realices algún ejercicio en R, leyendo datos de diferentes fuentes y familiarizándote con las diferentes estructuras de datos que R proporciona.
 :::
 
+### ¿Con qué tipo de datos trabajaremos en esta asignatura?
+
+En la asignatura de Aprendizaje Automático I trabajaremos principalmente con datos tabulares. Los datos tabulares se representan como un conjunto de observaciones organizadas en filas y columnas. Matemáticamente, se pueden denotar como:
+
+$$\mathcal{D}=\{(\mathbf{x}_i,y_i)\}_{i=1}^n$$
+
+donde
+
+-   $\mathbf{x}_i = (x_{i1},x_{i2},\dots,x_{ip})$ representa el conjunto de variables explicativas para la $i$-ésima observación.
+
+-   $y_i$ es la variable respuesta correspondiente a esa observación. Si $y_i \in \mathbb{R}$, estaríamos ante un problema de regresión y si $y_i$ es categórica, es decir, $y_i \in \{1,2,\dots, C\}$ siendo $C$ el número total de categorías, estaríamos ante un problema de clasificación.
+
+Veámos a continuación la representación matricial de estos datos. En forma de matriz, cada fila representa una observación y cada columna una variable:
+
+$$
+\mathbf{X}=
+\begin{bmatrix}
+x_{11} & \cdots & x_{1j} & \cdots & x_{1p} \\
+\vdots & \ddots & \vdots & \ddots & \vdots \\
+x_{i1} & \cdots & x_{ij} & \cdots & x_{ip} \\
+\vdots & \ddots & \vdots & \ddots & \vdots \\
+x_{n1} & \cdots & x_{nj} & \cdots & x_{np}
+\end{bmatrix}
+\quad
+\mathbf{y}=
+\begin{bmatrix}
+y_1 \\
+\vdots \\
+y_i \\
+\vdots \\
+y_n
+\end{bmatrix}
+$$
+
+-   Cada observación $\mathbf{x}_i$ es una fila del conjunto de datos que está medida en un total de $p$ variables explicativas. Estas observaciones también pueden recibir el nombre de instancias, items, puntos, elementos, entidades o registros del conjunto de datos.
+
+-   Cada columna es una variable que toma valores para cada una de las observaciones. Las variables también son conocidas como atributos o características (del inglés *features*): $\mathbf{f}_j = \mathbf{x}_j = (x_{1j},\dots,x_{nj})$.
+
 ### Particiones de los datos
 
 El científico de datos normalmente se enfrenta a una base de datos sobre la que trabajar. Puede ser la base de datos completa o una muestra de esta que no incluya el total de las observaciones. Quizás se ha tomado una muestra de datos empleando técnicas de muestreo. El muestreo es un concepto de gran interés que deberías de estudiar en algún curso básico de estadística. En cualquier caso, una de las primeras tareas que vamos a realizar, siempre, es la de dividir la muestra en varias particiones. En este punto es necesario comentar que una de las principales diferencias entre el ML y la estadística clásica es su propósito. Por un lado, los modelos de ML están diseñados para hacer las predicciones más exactas posibles. Por otro lado, los modelos estadísticos están diseñados para inferir las relaciones entre las variables.
@@ -251,7 +295,15 @@ Emplear particiones de los datos pretende minimizar el llamado **sobreajuste** d
 
 En caso de sobreajuste, cuando el modelo se enfrenta a datos nuevos su rendimiento se ve deteriorado.
 
-Existen varias técnicas estadísticas para la construcción de particiones. La primera de ellas es la más sencilla y consiste, simplemente, en reservar un conjunto (fijo) de observaciones para probar los modelos. Podemos aconsejar reservar en torno al 60% de las observaciones para la muestra de entrenamiento, en torno al 20% para la muestra de prueba y el restante 20% para validación. Sin embargo, estos valores son muy dependientes del volumen de datos y de los objetivos particulares del problema. La principal desventaja de este método es que la estimación del error en la partición de prueba puede ser muy variable, dependiendo precisamente de las observaciones que se incluyan en el conjunto de entrenamiento y de las que se incluyan en el conjunto de prueba. Además, si te fijas bien, solo un conjunto de observaciones, siempre el mismo, se emplea para entrenar el modelo. Este hecho sugiere que esta aproximación tiende a sobreestimar el modelo. Una técnica ampliamente utilizada es la conocida como "*k-folds cross validation*". La idea es dividir el conjunto de entrenamiento en *k* partes iguales. Para cada de esas partes se ajusta el modelo de ML en los datos de las otras *k-1* partes (combinadas), y se obtiene el error de predicción en la k- ésima parte. De este modo se tienen *k* errores de los que podremos obtener la media y desviación típica. En la práctica, es muy común elegir *k* igual a 5 o 10. En el caso extremo de *k* igual número de observaciones en la muestra de entrenamiento y test, la técnica se conoce con el nombre de "*leave-one out cross validation*", aunque este método podría no mezclar los datos lo suficiente. Es decir, los datos de cada partición están altamente correlacionados y por lo tanto la varianza del error suele ser muy elevada.
+Existen varias técnicas estadísticas para la construcción de particiones. La primera de ellas, división en entrenamiento, test y validación, es la más sencilla y consiste, simplemente, en reservar un conjunto (fijo) de observaciones para probar los modelos. La Figura [@fig-particion] siguiente figura lo muestra de forma esquemática:
+
+![Partición en entrenamiento, test y validación](datos_images/train_test_val.png){#fig-particion fig-align="center" width="620"}
+
+¿Cómo seleccionamos el tamaño de cada trozo? Podemos aconsejar reservar en torno al 60% de las observaciones para la muestra de entrenamiento, en torno al 20% para la muestra de prueba y el restante 20% para validación. Sin embargo, estos valores son muy dependientes del volumen de datos y de los objetivos particulares del problema. La principal desventaja de este método es que la estimación del error en la partición de prueba puede ser muy variable, dependiendo precisamente de las observaciones que se incluyan en el conjunto de entrenamiento y de las que se incluyan en el conjunto de prueba. Además, si te fijas bien, solo un conjunto de observaciones, siempre el mismo, se emplea para entrenar el modelo. Este hecho sugiere que esta aproximación tiende a sobreestimar el modelo. Una técnica ampliamente utilizada es la conocida como "*k-folds cross validation*" (véase Figura [@fig-kfold]).
+
+![Validación cruzada con k trozos (k-fold cross validation). Ejemplo con k=3](datos_images/k_fold_partition.png){#fig-kfold fig-align="center" width="620"}
+
+La idea del *k-folds cross validation* es dividir el conjunto de entrenamiento en *k* partes iguales. Para cada de esas partes se ajusta el modelo de ML en los datos de las otras *k-1* partes (combinadas), y se obtiene el error de predicción en la k- ésima parte. De este modo se tienen *k* errores de los que podremos obtener la media y desviación típica. En la práctica, es muy común elegir *k* igual a 5 o 10. En el caso extremo de *k* igual número de observaciones en la muestra de entrenamiento y test, la técnica se conoce con el nombre de "*leave-one out cross validation*", aunque este método podría no mezclar los datos lo suficiente. Es decir, los datos de cada partición están altamente correlacionados y por lo tanto la varianza del error suele ser muy elevada.
 
 #### Particiones en R
 
@@ -371,6 +423,14 @@ dim(train)
 dim(test)
 ```
 
+::: {.callout-tip title="Para no olvidar"}
+## Truquito para no olvidar
+
+Christoph Molnar, experto en Machine Learning explicable, ilustra de forma divertida el engaño de solo evaluar con los datos de entrenamiento:
+
+![](datos_images/TrainMother.png){fig-align="center" width="700"}
+:::
+
 ## Mantenimiento de los datos
 
 Una vez que los datos han sido adquiridos, es esencial asegurar su mantenimiento y almacenamiento en entornos adecuados. Para lograr este objetivo, se han desarrollado múltiples sistemas de gestión de bases de datos, diseñados para satisfacer las diversas necesidades de usuarios y organizaciones. Estos sistemas de gestión de bases de datos se integran en infraestructuras más amplias y complejas que permiten el manejo eficaz y eficiente de los datos.
@@ -438,19 +498,19 @@ La elección de la infraestructura de almacenamiento adecuada dependerá de la n
 Aquí presentamos algunos ejemplos de infraestructuras de almacenmiento de datos:
 
 ::: {.callout-note collapse="true"}
-## Bases de Datos Relacionales
+## Bases de datos relacionales
 
 Ejemplos populares incluyen MySQL, PostgreSQL, Microsoft SQL Server y Oracle. Son ideales para datos estructurados y son ampliamente utilizados en aplicaciones empresariales y proyectos de análisis de datos.
 :::
 
 ::: {.callout-note collapse="true"}
-## Bases de Datos NoSQL
+## Bases de datos NoSQL
 
 Incluyen bases de datos orientadas a documentos como MongoDB, bases de datos columnares como Apache Cassandra, y bases de datos gráficas como Neo4j. Estas bases de datos son adecuadas para datos semiestructurados y no estructurados, y son especialmente útiles en aplicaciones web y análisis de redes sociales.
 :::
 
 ::: {.callout-note collapse="true"}
-## Almacenes de Datos en la Nube
+## Almacenes de datos en la nube
 
 Servicios como Amazon S3, Google Cloud Storage y Microsoft Azure Blob Storage ofrecen soluciones de almacenamiento altamente escalables y rentables en la nube para datos estructurados y no estructurados. Son ideales para proyectos que requieren almacenamiento y acceso a gran escala. Los sistemas de computación en la nube son capaces de ofrecer un conjunto de características estandarizadas que se adaptan al consumidor, lo que los hace muy flexibles.
 :::
@@ -462,25 +522,25 @@ Es una parte integral del ecosistema Hadoop y se utiliza para almacenar y gestio
 :::
 
 ::: {.callout-note collapse="true"}
-## Sistemas de Almacenamiento en Memoria
+## Sistemas de almacenamiento en memoria
 
 Ejemplos incluyen Redis y Apache Kafka. Estos sistemas permiten el almacenamiento y la recuperación ultrarrápidos de datos en memoria, lo que es esencial para aplicaciones en tiempo real y análisis de transmisiones de datos.
 :::
 
 ::: {.callout-note collapse="true"}
-## Sistemas de Almacenamiento Distribuido
+## Sistemas de almacenamiento distribuido
 
 Ejemplos incluyen Apache HBase y Apache CouchDB. Estos sistemas ofrecen alta disponibilidad y escalabilidad, lo que es crucial para aplicaciones que requieren acceso y actualización concurrentes de datos distribuidos.
 :::
 
 ::: {.callout-note collapse="true"}
-## Sistemas de Almacenamiento de Datos Geoespaciales
+## Sistemas de almacenamiento de datos geoespaciales
 
 Ejemplos incluyen PostGIS y MongoDB con capacidades geoespaciales habilitadas. Estos sistemas son esenciales para proyectos que involucran datos de ubicación y análisis geoespaciales.
 :::
 
 ::: {.callout-note collapse="true"}
-## Almacenamiento de Datos en Almacenes de Datos Empresariales
+## Almacenamiento de datos en almacenes de datos empresariales
 
 Ejemplos incluyen sistemas como Teradata y SAP HANA. Estas soluciones se utilizan en empresas para el almacenamiento y análisis de grandes volúmenes de datos de negocios.
 :::
@@ -528,7 +588,7 @@ Los datos deben mantenerse actualizados. En muchos proyectos de ciencia de datos
 :::
 
 ::: {.callout-note collapse="true"}
-## Limpieza de Datos
+## Limpieza de datos
 
 La limpieza de datos es el proceso de identificar y corregir errores, duplicados y valores atípicos en el conjunto de datos. Es una etapa crítica para mejorar la calidad de los datos antes de su análisis. Abordaremos esta etapa en el tema 3, cuando tratemos el Análisis Exploratorio de Datos.
 :::
@@ -566,9 +626,9 @@ La **privacidad** de los datos se refiere a la protección de la información pe
 
 -   **Anonimización**: La eliminación o la codificación de información identificable en los datos es esencial para proteger la privacidad.
 
--   **Seguridad de los Datos**: Los datos deben ser almacenados y transmitidos de manera segura para evitar la exposición no autorizada.
+-   **Seguridad de los datos**: Los datos deben ser almacenados y transmitidos de manera segura para evitar la exposición no autorizada.
 
--   **Cumplimiento Normativo**: Es necesario cumplir con leyes y regulaciones de privacidad, como el Reglamento General de Protección de Datos (RGPD) en la Unión Europea.
+-   **Cumplimiento normativo**: Es necesario cumplir con leyes y regulaciones de privacidad, como el Reglamento General de Protección de Datos (RGPD) en la Unión Europea.
 :::
 
 ::: {.callout-note collapse="true"}
@@ -576,11 +636,11 @@ La **privacidad** de los datos se refiere a la protección de la información pe
 
 La **seguridad** de los datos es la protección contra el acceso no autorizado, la alteración o la destrucción de los datos. Para garantizar la seguridad de los datos, es importante:
 
--   **Control de Acceso**: Limitar el acceso a los datos solo a personas autorizadas mediante autenticación y autorización adecuadas.
+-   **Control de acceso**: Limitar el acceso a los datos solo a personas autorizadas mediante autenticación y autorización adecuadas.
 
 -   **Cifrado**: Utilizar técnicas de cifrado para proteger los datos tanto en reposo como en tránsito.
 
--   **Monitoreo y Detección de Amenazas**: Implementar sistemas de monitoreo y detección de amenazas para identificar y responder a posibles ataques o violaciones de seguridad.
+-   **Monitoreo y detección de amenazas**: Implementar sistemas de monitoreo y detección de amenazas para identificar y responder a posibles ataques o violaciones de seguridad.
 
--   **Respaldo de Datos**: Realizar copias de seguridad regulares para evitar la pérdida de datos en caso de incidentes de seguridad.
+-   **Respaldo de datos**: Realizar copias de seguridad regulares para evitar la pérdida de datos en caso de incidentes de seguridad.
 :::
