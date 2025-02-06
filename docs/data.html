@@ -665,16 +665,16 @@ Fuentes de datos
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>datos</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   x  y char
-1  1  1    C
-2  1  2    C
-3  1  3    A
+1  1  1    A
+2  1  2    A
+3  1  3    B
 4  1  4    C
-5  1  5    A
-6  1  6    B
-7  1  7    B
-8  1  8    A
-9  1  9    C
-10 1 10    C</code></pre>
+5  1  5    B
+6  1  6    C
+7  1  7    C
+8  1  8    C
+9  1  9    A
+10 1 10    A</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.data.frame</span>(datos)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -972,6 +972,30 @@ Truquito para no olvidar
 </div>
 </div>
 </div>
+<div class="callout-caution callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Precaución
+</div>
+</div>
+<div class="callout-body-container callout-body" title="Atención">
+<p>¡Ojo!</p>
+<p>Toda transformación/cambio/modificación que realicemos en el conjunto de entrenamiento debemos realizarla exactamente igual en el resto de conjuntos de la partición. ¿Qué significa exactamente igual? ¡Exactamente igual! Por ejemplo, si en el conjunto de entrenamiento estandarizamos la variable <span class="math inline">\(x_j\)</span> del siguiente modo:</p>
+<p><span class="math display">\[
+x^{' train}_{j}=\frac{x^{train}_j -\mu_{x^{train}_j}}{\sigma_{x^{train}_j}}
+\]</span></p>
+<p>En test y validación tendremos que realizar la misma transformación, es decir, restar la media de la variable en train y dividir por la desviación típica de la variable train:</p>
+<p><span class="math display">\[
+x^{' test}_{j}=\frac{x^{test}_j -\mu_{x^{train}_j}}{\sigma_{x^{train}_j}}
+\]</span></p>
+<p><span class="math display">\[
+x^{' validation}_{j}=\frac{x^{validation}_j -\mu_{x^{train}_j}}{\sigma_{x^{train}_j}}
+\]</span></p>
+</div>
+</div>
 </section>
 </section>
 </section>
@@ -998,7 +1022,7 @@ Importante
 <p>Para el manejo de estas bases de datos, se utiliza un lenguaje ampliamente conocido en el mundo de la Ciencia de la Computación llamado “Structured Query Language” (más conocido por sus siglas, <strong>SQL</strong>). Este lenguaje permite realizar consultas sobre las distintas tablas y sus relaciones, así como la gestión y mantenimiento de los datos.</p>
 <p>Las <strong>bases de datos no relacionales</strong>, también llamadas NoSQL, están diseñadas para representar un modelo de datos específicos en donde su estructura y esquema son flexibles (principalmente datos no estructurados). Presentan una gran relajación respecto a las restricciones que deben cumplir por lo que favorecen una gran escalabilidad horizontal (muchos elementos del mismo tipo pueden ser fácilmente almacenados en un único documento que hace las veces de tabla). Las bases de datos no relacionales se pueden organizar como sigue:</p>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-24-contents" aria-controls="callout-24" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-25-contents" aria-controls="callout-25" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1007,25 +1031,9 @@ Basadas en documentos
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-24" class="callout-24-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Estas bases de datos permiten el almacenamiento de documentos completos (normalmente textuales) y partes de interés de estos. Son ampliamente utilizadas en los sistemas de gestión documental, o sistemas de recomendación, los cuales son capaces de proporcionar información de interés de acuerdo con una búsqueda determinada. Ejemplo: ElasticSearch <span class="citation" data-cites="dixit2017elasticsearch">(<a href="references.html#ref-dixit2017elasticsearch" role="doc-biblioref">Dixit et&nbsp;al. 2017</a>)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-25-contents" aria-controls="callout-25" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-caption-container flex-fill">
-Gestión mediante clave-valor
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
 <div id="callout-25" class="callout-25-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Son las bases de datos más comunes y tienen cierta similitud con las bases de datos relacionales. La clave actúa como clave primaria, mientras que el valor puede ser un único elemento o un conjunto de atributos relacionados. Ejemplo: MongoDB <span class="citation" data-cites="bradshaw2019mongodb">(<a href="references.html#ref-bradshaw2019mongodb" role="doc-biblioref">Bradshaw, Brazil, y Chodorow 2019</a>)</span>.</p>
+<p>Estas bases de datos permiten el almacenamiento de documentos completos (normalmente textuales) y partes de interés de estos. Son ampliamente utilizadas en los sistemas de gestión documental, o sistemas de recomendación, los cuales son capaces de proporcionar información de interés de acuerdo con una búsqueda determinada. Ejemplo: ElasticSearch <span class="citation" data-cites="dixit2017elasticsearch">(<a href="references.html#ref-dixit2017elasticsearch" role="doc-biblioref">Dixit et&nbsp;al. 2017</a>)</span>.</p>
 </div>
 </div>
 </div>
@@ -1035,13 +1043,13 @@ Gestión mediante clave-valor
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Basadas en grafos
+Gestión mediante clave-valor
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-26" class="callout-26-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Son bases de datos que almacenan su información por medio de nodos y aristas. Los elementos principales son los nodos, que suelen contener una serie de atributos, los cuales se relacionan con otros nodos mediante las aristas. Son muy útiles para organizar datos no estructurados como pueden ser la información que se extrae del contenido textual. Ejemplo: Neo4J <span class="citation" data-cites="webber2012programmatic">(<a href="references.html#ref-webber2012programmatic" role="doc-biblioref">Webber 2012</a>)</span></p>
+<p>Son las bases de datos más comunes y tienen cierta similitud con las bases de datos relacionales. La clave actúa como clave primaria, mientras que el valor puede ser un único elemento o un conjunto de atributos relacionados. Ejemplo: MongoDB <span class="citation" data-cites="bradshaw2019mongodb">(<a href="references.html#ref-bradshaw2019mongodb" role="doc-biblioref">Bradshaw, Brazil, y Chodorow 2019</a>)</span>.</p>
 </div>
 </div>
 </div>
@@ -1051,13 +1059,13 @@ Basadas en grafos
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Orientadas a objetos
+Basadas en grafos
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-27" class="callout-27-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Son bases de datos capaces de emular la abstracción proporcionada por la programación orientada a objetos. Por lo tanto, contienen entidades (clases) que incluyen atributos y métodos de acceso y modificación de estos, produciendo encapsulamiento. Ejemplo: Gemstone <span class="citation" data-cites="ra1994flexible">(<a href="references.html#ref-ra1994flexible" role="doc-biblioref">Ra, Kuno, y Rundensteiner 1994</a>)</span></p>
+<p>Son bases de datos que almacenan su información por medio de nodos y aristas. Los elementos principales son los nodos, que suelen contener una serie de atributos, los cuales se relacionan con otros nodos mediante las aristas. Son muy útiles para organizar datos no estructurados como pueden ser la información que se extrae del contenido textual. Ejemplo: Neo4J <span class="citation" data-cites="webber2012programmatic">(<a href="references.html#ref-webber2012programmatic" role="doc-biblioref">Webber 2012</a>)</span></p>
 </div>
 </div>
 </div>
@@ -1067,13 +1075,13 @@ Orientadas a objetos
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-De trabajo en memoria
+Orientadas a objetos
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-28" class="callout-28-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Estas bases de datos suelen estar constituidas por estructuras simples con el objetivo de poder ser alojadas en la memoria principal del computador. De esta manera se consigue que el tiempo de respuesta y la gestión y manejo de los datos sea mucho más rápida que en el resto de las bases de datos, que utilizan el disco duro del computador como lugar físico de almacenamiento. Debido a estas características son utilizadas en aplicaciones de alto rendimiento que gestionen volúmenes de datos asequibles. Ejemplo: Redis <span class="citation" data-cites="nelson2016mastering">(<a href="references.html#ref-nelson2016mastering" role="doc-biblioref">Nelson 2016</a>)</span></p>
+<p>Son bases de datos capaces de emular la abstracción proporcionada por la programación orientada a objetos. Por lo tanto, contienen entidades (clases) que incluyen atributos y métodos de acceso y modificación de estos, produciendo encapsulamiento. Ejemplo: Gemstone <span class="citation" data-cites="ra1994flexible">(<a href="references.html#ref-ra1994flexible" role="doc-biblioref">Ra, Kuno, y Rundensteiner 1994</a>)</span></p>
 </div>
 </div>
 </div>
@@ -1083,11 +1091,27 @@ De trabajo en memoria
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Para saber más sobre bases de datos
+De trabajo en memoria
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-29" class="callout-29-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Estas bases de datos suelen estar constituidas por estructuras simples con el objetivo de poder ser alojadas en la memoria principal del computador. De esta manera se consigue que el tiempo de respuesta y la gestión y manejo de los datos sea mucho más rápida que en el resto de las bases de datos, que utilizan el disco duro del computador como lugar físico de almacenamiento. Debido a estas características son utilizadas en aplicaciones de alto rendimiento que gestionen volúmenes de datos asequibles. Ejemplo: Redis <span class="citation" data-cites="nelson2016mastering">(<a href="references.html#ref-nelson2016mastering" role="doc-biblioref">Nelson 2016</a>)</span></p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-30-contents" aria-controls="callout-30" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Para saber más sobre bases de datos
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-30" class="callout-30-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Las distintas clasificaciones presentadas en este curso son una pequeña aproximación al mundo de las bases de datos. Para más detalles respecto a los conceptos detallados en este apartado ver <span class="citation" data-cites="harrington2016relational">(<a href="references.html#ref-harrington2016relational" role="doc-biblioref">Harrington 2016</a>)</span> para las bases de datos relacionales y <span class="citation" data-cites="meier2019sql">(<a href="references.html#ref-meier2019sql" role="doc-biblioref">Meier y Kaufmann 2019</a>)</span> para las bases de datos no relacionales.</p>
 </div>
@@ -1102,7 +1126,7 @@ Para saber más sobre bases de datos
 <p>La elección de la infraestructura de almacenamiento adecuada dependerá de la naturaleza de los datos y de los objetivos del proyecto. La capacidad de gestionar y acceder a los datos de manera efectiva es un componente clave en la cadena de valor de la ciencia de datos, ya que permite a los científicos de datos realizar análisis, modelado y generación de conocimiento de manera más eficiente y precisa.</p>
 <p>Aquí presentamos algunos ejemplos de infraestructuras de almacenmiento de datos:</p>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-30-contents" aria-controls="callout-30" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-31-contents" aria-controls="callout-31" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1111,25 +1135,9 @@ Bases de datos relacionales
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-30" class="callout-30-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Ejemplos populares incluyen MySQL, PostgreSQL, Microsoft SQL Server y Oracle. Son ideales para datos estructurados y son ampliamente utilizados en aplicaciones empresariales y proyectos de análisis de datos.</p>
-</div>
-</div>
-</div>
-<div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-31-contents" aria-controls="callout-31" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-caption-container flex-fill">
-Bases de datos NoSQL
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
 <div id="callout-31" class="callout-31-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Incluyen bases de datos orientadas a documentos como MongoDB, bases de datos columnares como Apache Cassandra, y bases de datos gráficas como Neo4j. Estas bases de datos son adecuadas para datos semiestructurados y no estructurados, y son especialmente útiles en aplicaciones web y análisis de redes sociales.</p>
+<p>Ejemplos populares incluyen MySQL, PostgreSQL, Microsoft SQL Server y Oracle. Son ideales para datos estructurados y son ampliamente utilizados en aplicaciones empresariales y proyectos de análisis de datos.</p>
 </div>
 </div>
 </div>
@@ -1139,13 +1147,13 @@ Bases de datos NoSQL
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Almacenes de datos en la nube
+Bases de datos NoSQL
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-32" class="callout-32-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Servicios como Amazon S3, Google Cloud Storage y Microsoft Azure Blob Storage ofrecen soluciones de almacenamiento altamente escalables y rentables en la nube para datos estructurados y no estructurados. Son ideales para proyectos que requieren almacenamiento y acceso a gran escala. Los sistemas de computación en la nube son capaces de ofrecer un conjunto de características estandarizadas que se adaptan al consumidor, lo que los hace muy flexibles.</p>
+<p>Incluyen bases de datos orientadas a documentos como MongoDB, bases de datos columnares como Apache Cassandra, y bases de datos gráficas como Neo4j. Estas bases de datos son adecuadas para datos semiestructurados y no estructurados, y son especialmente útiles en aplicaciones web y análisis de redes sociales.</p>
 </div>
 </div>
 </div>
@@ -1155,13 +1163,13 @@ Almacenes de datos en la nube
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Hadoop Distributed File System (HDFS)
+Almacenes de datos en la nube
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-33" class="callout-33-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Es una parte integral del ecosistema Hadoop y se utiliza para almacenar y gestionar grandes conjuntos de datos distribuidos en clústeres de servidores. Es comúnmente utilizado en proyectos de big data y análisis de datos masivos.</p>
+<p>Servicios como Amazon S3, Google Cloud Storage y Microsoft Azure Blob Storage ofrecen soluciones de almacenamiento altamente escalables y rentables en la nube para datos estructurados y no estructurados. Son ideales para proyectos que requieren almacenamiento y acceso a gran escala. Los sistemas de computación en la nube son capaces de ofrecer un conjunto de características estandarizadas que se adaptan al consumidor, lo que los hace muy flexibles.</p>
 </div>
 </div>
 </div>
@@ -1171,13 +1179,13 @@ Hadoop Distributed File System (HDFS)
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Sistemas de almacenamiento en memoria
+Hadoop Distributed File System (HDFS)
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-34" class="callout-34-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Ejemplos incluyen Redis y Apache Kafka. Estos sistemas permiten el almacenamiento y la recuperación ultrarrápidos de datos en memoria, lo que es esencial para aplicaciones en tiempo real y análisis de transmisiones de datos.</p>
+<p>Es una parte integral del ecosistema Hadoop y se utiliza para almacenar y gestionar grandes conjuntos de datos distribuidos en clústeres de servidores. Es comúnmente utilizado en proyectos de big data y análisis de datos masivos.</p>
 </div>
 </div>
 </div>
@@ -1187,13 +1195,13 @@ Sistemas de almacenamiento en memoria
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Sistemas de almacenamiento distribuido
+Sistemas de almacenamiento en memoria
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-35" class="callout-35-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Ejemplos incluyen Apache HBase y Apache CouchDB. Estos sistemas ofrecen alta disponibilidad y escalabilidad, lo que es crucial para aplicaciones que requieren acceso y actualización concurrentes de datos distribuidos.</p>
+<p>Ejemplos incluyen Redis y Apache Kafka. Estos sistemas permiten el almacenamiento y la recuperación ultrarrápidos de datos en memoria, lo que es esencial para aplicaciones en tiempo real y análisis de transmisiones de datos.</p>
 </div>
 </div>
 </div>
@@ -1203,13 +1211,13 @@ Sistemas de almacenamiento distribuido
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Sistemas de almacenamiento de datos geoespaciales
+Sistemas de almacenamiento distribuido
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-36" class="callout-36-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Ejemplos incluyen PostGIS y MongoDB con capacidades geoespaciales habilitadas. Estos sistemas son esenciales para proyectos que involucran datos de ubicación y análisis geoespaciales.</p>
+<p>Ejemplos incluyen Apache HBase y Apache CouchDB. Estos sistemas ofrecen alta disponibilidad y escalabilidad, lo que es crucial para aplicaciones que requieren acceso y actualización concurrentes de datos distribuidos.</p>
 </div>
 </div>
 </div>
@@ -1219,11 +1227,27 @@ Sistemas de almacenamiento de datos geoespaciales
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Almacenamiento de datos en almacenes de datos empresariales
+Sistemas de almacenamiento de datos geoespaciales
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-37" class="callout-37-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Ejemplos incluyen PostGIS y MongoDB con capacidades geoespaciales habilitadas. Estos sistemas son esenciales para proyectos que involucran datos de ubicación y análisis geoespaciales.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-38-contents" aria-controls="callout-38" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Almacenamiento de datos en almacenes de datos empresariales
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-38" class="callout-38-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Ejemplos incluyen sistemas como Teradata y SAP HANA. Estas soluciones se utilizan en empresas para el almacenamiento y análisis de grandes volúmenes de datos de negocios.</p>
 </div>
@@ -1250,7 +1274,7 @@ Importante
 </div>
 <p>Despliega los paneles para averiguar algunas consideraciones clave sobre la calidad de los datos en un proyecto de ciencia de datos.</p>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-39-contents" aria-controls="callout-39" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-40-contents" aria-controls="callout-40" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1259,25 +1283,9 @@ Precisión
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-39" class="callout-39-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Los datos deben ser precisos y libres de errores. Los errores en los datos pueden surgir de diversas fuentes, como entradas incorrectas, mediciones inexactas o problemas de registro. Es fundamental garantizar la precisión de los datos para evitar interpretaciones erróneas y resultados incorrectos.</p>
-</div>
-</div>
-</div>
-<div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-40-contents" aria-controls="callout-40" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-caption-container flex-fill">
-Integridad
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
 <div id="callout-40" class="callout-40-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>La integridad de los datos se refiere a su completitud y coherencia. Los datos incompletos o faltantes pueden dificultar el análisis y llevar a conclusiones sesgadas. La integridad también se relaciona con la consistencia de los datos a lo largo del tiempo y entre diferentes fuentes.</p>
+<p>Los datos deben ser precisos y libres de errores. Los errores en los datos pueden surgir de diversas fuentes, como entradas incorrectas, mediciones inexactas o problemas de registro. Es fundamental garantizar la precisión de los datos para evitar interpretaciones erróneas y resultados incorrectos.</p>
 </div>
 </div>
 </div>
@@ -1287,13 +1295,13 @@ Integridad
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Consistencia
+Integridad
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-41" class="callout-41-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Los datos deben ser coherentes en su estructura y formato. Esto implica que las mismas categorías, unidades de medida y convenciones deben aplicarse de manera consistente en todo el conjunto de datos. La falta de consistencia puede dificultar la combinación y el análisis de datos de múltiples fuentes.</p>
+<p>La integridad de los datos se refiere a su completitud y coherencia. Los datos incompletos o faltantes pueden dificultar el análisis y llevar a conclusiones sesgadas. La integridad también se relaciona con la consistencia de los datos a lo largo del tiempo y entre diferentes fuentes.</p>
 </div>
 </div>
 </div>
@@ -1303,13 +1311,13 @@ Consistencia
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Relevancia
+Consistencia
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-42" class="callout-42-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Los datos deben ser relevantes para los objetivos del proyecto. Incluir datos irrelevantes puede aumentar la complejidad del análisis sin aportar valor. Es importante definir claramente qué datos son necesarios para abordar las preguntas o problemas específicos que se plantean en el proyecto.</p>
+<p>Los datos deben ser coherentes en su estructura y formato. Esto implica que las mismas categorías, unidades de medida y convenciones deben aplicarse de manera consistente en todo el conjunto de datos. La falta de consistencia puede dificultar la combinación y el análisis de datos de múltiples fuentes.</p>
 </div>
 </div>
 </div>
@@ -1319,13 +1327,13 @@ Relevancia
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Actualización
+Relevancia
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-43" class="callout-43-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Los datos deben mantenerse actualizados. En muchos proyectos de ciencia de datos, la información envejece con el tiempo y puede perder su relevancia o precisión. Es esencial establecer procesos para la actualización y el mantenimiento continuo de los datos.</p>
+<p>Los datos deben ser relevantes para los objetivos del proyecto. Incluir datos irrelevantes puede aumentar la complejidad del análisis sin aportar valor. Es importante definir claramente qué datos son necesarios para abordar las preguntas o problemas específicos que se plantean en el proyecto.</p>
 </div>
 </div>
 </div>
@@ -1335,13 +1343,13 @@ Actualización
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Limpieza de datos
+Actualización
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-44" class="callout-44-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>La limpieza de datos es el proceso de identificar y corregir errores, duplicados y valores atípicos en el conjunto de datos. Es una etapa crítica para mejorar la calidad de los datos antes de su análisis. Abordaremos esta etapa en el tema 3, cuando tratemos el Análisis Exploratorio de Datos.</p>
+<p>Los datos deben mantenerse actualizados. En muchos proyectos de ciencia de datos, la información envejece con el tiempo y puede perder su relevancia o precisión. Es esencial establecer procesos para la actualización y el mantenimiento continuo de los datos.</p>
 </div>
 </div>
 </div>
@@ -1351,11 +1359,27 @@ Limpieza de datos
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Documentación
+Limpieza de datos
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-45" class="callout-45-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>La limpieza de datos es el proceso de identificar y corregir errores, duplicados y valores atípicos en el conjunto de datos. Es una etapa crítica para mejorar la calidad de los datos antes de su análisis. Abordaremos esta etapa en el tema 3, cuando tratemos el Análisis Exploratorio de Datos.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-46-contents" aria-controls="callout-46" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Documentación
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-46" class="callout-46-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Es importante documentar el origen de los datos, las transformaciones realizadas, las decisiones tomadas durante la preparación de los datos y cualquier asunción que se haya hecho. La documentación adecuada facilita la comprensión y la replicación de los análisis.</p>
 </div>
@@ -1367,7 +1391,7 @@ Documentación
 <h2 data-number="2.5" class="anchored" data-anchor-id="ética-privacidad-y-seguridad-en-los-datos"><span class="header-section-number">2.5</span> Ética, privacidad y seguridad en los datos</h2>
 <p>La ética, privacidad y seguridad en los datos son aspectos entrelazados y fundamentales para garantizar que la recopilación, el análisis y el uso de datos se realicen de manera responsable y en beneficio de la sociedad. No solo son cuestiones éticas, sino que también tienen implicaciones legales y pueden afectar la reputación de las organizaciones. Los profesionales de datos y las empresas deben adoptar un enfoque proactivo para garantizar que sus prácticas de datos sean éticas y cumplan con las regulaciones aplicables, lo que a su vez contribuye a la construcción de la confianza del público en el uso de la ciencia de datos en la sociedad.</p>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-46-contents" aria-controls="callout-46" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-47-contents" aria-controls="callout-47" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1376,7 +1400,7 @@ Documentación
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-46" class="callout-46-contents callout-collapse collapse">
+<div id="callout-47" class="callout-47-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>La <strong>ética</strong> en la ciencia de datos se refiere a la conducta y las decisiones éticas de los profesionales de datos en todas las etapas del proceso, desde la recopilación hasta la interpretación y comunicación de resultados. Algunos puntos clave incluyen:</p>
 <ul>
@@ -1389,7 +1413,7 @@ Documentación
 </div>
 </div>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-47-contents" aria-controls="callout-47" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-48-contents" aria-controls="callout-48" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1398,7 +1422,7 @@ Privacidad
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-47" class="callout-47-contents callout-collapse collapse">
+<div id="callout-48" class="callout-48-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>La <strong>privacidad</strong> de los datos se refiere a la protección de la información personal y sensible. En la ciencia de datos, es crucial proteger la privacidad de las personas y cumplir con las regulaciones de privacidad aplicables. Algunos aspectos importantes son:</p>
 <ul>
@@ -1410,7 +1434,7 @@ Privacidad
 </div>
 </div>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-48-contents" aria-controls="callout-48" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-49-contents" aria-controls="callout-49" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1419,7 +1443,7 @@ Seguridad
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-48" class="callout-48-contents callout-collapse collapse">
+<div id="callout-49" class="callout-49-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>La <strong>seguridad</strong> de los datos es la protección contra el acceso no autorizado, la alteración o la destrucción de los datos. Para garantizar la seguridad de los datos, es importante:</p>
 <ul>

@@ -431,6 +431,26 @@ Christoph Molnar, experto en Machine Learning explicable, ilustra de forma diver
 ![](datos_images/TrainMother.png){fig-align="center" width="700"}
 :::
 
+::: {.callout-caution title="Atención"}
+¡Ojo!
+
+Toda transformación/cambio/modificación que realicemos en el conjunto de entrenamiento debemos realizarla exactamente igual en el resto de conjuntos de la partición. ¿Qué significa exactamente igual? ¡Exactamente igual! Por ejemplo, si en el conjunto de entrenamiento estandarizamos la variable $x_j$ del siguiente modo:
+
+$$
+x^{' train}_{j}=\frac{x^{train}_j -\mu_{x^{train}_j}}{\sigma_{x^{train}_j}}
+$$
+
+En test y validación tendremos que realizar la misma transformación, es decir, restar la media de la variable en train y dividir por la desviación típica de la variable train:
+
+$$
+x^{' test}_{j}=\frac{x^{test}_j -\mu_{x^{train}_j}}{\sigma_{x^{train}_j}}
+$$
+
+$$
+x^{' validation}_{j}=\frac{x^{validation}_j -\mu_{x^{train}_j}}{\sigma_{x^{train}_j}}
+$$
+:::
+
 ## Mantenimiento de los datos
 
 Una vez que los datos han sido adquiridos, es esencial asegurar su mantenimiento y almacenamiento en entornos adecuados. Para lograr este objetivo, se han desarrollado múltiples sistemas de gestión de bases de datos, diseñados para satisfacer las diversas necesidades de usuarios y organizaciones. Estos sistemas de gestión de bases de datos se integran en infraestructuras más amplias y complejas que permiten el manejo eficaz y eficiente de los datos.
