@@ -17,13 +17,13 @@ PCA es una de las técnicas más populares para la reducción de la dimensión. 
 :::
 
 ::: {.callout-note collapse="true"}
-## Análisis de Factor
+## Análisis de factor
 
 Similar a PCA, el análisis de factor busca identificar variables latentes o factores subyacentes que expliquen las relaciones entre las variables originales. Es útil cuando se sospecha que las variables observadas están influenciadas por factores no observados.
 :::
 
 ::: {.callout-note collapse="true"}
-## Reducción de la Dimensión Basada en Selección
+## Reducción de la dimensión basada en selección
 
 Esta técnica implica seleccionar un subconjunto de variables originales en función de algún criterio, como su importancia para el problema o su capacidad de explicar la variabilidad. Algunos métodos de selección incluyen la selección de características y la eliminación de características redundantes.
 :::
@@ -53,7 +53,7 @@ Los autoencoders son redes neuronales que se utilizan para aprender representaci
 :::
 
 ::: {.callout-note collapse="true"}
-## Reducción de la Dimensión Basada en la ingeniería de características
+## Reducción de la dimensión basada en la ingeniería de características
 
 A veces, la reducción de la dimensión se puede lograr mediante la ingeniería de características (**Feature Engineering**), donde se crean nuevas variables que resumen la información de las originales de manera más efectiva.
 :::
@@ -63,19 +63,19 @@ En este tema, exploraremos en detalle las técnicas más utilizadas para la redu
 Por tanto, podemos decir que los métodos de reducción de dimensionalidad son técnicas que se utilizan para reducir la cantidad de variables en un conjunto de datos mientras se intenta retener la información relevante. Sin embargo, existen enfoques adicionales para realizar la reducción de la dimensionalidad, que se clasifican comúnmente en tres categorías: *filter*, *wrapper* y *embedded* [@john1994irrelevant].
 
 ::: {.callout-note collapse="true"}
-## Métodos Filter
+## Métodos filter
 
 Los métodos filter son técnicas de selección de características que se aplican antes de entrenar un modelo de ML. Estos métodos evalúan la relación entre cada variable y la variable objetivo (o alguna medida de relevancia) sin tener en cuenta un modelo específico. Los métodos *filter* utilizan estadísticas, métricas de rendimiento, pruebas de hipótesis u otras técnicas para clasificar las características en función de su relevancia. Algunos ejemplos de métodos *filter* incluyen la correlación de Pearson, la información mutua y la prueba estadística chi-cuadrado. La principal ventaja de los métodos *filter* es su eficiencia computacional, ya que no requieren entrenar modelos.
 :::
 
 ::: {.callout-note collapse="true"}
-## Métodos Wrapper
+## Métodos wrapper
 
 Los métodos *wrapper* también son técnicas de selección de características, pero al contrario que los métodos *filter*, utilizan modelos de ML as características. Se evalúan múltiples modelos mediante procedimientos que añaden y/o eliminan variables predictoras para encontrar la combinación óptima que maximice el rendimiento del modelo. Los métodos *wrapper* pueden ser más precisos que los métodos *filter*, ya que tienen en cuenta la interacción entre las características, pero tienden a ser más computacionalmente costosos, ya que involucran el entrenamiento repetido de modelos.
 :::
 
 ::: {.callout-note collapse="true"}
-## Métodos Embedded:
+## Métodos embedded:
 
 Los métodos *embedded* incorporan la selección de características directamente en el proceso de entrenamiento de un modelo de ML. En lugar de realizar la selección de características como un paso separado, estos métodos evalúan la relevancia de las características mientras se ajustan al modelo. Esto significa que las características se seleccionan o ponderan automáticamente durante el entrenamiento del modelo. Ejemplos de métodos *embedded* incluyen la regresión L1 (Lasso), que impone penalizaciones a los coeficientes de las características menos importantes, y los métodos de árboles de decisión, que pueden evaluar la importancia de las características durante la construcción del árbol.
 :::
@@ -97,6 +97,196 @@ Los pasos para aplicar esta técnica sobre un conjunto de datos son:
 4.  **Transformación de datos:** Finalmente, los datos originales se transforman en el espacio de los componentes principales. Esto significa que las variables originales se combinan linealmente para formar nuevas variables (los componentes principales) que son ortogonales entre sí. Es decir, se crean nuevas variables, como combinación lineal de las originales, con la particularidad de que esas nuevas variables son incorreladas y de varianza $1$. Por lo tanto, estos componentes principales no tienen multicolinealidad, lo que es útil en análisis posteriores.
 
 El PCA se utiliza en diversas aplicaciones, como reducción de dimensionalidad, compresión de imágenes, análisis de datos, reconocimiento de patrones, etc. Permite simplificar datos complejos mientras se retiene la mayor cantidad posible de información importante. Al seleccionar un número apropiado de componentes principales, es posible reducir la dimensionalidad de los datos sin perder significado, lo que puede mejorar la eficiencia del análisis y la visualización.
+
+### **Profundicemos un poco más**
+
+El PCA busca encontrar una representación más eficiente (menor dimensión) de los datos preservando la información contenida en ellos. La idea fundamental es que **la varianza de los datos representa la cantidad de información que contienen**, y PCA rota el sistema de coordenadas para encontrar las direcciones en las que la varianza es máxima.
+
+::: {.callout-caution title="Para recordar"}
+# Para recordar
+
+Relación entre los conceptos de varianza e información.
+:::
+
+Formalmente, dado un conjunto de datos con $p$ variables, la técnica busca transformar estas variables en un nuevo conjunto de $p$ variables ortogonales denominadas componentes principales, ordenadas de manera que capturen la mayor cantidad de varianza posible y sean ortogonales.
+
+**Formulación matemática**
+
+Sea $\mathbf{X}=(\mathbf{x}_1,\dots,\mathbf{x}_p) \in \mathbb{R}^{n \times p}$ una matriz de datos con $n$ observaciones y $p$ variables, centrada en la media (esto es, cada columna tiene media cero). El objetivo del PCA es encontrar un conjunto de vectores $\mathbf{W}=(\mathbf{w}_1, \mathbf{w}_2, \dots, \mathbf{w}_p)$ tales que las proyecciones de los datos sobre estos vectores maximicen la varianza (cantidad de información explicada).
+
+Las componentes principales vienen dadas por una combinación lineal de las variables originales $\mathbf{x}_1,\dots,\mathbf{x}_p$, en el caso de la primera $\mathbf{z}_1$:
+
+$$
+\mathbf{z}_1=w_{11} \mathbf{x}_1+\cdots + w_{1p} \mathbf{x}_p
+$$
+
+o, en términos matriciales
+
+$$
+\mathbf{z}_1 = \mathbf{X}\mathbf{w}_1 .
+$$
+
+La primera componente se calcula buscando que tenga la máxima varianza posible. Evidentemente, podríamos hacer la varianza de $\mathbf{z}_1$ todo lo grande que quisiéramos escogiendo valores grandes de $w_{11},w_{12},\dots,w_{1p}$. Para evitar esto, se impone la siguiente restricción $w^{2}_{11}+w^{2}_{12}+ \cdots + w^{2}_{1p}=1,$ es decir, que el módulo del vector sea 1, $|\mathbf{w}_1| = 1.$
+
+Así, lo que queremos hacer es calcular $\mathbf{w}_1$ que maximice la varianza de $\mathbf{z}_1$ con la restricción de que $|\mathbf{w}_1| = 1$. La varianza de $\mathbf{z}_1$ es
+
+$$
+Var(\mathbf{z}_1) = \frac{1}{n}\mathbf{z}^{t}_1 \mathbf{z}_1 = \frac{1}{n}\mathbf{w}^{t}_1 \mathbf{X}^{t} \mathbf{X} \mathbf{w}_1 = \mathbf{w}^{t}_1  \mathbf{S} \mathbf{w}_1
+$$
+
+donde $\mathbf{S} = \frac{1}{n} \mathbf{X}^{t} \mathbf{X}$ es la matriz de covarianza de los datos (definida positiva). $\mathbf{w}_1$ se obtiene resolviendo el problema de optimización:
+
+$$
+\max_{\mathbf{w}_1}  \mathbf{w}_1^{t}\mathbf{S}\mathbf{w}_1, \text{   sujeto a }\mathbf{w}_1^{t}\mathbf{w}_1 = 1,
+$$
+
+Resolver este problema mediante los multiplicadores de Lagrange (os sonará de asignaturas previas como Optimización I):
+
+$$
+L(\mathbf{w}_1, \lambda_1) = \mathbf{w}_1^{t}\mathbf{S}\mathbf{w}_1 - \lambda_1(\mathbf{w}_1^{t}\mathbf{w}_1 - 1)
+$$
+
+y maximizamos la expresión derivando con respecto a $\mathbf{w}_1$ y haciendo cero la derivada:
+
+$$
+\frac{\partial L}{\partial \mathbf{w}_1} = 2\mathbf{S}\mathbf{w}_1 - 2\lambda_1 \mathbf{w}_1=0,
+$$
+
+lo que implica que $\mathbf{S}\mathbf{w}_1 = \lambda_1 \mathbf{w}_1$.
+
+Esto muestra que $\mathbf{w}_1$ es un autovector de la matriz de covarianza $\mathbf{S}$ y $\lambda_1$ es su autovalor asociado. ¿Qué autovalor es $\lambda_1$? Si en $\mathbf{S}\mathbf{w}_1 = \lambda_1 \mathbf{w}_1$multiplicamos por $\mathbf{w}^{t}_1$:
+
+$$
+\underbrace{\mathbf{w}^{t}_1\mathbf{S}\mathbf{w}_1}_{Var(\mathbf{z}_1)} = \lambda_1 \underbrace{\mathbf{w}^{t}_1 \mathbf{w}_1}_{1} \Rightarrow Var(\mathbf{z}_1) = \lambda_1
+$$
+
+Como lo que se quiere maximizar es la varianza, la primera componente principal se obtiene escogiendo $\lambda_1$ como el mayor autovalor de $\mathbf{S}$. Su autovector $\mathbf{w}_1$ nos indica los coeficientes asociados a cada una de las variables $\mathbf{x}_j$ originales para lograr la combinación lineal $\mathbf{z}_1$.
+
+Similarmente, se obtiene la segunda componente principal. Ahora buscamos maximizar la suma de las varianzas de $\mathbf{z}_1$ y $\mathbf{z}_2$. En este caso la función de Lagrange a optimizar queda
+
+$$
+L(\mathbf{w}_2, \lambda_2) = \mathbf{w}_1^{t}\mathbf{S}\mathbf{w}_1 +\mathbf{w}_2^{t}\mathbf{S}\mathbf{w}_2 - \lambda_1(\mathbf{w}_1^{t}\mathbf{w}_1 - 1) - \lambda_2(\mathbf{w}_2^{t}\mathbf{w}_2 - 1)
+$$
+
+Como antes, derivando e igualando a 0:
+
+$$
+\frac{\partial L}{\partial \mathbf{w}_1} = 2\mathbf{S}\mathbf{w}_1 - 2\lambda_1 \mathbf{w}_1=0,
+$$
+
+$$
+\frac{\partial L}{\partial \mathbf{w}_2} = 2\mathbf{S}\mathbf{w}_2 - 2\lambda_2 \mathbf{w}_2=0,
+$$
+
+De donde se obtiene que $\mathbf{S}\mathbf{w}_1 = \lambda_1 \mathbf{w}_1$ y que $\mathbf{S}\mathbf{w}_2 = \lambda_2 \mathbf{w}_2$*.* Esto nos vuelve a llevar a que$\mathbf{w}_1$ y $\mathbf{w}_2$ son autovectores de la matriz de covarianzas con $\lambda_1$ y $\lambda_2$ como autovalores asociados. Como antes, se escogerán los autovalores de mayor valor puesto que son los que maximizan la varianza. Además, estos dos autovectores están incorrelados (son ortogonales) dado que
+
+$$
+\mathbf{w}_1^{t} \lambda_2 \mathbf{w}_2=\mathbf{w}_1^{t} \mathbf{S}\mathbf{w}_2 \underbrace{=}_{\mathbf{S} \text{ simétrica}} \mathbf{w}_2^{t} \mathbf{S}\mathbf{w}_1 =\mathbf{w}_2^{t} \lambda_1\mathbf{w}_1
+$$
+
+y como $\lambda_1 \neq \lambda_2 \Rightarrow \mathbf{w}_1^{t}\mathbf{w}_2= \mathbf{w}_2^{t}\mathbf{w}_1=0$, esto es, son vectores ortogonales (como además tienen norma 1, son ortonormales). Esto significa que las componentes principales $\mathbf{z}_1$ y $\mathbf{z}_2$ están incorreladas.
+
+Procediendo del mismo modo se irían consiguiendo el resto de componetes principales. De forma general, se obtiene que las soluciones al problema de optimización son los autovectores $\mathbf{w}_1, \mathbf{w}_2, \mathbf{w}_3, \dots, \mathbf{w}_p$ asociados a los $p$ autovalores $\mathbf{\lambda}=(\lambda_1,\dots,\lambda_p)$ de $\mathbf{S}$, en orden descendente. Sin pérdida de generalidad asumimos que $\lambda_1>\cdots>\lambda_p$ para que las componentes principales estén ordenadas por cantidad de varianza explicada.
+
+Como las nuevas variables calculadas están incorreladas, la matriz de covarianzas de $\mathbf{Z}$ es
+
+$$
+\text{Var}(\mathbf{Z}) =\mathbf{S}_Z
+=
+\begin{bmatrix}
+\lambda_1 & 0 & \dots & 0 \\
+0 & \lambda_2 & \dots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \dots & \lambda_p
+\end{bmatrix}
+$$
+
+Realmente, con PCA, lo que hemos hecho ha sido diagonalizar la matriz de covarianza $\mathbf{S}$ (esto equivale a encontrar una base ortonormal de autovectores en la que la matriz de covarianza sea diagonal):
+
+$$
+\mathbf{S}_Z=\text{Var}(\mathbf{Z}) = \mathbf{W}^{t}\text{Var}(\mathbf{X})\mathbf{W} = \mathbf{W}^{t}\mathbf{S}\mathbf{W}
+$$
+
+Generalmente la matriz de covarianza $\mathbf{S}$ es definida positiva (puede ser semidefinida positiva), es decir, tiene $p$ autovalores positivos. Por tanto, tendremos el mismo número de componentes principales que de variables originales:
+
+$$
+\mathbf{Z} = \mathbf{X}\mathbf{W}
+$$
+
+En resumen, calcular las componentes principales es realizar una transformación ortogonal $\mathbf{W}$ a las variables $\mathbf{X}$ (ejes originales) logrando nuevas variables $\mathbf{Z}$ que están incorreladas entre sí y que maximizan la varianza. Las nuevas variables $\mathbf{Z}$ son una combinación lineal de las originales $\mathbf{X}$ por lo que nos ayudaremos de los valores de los coeficientes $\mathbf{W}$ para interpretarlas y darles un significado.
+
+**Porcentaje de variabilidad**
+
+Tenemos que
+
+$$
+\text{Var}(\mathbf{Z}) = \sum_{i=1}^{p} \text{Var}(\mathbf{z}_i)=\sum_{i=1}^{p} \lambda_i =\text{traza}(\mathbf{S}_Z)
+$$
+
+Por las propiedades de la traza, $\text{traza}(\mathbf{S}_Z) = \text{traza}(\mathbf{S})=\sum_{i=1}^{p} \text{Var}(\mathbf{x}_i)$
+
+Es decir, la suma de las varianzas de las variables originales y de las componentes principales coincide. Con ello, podemos especificar el porcentaje de varianza que explica cada componente principal:
+
+$$
+\frac{\lambda_i}{\sum_{i=1}^{p} \lambda_i}=\frac{\lambda_i}{\sum_{i=1}^{p} \text{Var}(\mathbf{x}_i)}
+$$
+
+Del mismo modo, se puede calcular el porcentaje de variabilidad explicada por las primeras componentes.
+
+**Interpretación geométrica**
+
+El procedimiento descrito equivale a realizar una rotación del sistema de coordenadas original a un nuevo sistema donde los ejes están alineados con las direcciones de máxima varianza. Los nuevos ejes (componentes principales) son ortogonales entre sí y capturan la mayor cantidad de información posible en las primeras componentes, permitiendo reducir la dimensionalidad reteniendo la información más relevante.
+
+Mediante la siguiente simulación en R podemos ver la transformación que se logra tras aplicar PCA al conjunto de datos:
+
+```{r}
+#| label: interpret1
+#| include: true
+#| warning: false
+#| echo: true
+#| code-fold: true
+#| code-summary: "Click para ver el código"
+# Ejemplo transformación ortonormal PCA
+
+# Librerías
+library(ggplot2)
+library(gridExtra)
+
+# Semilla para reproducibilidad
+set.seed(42)
+
+# Datos correlacionados
+n <- 100
+x1 <- rnorm(n, mean = 0, sd = 2)
+x2 <- 0.8 * x1 + rnorm(n, mean = 0, sd = 1)
+data <- data.frame(x1, x2)
+
+# PCA
+pca <- prcomp(data, center = TRUE, scale. = TRUE)
+
+# Guardar nuevas varialbes
+data_pca <- as.data.frame(pca$x)
+colnames(data_pca) <- c("PC1", "PC2")
+
+# Gráfico datos originales
+p1 <- ggplot(data, aes(x1, x2)) +
+  geom_point(color = "blue", alpha = 0.6) +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  coord_fixed() +
+  ggtitle("Datos originales")
+
+# Gráfico componentes
+p2 <- ggplot(data_pca, aes(PC1, PC2)) +
+  geom_point(color = "red", alpha = 0.6) +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  coord_fixed(ratio=1.5) +
+  ggtitle("Datos transformados (PCA)")
+
+grid.arrange(p1, p2, ncol = 2)
+
+```
 
 ### PCA en R
 

@@ -242,7 +242,8 @@ div.csl-indent {
   <ul>
   <li><a href="#análisis-de-componentes-principales-pca-1" id="toc-análisis-de-componentes-principales-pca-1" class="nav-link active" data-scroll-target="#análisis-de-componentes-principales-pca-1"> <span class="header-section-number">4.1</span> Análisis de Componentes Principales (PCA)</a>
   <ul class="collapse">
-  <li><a href="#pca-en-r" id="toc-pca-en-r" class="nav-link" data-scroll-target="#pca-en-r"> <span class="header-section-number">4.1.1</span> PCA en R</a></li>
+  <li><a href="#profundicemos-un-poco-más" id="toc-profundicemos-un-poco-más" class="nav-link" data-scroll-target="#profundicemos-un-poco-más"> <span class="header-section-number">4.1.1</span> <strong>Profundicemos un poco más</strong></a></li>
+  <li><a href="#pca-en-r" id="toc-pca-en-r" class="nav-link" data-scroll-target="#pca-en-r"> <span class="header-section-number">4.1.2</span> PCA en R</a></li>
   </ul></li>
   <li><a href="#selección-de-características" id="toc-selección-de-características" class="nav-link" data-scroll-target="#selección-de-características"> <span class="header-section-number">4.2</span> Selección de características</a></li>
   </ul>
@@ -294,7 +295,7 @@ Análisis de Componentes Principales (PCA)
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Análisis de Factor
+Análisis de factor
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -310,7 +311,7 @@ Análisis de Factor
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Reducción de la Dimensión Basada en Selección
+Reducción de la dimensión basada en selección
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -390,7 +391,7 @@ Autoencoders
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Reducción de la Dimensión Basada en la ingeniería de características
+Reducción de la dimensión basada en la ingeniería de características
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -408,7 +409,7 @@ Reducción de la Dimensión Basada en la ingeniería de características
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Métodos Filter
+Métodos filter
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -424,7 +425,7 @@ Métodos Filter
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Métodos Wrapper
+Métodos wrapper
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -440,7 +441,7 @@ Métodos Wrapper
 <i class="callout-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
-Métodos Embedded:
+Métodos embedded:
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -462,11 +463,160 @@ Métodos Embedded:
 <li><p><strong>Transformación de datos:</strong> Finalmente, los datos originales se transforman en el espacio de los componentes principales. Esto significa que las variables originales se combinan linealmente para formar nuevas variables (los componentes principales) que son ortogonales entre sí. Es decir, se crean nuevas variables, como combinación lineal de las originales, con la particularidad de que esas nuevas variables son incorreladas y de varianza <span class="math inline">\(1\)</span>. Por lo tanto, estos componentes principales no tienen multicolinealidad, lo que es útil en análisis posteriores.</p></li>
 </ol>
 <p>El PCA se utiliza en diversas aplicaciones, como reducción de dimensionalidad, compresión de imágenes, análisis de datos, reconocimiento de patrones, etc. Permite simplificar datos complejos mientras se retiene la mayor cantidad posible de información importante. Al seleccionar un número apropiado de componentes principales, es posible reducir la dimensionalidad de los datos sin perder significado, lo que puede mejorar la eficiencia del análisis y la visualización.</p>
-<section id="pca-en-r" class="level3" data-number="4.1.1">
-<h3 data-number="4.1.1" class="anchored" data-anchor-id="pca-en-r"><span class="header-section-number">4.1.1</span> PCA en R</h3>
+<section id="profundicemos-un-poco-más" class="level3" data-number="4.1.1">
+<h3 data-number="4.1.1" class="anchored" data-anchor-id="profundicemos-un-poco-más"><span class="header-section-number">4.1.1</span> <strong>Profundicemos un poco más</strong></h3>
+<p>El PCA busca encontrar una representación más eficiente (menor dimensión) de los datos preservando la información contenida en ellos. La idea fundamental es que <strong>la varianza de los datos representa la cantidad de información que contienen</strong>, y PCA rota el sistema de coordenadas para encontrar las direcciones en las que la varianza es máxima.</p>
+<div class="callout-caution callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Para recordar
+</div>
+</div>
+<div class="callout-body-container callout-body" title="Para recordar">
+<p>Relación entre los conceptos de varianza e información.</p>
+</div>
+</div>
+<p>Formalmente, dado un conjunto de datos con <span class="math inline">\(p\)</span> variables, la técnica busca transformar estas variables en un nuevo conjunto de <span class="math inline">\(p\)</span> variables ortogonales denominadas componentes principales, ordenadas de manera que capturen la mayor cantidad de varianza posible y sean ortogonales.</p>
+<p><strong>Formulación matemática</strong></p>
+<p>Sea <span class="math inline">\(\mathbf{X}=(\mathbf{x}_1,\dots,\mathbf{x}_p) \in \mathbb{R}^{n \times p}\)</span> una matriz de datos con <span class="math inline">\(n\)</span> observaciones y <span class="math inline">\(p\)</span> variables, centrada en la media (esto es, cada columna tiene media cero). El objetivo del PCA es encontrar un conjunto de vectores <span class="math inline">\(\mathbf{W}=(\mathbf{w}_1, \mathbf{w}_2, \dots, \mathbf{w}_p)\)</span> tales que las proyecciones de los datos sobre estos vectores maximicen la varianza (cantidad de información explicada).</p>
+<p>Las componentes principales vienen dadas por una combinación lineal de las variables originales <span class="math inline">\(\mathbf{x}_1,\dots,\mathbf{x}_p\)</span>, en el caso de la primera <span class="math inline">\(\mathbf{z}_1\)</span>:</p>
+<p><span class="math display">\[
+\mathbf{z}_1=w_{11} \mathbf{x}_1+\cdots + w_{1p} \mathbf{x}_p
+\]</span></p>
+<p>o, en términos matriciales</p>
+<p><span class="math display">\[
+\mathbf{z}_1 = \mathbf{X}\mathbf{w}_1 .
+\]</span></p>
+<p>La primera componente se calcula buscando que tenga la máxima varianza posible. Evidentemente, podríamos hacer la varianza de <span class="math inline">\(\mathbf{z}_1\)</span> todo lo grande que quisiéramos escogiendo valores grandes de <span class="math inline">\(w_{11},w_{12},\dots,w_{1p}\)</span>. Para evitar esto, se impone la siguiente restricción <span class="math inline">\(w^{2}_{11}+w^{2}_{12}+ \cdots + w^{2}_{1p}=1,\)</span> es decir, que el módulo del vector sea 1, <span class="math inline">\(|\mathbf{w}_1| = 1.\)</span></p>
+<p>Así, lo que queremos hacer es calcular <span class="math inline">\(\mathbf{w}_1\)</span> que maximice la varianza de <span class="math inline">\(\mathbf{z}_1\)</span> con la restricción de que <span class="math inline">\(|\mathbf{w}_1| = 1\)</span>. La varianza de <span class="math inline">\(\mathbf{z}_1\)</span> es</p>
+<p><span class="math display">\[
+Var(\mathbf{z}_1) = \frac{1}{n}\mathbf{z}^{t}_1 \mathbf{z}_1 = \frac{1}{n}\mathbf{w}^{t}_1 \mathbf{X}^{t} \mathbf{X} \mathbf{w}_1 = \mathbf{w}^{t}_1  \mathbf{S} \mathbf{w}_1
+\]</span></p>
+<p>donde <span class="math inline">\(\mathbf{S} = \frac{1}{n} \mathbf{X}^{t} \mathbf{X}\)</span> es la matriz de covarianza de los datos (definida positiva). <span class="math inline">\(\mathbf{w}_1\)</span> se obtiene resolviendo el problema de optimización:</p>
+<p><span class="math display">\[
+\max_{\mathbf{w}_1}  \mathbf{w}_1^{t}\mathbf{S}\mathbf{w}_1, \text{   sujeto a }\mathbf{w}_1^{t}\mathbf{w}_1 = 1,
+\]</span></p>
+<p>Resolver este problema mediante los multiplicadores de Lagrange (os sonará de asignaturas previas como Optimización I):</p>
+<p><span class="math display">\[
+L(\mathbf{w}_1, \lambda_1) = \mathbf{w}_1^{t}\mathbf{S}\mathbf{w}_1 - \lambda_1(\mathbf{w}_1^{t}\mathbf{w}_1 - 1)
+\]</span></p>
+<p>y maximizamos la expresión derivando con respecto a <span class="math inline">\(\mathbf{w}_1\)</span> y haciendo cero la derivada:</p>
+<p><span class="math display">\[
+\frac{\partial L}{\partial \mathbf{w}_1} = 2\mathbf{S}\mathbf{w}_1 - 2\lambda_1 \mathbf{w}_1=0,
+\]</span></p>
+<p>lo que implica que <span class="math inline">\(\mathbf{S}\mathbf{w}_1 = \lambda_1 \mathbf{w}_1\)</span>.</p>
+<p>Esto muestra que <span class="math inline">\(\mathbf{w}_1\)</span> es un autovector de la matriz de covarianza <span class="math inline">\(\mathbf{S}\)</span> y <span class="math inline">\(\lambda_1\)</span> es su autovalor asociado. ¿Qué autovalor es <span class="math inline">\(\lambda_1\)</span>? Si en <span class="math inline">\(\mathbf{S}\mathbf{w}_1 = \lambda_1 \mathbf{w}_1\)</span>multiplicamos por <span class="math inline">\(\mathbf{w}^{t}_1\)</span>:</p>
+<p><span class="math display">\[
+\underbrace{\mathbf{w}^{t}_1\mathbf{S}\mathbf{w}_1}_{Var(\mathbf{z}_1)} = \lambda_1 \underbrace{\mathbf{w}^{t}_1 \mathbf{w}_1}_{1} \Rightarrow Var(\mathbf{z}_1) = \lambda_1
+\]</span></p>
+<p>Como lo que se quiere maximizar es la varianza, la primera componente principal se obtiene escogiendo <span class="math inline">\(\lambda_1\)</span> como el mayor autovalor de <span class="math inline">\(\mathbf{S}\)</span>. Su autovector <span class="math inline">\(\mathbf{w}_1\)</span> nos indica los coeficientes asociados a cada una de las variables <span class="math inline">\(\mathbf{x}_j\)</span> originales para lograr la combinación lineal <span class="math inline">\(\mathbf{z}_1\)</span>.</p>
+<p>Similarmente, se obtiene la segunda componente principal. Ahora buscamos maximizar la suma de las varianzas de <span class="math inline">\(\mathbf{z}_1\)</span> y <span class="math inline">\(\mathbf{z}_2\)</span>. En este caso la función de Lagrange a optimizar queda</p>
+<p><span class="math display">\[
+L(\mathbf{w}_2, \lambda_2) = \mathbf{w}_1^{t}\mathbf{S}\mathbf{w}_1 +\mathbf{w}_2^{t}\mathbf{S}\mathbf{w}_2 - \lambda_1(\mathbf{w}_1^{t}\mathbf{w}_1 - 1) - \lambda_2(\mathbf{w}_2^{t}\mathbf{w}_2 - 1)
+\]</span></p>
+<p>Como antes, derivando e igualando a 0:</p>
+<p><span class="math display">\[
+\frac{\partial L}{\partial \mathbf{w}_1} = 2\mathbf{S}\mathbf{w}_1 - 2\lambda_1 \mathbf{w}_1=0,
+\]</span></p>
+<p><span class="math display">\[
+\frac{\partial L}{\partial \mathbf{w}_2} = 2\mathbf{S}\mathbf{w}_2 - 2\lambda_2 \mathbf{w}_2=0,
+\]</span></p>
+<p>De donde se obtiene que <span class="math inline">\(\mathbf{S}\mathbf{w}_1 = \lambda_1 \mathbf{w}_1\)</span> y que <span class="math inline">\(\mathbf{S}\mathbf{w}_2 = \lambda_2 \mathbf{w}_2\)</span><em>.</em> Esto nos vuelve a llevar a que<span class="math inline">\(\mathbf{w}_1\)</span> y <span class="math inline">\(\mathbf{w}_2\)</span> son autovectores de la matriz de covarianzas con <span class="math inline">\(\lambda_1\)</span> y <span class="math inline">\(\lambda_2\)</span> como autovalores asociados. Como antes, se escogerán los autovalores de mayor valor puesto que son los que maximizan la varianza. Además, estos dos autovectores están incorrelados (son ortogonales) dado que</p>
+<p><span class="math display">\[
+\mathbf{w}_1^{t} \lambda_2 \mathbf{w}_2=\mathbf{w}_1^{t} \mathbf{S}\mathbf{w}_2 \underbrace{=}_{\mathbf{S} \text{ simétrica}} \mathbf{w}_2^{t} \mathbf{S}\mathbf{w}_1 =\mathbf{w}_2^{t} \lambda_1\mathbf{w}_1
+\]</span></p>
+<p>y como <span class="math inline">\(\lambda_1 \neq \lambda_2 \Rightarrow \mathbf{w}_1^{t}\mathbf{w}_2= \mathbf{w}_2^{t}\mathbf{w}_1=0\)</span>, esto es, son vectores ortogonales (como además tienen norma 1, son ortonormales). Esto significa que las componentes principales <span class="math inline">\(\mathbf{z}_1\)</span> y <span class="math inline">\(\mathbf{z}_2\)</span> están incorreladas.</p>
+<p>Procediendo del mismo modo se irían consiguiendo el resto de componetes principales. De forma general, se obtiene que las soluciones al problema de optimización son los autovectores <span class="math inline">\(\mathbf{w}_1, \mathbf{w}_2, \mathbf{w}_3, \dots, \mathbf{w}_p\)</span> asociados a los <span class="math inline">\(p\)</span> autovalores <span class="math inline">\(\mathbf{\lambda}=(\lambda_1,\dots,\lambda_p)\)</span> de <span class="math inline">\(\mathbf{S}\)</span>, en orden descendente. Sin pérdida de generalidad asumimos que <span class="math inline">\(\lambda_1&gt;\cdots&gt;\lambda_p\)</span> para que las componentes principales estén ordenadas por cantidad de varianza explicada.</p>
+<p>Como las nuevas variables calculadas están incorreladas, la matriz de covarianzas de <span class="math inline">\(\mathbf{Z}\)</span> es</p>
+<p><span class="math display">\[
+\text{Var}(\mathbf{Z}) =\mathbf{S}_Z
+=
+\begin{bmatrix}
+\lambda_1 &amp; 0 &amp; \dots &amp; 0 \\
+0 &amp; \lambda_2 &amp; \dots &amp; 0 \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+0 &amp; 0 &amp; \dots &amp; \lambda_p
+\end{bmatrix}
+\]</span></p>
+<p>Realmente, con PCA, lo que hemos hecho ha sido diagonalizar la matriz de covarianza <span class="math inline">\(\mathbf{S}\)</span> (esto equivale a encontrar una base ortonormal de autovectores en la que la matriz de covarianza sea diagonal):</p>
+<p><span class="math display">\[
+\mathbf{S}_Z=\text{Var}(\mathbf{Z}) = \mathbf{W}^{t}\text{Var}(\mathbf{X})\mathbf{W} = \mathbf{W}^{t}\mathbf{S}\mathbf{W}
+\]</span></p>
+<p>Generalmente la matriz de covarianza <span class="math inline">\(\mathbf{S}\)</span> es definida positiva (puede ser semidefinida positiva), es decir, tiene <span class="math inline">\(p\)</span> autovalores positivos. Por tanto, tendremos el mismo número de componentes principales que de variables originales:</p>
+<p><span class="math display">\[
+\mathbf{Z} = \mathbf{X}\mathbf{W}
+\]</span></p>
+<p>En resumen, calcular las componentes principales es realizar una transformación ortogonal <span class="math inline">\(\mathbf{W}\)</span> a las variables <span class="math inline">\(\mathbf{X}\)</span> (ejes originales) logrando nuevas variables <span class="math inline">\(\mathbf{Z}\)</span> que están incorreladas entre sí y que maximizan la varianza. Las nuevas variables <span class="math inline">\(\mathbf{Z}\)</span> son una combinación lineal de las originales <span class="math inline">\(\mathbf{X}\)</span> por lo que nos ayudaremos de los valores de los coeficientes <span class="math inline">\(\mathbf{W}\)</span> para interpretarlas y darles un significado.</p>
+<p><strong>Porcentaje de variabilidad</strong></p>
+<p>Tenemos que</p>
+<p><span class="math display">\[
+\text{Var}(\mathbf{Z}) = \sum_{i=1}^{p} \text{Var}(\mathbf{z}_i)=\sum_{i=1}^{p} \lambda_i =\text{traza}(\mathbf{S}_Z)
+\]</span></p>
+<p>Por las propiedades de la traza, <span class="math inline">\(\text{traza}(\mathbf{S}_Z) = \text{traza}(\mathbf{S})=\sum_{i=1}^{p} \text{Var}(\mathbf{x}_i)\)</span></p>
+<p>Es decir, la suma de las varianzas de las variables originales y de las componentes principales coincide. Con ello, podemos especificar el porcentaje de varianza que explica cada componente principal:</p>
+<p><span class="math display">\[
+\frac{\lambda_i}{\sum_{i=1}^{p} \lambda_i}=\frac{\lambda_i}{\sum_{i=1}^{p} \text{Var}(\mathbf{x}_i)}
+\]</span></p>
+<p>Del mismo modo, se puede calcular el porcentaje de variabilidad explicada por las primeras componentes.</p>
+<p><strong>Interpretación geométrica</strong></p>
+<p>El procedimiento descrito equivale a realizar una rotación del sistema de coordenadas original a un nuevo sistema donde los ejes están alineados con las direcciones de máxima varianza. Los nuevos ejes (componentes principales) son ortogonales entre sí y capturan la mayor cantidad de información posible en las primeras componentes, permitiendo reducir la dimensionalidad reteniendo la información más relevante.</p>
+<p>Mediante la siguiente simulación en R podemos ver la transformación que se logra tras aplicar PCA al conjunto de datos:</p>
+<div class="cell">
+<details>
+<summary>Click para ver el código</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejemplo transformación ortonormal PCA</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Librerías</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Semilla para reproducibilidad</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Datos correlacionados</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">2</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fl">0.8</span> <span class="sc">*</span> x1 <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(x1, x2)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># PCA</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>pca <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(data, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Guardar nuevas varialbes</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>data_pca <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(pca<span class="sc">$</span>x)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(data_pca) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"PC1"</span>, <span class="st">"PC2"</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico datos originales</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(x1, x2)) <span class="sc">+</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>() <span class="sc">+</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Datos originales"</span>)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico componentes</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data_pca, <span class="fu">aes</span>(PC1, PC2)) <span class="sc">+</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"red"</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>(<span class="at">ratio=</span><span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Datos transformados (PCA)"</span>)</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(p1, p2, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="reddim_files/figure-html/interpret1-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="pca-en-r" class="level3" data-number="4.1.2">
+<h3 data-number="4.1.2" class="anchored" data-anchor-id="pca-en-r"><span class="header-section-number">4.1.2</span> PCA en R</h3>
 <p>Trabajemos con un ejemplo de datos en R. Este conjunto de datos contiene estadísticas, en arrestos por cada <span class="math inline">\(100.000\)</span> residentes por asalto (Assault), asesinato (Murder) y secuestro (Rape) en los <span class="math inline">\(50\)</span> Estados de USA en 1973. También se proporciona el porcentaje de la población en áreas urbanas (UrbanPop).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(USArrests)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(USArrests)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>           Murder Assault UrbanPop Rape
 Alabama      13.2     236       58 21.2
@@ -476,7 +626,7 @@ Arkansas      8.8     190       50 19.5
 California    9.0     276       91 40.6
 Colorado      7.9     204       78 38.7</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(USArrests)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(USArrests)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     Murder          Assault         UrbanPop          Rape      
  Min.   : 0.800   Min.   : 45.0   Min.   :32.00   Min.   : 7.30  
@@ -489,7 +639,7 @@ Colorado      7.9     204       78 38.7</code></pre>
 </div>
 <p>Para realizar PCA sobre los datos USArrests:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prcomp</span>(USArrests)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prcomp</span>(USArrests)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Standard deviations (1, .., p=4):
 [1] 83.732400 14.212402  6.489426  2.482790
@@ -504,14 +654,14 @@ Rape     0.07515550  0.20071807  0.97408059  0.07232502</code></pre>
 </div>
 <p>Las <em>standard deviations</em> son los autovalores de la matriz de correlaciones, y representan la variabilidad en cada componente. A mayor valor, más relevante es la variable correspondiente a efectos de visualización. Si queremos visualizar la importancia relativa de cada componente, haremos lo siguiente:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">prcomp</span>(USArrests))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">prcomp</span>(USArrests))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="reddim_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+<p><img src="reddim_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>De modo numérico:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">prcomp</span>(USArrests))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">prcomp</span>(USArrests))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Importance of components:
                            PC1      PC2    PC3     PC4
@@ -523,11 +673,11 @@ Cumulative Proportion   0.9655  0.99335 0.9991 1.00000</code></pre>
 <p>Como vemos, la variabilidad de los datos se explica mayoritariamente por la primera componente principal PC1 que, tal y como se puede ver en la matriz <em>Rotation</em>, da un peso de <span class="math inline">\(0.9952\)</span> a la variable <code>Assault</code>, y pesos cercanos a cero al resto de variables. En la tabla anterior se observa que la proporción de varianza explicada por la primera componente es del <span class="math inline">\(96.6\%\)</span>, es decir, es prácticamente la única relevante. Queda muy poca variabilidad para ser explicada por el resto de variable. ¿Qué está sucediendo? Si nos fijamos en los datos de USArrests, la magnitud de los valores de <code>Assault</code> es mucho mayor que la magnitud de las otras variables. Por ejemplo, en el caso de Alabama, <span class="math inline">\(236\)</span> para la variable <code>Assault</code> frente a <span class="math inline">\(13.2\)</span> de <code>Murder</code> ó <span class="math inline">\(21.2\)</span> de <code>Rape</code>. Claramente es la variable que va a tener más influencia en el resultado final, tal y como se ve en el gráfico precedente. La segunda componente más influyente es PC2, que depende de <code>UrbanPop</code>, la siguiente variable en magnitud, y así sucesivamente.</p>
 <p>¿Tiene sentido que una variable sea más influyente que otra por el mero hecho de estar medida en diferentes unidades de medida? Realmente no.¿Cómo solucionar este problema? La respuesta es la <strong>estandarización</strong>. Repitamos el análisis, pero estandarizando los datos:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">prcomp</span>(USArrests,<span class="at">scale=</span>T))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">prcomp</span>(USArrests,<span class="at">scale=</span>T))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="reddim_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+<p><img src="reddim_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">prcomp</span>(USArrests,<span class="at">scale=</span>T))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">prcomp</span>(USArrests,<span class="at">scale=</span>T))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Importance of components:
                           PC1    PC2     PC3     PC4
@@ -539,7 +689,7 @@ Cumulative Proportion  0.6201 0.8675 0.95664 1.00000</code></pre>
 <p>Como puede verse, con las dos primeras componentes recogemos prácticamente el <span class="math inline">\(87\%\)</span> de la variabilidad. Esto quiere decir que un gráfico de los datos de <code>USAarrests</code>, representados por las dos primeras componentes principales será suficientemente representativo.</p>
 <p>Antes de ir al gráfico, analicemos la matriz de rotaciones, en busca de interpretación semántica para las componentes principales:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prcomp</span>(USArrests,<span class="at">scale=</span>T)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prcomp</span>(USArrests,<span class="at">scale=</span>T)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Standard deviations (1, .., p=4):
 [1] 1.5748783 0.9948694 0.5971291 0.4164494
@@ -556,25 +706,25 @@ Rape     -0.5434321  0.1673186 -0.8177779  0.08902432</code></pre>
 <p>En cualquier caso, debemos tener presente que no hay ninguna garantía de interpretabilidad en un análisis PCA.</p>
 <p>Dibujamos los datos proyectados sobre las dos primeras componentes:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">prcomp</span>(USArrests,<span class="at">scale=</span>T)<span class="sc">$</span>x[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">prcomp</span>(USArrests,<span class="at">scale=</span>T)<span class="sc">$</span>x[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="reddim_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+<p><img src="reddim_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Sería deseable poder ver los nombres de los estados, en lugar de simples puntos. Para ello:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">prcomp</span>(USArrests,<span class="at">scale=</span>T)<span class="sc">$</span>x[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>],<span class="at">type=</span><span class="st">"n"</span>)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fu">prcomp</span>(USArrests,<span class="at">scale=</span>T)<span class="sc">$</span>x[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>],<span class="fu">rownames</span>(USArrests))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">prcomp</span>(USArrests,<span class="at">scale=</span>T)<span class="sc">$</span>x[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>],<span class="at">type=</span><span class="st">"n"</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fu">prcomp</span>(USArrests,<span class="at">scale=</span>T)<span class="sc">$</span>x[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>],<span class="fu">rownames</span>(USArrests))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="reddim_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+<p><img src="reddim_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Puntos cercanos en el mapa indican comportamiento/perfil similar en cuanto a los delitos cometidos. Del gráfico podemos inferir que Florida, Nevada y California son tres puntos extremos en cuanto al comportamiento criminal. Pero, ¿en qué sentido? ¿muy baja o muy alta criminalidad? En este caso particular, la respuesta es muy alta, dado que en la matriz de rotación todos los pesos de la primera componente principal son negativos, luego a mayor valor en las variables originales, situación más a la izquierda en PC1. En cuanto a PC2, tenemos comportamientos extremos por ejemplo en Hawai por abajo y en Mississippi y North Carolina por arriba. En el primer caso hay mucha población urbana y pocos asesinatos. En el segundo, al contrario.</p>
 <p>¿Cómo mejorar el gráfico? Un modo posible es incorporar la información de las variables utilizando la técnica del <em>biplot</em>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">biplot</span>(<span class="fu">prcomp</span>(USArrests,<span class="at">scale=</span>T)) </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">biplot</span>(<span class="fu">prcomp</span>(USArrests,<span class="at">scale=</span>T)) </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="reddim_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+<p><img src="reddim_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Como vemos, la primera componente viene a situarse donde se situaría el promedio de las cuatro variables. Los estados casi se ordenan en la segunda componente por <code>UrbanPop</code> en un sentido, y por <code>Murder</code> en el otro, como ya hemos deducido/comprobado.</p>
@@ -582,21 +732,21 @@ Rape     -0.5434321  0.1673186 -0.8177779  0.08902432</code></pre>
 <div class="cell">
 <details>
 <summary>Click para ver el código</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span> (dplyr)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>bank <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">'https://raw.githubusercontent.com/rafiag/DTI2020/main/data/bank.csv'</span>)</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>df<span class="ot">=</span> bank <span class="sc">%&gt;%</span> </span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(balance<span class="sc">&gt;</span><span class="dv">0</span> <span class="sc">&amp;</span> previous<span class="sc">&gt;</span><span class="dv">0</span> <span class="sc">&amp;</span> pdays<span class="sc">&gt;</span><span class="dv">0</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>( <span class="at">log.balance=</span><span class="fu">log</span>(balance),</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">log.age=</span><span class="fu">log</span>(age),</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">log.campaign=</span><span class="fu">log</span>(campaign),</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">log.previous=</span><span class="fu">log</span>(previous),</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">log.pdays =</span> <span class="fu">log</span>(pdays),</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">log.duration=</span><span class="fu">log</span>(duration)) <span class="sc">%&gt;%</span></span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(log.balance,log.age,log.campaign,log.duration,log.previous,log.pdays)</span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="co"># No escalado</span></span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="fu">prcomp</span>(df)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span> (dplyr)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>bank <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">'https://raw.githubusercontent.com/rafiag/DTI2020/main/data/bank.csv'</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>df<span class="ot">=</span> bank <span class="sc">%&gt;%</span> </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(balance<span class="sc">&gt;</span><span class="dv">0</span> <span class="sc">&amp;</span> previous<span class="sc">&gt;</span><span class="dv">0</span> <span class="sc">&amp;</span> pdays<span class="sc">&gt;</span><span class="dv">0</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>( <span class="at">log.balance=</span><span class="fu">log</span>(balance),</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">log.age=</span><span class="fu">log</span>(age),</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">log.campaign=</span><span class="fu">log</span>(campaign),</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">log.previous=</span><span class="fu">log</span>(previous),</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">log.pdays =</span> <span class="fu">log</span>(pdays),</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">log.duration=</span><span class="fu">log</span>(duration)) <span class="sc">%&gt;%</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(log.balance,log.age,log.campaign,log.duration,log.previous,log.pdays)</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="co"># No escalado</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="fu">prcomp</span>(df)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Standard deviations (1, .., p=6):
@@ -620,7 +770,7 @@ log.pdays     0.006944817</code></pre>
 </div>
 <details>
 <summary>Click para ver el código</summary>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">prcomp</span>(df))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">prcomp</span>(df))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Importance of components:
@@ -631,15 +781,15 @@ Cumulative Proportion  0.5275 0.6775 0.8080 0.9212 0.98111 1.00000</code></pre>
 </div>
 <details>
 <summary>Click para ver el código</summary>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">biplot</span>(<span class="fu">prcomp</span>(df))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">biplot</span>(<span class="fu">prcomp</span>(df))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="reddim_files/figure-html/peng1-1.png" class="img-fluid" width="672"></p>
 </div>
 <details>
 <summary>Click para ver el código</summary>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Escalamos los datos:</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">prcomp</span>(df, <span class="at">scale=</span>T)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Escalamos los datos:</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">prcomp</span>(df, <span class="at">scale=</span>T)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Standard deviations (1, .., p=6):
@@ -663,7 +813,7 @@ log.pdays    -0.4012702</code></pre>
 </div>
 <details>
 <summary>Click para ver el código</summary>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">prcomp</span>(df, <span class="at">scale=</span>T))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">prcomp</span>(df, <span class="at">scale=</span>T))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Importance of components:
@@ -674,7 +824,7 @@ Cumulative Proportion  0.2036 0.3991 0.5697 0.7259 0.8705 1.0000</code></pre>
 </div>
 <details>
 <summary>Click para ver el código</summary>
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">biplot</span>(<span class="fu">prcomp</span>(df, <span class="at">scale=</span>T))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">biplot</span>(<span class="fu">prcomp</span>(df, <span class="at">scale=</span>T))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="reddim_files/figure-html/peng1-2.png" class="img-fluid" width="672"></p>
@@ -700,27 +850,27 @@ Pregunta
 <h2 data-number="4.2" class="anchored" data-anchor-id="selección-de-características"><span class="header-section-number">4.2</span> Selección de características</h2>
 <p>En el tema <a href="eda.html"><span>Capítulo&nbsp;3</span></a> vimos como es posible evaluar la correlación entre una variable objetivo y las variables explicativas asociadas. A continuación, a modo de ejercicio, vamos a estudiar la relación existente entre la variable objetivo <code>deposit</code> y la variable <code>age</code> de la base de datos <code>bank</code>. Tratamos de responder a la pregunta de si la variable edad del cliente influye, o no, en si el cliente suscribirá (o no) un depósito a plazo.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span> (ggplot2)</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(bank, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(age), <span class="at">colour =</span> deposit)) <span class="sc">+</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">lwd=</span><span class="dv">2</span>, <span class="at">linetype=</span><span class="dv">1</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span> (ggplot2)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(bank, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">log</span>(age), <span class="at">colour =</span> deposit)) <span class="sc">+</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">lwd=</span><span class="dv">2</span>, <span class="at">linetype=</span><span class="dv">1</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="reddim_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+<p><img src="reddim_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Aprentemente, no se observa una relación significativa entre ambas variables.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> bank <span class="sc">%&gt;%</span> </span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(age,deposit)<span class="sc">%&gt;%</span></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">log.age=</span><span class="fu">log</span>(age))</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Resumen para los casos de depósito</span></span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(deposit<span class="sc">==</span><span class="st">"yes"</span>) <span class="sc">%&gt;%</span> .<span class="sc">$</span>log.age)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> bank <span class="sc">%&gt;%</span> </span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(age,deposit)<span class="sc">%&gt;%</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">log.age=</span><span class="fu">log</span>(age))</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Resumen para los casos de depósito</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(deposit<span class="sc">==</span><span class="st">"yes"</span>) <span class="sc">%&gt;%</span> .<span class="sc">$</span>log.age)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
   2.890   3.434   3.638   3.681   3.912   4.554 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Resumen para los casos de no depósito</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(deposit<span class="sc">==</span><span class="st">"no"</span>) <span class="sc">%&gt;%</span> .<span class="sc">$</span>log.age)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Resumen para los casos de no depósito</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(deposit<span class="sc">==</span><span class="st">"no"</span>) <span class="sc">%&gt;%</span> .<span class="sc">$</span>log.age)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
   2.890   3.497   3.664   3.679   3.871   4.489 </code></pre>
@@ -728,15 +878,15 @@ Pregunta
 </div>
 <p>Efectivamente, los valores de resumen de edad en ambas categorías de la variable respuesta son muy similares. Gráficamente, podemos comparar los boxplots.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(deposit, log.age)) <span class="sc">+</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_boxplot</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(deposit, log.age)) <span class="sc">+</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_boxplot</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="reddim_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+<p><img src="reddim_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Podemos constrastar la hipótesis nula de igualdad de medias mediante un test de la T:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(log.age <span class="sc">~</span> deposit, <span class="at">data =</span> df)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(log.age <span class="sc">~</span> deposit, <span class="at">data =</span> df)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Welch Two Sample t-test
