@@ -324,10 +324,10 @@ Repaso
 <p>La <strong>distribución de probabilidad</strong> (componente aleatoria) describe cómo se distribuyen los datos alrededor de la media y puede adaptarse a diferentes tipos de datos, como datos binarios, Poisson, binomiales o exponenciales, entre otros. Esto brinda flexibilidad para modelar una variedad de escenarios de datos. Por ejemplo, en el caso de la conocida <em>regresión lineal</em> se asume que la variable respuesta sigue una distribución <em>Normal</em>. Mediante la componente aleatoria determinamos cómo añadir el ruido o error aleatorio a la predicción que se obtiene de la función de enlace. La tabla siguiente, adaptada de <span class="citation" data-cites="agresti2015foundations">(<a href="references.html#ref-agresti2015foundations" role="doc-biblioref">Agresti 2015</a>)</span>, resume los GLM:</p>
 <table class="table">
 <colgroup>
-<col style="width: 22%">
-<col style="width: 22%">
-<col style="width: 22%">
-<col style="width: 31%">
+<col style="width: 23%">
+<col style="width: 23%">
+<col style="width: 20%">
+<col style="width: 33%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1304,10 +1304,10 @@ Tarea
 <p>Podemos interpretar el resto de los nodos terminales del ejemplo como sigue:</p>
 <table class="table">
 <colgroup>
-<col style="width: 15%">
-<col style="width: 54%">
-<col style="width: 15%">
-<col style="width: 15%">
+<col style="width: 4%">
+<col style="width: 68%">
+<col style="width: 16%">
+<col style="width: 10%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1839,7 +1839,7 @@ Desventajas
 <div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>datos<span class="sc">$</span>modelo_01</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>##### xgb.Booster
-raw: 12.7 Kb 
+raw: 12.8 Kb 
 call:
   xgb.train(params = params, data = dtrain, nrounds = nrounds, 
     watchlist = watchlist, verbose = verbose, print_every_n = print_every_n, 
@@ -1858,13 +1858,13 @@ callbacks:
 niter: 10
 nfeatures : 8 
 evaluation_log:
-     iter train_logloss
-    &lt;num&gt;         &lt;num&gt;
-        1     0.6204931
-        2     0.5761893
----                    
-        9     0.4676060
-       10     0.4620354</code></pre>
+  iter train_logloss
+ &lt;num&gt;         &lt;num&gt;
+     1     0.6204931
+     2     0.5761893
+   ---           ---
+     9     0.4676060
+    10     0.4620354</code></pre>
 </div>
 </div>
 <p>Ahora podemos examinar e interpretar nuestro modelo XGBoost. Una forma en que podemos examinar nuestro modelo es observando una representación de la combinación de todos los DTs en nuestro modelo. Dado que todos los árboles tienen la misma profundidad podemos apilarlos unos encima de otros y elegir las características que aparecen con más frecuencia en cada nodo.</p>

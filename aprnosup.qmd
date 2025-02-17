@@ -12,6 +12,8 @@ La idea fundamental de los algoritmos de agrupamiento es que los puntos dentro d
 
 Las técnicas de agrupamiento se emplean para segmentación del mercado, para visualización, para la detección de anomalías, para la imputación de valores faltantes, para la compresión de datos, etc. Los algoritmos de agrupamiento permiten obtener una visión de la complejidad de la tarea de clasificación.
 
+El clustering se encuadra dentro del aprendizaje basado en similitud o semejanza (*similarity-based clustering*).
+
 ::: {.callout-caution title="Atención"}
 En ocasiones se recomienda comenzar el sistema de ML con un algoritmo de agrupamiento, incluso cuando tengamos etiquetas y el problema pudiera plantearse como un problema de aprendizaje supervisado.
 :::
@@ -40,6 +42,154 @@ Por contra, el agrupamiento no jerárquico genera una clasificación mediante la
 
 El agrupamiento puede ser una herramienta muy útil para el análisis de datos en un entorno no supervisado. Sin embargo, hay una serie de problemas que surgen al realizar el clustering. En este tema del curso vamos a repasar algunas de las propiedades y algunos de los problemas del clustering.
 
+## Aprendizaje basado en semejanza
+
+El aprendizaje basado en similitud es una estrategia en la que la relación entre observaciones se fundamenta en la semejanza de sus características. Para ello, es fundamental definir un espacio de características adecuado y establecer una métrica que permita cuantificar la semejanza o desemejanza entre observaciones.
+
+Cada variable descriptiva de un conjunto de datos representa una dimensión en un espacio $m$-dimensional. Como explica [@kelleher2020fundamentals] "*A feature space is an abstract* $m$*-dimensional space that is created by making each descriptive feature in the dataset an axis of an* $m$*-dimensional coordinate system and mapping each observation in the dataset to a point in this coordinate system based on the values of its descriptive features.*" Es decir, un **espacio de características** es un espacio abstracto en el que cada característica del conjunto de datos define un eje en un sistema de coordenadas de $m$ dimensiones. Así, cada observación se mapea a un punto en este espacio de acuerdo con los valores de sus características descriptivas.
+
+Algunas consideraciones clave sobre este espacio de características:
+
+-   Si dos observaciones tienen exactamente los mismos valores en sus variables descriptivas, estarán representadas por el mismo punto en el espacio de características.
+
+-   A medida que las diferencias entre las características descriptivas de dos observaciones aumentan, también lo hace la distancia entre sus puntos correspondientes en el espacio de características.
+
+-   La distancia (¿qué distancia?) entre dos puntos del espacio de características es una medida útil de la similitud de las características descriptivas de las dos observaciones
+
+**Importancia de elegir un espacio de características adecuado**
+
+El espacio de características y su representación son elementos cruciales en cualquier tarea de Machine Learning, ya que afectan directamente el rendimiento del modelo. En particular:
+
+-   La forma en que se representan las observaciones influye en la calidad de los resultados obtenidos.
+
+-   La comparación entre observaciones es esencial para la clasificación y el agrupamiento.
+
+-   Para representar la relación entre observaciones es necesario definir una métrica en el espacio de características
+
+-   No existe una única forma de medir la semejanza o desemajanza entre observaciones, por lo que se deben elegir medidas apropiadas según el problema.
+
+Para definir estas relaciones, se emplean **medidas de similitud, disimilitud o distancias**, las cuales permiten cuantificar qué tan parecidas o diferentes son dos observaciones.
+
+### **Medida de similitud y disimilitud**
+
+En el análisis de conglomerados (clustering), las observaciones se agrupan en función de su semejanza. Para ello, se utilizan medidas que pueden ser de **similitud** o **disimilitud**, dependiendo de si queremos cuantificar cómo de parecidas o de distintas son dos observaciones.
+
+La medida de desemejanza entre dos observaciones $x$ e $y$ es una función $\delta(x,y)$ que cumple las siguientes propiedades
+
+\- Coincidencia: $\delta(x,y) = 0 \Leftrightarrow x=y$
+
+\- No negatividad: $\delta(x,y) \geq 0$
+
+\- Simetría: $\delta(x,y) = \delta(y,x)$
+
+Si, además, la función $\delta(x,y)$ verifica la desigualdad triangular se trataría de una distancia (métrica):
+
+$$
+ \delta(x,y) \leq \delta(x,z) + \delta(y,z)
+$$
+
+<!--# Si $s$ es una semejanza, mediante la transformación $\delta^{2}_{ij} = s_{ii}+s_{jj}-2s_{ij}$ se logra una distancia $\delta$. -->
+
+En términos intuitivos, la medida de desemejanza o distancia refleja el grado de diferencia entre dos observaciones:
+
+-   A menor distancia, mayor parecido entre las observaciones.
+
+-   A mayor distancia, menor similitud entre las observaciones.
+
+El tipo de métrica utilizada puede influir en la calidad del análisis de agrupamiento, por lo que es esencial elegir una métrica apropiada según la naturaleza de los datos.
+
+En la siguiente sección abordaremos los distintos tipos de métricas de distancia utilizadas en clustering. <!--#  y sus implicaciones en el análisis de datos -->
+
+### **Ejemplos de métricas**
+
+El éxito de los algoritmos de clustering depende en gran medida de la elección de la medida de desemejenza o de la métrica de distancia. La manera en que medimos la similitud entre puntos determina cómo se formarán los grupos, afectando su interpretación y utilidad. En este capítulo exploraremos distintas métricas según la naturaleza de los datos: continuos, categóricos o mixtos.
+
+**Distancias para datos continuos**
+
+Las variables continuas toman valores en $\mathbb{R}$ y pueden ser comparados mediante métricas tradicionales de distancia. A continuación se explican algunas de ellas.
+
+-   **Distancia Euclídea** (distancia $l_2$). Es una de las métricas más conocidas y más utilizadas. La distancia euclídea entre dos instancias $\mathbf{x}, \mathbf{z} \in \mathbb{R}^{m}$ es
+
+    $$
+    ||\mathbf{x}-\mathbf{z}||_{2}=d_{\text{Euclídea}}(\mathbf{x},\mathbf{z}) = \sqrt{\sum_{j=1}^{m} \left(\mathbf{x}_j - \mathbf{z}_j \right)^{2}} = \left(\sum_{j=1}^{m} \left(\mathbf{x}_j - \mathbf{z}_j \right)^{2}\right)^{1/2}
+    $$
+
+    Esta métrica mide la distancia geométrica entre dos puntos en un espacio multidimensional. Las distancias al cuadrado enfatizan las diferencias grandes (porque las diferencias se elevan al cuadrado).
+
+-   **Distancia de Manhattan**. Es la distancia $l_1$, también se conoce como distancia de bloque o distancia de taxi. La distancia de Manhattan entre dos instancias $\mathbf{x}, \mathbf{z} \in \mathbb{R}^{m}$ es
+
+    $$
+    ||\mathbf{x}-\mathbf{z}||_{1}=d_{Manhattan}(\mathbf{x},\mathbf{z}) = \sum_{j=1}^{m} \left|\mathbf{x}_j - \mathbf{z}_j \right|
+    $$
+
+    Se denomina así puesto que en 2D se calcula contando cuántas filas y columnas hay que moverse horizontal y verticalmente para llegar de $\mathbf{x}_i$ a $\mathbf{z}_i$ (en contraste con la distancia euclidiana, que sería la distancia en línea recta).
+
+-   **Distancia de Minkowski** (distancia $l_p$). Es una generalización de las dos anteriores, permitiendo ajustar la sensibilidad a valores extremos. La distancia de Minkowski entre dos instancias $\mathbf{x}, \mathbf{z} \in \mathbb{R}^{m}$
+
+    $$
+    ||\mathbf{x}-\mathbf{z}||_{p}=d_{Minkowski}(\mathbf{x},\mathbf{z}) = \left(\sum_{j=1}^{m} \left(\mathbf{x}_j - \mathbf{z}_j \right)^{p}\right)^{1/p},
+    $$
+
+    con $p=1,2,\dots, \infty$. En función del valor de $p$ se logran distintas métricas de distancia. En particular, cuando $p=1$ obtenemos la distancia de Manhattan y cuando $p=2$ obtenemos la distancia euclídea. A partir de ella, se pueden definir infinitas distancias. Mayores valores de $p$ dan más énfasis a las diferencias grandes que valores pequeños de $p$, ya que todas las diferencias se elevan a la potencia de $p$.
+
+    En el extremo, cuando $p=\infty$, la métrica devuelve la diferencia máxima entre cualquiera de las variables, es decir, $||\mathbf{x}-\mathbf{z}||_{\infty} = max_{1\leq j \leq m}|\mathbf{x}_j - \mathbf{z}_j|$*.* Se conoce como la distancia de Chebyshev (distancia $l_{\infty}$).
+
+**Distancias para datos binarios**
+
+Cuando los datos son binarios se utilizan métricas especializadas para dicho tipo de datos para que reflejen correctamente la similitud entre las observaciones. Estas métricas se basan en las coincidencias entre los 0 y los 1 de las observaciones. En base a la siguiente tabla definimos:
+
+-   $a$ es el número de variables binarias con valores simultáneos iguales a 1 para las observaciones $i$ y $j$,
+
+-   $b$ es el número de variables con valor 1 para la observación $j$ y con valor 0 para la observación $i$,
+
+-   $c$ es el número de variables con valor 0 para la observación $j$ y con valor 1 para la observación $i$,
+
+-   $d$ es el número de variables binarias con valores simultáneos iguales a 0 para las observaciones $i$ y $j$.
+
+![](apr_no_sup_images/tabla_binarias.png){fig-align="center"}
+
+En base a esto, algunas distancias para datos binarios son:
+
+![](apr_no_sup_images/distancias_binarias.png){fig-align="center"}
+
+También existe la distancia de Hamming que cuenta el número de posiciones en las que dos vectores binarios difieren:
+
+$$
+d_{Hamming}(\mathbf{x},\mathbf{z})=\sum_{j=1}^{m} I(x_j \neq z_j)
+$$
+
+siendo $I(\cdot)$ la función indicatriz. Si por ejemplo tenemos
+
+$$
+\mathbf{x}=(1,0,1,1) \ \ \ \mathbf{z}=(0,1,1,1)
+$$
+
+La distancia de Hamming es 2 porque hay dos diferencias.
+
+**Distancias para datos categóricos**
+
+Cuando se tienen datos categóricos nominales, es común medir la similitud entre las observaciones en términos de las frecuencias observadas en las distintas categorías (tablas de contingencia). Un ejemplo sería la **distancia de Goodall** [@goodall1966new]. Otra opción para este tipo de datos es utilizar la distancia de Hamming.
+
+Si las variables son ordinales, hay que tener en cuenta el orden de los datos. En estos casos hay distintas alternativas: utilizar la correlación de Spearman, pasar los datos a rangos y normalizarlos al intervalo $[0,1]$ y usar distancias para datos de intervalo. <!--# Para datos ordinales: estandarizar (poner en escala [0,1] haciendo: replace an ordinal variable value by its rank r_{ij} \in \{1,2,...,M_f\}, la transformación sería z_{ij}=\frac{r_{ij}-1}{M_{f}-1}) y usar una distancia para datos continuos. Correlación de spearman. También se puedent tratar directamente como continuas. -->
+
+**Distancias para datos mixtos**
+
+Cuando el conjunto de datos incluye variables continuas y categóricas, una posibilidad es utilizar la distancia de Gower [@gower1971general]. La distancia de Gower entre dos observaciones $\mathbf{x}$ y $\mathbf{z}$ se define como
+
+$$
+d_{Gower}(\mathbf{x},\mathbf{z}) = 1-\frac{\sum_{t=1}^{m_1}(1-|x_{t}-z_{t}|/R_t) + a + a'}{m_1 + (m_2 - d) + m_3}
+$$
+
+siendo $m_1$ el número de variables continuas, $m_2$ el número de variables dicotómicas y $m_3$ el número de variables cualitativas. $R_t$ es el rango de la variable número $t$, $a$ y $d$ se definen como en la tabla previa de distancias para datos binarios y $a'$ es el número de coincidencias para las variables cualitativas.
+
+De forma general, cuando tenemos datos mixtos, podemos definir una distancia que combine distintas distancias en función del tipo de variable $f$:
+
+$$
+d_{Mixta}(\mathbf{x},\mathbf{z})=\frac{\sum_{j=1}^{m} w_{j}^{(f)} d_{j}^{(f)}}{w_{j}^{(f)}}
+$$
+
+En esta fórmula, $d_{j}^{(f)}$ dependerá de la tipología de la variable $f$.
+
 ## Parámetros de un modelo de ML
 
 Un parámetro es un valor que el algoritmo del modelo de ML ajusta durante el proceso de entrenamiento para hacer que el modelo se adapte mejor a los datos de entrenamiento y, en última instancia, haga predicciones más precisas en datos no vistos (datos de prueba o datos en producción). Los parámetros son esenciales para definir la estructura y el comportamiento del modelo.
@@ -60,17 +210,109 @@ A diferencia de los parámetros del modelo, los **hiperparámetros** son valores
 
 El proceso de ajuste de parámetros y hiperparámetros se realiza mediante la iteración y la experimentación para encontrar la combinación adecuada que permita al modelo aprender de manera efectiva y generalizar bien a datos nuevos. Esto se conoce como ajuste de hiperparámetros o búsqueda de hiperparámetros y es una parte crítica del desarrollo de modelos exitosos de ML.
 
-## $k$-medias
+## Clustering no jerárquico
+
+El clustering no jerárquico es una técnica de agrupamiento que tiene como objetivo asignar cada observación a un grupo o cluster en función de su desemejanza con el resto de elementos del conjunto de datos. A diferencia del clustering jerárquico, en el que los clusters se construyen de manera progresiva fusionando o dividiendo grupos, en el clustering no jerárquico se parte de una asignación inicial y se optimiza iterativamente.
+
+Para aplicar este método, es necesario especificar de antemano el número de clusters $K$, asegurando que este valor sea menor que el número total de observaciones ($K < n$). Cada cluster se etiqueta con un entero $k \in {1, \dots, K}$ y cada observación $i \in {1, \dots, n}$ se asigna de forma exclusiva a uno de los clusters.
+
+::: {.callout-tip title="Por amor al conocimiento"}
+## Por amor al conocimiento
+
+¿Crees que solo se pueden lograr particiones en las que cada punto pertenece únicamente a un cluster? Te animamos a investigar un poco sobre la versión *fuzzy* del clustering.
+:::
+
+Matemáticamente, esta asignación se representa mediante una función $S(i)$ que indica a qué cluster pertenece cada observación: $k=S(i)$, que asigna la observación $i$-ésima al $k$-ésimo cluster.
+
+El objetivo del clustering no jerárquico es que la asignación de las observaciones cumpla ciertas condiciones en función de las desemejanzas entre los puntos. En particular, se quiere minimizar una función de pérdida en base a la partición resultante.
+
+¿Qué función minimizar? Dado que se busca asignar puntos similares al mismo cluster, una elección natural para la función de pérdida es minimizar la distancia entre observaciones dentro de un mismo cluster. Esto se formaliza mediante la siguiente expresión:
+
+$$
+W(S) = \sum_{k=1}^{K} \sum_{S(i)=k} \sum_{S(i')=k, i'\neq i} d(x_i,x_{i'})
+$$
+
+Esta función mide la suma de las distancias entre pares de observaciones dentro de cada cluster, conocida como **varianza intra-cluster** $W(S)$. Buscamos agrupamientos que minimicen esta cantidad, asegurando que las observaciones asignadas a un mismo cluster sean lo más similares posibles.
+
+Nótese que la dispersión total de los datos, $T(X)$, puede descomponerse en la suma de la varianza intra-cluster y la varianza entre clusters $B(S)$:
+
+$$
+    T(X) =\sum_{i=1}^{n} \sum_{i'=1,i' \neq i}^{n} d(x_i,x_{i'}) =
+$$
+
+$$
+=\sum_{k=1}^{K} \sum_{S(i)=k} \left( \sum_{S(i')=k, i'\neq i} d(x_i,x_{i'}) + \sum_{S(i')\neq k, i'\neq i} d(x_i,x_{i'})  \right) 
+$$
+
+$$
+=  W(S) + B(S)
+$$
+
+donde:
+
+-   $W(S)$ mide la dispersión dentro de los clusters
+
+-   $B(S)$ cuantifica la dispersión entre los clusters y se define como
+
+    $$
+    B(S) = \sum_{k=1}^{K} \sum_{S(i)=k}  \sum_{S(i')\neq k, i'\neq i} d(x_i,x_{i'})
+    $$
+
+    Cuanto más alejados estén los puntos en distintos clusters, mayor será $B(S)$.
+
+Dado que $T(X)$ es fijo para un conjunto de datos dado, minimizar $W(S)$ equivale a maximizar $B(S)$ puesto que $T(X) = W(S) + B(S) \Rightarrow W(S) = T(X) - B(S)$. En base a $T(X) = W(S) + B(S)$ se puede definir la **contribución de la partición a la dispersión total**:
+
+$$
+   \text{Contribución} = \frac{B(S)}{T(X)}
+$$
+
+Este cociente indica cuánto de la dispersión total se debe a diferencias entre clusters.
+
+Con respecto a la resolución del problema que tenemos entre manos, este problema podría resolverse mediante optimización combinatoria, explorando todas las posibles asignaciones de observaciones a clusters. Sin embargo, este enfoque es computacionalmente inviable debido al enorme número de combinaciones posibles.
+
+Por ello, los algoritmos de clustering no jerárquico adoptan estrategias heurísticas que examinan solo una fracción del espacio de soluciones, con el objetivo de identificar un subconjunto que pueda contener el óptimo o al menos una buena solución subóptima. La estrategia básica consiste en:
+
+1.  Comenzar con una partición inicial de los datos.
+
+2.  Actualizar iterativamente la asignación de las observaciones de modo que se minimice la función objetivo.
+
+3.  Detener el proceso cuando no se observe una mejora significativa en la función objetivo.
+
+Dependiendo del algoritmo utilizado, la forma en que se actualizan las asignaciones y los criterios de convergencia pueden variar. Algunos de los métodos más comunes incluyen $k$-means, $k$-medoids y clustering basado en densidad, cada uno con sus propias ventajas y desventajas según la naturaleza de los datos.
+
+En conclusión, el clustering no jerárquico es una herramienta fundamental en el análisis de datos, permitiendo descubrir estructuras y patrones sin requerir una estructura predefinida. Su aplicación efectiva y resultados dependerá de la correcta elección del número de clusters, la métrica de distancia y el algoritmo de clustering aplicado.
+
+### $k$-medias
 
 El algoritmo de las $k$ medias es el algoritmo de ML no supervisado más utilizado para agrupar un conjunto de observaciones en un conjunto de $k$ grupos o clústeres, donde $k$ representa el número de grupos pre-especificados por el científico de datos. Diremos que $k$ es un valor del modelo de ML y que su valor ha de ser fijado (o aprendido) a lo largo del proceso de aprendizaje.
 
 La idea básica consiste en definir clústeres de manera que se reduzca al máximo la variabilidad total dentro del clúster (llamada *within-cluster variation*):
 
-$$\sum_{k=1}^KW(C_k)=\sum_{k=1}^{K} \sum_{x_i \in C_k}(x_i-\mu_k)^2$$
+$$ W(S) = \sum_{k=1}^{K}\sum_{\mathbf{x}_i \in S_k} (\mathbf{x}_i - \mathbf{c}_k)^{2}$$
+
+siendo $K$ el número total de clusters, $S_k$ el cluster $k$, $x_i$ cada una de las observaciones del conjunto de datos y $\mathbf{c}_k$ el centroide del cluster $S_k$ (la media de los elementos de dicho cluster). Nótese que los clústeres resultantes $S=\{S_1,\dots,S_K\}$ son disjuntos dos a dos, es decir, $S_h \cap S_q =\emptyset, \forall h, q = 1,\dots,K, h\neq q$.
+
+¿Por qué el centroide es la media de los elementos del cluster? Es el punto que minimiza las distancias
+
+$$
+W(S) = \sum_{k=1}^{K} W(S_k) = \sum_{k=1}^{K}\sum_{\mathbf{x}_i \in S_k} \sum_{j=1}^{m} (x_{ij} - c_{kj})^{2}
+$$
+
+Como $W(S_k)$ es una función cuadrática de $\mathbf{c}_k$, para hallar el mínimo basta con derivar con respecto a $c_{kj}$
+
+$\frac{\partial W(S_k, \textbf{c}_{\textbf{k}}) }{\partial c_{kj}} = \frac{\partial \sum_{\textbf{x}_{\textbf{i}} \in S_k} \sum_{j=1}^m(x_{ij}-c_{kj})^2}{\partial c_{kj}}=\frac{\partial \sum_{\textbf{x}_{\textbf{i}} \in S_k}(x_{ij}-c_{kj})^2}{\partial c_{kj}}=$
+
+$=-2\sum_{\textbf{x}_{\textbf{i}} \in S_k} (x_{ij}-c_{kj}) \qquad k=1,…,K, \ j \text{ fijo}$
+
+e igualar a 0: $\frac{\partial W(S_k, \textbf{c}_{\textbf{k}}) }{\partial c_{kj}}=0 \Longleftrightarrow c_{kj}= \frac{1}{|S_k|}\sum_{\textbf{x}_{\textbf{i}} \in S_k}x_{ij}$
+
+siendo $|S_k|$ el cardinal de $S_k$.
+
+Los centroides óptimos para minimizar la función $W(S)$ es la media de cada cluster.
 
 Existen varios algoritmos para entrenar un modelo de $k$-medias. El algoritmo original puede encontrarse en [@hartigan1979algorithm], y define la variabilidad total dentro del clúster como la suma de distancias Euclídeas al cuadrado entre las observaciones y el correspondiente centroide.
 
-1.  El algoritmo comienza con $k$ medias seleccionadas aleatoriamente del conjunto original de observaciones.
+1.  El algoritmo comienza con $k$ medias seleccionadas aleatoriamente del conjunto original de observaciones. Es decir, se escogen al azar $k$ centroides del conjunto de datos.
 
 ::: {.callout-caution title="Atención"}
 No siempre se tiene información sobre qué valor es el óptimo para el parámetro $k$ en el modelo de las $k$-medias. De hecho, en ocasiones el interés de los métodos de agrupamiento es precisamente averiguar dicho valor.
@@ -81,6 +323,8 @@ No siempre se tiene información sobre qué valor es el óptimo para el parámet
 3.  Una vez que todas las observaciones han sido agrupadas de acuerdo a su centroide más cercano, se recalculan los centroides de los $k$ clústeres.
 
 Se iteran estos dos últimos pasos hasta la convergencia de los centroides. Esto es, hasta que el valor de los centroides apenas se modifica (según un criterio de parada preestablecido, esto es, otro hiperparámetro).
+
+Los clústeres están representados por su centroide, entendiendo éste como un punto de referencia.
 
 Despliega los paneles siguientes para averiguar las principales ventajas y desventajas de este modelo de ML.
 
@@ -98,7 +342,17 @@ Las principales desventajas son la necesidad de elegir $k$ manualmente y la alta
 
 Para solventar esta última desventaja, en ocasiones, se usan de **medoides** en lugar de centroides. Estos medoides, al contrario de los centroides, son obligatoriamente observaciones de la muestra. Es decir, no elegimos medias aleatorias, sino observaciones reales recogidas en la base de datos.
 
-El más común de los algoritmos de $k$-medoides es el **PAM: "Partitioning Around Medoids"**. Una ventaja adicional de los algoritmos basados en medoides es la interpretabilidad de los resultados. Mientras que un centroide puede no tener significado dentro de las observaciones muestrales, un medoide lo tiene por definición.
+El más común de los algoritmos de $k$-medoides es el PAM: "Partitioning Around Medoids". Una ventaja adicional de los algoritmos basados en medoides es la interpretabilidad de los resultados. Mientras que un centroide puede no tener significado dentro de las observaciones muestrales, un medoide lo tiene por definición. El algoritmo de los $k$-medoides es:
+
+1.  Inicialización. Se elige el número $K$ de clusters y se escogen al azar $K$ observaciones del conjunto de datos (medoides $\mathbf{m}_k$). Se elige una distancia $d$.
+
+2.  Se asigna cada observación $\mathbf{x}_i$ al medoide más cercano: $argmin_{k } d(\mathbf{x}_i,\mathbf{m}_k)$. Así se forman los $K$ clusters $\{S_1,\dots,S_K\}$.
+
+3.  Una vez formado los clusters, se recalculan los medoides $\mathbf{m}_k =argmin_{\mathbf{x}_i \in S_k} \sum_{\mathbf{x'}_i \in S_k} d(\mathbf{x}_i,\mathbf{x'}_i), \forall k=1,\dots,K$
+
+4.  Se repiten los pasos 2 y 3 hasta que no haya cambios
+
+Los clústeres están representados por su medoide, entendiendo éste como un punto de referencia
 
 Estos algoritmos son **no-jerárquicos**, pues una observación puede cambiar de clúster durante la ejecución del mismo. Dos observaciones cualesquiera pueden pertenecer al mismo o a diferente grupo en diferentes iteraciones del algoritmo.
 
@@ -314,6 +568,30 @@ Las técnicas de agrupamiento jerárquico generan una clasificación iterativa d
 
 -   **Divisivos**: en la versión divisiva, todas las observaciones comienzan en un único clúster y las divisiones se realizan de forma recursiva, a medida que se desciende en la jerarquía, terminando cada observación formando un único clúster individual. Esta versión se conoce como **DIANA** ("Divise Analysis").
 
+### Cluster jerárquico aglomerativo
+
+El clustering aglomerativo comienza con $n$ conglomerados (uno por cada dato) y, en cada paso, va fusionando los 2 grupos más similares hasta que hay un único grupo que contiene al total de datos.
+
+**Algoritmo**
+
+1.  Input: matriz de disimilitud $D=(d_{ij}),i,j=1,\dots, n$
+
+    Inicializar los clusters: $n$ clusters $S_i=\{i\}, i=1,\dots,n$
+
+    Inicializar el conjunto de clusters que faltan por unir: $Q=\{1,\dots,n\}$
+
+2.  Seleccionar los 2 clusters más similares $S_j$ y $S_k$ : $argmin_{j,k \in Q} \ d_{jk}$
+
+    Con ellos, crear un nuevo cluster: $S_l \leftarrow \{S_j \cup S_k \}$
+
+    Guardar dichos clusters como no disponibles: $Q \leftarrow Q\backslash \{j,k\}$
+
+    Si $S_l \neq \{1,\dots,n\}$ entonces: $Q \leftarrow Q\cup \{l\}$
+
+    Para cada $i \in Q$, actualizar la matriz de disimilitud $d(i,l)$
+
+3.  Repetir el paso 2 hasta que no queden cluster por unir
+
 Se necesita un criterio de conexión o "*linkage*" que especifique cómo se determina el parecido (o la disimilitud) entre dos clústeres. Este criterio no es único. Algunos de los criterios más comunes son:
 
 ::: {.callout-note title="Método de Ward"}
@@ -325,19 +603,37 @@ Minimiza la suma de las diferencias cuadradas dentro de los clústeres. Minimiza
 ::: {.callout-note title="Agrupamiento de enlace completo"}
 ## Agrupamiento de enlace completo
 
-Minimiza la disimilitud máxima entre las observaciones de dos clústeres. Calcula todas las disimilitudes por pares entre los elementos del conglomerado A y los elementos del conglomerado B, y considera el mayor valor (es decir, el valor máximo) de estas disimilitudes como la distancia entre los dos conglomerados. Tiende a producir clusters más compactos.
+Minimiza la disimilitud máxima entre las observaciones de dos clústeres. Calcula todas las disimilitudes por pares entre los elementos del conglomerado A y los elementos del conglomerado B, y considera el mayor valor (es decir, el valor máximo) de estas disimilitudes como la distancia entre los dos conglomerados
+
+$$
+d_{EC}(A,B) = \max_{i \in A, i' \in B} d_{i,i'}
+$$
+
+Tiende a producir clusters más compactos.
 :::
 
 ::: {.callout-note title="Agrupamiento de enlace promedio"}
 ## Agrupamiento de enlace promedio
 
-Minimiza el promedio de las disimilitudes entre las observaciones de dos clústeres. Calcula todas las disimilitudes por pares entre los elementos del conglomerado A y los elementos del conglomerado B, y considera la media de estas disimilitudes como la distancia entre los dos conglomerados.
+Minimiza el promedio de las disimilitudes entre las observaciones de dos clústeres. Calcula todas las disimilitudes por pares entre los elementos del conglomerado A y los elementos del conglomerado B, y considera la media de estas disimilitudes como la distancia entre los dos conglomerados:
+
+$$
+d_{EP}(A,B) = \frac{1}{n_A n_B} \sum_{i \in A} \sum_{i' \in B} d_{i,i'}
+$$
+
+siendo $n_A$ y $n_B$ el número de elementos en los grupos $A$ y $B$, respectivamente.
 :::
 
 ::: {.callout-note title="Agrupamiento de enlace mínimo o simple"}
 ## Agrupamiento de enlace mínimo o simple
 
-Minimiza las disimilitudes entre las observaciones más cercanas de dos clústeres. Es decir, calcula todas las disimilitudes por pares entre los elementos del conglomerado A y los elementos del conglomerado B, y considera la menor de estas disimilitudes como criterio de vinculación. Tiende a producir clusters largos y "dispersos".
+Minimiza las disimilitudes entre las observaciones más cercanas de dos clústeres. Es decir, calcula todas las disimilitudes por pares entre los elementos del conglomerado A y los elementos del conglomerado B, y considera la menor de estas disimilitudes como criterio de vinculación
+
+$$
+d_{ES}(A,B) = \min_{i \in A, i' \in B} d_{i,i'}
+$$
+
+Tiende a producir clusters largos y "dispersos".
 :::
 
 ::: {.callout-note title="Agrupamiento de enlace de centroides"}
@@ -349,6 +645,26 @@ Calcula la disimilitud entre el centroide del conglomerado A y el centroide del 
 ::: {.callout-important title="Para recordar"}
 El criterio de agrupación o conexión es un parámetro fundamental en el resultado final del clustering jerárquico.
 :::
+
+### Cluster jerárquico divisivo
+
+El clustering jerárquico divisivo es una estrategia de agrupamiento que sigue un enfoque descendente: comienza con todos los datos en un solo conglomerado y, a través de divisiones sucesivas, va creando subgrupos más pequeños hasta alcanzar un criterio de parada predefinido. Una de las técnicas más conocidas es el algorimo DIANA:
+
+-   Comienza con todos los datos en un único cluster y, recursivamente, divide cada cluster en 2 cluster hijo.
+
+-   En cada paso el grupo más grande se divide hasta que cada objeto es un único conglomerado (u otro criterio de parada).
+
+-   El clúster más *grande* será aquel de mayor diámetro, es decir, el que tiene mayor desemejanza entre dos de sus elementos o aquel con mayor desemejanza media. <!--#  Este diámetro tb se usa como la altura a la hora de representarlo en el dendrograma  --> Es decir, dados los cluster $S=\{S_1,\dots,S_r\}$, el cluster más grande $S_j$ es aquel que
+
+    $$
+    S_j = argmax_{S_j \in S} \ d_{i,i'}, \forall i,i' \in S_j
+    $$
+
+-   La observación más lejana $i^{*} \in S_j$, $i^{*}=argmax_{i \in S_j} \ d_{i,i'}$, es la que inicia el nuevo cluster $S_{r+1}=\{i^{*}\}$.
+
+-   Se asignan a este nuevo cluster $S_{r+1}$ los puntos que sean más cercanos a él que al cluster del que provienen $S_j$.
+
+Hay otras alternativas para realizar clustering jerárquico divisivo. Por ejemplo, bisecting $k$-means que divide el cluster de mayor diámetro en 2 cluster hijos haciendo uso de las $k$-medias o los $k$-medoides.
 
 ### Cluster jerárquico en R
 
@@ -504,19 +820,19 @@ fviz_gap_stat(gap_stat)
 ::: {.callout-note collapse="true" title="Ventajas del clustering jerárquico"}
 ## Ventajas del clustering jerárquico
 
--   **Jerarquía de Clusters**: El clustering jerárquico crea una jerarquía de clusters que permite analizar los datos a diferentes niveles de granularidad. Es posible, por tanto, explorar tanto clusters globales como subgrupos más específicos. Al tener una jerarquía de clusters, puedes tomar decisiones a diferentes niveles de detalle. Esto es valioso para la segmentación de mercado, la taxonomía de especies, la organización de documentos, entre otros.
+-   **Jerarquía de clusters**: El clustering jerárquico crea una jerarquía de clusters que permite analizar los datos a diferentes niveles de granularidad. Es posible, por tanto, explorar tanto clusters globales como subgrupos más específicos. Al tener una jerarquía de clusters, puedes tomar decisiones a diferentes niveles de detalle. Esto es valioso para la segmentación de mercado, la taxonomía de especies, la organización de documentos, entre otros.
 
--   **Interpretación Visual**: El dendrograma facilita la interpretación visual de cómo se agrupan los datos y cómo se relacionan entre sí.
+-   **Interpretación visual**: El dendrograma facilita la interpretación visual de cómo se agrupan los datos y cómo se relacionan entre sí.
 
--   **No Requiere Especificación Previa del Número de Clusters**: A diferencia de algunos algoritmos de clustering que requieren que especifiques el número de clusters de antemano como $k$-medias, el clustering jerárquico no necesita esta información.
+-   **No requiere especificación previa del número de clusters**: A diferencia de algunos algoritmos de clustering que requieren que especifiques el número de clusters de antemano como $k$-medias, el clustering jerárquico no necesita esta información.
 
--   **Identificación de Subgrupos**: El clustering jerárquico es eficaz para la identificación de subgrupos dentro de clusters más grandes. Esto es útil en áreas como la segmentación de clientes, donde se pueden tener clusters generales y luego identificar subgrupos más específicos.
+-   **Identificación de subgrupos**: El clustering jerárquico es eficaz para la identificación de subgrupos dentro de clusters más grandes. Esto es útil en áreas como la segmentación de clientes, donde se pueden tener clusters generales y luego identificar subgrupos más específicos.
 
--   **Detección de Outliers**: El clustering jerárquico puede ayudar a identificar outliers (valores atípicos) que no se ajustan a ningún cluster específico y que pueden ser importantes en el análisis de datos.
+-   **Detección de outliers**: El clustering jerárquico puede ayudar a identificar outliers (valores atípicos) que no se ajustan a ningún cluster específico y que pueden ser importantes en el análisis de datos.
 
--   **No Sensible a la Inicialización**: A diferencia de algunos algoritmos de clustering, como el $k$-means, el clustering jerárquico no es sensible a la inicialización de centroides, lo que puede ayudar a evitar soluciones subóptimas.
+-   **No sensible a la inicialización**: A diferencia de algunos algoritmos de clustering, como el $k$-means, el clustering jerárquico no es sensible a la inicialización de centroides, lo que puede ayudar a evitar soluciones subóptimas.
 
--   **Análisis Exploratorio de Datos**: El clustering jerárquico es útil en la exploración inicial de datos, ya que proporciona una visión general de cómo se agrupan naturalmente los datos sin la necesidad de conocimiento previo.
+-   **Análisis exploratorio de datos**: El clustering jerárquico es útil en la exploración inicial de datos, ya que proporciona una visión general de cómo se agrupan naturalmente los datos sin la necesidad de conocimiento previo.
 :::
 
 ::: {.callout-note collapse="true" title="Desventajas del clustering jerárquico"}
@@ -543,16 +859,16 @@ El proceso de clustering con SOM implica organizar datos en grupos o clusters de
 
 1.  **Inicialización**: Se crea una red de nodos o neuronas en una estructura bidimensional, conocida como "*mapa SOM*". Cada neurona representa una ubicación en el espacio SOM.
 
-2.  **Asignación de Pesos**: Cada neurona en el SOM tiene asociado un vector de pesos que es del mismo tamaño que los datos originales que se están analizando.
+2.  **Asignación de pesos**: Cada neurona en el SOM tiene asociado un vector de pesos que es del mismo tamaño que los datos originales que se están analizando.
 
 3.  **Entrenamiento**: Se presentan los datos al SOM, y cada dato se asigna a la neurona cuyos pesos son más similares a los atributos del dato. Las neuronas ganadoras (aquellas a las que se asigna un dato) y sus vecinas en el mapa SOM se ajustan para que se parezcan más al dato presentado. Este proceso de aprendizaje se repite varias veces.
 
-4.  **Agrupación en Clusters**: Después del entrenamiento, las neuronas en el mapa SOM que están cerca una de la otra representan clusters de datos. Los datos que se asignaron a estas neuronas durante el entrenamiento se consideran miembros de un mismo cluster.
+4.  **Agrupación en clusters**: Después del entrenamiento, las neuronas en el mapa SOM que están cerca una de la otra representan clusters de datos. Los datos que se asignaron a estas neuronas durante el entrenamiento se consideran miembros de un mismo cluster.
 
 ::: {.callout-note collapse="true" title="Ventajas"}
 ## Ventajas
 
--   **Topología Preservada**: Una ventaja clave de los SOM en el clustering es que preservan la topología de los datos. Esto significa que los clusters en el SOM reflejan la estructura de vecindad en los datos originales, lo que facilita la interpretación de los resultados.
+-   **Topología preservada**: Una ventaja clave de los SOM en el clustering es que preservan la topología de los datos. Esto significa que los clusters en el SOM reflejan la estructura de vecindad en los datos originales, lo que facilita la interpretación de los resultados.
 
 -   **Escalabilidad**: Los SOM pueden manejar grandes conjuntos de datos y dimensiones elevadas, lo que los hace útiles para aplicaciones del mundo real con datos complejos.
 
@@ -560,25 +876,25 @@ El proceso de clustering con SOM implica organizar datos en grupos o clusters de
 
 -   **Visualización**: La representación en un espacio bidimensional o tridimensional facilita la visualización de datos complejos, lo que permite una comprensión más intuitiva.
 
--   **Exploración Interactiva:** Los SOM permiten la exploración interactiva de datos, ya que los usuarios pueden navegar por el mapa para inspeccionar las regiones y sus contenidos.
+-   **Exploración interactiva:** Los SOM permiten la exploración interactiva de datos, ya que los usuarios pueden navegar por el mapa para inspeccionar las regiones y sus contenidos.
 
--   **Reducción de Ruido:** Los SOM a menudo ayudan a reducir el ruido y la redundancia en los datos, lo que mejora la calidad del análisis.
+-   **Reducción de ruido:** Los SOM a menudo ayudan a reducir el ruido y la redundancia en los datos, lo que mejora la calidad del análisis.
 :::
 
 ::: {.callout-note collapse="true" title="Desventajas"}
 ## Desventajas
 
--   **Sensibilidad a la Inicialización**: Los SOM son sensibles a la inicialización de los pesos de las neuronas. Los resultados pueden variar significativamente según cómo se configuren los pesos iniciales, lo que significa que pueden converger a soluciones subóptimas si no se seleccionan adecuadamente los valores iniciales.
+-   **Sensibilidad a la inicialización**: Los SOM son sensibles a la inicialización de los pesos de las neuronas. Los resultados pueden variar significativamente según cómo se configuren los pesos iniciales, lo que significa que pueden converger a soluciones subóptimas si no se seleccionan adecuadamente los valores iniciales.
 
--   **Determinación del Tamaño del Mapa**: Elegir el tamaño adecuado para el mapa SOM puede ser un desafío. Si el mapa es demasiado pequeño, puede no capturar la estructura de los datos correctamente, mientras que si es demasiado grande, puede sobreajustarse a los datos y perder la capacidad de generalización.
+-   **Determinación del tamaño del mapa**: Elegir el tamaño adecuado para el mapa SOM puede ser un desafío. Si el mapa es demasiado pequeño, puede no capturar la estructura de los datos correctamente, mientras que si es demasiado grande, puede sobreajustarse a los datos y perder la capacidad de generalización.
 
--   **Interpretación de los Resultados**: La interpretación de los resultados de un SOM puede ser complicada, especialmente en mapas de alta dimensión. Mapear los clusters y las relaciones entre las neuronas en el mapa a menudo requiere conocimiento experto del dominio.
+-   **Interpretación de los resultados**: La interpretación de los resultados de un SOM puede ser complicada, especialmente en mapas de alta dimensión. Mapear los clusters y las relaciones entre las neuronas en el mapa a menudo requiere conocimiento experto del dominio.
 
--   **Requiere Ajuste de Hiperparámetros**: El rendimiento de un SOM puede depender de la elección adecuada de hiperparámetros, como la tasa de aprendizaje, la vecindad de las neuronas y el número de iteraciones. En algunos casos, encontrar los valores óptimos puede ser un proceso de prueba y error.
+-   **Requiere ajuste de hiperparámetros**: El rendimiento de un SOM puede depender de la elección adecuada de hiperparámetros, como la tasa de aprendizaje, la vecindad de las neuronas y el número de iteraciones. En algunos casos, encontrar los valores óptimos puede ser un proceso de prueba y error.
 
--   **Puede Converger a Mínimos Locales**: Como con muchos algoritmos de optimización, los SOM pueden converger a mínimos locales en lugar del mínimo global, lo que puede llevar a soluciones subóptimas.
+-   **Puede converger a mínimos locales**: Como con muchos algoritmos de optimización, los SOM pueden converger a mínimos locales en lugar del mínimo global, lo que puede llevar a soluciones subóptimas.
 
--   **Requiere Grandes Conjuntos de Datos**: Los SOM pueden no funcionar bien en conjuntos de datos pequeños o altamente desequilibrados, ya que su eficacia se basa en la capacidad de aprender patrones significativos a partir de una cantidad suficiente de datos.
+-   **Requiere grandes conjuntos de datos**: Los SOM pueden no funcionar bien en conjuntos de datos pequeños o altamente desequilibrados, ya que su eficacia se basa en la capacidad de aprender patrones significativos a partir de una cantidad suficiente de datos.
 :::
 
 Vamos a estudiar su implementación en R con la libraría `kohonen`.

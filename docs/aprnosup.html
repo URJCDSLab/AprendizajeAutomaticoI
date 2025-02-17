@@ -240,17 +240,25 @@ div.csl-indent {
     <h2 id="toc-title">Indice de contenidos</h2>
    
   <ul>
-  <li><a href="#parámetros-de-un-modelo-de-ml" id="toc-parámetros-de-un-modelo-de-ml" class="nav-link active" data-scroll-target="#parámetros-de-un-modelo-de-ml"> <span class="header-section-number">5.1</span> Parámetros de un modelo de ML</a></li>
-  <li><a href="#k-medias" id="toc-k-medias" class="nav-link" data-scroll-target="#k-medias"> <span class="header-section-number">5.2</span> <span class="math inline">\(k\)</span>-medias</a>
+  <li><a href="#aprendizaje-basado-en-semejanza" id="toc-aprendizaje-basado-en-semejanza" class="nav-link active" data-scroll-target="#aprendizaje-basado-en-semejanza"> <span class="header-section-number">5.1</span> Aprendizaje basado en semejanza</a>
   <ul class="collapse">
-  <li><a href="#k-medias-en-r" id="toc-k-medias-en-r" class="nav-link" data-scroll-target="#k-medias-en-r"> <span class="header-section-number">5.2.1</span> <span class="math inline">\(k\)</span>-medias en R</a></li>
-  <li><a href="#número-óptimo-de-clústeres" id="toc-número-óptimo-de-clústeres" class="nav-link" data-scroll-target="#número-óptimo-de-clústeres"> <span class="header-section-number">5.2.2</span> Número óptimo de clústeres</a></li>
+  <li><a href="#medida-de-similitud-y-disimilitud" id="toc-medida-de-similitud-y-disimilitud" class="nav-link" data-scroll-target="#medida-de-similitud-y-disimilitud"> <span class="header-section-number">5.1.1</span> <strong>Medida de similitud y disimilitud</strong></a></li>
+  <li><a href="#ejemplos-de-métricas" id="toc-ejemplos-de-métricas" class="nav-link" data-scroll-target="#ejemplos-de-métricas"> <span class="header-section-number">5.1.2</span> <strong>Ejemplos de métricas</strong></a></li>
   </ul></li>
-  <li><a href="#cluster-jerárquico" id="toc-cluster-jerárquico" class="nav-link" data-scroll-target="#cluster-jerárquico"> <span class="header-section-number">5.3</span> Cluster Jerárquico</a>
+  <li><a href="#parámetros-de-un-modelo-de-ml" id="toc-parámetros-de-un-modelo-de-ml" class="nav-link" data-scroll-target="#parámetros-de-un-modelo-de-ml"> <span class="header-section-number">5.2</span> Parámetros de un modelo de ML</a></li>
+  <li><a href="#clustering-no-jerárquico" id="toc-clustering-no-jerárquico" class="nav-link" data-scroll-target="#clustering-no-jerárquico"> <span class="header-section-number">5.3</span> Clustering no jerárquico</a>
   <ul class="collapse">
-  <li><a href="#cluster-jerárquico-en-r" id="toc-cluster-jerárquico-en-r" class="nav-link" data-scroll-target="#cluster-jerárquico-en-r"> <span class="header-section-number">5.3.1</span> Cluster jerárquico en R</a></li>
+  <li><a href="#k-medias" id="toc-k-medias" class="nav-link" data-scroll-target="#k-medias"> <span class="header-section-number">5.3.1</span> <span class="math inline">\(k\)</span>-medias</a></li>
+  <li><a href="#k-medias-en-r" id="toc-k-medias-en-r" class="nav-link" data-scroll-target="#k-medias-en-r"> <span class="header-section-number">5.3.2</span> <span class="math inline">\(k\)</span>-medias en R</a></li>
+  <li><a href="#número-óptimo-de-clústeres" id="toc-número-óptimo-de-clústeres" class="nav-link" data-scroll-target="#número-óptimo-de-clústeres"> <span class="header-section-number">5.3.3</span> Número óptimo de clústeres</a></li>
   </ul></li>
-  <li><a href="#mapas-auto-organizados" id="toc-mapas-auto-organizados" class="nav-link" data-scroll-target="#mapas-auto-organizados"> <span class="header-section-number">5.4</span> Mapas auto-organizados</a></li>
+  <li><a href="#cluster-jerárquico" id="toc-cluster-jerárquico" class="nav-link" data-scroll-target="#cluster-jerárquico"> <span class="header-section-number">5.4</span> Cluster Jerárquico</a>
+  <ul class="collapse">
+  <li><a href="#cluster-jerárquico-aglomerativo" id="toc-cluster-jerárquico-aglomerativo" class="nav-link" data-scroll-target="#cluster-jerárquico-aglomerativo"> <span class="header-section-number">5.4.1</span> Cluster jerárquico aglomerativo</a></li>
+  <li><a href="#cluster-jerárquico-divisivo" id="toc-cluster-jerárquico-divisivo" class="nav-link" data-scroll-target="#cluster-jerárquico-divisivo"> <span class="header-section-number">5.4.2</span> Cluster jerárquico divisivo</a></li>
+  <li><a href="#cluster-jerárquico-en-r" id="toc-cluster-jerárquico-en-r" class="nav-link" data-scroll-target="#cluster-jerárquico-en-r"> <span class="header-section-number">5.4.3</span> Cluster jerárquico en R</a></li>
+  </ul></li>
+  <li><a href="#mapas-auto-organizados" id="toc-mapas-auto-organizados" class="nav-link" data-scroll-target="#mapas-auto-organizados"> <span class="header-section-number">5.5</span> Mapas auto-organizados</a></li>
   </ul>
 </nav>
     </div>
@@ -290,6 +298,7 @@ Importante
 <p>Estos grupos reciben el nombre de conglomerados o clústeres.</p>
 <p>La idea fundamental de los algoritmos de agrupamiento es que los puntos dentro de un mismo clúster sean muy similares (respecto a alguna medida de similitud) y que los puntos en diferentes clústeres sean diferentes.</p>
 <p>Las técnicas de agrupamiento se emplean para segmentación del mercado, para visualización, para la detección de anomalías, para la imputación de valores faltantes, para la compresión de datos, etc. Los algoritmos de agrupamiento permiten obtener una visión de la complejidad de la tarea de clasificación.</p>
+<p>El clustering se encuadra dentro del aprendizaje basado en similitud o semejanza (<em>similarity-based clustering</em>).</p>
 <div class="callout-caution callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -343,8 +352,114 @@ Agrupamiento no jerárquico
 </div>
 </div>
 <p>El agrupamiento puede ser una herramienta muy útil para el análisis de datos en un entorno no supervisado. Sin embargo, hay una serie de problemas que surgen al realizar el clustering. En este tema del curso vamos a repasar algunas de las propiedades y algunos de los problemas del clustering.</p>
-<section id="parámetros-de-un-modelo-de-ml" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="parámetros-de-un-modelo-de-ml"><span class="header-section-number">5.1</span> Parámetros de un modelo de ML</h2>
+<section id="aprendizaje-basado-en-semejanza" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="aprendizaje-basado-en-semejanza"><span class="header-section-number">5.1</span> Aprendizaje basado en semejanza</h2>
+<p>El aprendizaje basado en similitud es una estrategia en la que la relación entre observaciones se fundamenta en la semejanza de sus características. Para ello, es fundamental definir un espacio de características adecuado y establecer una métrica que permita cuantificar la semejanza o desemejanza entre observaciones.</p>
+<p>Cada variable descriptiva de un conjunto de datos representa una dimensión en un espacio <span class="math inline">\(m\)</span>-dimensional. Como explica <span class="citation" data-cites="kelleher2020fundamentals">(<a href="references.html#ref-kelleher2020fundamentals" role="doc-biblioref">Kelleher, Mac Namee, y D’arcy 2020</a>)</span> “<em>A feature space is an abstract</em> <span class="math inline">\(m\)</span><em>-dimensional space that is created by making each descriptive feature in the dataset an axis of an</em> <span class="math inline">\(m\)</span><em>-dimensional coordinate system and mapping each observation in the dataset to a point in this coordinate system based on the values of its descriptive features.</em>” Es decir, un <strong>espacio de características</strong> es un espacio abstracto en el que cada característica del conjunto de datos define un eje en un sistema de coordenadas de <span class="math inline">\(m\)</span> dimensiones. Así, cada observación se mapea a un punto en este espacio de acuerdo con los valores de sus características descriptivas.</p>
+<p>Algunas consideraciones clave sobre este espacio de características:</p>
+<ul>
+<li><p>Si dos observaciones tienen exactamente los mismos valores en sus variables descriptivas, estarán representadas por el mismo punto en el espacio de características.</p></li>
+<li><p>A medida que las diferencias entre las características descriptivas de dos observaciones aumentan, también lo hace la distancia entre sus puntos correspondientes en el espacio de características.</p></li>
+<li><p>La distancia (¿qué distancia?) entre dos puntos del espacio de características es una medida útil de la similitud de las características descriptivas de las dos observaciones</p></li>
+</ul>
+<p><strong>Importancia de elegir un espacio de características adecuado</strong></p>
+<p>El espacio de características y su representación son elementos cruciales en cualquier tarea de Machine Learning, ya que afectan directamente el rendimiento del modelo. En particular:</p>
+<ul>
+<li><p>La forma en que se representan las observaciones influye en la calidad de los resultados obtenidos.</p></li>
+<li><p>La comparación entre observaciones es esencial para la clasificación y el agrupamiento.</p></li>
+<li><p>Para representar la relación entre observaciones es necesario definir una métrica en el espacio de características</p></li>
+<li><p>No existe una única forma de medir la semejanza o desemajanza entre observaciones, por lo que se deben elegir medidas apropiadas según el problema.</p></li>
+</ul>
+<p>Para definir estas relaciones, se emplean <strong>medidas de similitud, disimilitud o distancias</strong>, las cuales permiten cuantificar qué tan parecidas o diferentes son dos observaciones.</p>
+<section id="medida-de-similitud-y-disimilitud" class="level3" data-number="5.1.1">
+<h3 data-number="5.1.1" class="anchored" data-anchor-id="medida-de-similitud-y-disimilitud"><span class="header-section-number">5.1.1</span> <strong>Medida de similitud y disimilitud</strong></h3>
+<p>En el análisis de conglomerados (clustering), las observaciones se agrupan en función de su semejanza. Para ello, se utilizan medidas que pueden ser de <strong>similitud</strong> o <strong>disimilitud</strong>, dependiendo de si queremos cuantificar cómo de parecidas o de distintas son dos observaciones.</p>
+<p>La medida de desemejanza entre dos observaciones <span class="math inline">\(x\)</span> e <span class="math inline">\(y\)</span> es una función <span class="math inline">\(\delta(x,y)\)</span> que cumple las siguientes propiedades</p>
+<p>- Coincidencia: <span class="math inline">\(\delta(x,y) = 0 \Leftrightarrow x=y\)</span></p>
+<p>- No negatividad: <span class="math inline">\(\delta(x,y) \geq 0\)</span></p>
+<p>- Simetría: <span class="math inline">\(\delta(x,y) = \delta(y,x)\)</span></p>
+<p>Si, además, la función <span class="math inline">\(\delta(x,y)\)</span> verifica la desigualdad triangular se trataría de una distancia (métrica):</p>
+<p><span class="math display">\[
+\delta(x,y) \leq \delta(x,z) + \delta(y,z)
+\]</span></p>
+<!--# Si $s$ es una semejanza, mediante la transformación $\delta^{2}_{ij} = s_{ii}+s_{jj}-2s_{ij}$ se logra una distancia $\delta$. -->
+<p>En términos intuitivos, la medida de desemejanza o distancia refleja el grado de diferencia entre dos observaciones:</p>
+<ul>
+<li><p>A menor distancia, mayor parecido entre las observaciones.</p></li>
+<li><p>A mayor distancia, menor similitud entre las observaciones.</p></li>
+</ul>
+<p>El tipo de métrica utilizada puede influir en la calidad del análisis de agrupamiento, por lo que es esencial elegir una métrica apropiada según la naturaleza de los datos.</p>
+<p>En la siguiente sección abordaremos los distintos tipos de métricas de distancia utilizadas en clustering. <!--#  y sus implicaciones en el análisis de datos --></p>
+</section>
+<section id="ejemplos-de-métricas" class="level3" data-number="5.1.2">
+<h3 data-number="5.1.2" class="anchored" data-anchor-id="ejemplos-de-métricas"><span class="header-section-number">5.1.2</span> <strong>Ejemplos de métricas</strong></h3>
+<p>El éxito de los algoritmos de clustering depende en gran medida de la elección de la medida de desemejenza o de la métrica de distancia. La manera en que medimos la similitud entre puntos determina cómo se formarán los grupos, afectando su interpretación y utilidad. En este capítulo exploraremos distintas métricas según la naturaleza de los datos: continuos, categóricos o mixtos.</p>
+<p><strong>Distancias para datos continuos</strong></p>
+<p>Las variables continuas toman valores en <span class="math inline">\(\mathbb{R}\)</span> y pueden ser comparados mediante métricas tradicionales de distancia. A continuación se explican algunas de ellas.</p>
+<ul>
+<li><p><strong>Distancia Euclídea</strong> (distancia <span class="math inline">\(l_2\)</span>). Es una de las métricas más conocidas y más utilizadas. La distancia euclídea entre dos instancias <span class="math inline">\(\mathbf{x}, \mathbf{z} \in \mathbb{R}^{m}\)</span> es</p>
+<p><span class="math display">\[
+||\mathbf{x}-\mathbf{z}||_{2}=d_{\text{Euclídea}}(\mathbf{x},\mathbf{z}) = \sqrt{\sum_{j=1}^{m} \left(\mathbf{x}_j - \mathbf{z}_j \right)^{2}} = \left(\sum_{j=1}^{m} \left(\mathbf{x}_j - \mathbf{z}_j \right)^{2}\right)^{1/2}
+\]</span></p>
+<p>Esta métrica mide la distancia geométrica entre dos puntos en un espacio multidimensional. Las distancias al cuadrado enfatizan las diferencias grandes (porque las diferencias se elevan al cuadrado).</p></li>
+<li><p><strong>Distancia de Manhattan</strong>. Es la distancia <span class="math inline">\(l_1\)</span>, también se conoce como distancia de bloque o distancia de taxi. La distancia de Manhattan entre dos instancias <span class="math inline">\(\mathbf{x}, \mathbf{z} \in \mathbb{R}^{m}\)</span> es</p>
+<p><span class="math display">\[
+||\mathbf{x}-\mathbf{z}||_{1}=d_{Manhattan}(\mathbf{x},\mathbf{z}) = \sum_{j=1}^{m} \left|\mathbf{x}_j - \mathbf{z}_j \right|
+\]</span></p>
+<p>Se denomina así puesto que en 2D se calcula contando cuántas filas y columnas hay que moverse horizontal y verticalmente para llegar de <span class="math inline">\(\mathbf{x}_i\)</span> a <span class="math inline">\(\mathbf{z}_i\)</span> (en contraste con la distancia euclidiana, que sería la distancia en línea recta).</p></li>
+<li><p><strong>Distancia de Minkowski</strong> (distancia <span class="math inline">\(l_p\)</span>). Es una generalización de las dos anteriores, permitiendo ajustar la sensibilidad a valores extremos. La distancia de Minkowski entre dos instancias <span class="math inline">\(\mathbf{x}, \mathbf{z} \in \mathbb{R}^{m}\)</span></p>
+<p><span class="math display">\[
+||\mathbf{x}-\mathbf{z}||_{p}=d_{Minkowski}(\mathbf{x},\mathbf{z}) = \left(\sum_{j=1}^{m} \left(\mathbf{x}_j - \mathbf{z}_j \right)^{p}\right)^{1/p},
+\]</span></p>
+<p>con <span class="math inline">\(p=1,2,\dots, \infty\)</span>. En función del valor de <span class="math inline">\(p\)</span> se logran distintas métricas de distancia. En particular, cuando <span class="math inline">\(p=1\)</span> obtenemos la distancia de Manhattan y cuando <span class="math inline">\(p=2\)</span> obtenemos la distancia euclídea. A partir de ella, se pueden definir infinitas distancias. Mayores valores de <span class="math inline">\(p\)</span> dan más énfasis a las diferencias grandes que valores pequeños de <span class="math inline">\(p\)</span>, ya que todas las diferencias se elevan a la potencia de <span class="math inline">\(p\)</span>.</p>
+<p>En el extremo, cuando <span class="math inline">\(p=\infty\)</span>, la métrica devuelve la diferencia máxima entre cualquiera de las variables, es decir, <span class="math inline">\(||\mathbf{x}-\mathbf{z}||_{\infty} = max_{1\leq j \leq m}|\mathbf{x}_j - \mathbf{z}_j|\)</span><em>.</em> Se conoce como la distancia de Chebyshev (distancia <span class="math inline">\(l_{\infty}\)</span>).</p></li>
+</ul>
+<p><strong>Distancias para datos binarios</strong></p>
+<p>Cuando los datos son binarios se utilizan métricas especializadas para dicho tipo de datos para que reflejen correctamente la similitud entre las observaciones. Estas métricas se basan en las coincidencias entre los 0 y los 1 de las observaciones. En base a la siguiente tabla definimos:</p>
+<ul>
+<li><p><span class="math inline">\(a\)</span> es el número de variables binarias con valores simultáneos iguales a 1 para las observaciones <span class="math inline">\(i\)</span> y <span class="math inline">\(j\)</span>,</p></li>
+<li><p><span class="math inline">\(b\)</span> es el número de variables con valor 1 para la observación <span class="math inline">\(j\)</span> y con valor 0 para la observación <span class="math inline">\(i\)</span>,</p></li>
+<li><p><span class="math inline">\(c\)</span> es el número de variables con valor 0 para la observación <span class="math inline">\(j\)</span> y con valor 1 para la observación <span class="math inline">\(i\)</span>,</p></li>
+<li><p><span class="math inline">\(d\)</span> es el número de variables binarias con valores simultáneos iguales a 0 para las observaciones <span class="math inline">\(i\)</span> y <span class="math inline">\(j\)</span>.</p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="apr_no_sup_images/tabla_binarias.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>En base a esto, algunas distancias para datos binarios son:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="apr_no_sup_images/distancias_binarias.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>También existe la distancia de Hamming que cuenta el número de posiciones en las que dos vectores binarios difieren:</p>
+<p><span class="math display">\[
+d_{Hamming}(\mathbf{x},\mathbf{z})=\sum_{j=1}^{m} I(x_j \neq z_j)
+\]</span></p>
+<p>siendo <span class="math inline">\(I(\cdot)\)</span> la función indicatriz. Si por ejemplo tenemos</p>
+<p><span class="math display">\[
+\mathbf{x}=(1,0,1,1) \ \ \ \mathbf{z}=(0,1,1,1)
+\]</span></p>
+<p>La distancia de Hamming es 2 porque hay dos diferencias.</p>
+<p><strong>Distancias para datos categóricos</strong></p>
+<p>Cuando se tienen datos categóricos nominales, es común medir la similitud entre las observaciones en términos de las frecuencias observadas en las distintas categorías (tablas de contingencia). Un ejemplo sería la <strong>distancia de Goodall</strong> <span class="citation" data-cites="goodall1966new">(<a href="references.html#ref-goodall1966new" role="doc-biblioref">Goodall 1966</a>)</span>. Otra opción para este tipo de datos es utilizar la distancia de Hamming.</p>
+<p>Si las variables son ordinales, hay que tener en cuenta el orden de los datos. En estos casos hay distintas alternativas: utilizar la correlación de Spearman, pasar los datos a rangos y normalizarlos al intervalo <span class="math inline">\([0,1]\)</span> y usar distancias para datos de intervalo. <!--# Para datos ordinales: estandarizar (poner en escala [0,1] haciendo: replace an ordinal variable value by its rank r_{ij} \in \{1,2,...,M_f\}, la transformación sería z_{ij}=\frac{r_{ij}-1}{M_{f}-1}) y usar una distancia para datos continuos. Correlación de spearman. También se puedent tratar directamente como continuas. --></p>
+<p><strong>Distancias para datos mixtos</strong></p>
+<p>Cuando el conjunto de datos incluye variables continuas y categóricas, una posibilidad es utilizar la distancia de Gower <span class="citation" data-cites="gower1971general">(<a href="references.html#ref-gower1971general" role="doc-biblioref">Gower 1971</a>)</span>. La distancia de Gower entre dos observaciones <span class="math inline">\(\mathbf{x}\)</span> y <span class="math inline">\(\mathbf{z}\)</span> se define como</p>
+<p><span class="math display">\[
+d_{Gower}(\mathbf{x},\mathbf{z}) = 1-\frac{\sum_{t=1}^{m_1}(1-|x_{t}-z_{t}|/R_t) + a + a'}{m_1 + (m_2 - d) + m_3}
+\]</span></p>
+<p>siendo <span class="math inline">\(m_1\)</span> el número de variables continuas, <span class="math inline">\(m_2\)</span> el número de variables dicotómicas y <span class="math inline">\(m_3\)</span> el número de variables cualitativas. <span class="math inline">\(R_t\)</span> es el rango de la variable número <span class="math inline">\(t\)</span>, <span class="math inline">\(a\)</span> y <span class="math inline">\(d\)</span> se definen como en la tabla previa de distancias para datos binarios y <span class="math inline">\(a'\)</span> es el número de coincidencias para las variables cualitativas.</p>
+<p>De forma general, cuando tenemos datos mixtos, podemos definir una distancia que combine distintas distancias en función del tipo de variable <span class="math inline">\(f\)</span>:</p>
+<p><span class="math display">\[
+d_{Mixta}(\mathbf{x},\mathbf{z})=\frac{\sum_{j=1}^{m} w_{j}^{(f)} d_{j}^{(f)}}{w_{j}^{(f)}}
+\]</span></p>
+<p>En esta fórmula, <span class="math inline">\(d_{j}^{(f)}\)</span> dependerá de la tipología de la variable <span class="math inline">\(f\)</span>.</p>
+</section>
+</section>
+<section id="parámetros-de-un-modelo-de-ml" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="parámetros-de-un-modelo-de-ml"><span class="header-section-number">5.2</span> Parámetros de un modelo de ML</h2>
 <p>Un parámetro es un valor que el algoritmo del modelo de ML ajusta durante el proceso de entrenamiento para hacer que el modelo se adapte mejor a los datos de entrenamiento y, en última instancia, haga predicciones más precisas en datos no vistos (datos de prueba o datos en producción). Los parámetros son esenciales para definir la estructura y el comportamiento del modelo.</p>
 <p>En ocasiones se diferencia entre dos tipos de parámetros en un modelo de ML:</p>
 <div class="callout-note callout callout-style-default callout-captioned">
@@ -381,14 +496,82 @@ Hiperpárametros del modelo
 </div>
 <p>El proceso de ajuste de parámetros y hiperparámetros se realiza mediante la iteración y la experimentación para encontrar la combinación adecuada que permita al modelo aprender de manera efectiva y generalizar bien a datos nuevos. Esto se conoce como ajuste de hiperparámetros o búsqueda de hiperparámetros y es una parte crítica del desarrollo de modelos exitosos de ML.</p>
 </section>
-<section id="k-medias" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="k-medias"><span class="header-section-number">5.2</span> <span class="math inline">\(k\)</span>-medias</h2>
+<section id="clustering-no-jerárquico" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="clustering-no-jerárquico"><span class="header-section-number">5.3</span> Clustering no jerárquico</h2>
+<p>El clustering no jerárquico es una técnica de agrupamiento que tiene como objetivo asignar cada observación a un grupo o cluster en función de su desemejanza con el resto de elementos del conjunto de datos. A diferencia del clustering jerárquico, en el que los clusters se construyen de manera progresiva fusionando o dividiendo grupos, en el clustering no jerárquico se parte de una asignación inicial y se optimiza iterativamente.</p>
+<p>Para aplicar este método, es necesario especificar de antemano el número de clusters <span class="math inline">\(K\)</span>, asegurando que este valor sea menor que el número total de observaciones (<span class="math inline">\(K &lt; n\)</span>). Cada cluster se etiqueta con un entero <span class="math inline">\(k \in {1, \dots, K}\)</span> y cada observación <span class="math inline">\(i \in {1, \dots, n}\)</span> se asigna de forma exclusiva a uno de los clusters.</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Por amor al conocimiento
+</div>
+</div>
+<div class="callout-body-container callout-body" title="Por amor al conocimiento">
+<p>¿Crees que solo se pueden lograr particiones en las que cada punto pertenece únicamente a un cluster? Te animamos a investigar un poco sobre la versión <em>fuzzy</em> del clustering.</p>
+</div>
+</div>
+<p>Matemáticamente, esta asignación se representa mediante una función <span class="math inline">\(S(i)\)</span> que indica a qué cluster pertenece cada observación: <span class="math inline">\(k=S(i)\)</span>, que asigna la observación <span class="math inline">\(i\)</span>-ésima al <span class="math inline">\(k\)</span>-ésimo cluster.</p>
+<p>El objetivo del clustering no jerárquico es que la asignación de las observaciones cumpla ciertas condiciones en función de las desemejanzas entre los puntos. En particular, se quiere minimizar una función de pérdida en base a la partición resultante.</p>
+<p>¿Qué función minimizar? Dado que se busca asignar puntos similares al mismo cluster, una elección natural para la función de pérdida es minimizar la distancia entre observaciones dentro de un mismo cluster. Esto se formaliza mediante la siguiente expresión:</p>
+<p><span class="math display">\[
+W(S) = \sum_{k=1}^{K} \sum_{S(i)=k} \sum_{S(i')=k, i'\neq i} d(x_i,x_{i'})
+\]</span></p>
+<p>Esta función mide la suma de las distancias entre pares de observaciones dentro de cada cluster, conocida como <strong>varianza intra-cluster</strong> <span class="math inline">\(W(S)\)</span>. Buscamos agrupamientos que minimicen esta cantidad, asegurando que las observaciones asignadas a un mismo cluster sean lo más similares posibles.</p>
+<p>Nótese que la dispersión total de los datos, <span class="math inline">\(T(X)\)</span>, puede descomponerse en la suma de la varianza intra-cluster y la varianza entre clusters <span class="math inline">\(B(S)\)</span>:</p>
+<p><span class="math display">\[
+    T(X) =\sum_{i=1}^{n} \sum_{i'=1,i' \neq i}^{n} d(x_i,x_{i'}) =
+\]</span></p>
+<p><span class="math display">\[
+=\sum_{k=1}^{K} \sum_{S(i)=k} \left( \sum_{S(i')=k, i'\neq i} d(x_i,x_{i'}) + \sum_{S(i')\neq k, i'\neq i} d(x_i,x_{i'})  \right)
+\]</span></p>
+<p><span class="math display">\[
+=  W(S) + B(S)
+\]</span></p>
+<p>donde:</p>
+<ul>
+<li><p><span class="math inline">\(W(S)\)</span> mide la dispersión dentro de los clusters</p></li>
+<li><p><span class="math inline">\(B(S)\)</span> cuantifica la dispersión entre los clusters y se define como</p>
+<p><span class="math display">\[
+B(S) = \sum_{k=1}^{K} \sum_{S(i)=k}  \sum_{S(i')\neq k, i'\neq i} d(x_i,x_{i'})
+\]</span></p>
+<p>Cuanto más alejados estén los puntos en distintos clusters, mayor será <span class="math inline">\(B(S)\)</span>.</p></li>
+</ul>
+<p>Dado que <span class="math inline">\(T(X)\)</span> es fijo para un conjunto de datos dado, minimizar <span class="math inline">\(W(S)\)</span> equivale a maximizar <span class="math inline">\(B(S)\)</span> puesto que <span class="math inline">\(T(X) = W(S) + B(S) \Rightarrow W(S) = T(X) - B(S)\)</span>. En base a <span class="math inline">\(T(X) = W(S) + B(S)\)</span> se puede definir la <strong>contribución de la partición a la dispersión total</strong>:</p>
+<p><span class="math display">\[
+   \text{Contribución} = \frac{B(S)}{T(X)}
+\]</span></p>
+<p>Este cociente indica cuánto de la dispersión total se debe a diferencias entre clusters.</p>
+<p>Con respecto a la resolución del problema que tenemos entre manos, este problema podría resolverse mediante optimización combinatoria, explorando todas las posibles asignaciones de observaciones a clusters. Sin embargo, este enfoque es computacionalmente inviable debido al enorme número de combinaciones posibles.</p>
+<p>Por ello, los algoritmos de clustering no jerárquico adoptan estrategias heurísticas que examinan solo una fracción del espacio de soluciones, con el objetivo de identificar un subconjunto que pueda contener el óptimo o al menos una buena solución subóptima. La estrategia básica consiste en:</p>
+<ol type="1">
+<li><p>Comenzar con una partición inicial de los datos.</p></li>
+<li><p>Actualizar iterativamente la asignación de las observaciones de modo que se minimice la función objetivo.</p></li>
+<li><p>Detener el proceso cuando no se observe una mejora significativa en la función objetivo.</p></li>
+</ol>
+<p>Dependiendo del algoritmo utilizado, la forma en que se actualizan las asignaciones y los criterios de convergencia pueden variar. Algunos de los métodos más comunes incluyen <span class="math inline">\(k\)</span>-means, <span class="math inline">\(k\)</span>-medoids y clustering basado en densidad, cada uno con sus propias ventajas y desventajas según la naturaleza de los datos.</p>
+<p>En conclusión, el clustering no jerárquico es una herramienta fundamental en el análisis de datos, permitiendo descubrir estructuras y patrones sin requerir una estructura predefinida. Su aplicación efectiva y resultados dependerá de la correcta elección del número de clusters, la métrica de distancia y el algoritmo de clustering aplicado.</p>
+<section id="k-medias" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="k-medias"><span class="header-section-number">5.3.1</span> <span class="math inline">\(k\)</span>-medias</h3>
 <p>El algoritmo de las <span class="math inline">\(k\)</span> medias es el algoritmo de ML no supervisado más utilizado para agrupar un conjunto de observaciones en un conjunto de <span class="math inline">\(k\)</span> grupos o clústeres, donde <span class="math inline">\(k\)</span> representa el número de grupos pre-especificados por el científico de datos. Diremos que <span class="math inline">\(k\)</span> es un valor del modelo de ML y que su valor ha de ser fijado (o aprendido) a lo largo del proceso de aprendizaje.</p>
 <p>La idea básica consiste en definir clústeres de manera que se reduzca al máximo la variabilidad total dentro del clúster (llamada <em>within-cluster variation</em>):</p>
-<p><span class="math display">\[\sum_{k=1}^KW(C_k)=\sum_{k=1}^{K} \sum_{x_i \in C_k}(x_i-\mu_k)^2\]</span></p>
+<p><span class="math display">\[ W(S) = \sum_{k=1}^{K}\sum_{\mathbf{x}_i \in S_k} (\mathbf{x}_i - \mathbf{c}_k)^{2}\]</span></p>
+<p>siendo <span class="math inline">\(K\)</span> el número total de clusters, <span class="math inline">\(S_k\)</span> el cluster <span class="math inline">\(k\)</span>, <span class="math inline">\(x_i\)</span> cada una de las observaciones del conjunto de datos y <span class="math inline">\(\mathbf{c}_k\)</span> el centroide del cluster <span class="math inline">\(S_k\)</span> (la media de los elementos de dicho cluster). Nótese que los clústeres resultantes <span class="math inline">\(S=\{S_1,\dots,S_K\}\)</span> son disjuntos dos a dos, es decir, <span class="math inline">\(S_h \cap S_q =\emptyset, \forall h, q = 1,\dots,K, h\neq q\)</span>.</p>
+<p>¿Por qué el centroide es la media de los elementos del cluster? Es el punto que minimiza las distancias</p>
+<p><span class="math display">\[
+W(S) = \sum_{k=1}^{K} W(S_k) = \sum_{k=1}^{K}\sum_{\mathbf{x}_i \in S_k} \sum_{j=1}^{m} (x_{ij} - c_{kj})^{2}
+\]</span></p>
+<p>Como <span class="math inline">\(W(S_k)\)</span> es una función cuadrática de <span class="math inline">\(\mathbf{c}_k\)</span>, para hallar el mínimo basta con derivar con respecto a <span class="math inline">\(c_{kj}\)</span></p>
+<p><span class="math inline">\(\frac{\partial W(S_k, \textbf{c}_{\textbf{k}}) }{\partial c_{kj}} = \frac{\partial \sum_{\textbf{x}_{\textbf{i}} \in S_k} \sum_{j=1}^m(x_{ij}-c_{kj})^2}{\partial c_{kj}}=\frac{\partial \sum_{\textbf{x}_{\textbf{i}} \in S_k}(x_{ij}-c_{kj})^2}{\partial c_{kj}}=\)</span></p>
+<p><span class="math inline">\(=-2\sum_{\textbf{x}_{\textbf{i}} \in S_k} (x_{ij}-c_{kj}) \qquad k=1,…,K, \ j \text{ fijo}\)</span></p>
+<p>e igualar a 0: <span class="math inline">\(\frac{\partial W(S_k, \textbf{c}_{\textbf{k}}) }{\partial c_{kj}}=0 \Longleftrightarrow c_{kj}= \frac{1}{|S_k|}\sum_{\textbf{x}_{\textbf{i}} \in S_k}x_{ij}\)</span></p>
+<p>siendo <span class="math inline">\(|S_k|\)</span> el cardinal de <span class="math inline">\(S_k\)</span>.</p>
+<p>Los centroides óptimos para minimizar la función <span class="math inline">\(W(S)\)</span> es la media de cada cluster.</p>
 <p>Existen varios algoritmos para entrenar un modelo de <span class="math inline">\(k\)</span>-medias. El algoritmo original puede encontrarse en <span class="citation" data-cites="hartigan1979algorithm">(<a href="references.html#ref-hartigan1979algorithm" role="doc-biblioref">Hartigan y Wong 1979</a>)</span>, y define la variabilidad total dentro del clúster como la suma de distancias Euclídeas al cuadrado entre las observaciones y el correspondiente centroide.</p>
 <ol type="1">
-<li>El algoritmo comienza con <span class="math inline">\(k\)</span> medias seleccionadas aleatoriamente del conjunto original de observaciones.</li>
+<li>El algoritmo comienza con <span class="math inline">\(k\)</span> medias seleccionadas aleatoriamente del conjunto original de observaciones. Es decir, se escogen al azar <span class="math inline">\(k\)</span> centroides del conjunto de datos.</li>
 </ol>
 <div class="callout-caution callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
@@ -408,9 +591,10 @@ Precaución
 <li><p>Una vez que todas las observaciones han sido agrupadas de acuerdo a su centroide más cercano, se recalculan los centroides de los <span class="math inline">\(k\)</span> clústeres.</p></li>
 </ol>
 <p>Se iteran estos dos últimos pasos hasta la convergencia de los centroides. Esto es, hasta que el valor de los centroides apenas se modifica (según un criterio de parada preestablecido, esto es, otro hiperparámetro).</p>
+<p>Los clústeres están representados por su centroide, entendiendo éste como un punto de referencia.</p>
 <p>Despliega los paneles siguientes para averiguar las principales ventajas y desventajas de este modelo de ML.</p>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -419,14 +603,14 @@ Ventajas
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body" title="Ventajas">
 <p>Las principales ventajas del algoritmo de las <span class="math inline">\(k\)</span>-medias son su <strong>sencillez</strong> y su <strong>escalabilidad</strong> (aplicable con facilidad a grandes conjuntos de datos).</p>
 </div>
 </div>
 </div>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -435,26 +619,34 @@ Desventajas
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body" title="Desventajas">
 <p>Las principales desventajas son la necesidad de elegir <span class="math inline">\(k\)</span> manualmente y la alta <strong>dependencia</strong> de los valores iniciales, las medias con las que comienza el algoritmo. Para evitar esta última desventaja se suele replicar el algoritmo varias veces con distintas inicializaciones. Además, los centroides pueden verse fuertemente influidos por <strong>valores atípicos</strong>.</p>
 </div>
 </div>
 </div>
 <p>Para solventar esta última desventaja, en ocasiones, se usan de <strong>medoides</strong> en lugar de centroides. Estos medoides, al contrario de los centroides, son obligatoriamente observaciones de la muestra. Es decir, no elegimos medias aleatorias, sino observaciones reales recogidas en la base de datos.</p>
-<p>El más común de los algoritmos de <span class="math inline">\(k\)</span>-medoides es el <strong>PAM: “Partitioning Around Medoids”</strong>. Una ventaja adicional de los algoritmos basados en medoides es la interpretabilidad de los resultados. Mientras que un centroide puede no tener significado dentro de las observaciones muestrales, un medoide lo tiene por definición.</p>
+<p>El más común de los algoritmos de <span class="math inline">\(k\)</span>-medoides es el PAM: “Partitioning Around Medoids”. Una ventaja adicional de los algoritmos basados en medoides es la interpretabilidad de los resultados. Mientras que un centroide puede no tener significado dentro de las observaciones muestrales, un medoide lo tiene por definición. El algoritmo de los <span class="math inline">\(k\)</span>-medoides es:</p>
+<ol type="1">
+<li><p>Inicialización. Se elige el número <span class="math inline">\(K\)</span> de clusters y se escogen al azar <span class="math inline">\(K\)</span> observaciones del conjunto de datos (medoides <span class="math inline">\(\mathbf{m}_k\)</span>). Se elige una distancia <span class="math inline">\(d\)</span>.</p></li>
+<li><p>Se asigna cada observación <span class="math inline">\(\mathbf{x}_i\)</span> al medoide más cercano: <span class="math inline">\(argmin_{k } d(\mathbf{x}_i,\mathbf{m}_k)\)</span>. Así se forman los <span class="math inline">\(K\)</span> clusters <span class="math inline">\(\{S_1,\dots,S_K\}\)</span>.</p></li>
+<li><p>Una vez formado los clusters, se recalculan los medoides <span class="math inline">\(\mathbf{m}_k =argmin_{\mathbf{x}_i \in S_k} \sum_{\mathbf{x'}_i \in S_k} d(\mathbf{x}_i,\mathbf{x'}_i), \forall k=1,\dots,K\)</span></p></li>
+<li><p>Se repiten los pasos 2 y 3 hasta que no haya cambios</p></li>
+</ol>
+<p>Los clústeres están representados por su medoide, entendiendo éste como un punto de referencia</p>
 <p>Estos algoritmos son <strong>no-jerárquicos</strong>, pues una observación puede cambiar de clúster durante la ejecución del mismo. Dos observaciones cualesquiera pueden pertenecer al mismo o a diferente grupo en diferentes iteraciones del algoritmo.</p>
-<section id="k-medias-en-r" class="level3" data-number="5.2.1">
-<h3 data-number="5.2.1" class="anchored" data-anchor-id="k-medias-en-r"><span class="header-section-number">5.2.1</span> <span class="math inline">\(k\)</span>-medias en R</h3>
+</section>
+<section id="k-medias-en-r" class="level3" data-number="5.3.2">
+<h3 data-number="5.3.2" class="anchored" data-anchor-id="k-medias-en-r"><span class="header-section-number">5.3.2</span> <span class="math inline">\(k\)</span>-medias en R</h3>
 <p>Para ver cómo funciona el algoritmo de las <span class="math inline">\(k\)</span> medias en R, vamos a emplear los datos de arrestos en USA, vistos en etapas anteriores del curso:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)  <span class="co">#  manipilación de datos</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
-✔ ggplot2 3.5.1     ✔ purrr   1.0.2
+✔ ggplot2 3.5.1     ✔ purrr   1.0.4
 ✔ tibble  3.2.1     ✔ dplyr   1.1.4
 ✔ tidyr   1.3.1     ✔ stringr 1.5.1
-✔ readr   2.1.2     ✔ forcats 0.5.2
+✔ readr   2.1.2     ✔ forcats 1.0.0
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()</code></pre>
@@ -600,8 +792,8 @@ Tarea
 </div>
 </div>
 </section>
-<section id="número-óptimo-de-clústeres" class="level3" data-number="5.2.2">
-<h3 data-number="5.2.2" class="anchored" data-anchor-id="número-óptimo-de-clústeres"><span class="header-section-number">5.2.2</span> Número óptimo de clústeres</h3>
+<section id="número-óptimo-de-clústeres" class="level3" data-number="5.3.3">
+<h3 data-number="5.3.3" class="anchored" data-anchor-id="número-óptimo-de-clústeres"><span class="header-section-number">5.3.3</span> Número óptimo de clústeres</h3>
 <p>Como hemos comentado anteriormente, en numerosas ocasiones el número óptimo de clústeres de un problema no supervisado lo establece el dominio de aplicación, o más concretamente nuestra necesidad de comunicar los resultados y que estos tengan sentido y sean lo más explicables posibles.</p>
 <div class="callout-important callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
@@ -827,13 +1019,28 @@ Tarea
 </div>
 </section>
 </section>
-<section id="cluster-jerárquico" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="cluster-jerárquico"><span class="header-section-number">5.3</span> Cluster Jerárquico</h2>
+<section id="cluster-jerárquico" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="cluster-jerárquico"><span class="header-section-number">5.4</span> Cluster Jerárquico</h2>
 <p>Las técnicas de agrupamiento jerárquico generan una clasificación iterativa de clústeres anidados mediante la unión o la separación de clústeres creados en etapas anteriores. Existen dos alternativas posibles:</p>
 <ul>
 <li><p><strong>Aglomerativos</strong>: en la versión aglomerativa, cada observación comienza siendo un clúster, y en cada iteración se unen en un único clúster los dos clústeres más similares, hasta alcanzar una situación final en la que todos las observaciones pertenecen a un único clúster. Esta versión se conoce como <strong>AGNES</strong> (“Agglomerative Nesting”).</p></li>
 <li><p><strong>Divisivos</strong>: en la versión divisiva, todas las observaciones comienzan en un único clúster y las divisiones se realizan de forma recursiva, a medida que se desciende en la jerarquía, terminando cada observación formando un único clúster individual. Esta versión se conoce como <strong>DIANA</strong> (“Divise Analysis”).</p></li>
 </ul>
+<section id="cluster-jerárquico-aglomerativo" class="level3" data-number="5.4.1">
+<h3 data-number="5.4.1" class="anchored" data-anchor-id="cluster-jerárquico-aglomerativo"><span class="header-section-number">5.4.1</span> Cluster jerárquico aglomerativo</h3>
+<p>El clustering aglomerativo comienza con <span class="math inline">\(n\)</span> conglomerados (uno por cada dato) y, en cada paso, va fusionando los 2 grupos más similares hasta que hay un único grupo que contiene al total de datos.</p>
+<p><strong>Algoritmo</strong></p>
+<ol type="1">
+<li><p>Input: matriz de disimilitud <span class="math inline">\(D=(d_{ij}),i,j=1,\dots, n\)</span></p>
+<p>Inicializar los clusters: <span class="math inline">\(n\)</span> clusters <span class="math inline">\(S_i=\{i\}, i=1,\dots,n\)</span></p>
+<p>Inicializar el conjunto de clusters que faltan por unir: <span class="math inline">\(Q=\{1,\dots,n\}\)</span></p></li>
+<li><p>Seleccionar los 2 clusters más similares <span class="math inline">\(S_j\)</span> y <span class="math inline">\(S_k\)</span> : <span class="math inline">\(argmin_{j,k \in Q} \ d_{jk}\)</span></p>
+<p>Con ellos, crear un nuevo cluster: <span class="math inline">\(S_l \leftarrow \{S_j \cup S_k \}\)</span></p>
+<p>Guardar dichos clusters como no disponibles: <span class="math inline">\(Q \leftarrow Q\backslash \{j,k\}\)</span></p>
+<p>Si <span class="math inline">\(S_l \neq \{1,\dots,n\}\)</span> entonces: <span class="math inline">\(Q \leftarrow Q\cup \{l\}\)</span></p>
+<p>Para cada <span class="math inline">\(i \in Q\)</span>, actualizar la matriz de disimilitud <span class="math inline">\(d(i,l)\)</span></p></li>
+<li><p>Repetir el paso 2 hasta que no queden cluster por unir</p></li>
+</ol>
 <p>Se necesita un criterio de conexión o “<em>linkage</em>” que especifique cómo se determina el parecido (o la disimilitud) entre dos clústeres. Este criterio no es único. Algunos de los criterios más comunes son:</p>
 <div class="callout-note callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
@@ -858,7 +1065,11 @@ Agrupamiento de enlace completo
 </div>
 </div>
 <div class="callout-body-container callout-body" title="Agrupamiento de enlace completo">
-<p>Minimiza la disimilitud máxima entre las observaciones de dos clústeres. Calcula todas las disimilitudes por pares entre los elementos del conglomerado A y los elementos del conglomerado B, y considera el mayor valor (es decir, el valor máximo) de estas disimilitudes como la distancia entre los dos conglomerados. Tiende a producir clusters más compactos.</p>
+<p>Minimiza la disimilitud máxima entre las observaciones de dos clústeres. Calcula todas las disimilitudes por pares entre los elementos del conglomerado A y los elementos del conglomerado B, y considera el mayor valor (es decir, el valor máximo) de estas disimilitudes como la distancia entre los dos conglomerados</p>
+<p><span class="math display">\[
+d_{EC}(A,B) = \max_{i \in A, i' \in B} d_{i,i'}
+\]</span></p>
+<p>Tiende a producir clusters más compactos.</p>
 </div>
 </div>
 <div class="callout-note callout callout-style-default callout-captioned">
@@ -871,7 +1082,11 @@ Agrupamiento de enlace promedio
 </div>
 </div>
 <div class="callout-body-container callout-body" title="Agrupamiento de enlace promedio">
-<p>Minimiza el promedio de las disimilitudes entre las observaciones de dos clústeres. Calcula todas las disimilitudes por pares entre los elementos del conglomerado A y los elementos del conglomerado B, y considera la media de estas disimilitudes como la distancia entre los dos conglomerados.</p>
+<p>Minimiza el promedio de las disimilitudes entre las observaciones de dos clústeres. Calcula todas las disimilitudes por pares entre los elementos del conglomerado A y los elementos del conglomerado B, y considera la media de estas disimilitudes como la distancia entre los dos conglomerados:</p>
+<p><span class="math display">\[
+d_{EP}(A,B) = \frac{1}{n_A n_B} \sum_{i \in A} \sum_{i' \in B} d_{i,i'}
+\]</span></p>
+<p>siendo <span class="math inline">\(n_A\)</span> y <span class="math inline">\(n_B\)</span> el número de elementos en los grupos <span class="math inline">\(A\)</span> y <span class="math inline">\(B\)</span>, respectivamente.</p>
 </div>
 </div>
 <div class="callout-note callout callout-style-default callout-captioned">
@@ -884,7 +1099,11 @@ Agrupamiento de enlace mínimo o simple
 </div>
 </div>
 <div class="callout-body-container callout-body" title="Agrupamiento de enlace mínimo o simple">
-<p>Minimiza las disimilitudes entre las observaciones más cercanas de dos clústeres. Es decir, calcula todas las disimilitudes por pares entre los elementos del conglomerado A y los elementos del conglomerado B, y considera la menor de estas disimilitudes como criterio de vinculación. Tiende a producir clusters largos y “dispersos”.</p>
+<p>Minimiza las disimilitudes entre las observaciones más cercanas de dos clústeres. Es decir, calcula todas las disimilitudes por pares entre los elementos del conglomerado A y los elementos del conglomerado B, y considera la menor de estas disimilitudes como criterio de vinculación</p>
+<p><span class="math display">\[
+d_{ES}(A,B) = \min_{i \in A, i' \in B} d_{i,i'}
+\]</span></p>
+<p>Tiende a producir clusters largos y “dispersos”.</p>
 </div>
 </div>
 <div class="callout-note callout callout-style-default callout-captioned">
@@ -913,8 +1132,24 @@ Importante
 <p>El criterio de agrupación o conexión es un parámetro fundamental en el resultado final del clustering jerárquico.</p>
 </div>
 </div>
-<section id="cluster-jerárquico-en-r" class="level3" data-number="5.3.1">
-<h3 data-number="5.3.1" class="anchored" data-anchor-id="cluster-jerárquico-en-r"><span class="header-section-number">5.3.1</span> Cluster jerárquico en R</h3>
+</section>
+<section id="cluster-jerárquico-divisivo" class="level3" data-number="5.4.2">
+<h3 data-number="5.4.2" class="anchored" data-anchor-id="cluster-jerárquico-divisivo"><span class="header-section-number">5.4.2</span> Cluster jerárquico divisivo</h3>
+<p>El clustering jerárquico divisivo es una estrategia de agrupamiento que sigue un enfoque descendente: comienza con todos los datos en un solo conglomerado y, a través de divisiones sucesivas, va creando subgrupos más pequeños hasta alcanzar un criterio de parada predefinido. Una de las técnicas más conocidas es el algorimo DIANA:</p>
+<ul>
+<li><p>Comienza con todos los datos en un único cluster y, recursivamente, divide cada cluster en 2 cluster hijo.</p></li>
+<li><p>En cada paso el grupo más grande se divide hasta que cada objeto es un único conglomerado (u otro criterio de parada).</p></li>
+<li><p>El clúster más <em>grande</em> será aquel de mayor diámetro, es decir, el que tiene mayor desemejanza entre dos de sus elementos o aquel con mayor desemejanza media. <!--#  Este diámetro tb se usa como la altura a la hora de representarlo en el dendrograma  --> Es decir, dados los cluster <span class="math inline">\(S=\{S_1,\dots,S_r\}\)</span>, el cluster más grande <span class="math inline">\(S_j\)</span> es aquel que</p>
+<p><span class="math display">\[
+S_j = argmax_{S_j \in S} \ d_{i,i'}, \forall i,i' \in S_j
+\]</span></p></li>
+<li><p>La observación más lejana <span class="math inline">\(i^{*} \in S_j\)</span>, <span class="math inline">\(i^{*}=argmax_{i \in S_j} \ d_{i,i'}\)</span>, es la que inicia el nuevo cluster <span class="math inline">\(S_{r+1}=\{i^{*}\}\)</span>.</p></li>
+<li><p>Se asignan a este nuevo cluster <span class="math inline">\(S_{r+1}\)</span> los puntos que sean más cercanos a él que al cluster del que provienen <span class="math inline">\(S_j\)</span>.</p></li>
+</ul>
+<p>Hay otras alternativas para realizar clustering jerárquico divisivo. Por ejemplo, bisecting <span class="math inline">\(k\)</span>-means que divide el cluster de mayor diámetro en 2 cluster hijos haciendo uso de las <span class="math inline">\(k\)</span>-medias o los <span class="math inline">\(k\)</span>-medoides.</p>
+</section>
+<section id="cluster-jerárquico-en-r" class="level3" data-number="5.4.3">
+<h3 data-number="5.4.3" class="anchored" data-anchor-id="cluster-jerárquico-en-r"><span class="header-section-number">5.4.3</span> Cluster jerárquico en R</h3>
 <p>Existen diferentes funciones disponibles en R para calcular el clustering jerárquico. Las funciones más utilizadas son:</p>
 <ul>
 <li><code>hclust</code> [en el paquete <code>stats</code>] y <code>agnes</code> [en el paquete <code>cluster</code>] para el clustering jerárquico aglomerativo</li>
@@ -1089,7 +1324,7 @@ Precaución
 </div>
 </div>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-22-contents" aria-controls="callout-22" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-23-contents" aria-controls="callout-23" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1098,22 +1333,22 @@ Ventajas del clustering jerárquico
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-22" class="callout-22-contents callout-collapse collapse">
+<div id="callout-23" class="callout-23-contents callout-collapse collapse">
 <div class="callout-body-container callout-body" title="Ventajas del clustering jerárquico">
 <ul>
-<li><p><strong>Jerarquía de Clusters</strong>: El clustering jerárquico crea una jerarquía de clusters que permite analizar los datos a diferentes niveles de granularidad. Es posible, por tanto, explorar tanto clusters globales como subgrupos más específicos. Al tener una jerarquía de clusters, puedes tomar decisiones a diferentes niveles de detalle. Esto es valioso para la segmentación de mercado, la taxonomía de especies, la organización de documentos, entre otros.</p></li>
-<li><p><strong>Interpretación Visual</strong>: El dendrograma facilita la interpretación visual de cómo se agrupan los datos y cómo se relacionan entre sí.</p></li>
-<li><p><strong>No Requiere Especificación Previa del Número de Clusters</strong>: A diferencia de algunos algoritmos de clustering que requieren que especifiques el número de clusters de antemano como <span class="math inline">\(k\)</span>-medias, el clustering jerárquico no necesita esta información.</p></li>
-<li><p><strong>Identificación de Subgrupos</strong>: El clustering jerárquico es eficaz para la identificación de subgrupos dentro de clusters más grandes. Esto es útil en áreas como la segmentación de clientes, donde se pueden tener clusters generales y luego identificar subgrupos más específicos.</p></li>
-<li><p><strong>Detección de Outliers</strong>: El clustering jerárquico puede ayudar a identificar outliers (valores atípicos) que no se ajustan a ningún cluster específico y que pueden ser importantes en el análisis de datos.</p></li>
-<li><p><strong>No Sensible a la Inicialización</strong>: A diferencia de algunos algoritmos de clustering, como el <span class="math inline">\(k\)</span>-means, el clustering jerárquico no es sensible a la inicialización de centroides, lo que puede ayudar a evitar soluciones subóptimas.</p></li>
-<li><p><strong>Análisis Exploratorio de Datos</strong>: El clustering jerárquico es útil en la exploración inicial de datos, ya que proporciona una visión general de cómo se agrupan naturalmente los datos sin la necesidad de conocimiento previo.</p></li>
+<li><p><strong>Jerarquía de clusters</strong>: El clustering jerárquico crea una jerarquía de clusters que permite analizar los datos a diferentes niveles de granularidad. Es posible, por tanto, explorar tanto clusters globales como subgrupos más específicos. Al tener una jerarquía de clusters, puedes tomar decisiones a diferentes niveles de detalle. Esto es valioso para la segmentación de mercado, la taxonomía de especies, la organización de documentos, entre otros.</p></li>
+<li><p><strong>Interpretación visual</strong>: El dendrograma facilita la interpretación visual de cómo se agrupan los datos y cómo se relacionan entre sí.</p></li>
+<li><p><strong>No requiere especificación previa del número de clusters</strong>: A diferencia de algunos algoritmos de clustering que requieren que especifiques el número de clusters de antemano como <span class="math inline">\(k\)</span>-medias, el clustering jerárquico no necesita esta información.</p></li>
+<li><p><strong>Identificación de subgrupos</strong>: El clustering jerárquico es eficaz para la identificación de subgrupos dentro de clusters más grandes. Esto es útil en áreas como la segmentación de clientes, donde se pueden tener clusters generales y luego identificar subgrupos más específicos.</p></li>
+<li><p><strong>Detección de outliers</strong>: El clustering jerárquico puede ayudar a identificar outliers (valores atípicos) que no se ajustan a ningún cluster específico y que pueden ser importantes en el análisis de datos.</p></li>
+<li><p><strong>No sensible a la inicialización</strong>: A diferencia de algunos algoritmos de clustering, como el <span class="math inline">\(k\)</span>-means, el clustering jerárquico no es sensible a la inicialización de centroides, lo que puede ayudar a evitar soluciones subóptimas.</p></li>
+<li><p><strong>Análisis exploratorio de datos</strong>: El clustering jerárquico es útil en la exploración inicial de datos, ya que proporciona una visión general de cómo se agrupan naturalmente los datos sin la necesidad de conocimiento previo.</p></li>
 </ul>
 </div>
 </div>
 </div>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-23-contents" aria-controls="callout-23" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-24-contents" aria-controls="callout-24" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1122,7 +1357,7 @@ Desventajas del clustering jerárquico
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-23" class="callout-23-contents callout-collapse collapse">
+<div id="callout-24" class="callout-24-contents callout-collapse collapse">
 <div class="callout-body-container callout-body" title="Desventajas del clustering jerárquico">
 <ul>
 <li><p><strong>Requiere definir un criterio de corte</strong>: Para convertir la jerarquía en clusters finales, es necesario definir un criterio de corte en el dendrograma. Esta elección puede ser subjetiva y afectar los resultados. Así mismo hay que definir el tipo de enlace a emplear (y la medida de disimilitud) Cada una de estas decisiones puede influir mucho en los resultados obtenidos. En la práctica, probamos varias opciones diferentes y buscamos la que ofrece la solución más útil o interpretable.</p></li>
@@ -1137,18 +1372,18 @@ Desventajas del clustering jerárquico
 </div>
 </section>
 </section>
-<section id="mapas-auto-organizados" class="level2" data-number="5.4">
-<h2 data-number="5.4" class="anchored" data-anchor-id="mapas-auto-organizados"><span class="header-section-number">5.4</span> Mapas auto-organizados</h2>
+<section id="mapas-auto-organizados" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="mapas-auto-organizados"><span class="header-section-number">5.5</span> Mapas auto-organizados</h2>
 <p>Los Mapas Auto-organizados de Kohonen (SOM por sus siglas en inglés, “<em>Self-Organizing Maps</em>”) no solo son una poderosa herramienta para la <strong>reducción de la dimensión</strong>, sino que también son ampliamente utilizados como algoritmo de clustering. Aunque la reducción de la dimensión es una de sus aplicaciones más destacadas, los SOM también tienen la capacidad de agrupar datos de manera efectiva.</p>
 <p>El proceso de clustering con SOM implica organizar datos en grupos o clusters de manera que los elementos dentro de un mismo grupo sean similares entre sí en función de ciertas características. Aquí se explica cómo los SOM se utilizan para esta tarea:</p>
 <ol type="1">
 <li><p><strong>Inicialización</strong>: Se crea una red de nodos o neuronas en una estructura bidimensional, conocida como “<em>mapa SOM</em>”. Cada neurona representa una ubicación en el espacio SOM.</p></li>
-<li><p><strong>Asignación de Pesos</strong>: Cada neurona en el SOM tiene asociado un vector de pesos que es del mismo tamaño que los datos originales que se están analizando.</p></li>
+<li><p><strong>Asignación de pesos</strong>: Cada neurona en el SOM tiene asociado un vector de pesos que es del mismo tamaño que los datos originales que se están analizando.</p></li>
 <li><p><strong>Entrenamiento</strong>: Se presentan los datos al SOM, y cada dato se asigna a la neurona cuyos pesos son más similares a los atributos del dato. Las neuronas ganadoras (aquellas a las que se asigna un dato) y sus vecinas en el mapa SOM se ajustan para que se parezcan más al dato presentado. Este proceso de aprendizaje se repite varias veces.</p></li>
-<li><p><strong>Agrupación en Clusters</strong>: Después del entrenamiento, las neuronas en el mapa SOM que están cerca una de la otra representan clusters de datos. Los datos que se asignaron a estas neuronas durante el entrenamiento se consideran miembros de un mismo cluster.</p></li>
+<li><p><strong>Agrupación en clusters</strong>: Después del entrenamiento, las neuronas en el mapa SOM que están cerca una de la otra representan clusters de datos. Los datos que se asignaron a estas neuronas durante el entrenamiento se consideran miembros de un mismo cluster.</p></li>
 </ol>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-24-contents" aria-controls="callout-24" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-25-contents" aria-controls="callout-25" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1157,21 +1392,21 @@ Ventajas
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-24" class="callout-24-contents callout-collapse collapse">
+<div id="callout-25" class="callout-25-contents callout-collapse collapse">
 <div class="callout-body-container callout-body" title="Ventajas">
 <ul>
-<li><p><strong>Topología Preservada</strong>: Una ventaja clave de los SOM en el clustering es que preservan la topología de los datos. Esto significa que los clusters en el SOM reflejan la estructura de vecindad en los datos originales, lo que facilita la interpretación de los resultados.</p></li>
+<li><p><strong>Topología preservada</strong>: Una ventaja clave de los SOM en el clustering es que preservan la topología de los datos. Esto significa que los clusters en el SOM reflejan la estructura de vecindad en los datos originales, lo que facilita la interpretación de los resultados.</p></li>
 <li><p><strong>Escalabilidad</strong>: Los SOM pueden manejar grandes conjuntos de datos y dimensiones elevadas, lo que los hace útiles para aplicaciones del mundo real con datos complejos.</p></li>
 <li><p><strong>Flexibilidad</strong>: Los SOM pueden utilizarse con diversos algoritmos de agrupamiento, lo que permite adaptarlos a diferentes tipos de datos y objetivos de análisis.</p></li>
 <li><p><strong>Visualización</strong>: La representación en un espacio bidimensional o tridimensional facilita la visualización de datos complejos, lo que permite una comprensión más intuitiva.</p></li>
-<li><p><strong>Exploración Interactiva:</strong> Los SOM permiten la exploración interactiva de datos, ya que los usuarios pueden navegar por el mapa para inspeccionar las regiones y sus contenidos.</p></li>
-<li><p><strong>Reducción de Ruido:</strong> Los SOM a menudo ayudan a reducir el ruido y la redundancia en los datos, lo que mejora la calidad del análisis.</p></li>
+<li><p><strong>Exploración interactiva:</strong> Los SOM permiten la exploración interactiva de datos, ya que los usuarios pueden navegar por el mapa para inspeccionar las regiones y sus contenidos.</p></li>
+<li><p><strong>Reducción de ruido:</strong> Los SOM a menudo ayudan a reducir el ruido y la redundancia en los datos, lo que mejora la calidad del análisis.</p></li>
 </ul>
 </div>
 </div>
 </div>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-25-contents" aria-controls="callout-25" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-26-contents" aria-controls="callout-26" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1180,15 +1415,15 @@ Desventajas
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-25" class="callout-25-contents callout-collapse collapse">
+<div id="callout-26" class="callout-26-contents callout-collapse collapse">
 <div class="callout-body-container callout-body" title="Desventajas">
 <ul>
-<li><p><strong>Sensibilidad a la Inicialización</strong>: Los SOM son sensibles a la inicialización de los pesos de las neuronas. Los resultados pueden variar significativamente según cómo se configuren los pesos iniciales, lo que significa que pueden converger a soluciones subóptimas si no se seleccionan adecuadamente los valores iniciales.</p></li>
-<li><p><strong>Determinación del Tamaño del Mapa</strong>: Elegir el tamaño adecuado para el mapa SOM puede ser un desafío. Si el mapa es demasiado pequeño, puede no capturar la estructura de los datos correctamente, mientras que si es demasiado grande, puede sobreajustarse a los datos y perder la capacidad de generalización.</p></li>
-<li><p><strong>Interpretación de los Resultados</strong>: La interpretación de los resultados de un SOM puede ser complicada, especialmente en mapas de alta dimensión. Mapear los clusters y las relaciones entre las neuronas en el mapa a menudo requiere conocimiento experto del dominio.</p></li>
-<li><p><strong>Requiere Ajuste de Hiperparámetros</strong>: El rendimiento de un SOM puede depender de la elección adecuada de hiperparámetros, como la tasa de aprendizaje, la vecindad de las neuronas y el número de iteraciones. En algunos casos, encontrar los valores óptimos puede ser un proceso de prueba y error.</p></li>
-<li><p><strong>Puede Converger a Mínimos Locales</strong>: Como con muchos algoritmos de optimización, los SOM pueden converger a mínimos locales en lugar del mínimo global, lo que puede llevar a soluciones subóptimas.</p></li>
-<li><p><strong>Requiere Grandes Conjuntos de Datos</strong>: Los SOM pueden no funcionar bien en conjuntos de datos pequeños o altamente desequilibrados, ya que su eficacia se basa en la capacidad de aprender patrones significativos a partir de una cantidad suficiente de datos.</p></li>
+<li><p><strong>Sensibilidad a la inicialización</strong>: Los SOM son sensibles a la inicialización de los pesos de las neuronas. Los resultados pueden variar significativamente según cómo se configuren los pesos iniciales, lo que significa que pueden converger a soluciones subóptimas si no se seleccionan adecuadamente los valores iniciales.</p></li>
+<li><p><strong>Determinación del tamaño del mapa</strong>: Elegir el tamaño adecuado para el mapa SOM puede ser un desafío. Si el mapa es demasiado pequeño, puede no capturar la estructura de los datos correctamente, mientras que si es demasiado grande, puede sobreajustarse a los datos y perder la capacidad de generalización.</p></li>
+<li><p><strong>Interpretación de los resultados</strong>: La interpretación de los resultados de un SOM puede ser complicada, especialmente en mapas de alta dimensión. Mapear los clusters y las relaciones entre las neuronas en el mapa a menudo requiere conocimiento experto del dominio.</p></li>
+<li><p><strong>Requiere ajuste de hiperparámetros</strong>: El rendimiento de un SOM puede depender de la elección adecuada de hiperparámetros, como la tasa de aprendizaje, la vecindad de las neuronas y el número de iteraciones. En algunos casos, encontrar los valores óptimos puede ser un proceso de prueba y error.</p></li>
+<li><p><strong>Puede converger a mínimos locales</strong>: Como con muchos algoritmos de optimización, los SOM pueden converger a mínimos locales en lugar del mínimo global, lo que puede llevar a soluciones subóptimas.</p></li>
+<li><p><strong>Requiere grandes conjuntos de datos</strong>: Los SOM pueden no funcionar bien en conjuntos de datos pequeños o altamente desequilibrados, ya que su eficacia se basa en la capacidad de aprender patrones significativos a partir de una cantidad suficiente de datos.</p></li>
 </ul>
 </div>
 </div>
@@ -1286,8 +1521,17 @@ V16   0.6820996 -0.72646668   0.55768237  -0.42934114  -0.49679657 -0.42626768</
 <div id="ref-bellman1961reduction" class="csl-entry" role="doc-biblioentry">
 Bellman, Richard, y Robert Kalaba. 1961. <span>«Reduction of dimensionality, dynamic programming, and control processes»</span>.
 </div>
+<div id="ref-goodall1966new" class="csl-entry" role="doc-biblioentry">
+Goodall, David W. 1966. <span>«A new similarity index based on probability»</span>. <em>Biometrics</em>, 882-907.
+</div>
+<div id="ref-gower1971general" class="csl-entry" role="doc-biblioentry">
+Gower, John C. 1971. <span>«A general coefficient of similarity and some of its properties»</span>. <em>Biometrics</em>, 857-71.
+</div>
 <div id="ref-hartigan1979algorithm" class="csl-entry" role="doc-biblioentry">
 Hartigan, John A, y Manchek A Wong. 1979. <span>«Algorithm AS 136: A k-means clustering algorithm»</span>. <em>Journal of the royal statistical society. series c (applied statistics)</em> 28 (1): 100-108.
+</div>
+<div id="ref-kelleher2020fundamentals" class="csl-entry" role="doc-biblioentry">
+Kelleher, John D, Brian Mac Namee, y Aoife D’arcy. 2020. <em>Fundamentals of machine learning for predictive data analytics: algorithms, worked examples, and case studies</em>. MIT press.
 </div>
 <div id="ref-xu2015comprehensive" class="csl-entry" role="doc-biblioentry">
 Xu, Dongkuan, y Yingjie Tian. 2015. <span>«A comprehensive survey of clustering algorithms»</span>. <em>Annals of Data Science</em> 2: 165-93.
