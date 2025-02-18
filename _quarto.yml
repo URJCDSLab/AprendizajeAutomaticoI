@@ -5,7 +5,7 @@ project:
 book:
   title: "Aprendizaje Automático"
   author: "Carmen Lancho - Isaac Martín"
-  date: "2023-12-18"
+  date: "2025-02-18"
   search: true
   chapters:
     - index.qmd
