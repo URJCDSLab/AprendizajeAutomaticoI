@@ -1425,6 +1425,7 @@ Función objetivo y descenso del gradiente
 <li><p><span class="math inline">\(\alpha(t)\)</span> es la tasa de aprendizaje que decrece con el tiempo (iteraciones).</p></li>
 <li><p><span class="math inline">\(h_{j,j^*}(t)\)</span> es la función de vecindad que decrece con la distancia en la malla y con el tiempo. La idea es que en las primeras iteraciones, la vecindad es amplia, permitiendo un ajuste global del mapa SOM. En las últimas iteraciones, la vecindad es pequeña y los pesos de las neuronas se ajustan más localmente.</p></li>
 </ul>
+<p>Aquí vemos que la actualización de los pesos se mueve en dirección a <span class="math inline">\(\mathbf{x}_i\)</span>, ponderada por la tasa de aprendizaje <span class="math inline">\(\alpha(t)\)</span> y la función de vecindad <span class="math inline">\(h_{j,j^*}(t)\)</span>​, lo que permite que las neuronas cercanas a la BMU también se ajusten gradualmente.</p>
 <!--# Relación con el algoritmo K-means: Cuando el radio de vecindad $\sigma(t)$ se reduce significativamente, el modelo se comporta de manera similar a K-means con actualización en línea. Sin embargo, a diferencia de K-means, el SOM preserva la estructura topológica de los datos al imponer restricciones espaciales en la actualización de los pesos.  -->
 </div>
 </div>

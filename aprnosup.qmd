@@ -914,6 +914,8 @@ donde:
 
 -   $h_{j,j^*}(t)$ es la función de vecindad que decrece con la distancia en la malla y con el tiempo. La idea es que en las primeras iteraciones, la vecindad es amplia, permitiendo un ajuste global del mapa SOM. En las últimas iteraciones, la vecindad es pequeña y los pesos de las neuronas se ajustan más localmente.
 
+Aquí vemos que la actualización de los pesos se mueve en dirección a $\mathbf{x}_i$, ponderada por la tasa de aprendizaje $\alpha(t)$ y la función de vecindad $h_{j,j^*}(t)$​, lo que permite que las neuronas cercanas a la BMU también se ajusten gradualmente.
+
 <!--# Relación con el algoritmo K-means: Cuando el radio de vecindad $\sigma(t)$ se reduce significativamente, el modelo se comporta de manera similar a K-means con actualización en línea. Sin embargo, a diferencia de K-means, el SOM preserva la estructura topológica de los datos al imponer restricciones espaciales en la actualización de los pesos.  -->
 :::
 
