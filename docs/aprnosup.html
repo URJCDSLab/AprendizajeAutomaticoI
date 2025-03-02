@@ -699,17 +699,17 @@ Colorado   0.02571456 0.3988593  0.8608085  1.864967207</code></pre>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(k2)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>List of 9
- $ cluster     : Named int [1:50] 1 1 1 2 1 1 2 2 1 1 ...
+ $ cluster     : Named int [1:50] 2 2 2 1 2 2 1 1 2 2 ...
   ..- attr(*, "names")= chr [1:50] "Alabama" "Alaska" "Arizona" "Arkansas" ...
- $ centers     : num [1:2, 1:4] 1.005 -0.67 1.014 -0.676 0.198 ...
+ $ centers     : num [1:2, 1:4] -0.67 1.005 -0.676 1.014 -0.132 ...
   ..- attr(*, "dimnames")=List of 2
   .. ..$ : chr [1:2] "1" "2"
   .. ..$ : chr [1:4] "Murder" "Assault" "UrbanPop" "Rape"
  $ totss       : num 196
- $ withinss    : num [1:2] 46.7 56.1
+ $ withinss    : num [1:2] 56.1 46.7
  $ tot.withinss: num 103
  $ betweenss   : num 93.1
- $ size        : int [1:2] 20 30
+ $ size        : int [1:2] 30 20
  $ iter        : int 1
  $ ifault      : int 0
  - attr(*, "class")= chr "kmeans"</code></pre>
@@ -732,37 +732,37 @@ Tarea
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>k2 </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>K-means clustering with 2 clusters of sizes 20, 30
+<pre><code>K-means clustering with 2 clusters of sizes 30, 20
 
 Cluster means:
      Murder    Assault   UrbanPop       Rape
-1  1.004934  1.0138274  0.1975853  0.8469650
-2 -0.669956 -0.6758849 -0.1317235 -0.5646433
+1 -0.669956 -0.6758849 -0.1317235 -0.5646433
+2  1.004934  1.0138274  0.1975853  0.8469650
 
 Clustering vector:
        Alabama         Alaska        Arizona       Arkansas     California 
-             1              1              1              2              1 
+             2              2              2              1              2 
       Colorado    Connecticut       Delaware        Florida        Georgia 
-             1              2              2              1              1 
-        Hawaii          Idaho       Illinois        Indiana           Iowa 
-             2              2              1              2              2 
-        Kansas       Kentucky      Louisiana          Maine       Maryland 
-             2              2              1              2              1 
- Massachusetts       Michigan      Minnesota    Mississippi       Missouri 
-             2              1              2              1              1 
-       Montana       Nebraska         Nevada  New Hampshire     New Jersey 
-             2              2              1              2              2 
-    New Mexico       New York North Carolina   North Dakota           Ohio 
-             1              1              1              2              2 
-      Oklahoma         Oregon   Pennsylvania   Rhode Island South Carolina 
-             2              2              2              2              1 
-  South Dakota      Tennessee          Texas           Utah        Vermont 
              2              1              1              2              2 
+        Hawaii          Idaho       Illinois        Indiana           Iowa 
+             1              1              2              1              1 
+        Kansas       Kentucky      Louisiana          Maine       Maryland 
+             1              1              2              1              2 
+ Massachusetts       Michigan      Minnesota    Mississippi       Missouri 
+             1              2              1              2              2 
+       Montana       Nebraska         Nevada  New Hampshire     New Jersey 
+             1              1              2              1              1 
+    New Mexico       New York North Carolina   North Dakota           Ohio 
+             2              2              2              1              1 
+      Oklahoma         Oregon   Pennsylvania   Rhode Island South Carolina 
+             1              1              1              1              2 
+  South Dakota      Tennessee          Texas           Utah        Vermont 
+             1              2              2              1              1 
       Virginia     Washington  West Virginia      Wisconsin        Wyoming 
-             2              2              2              2              2 
+             1              1              1              1              1 
 
 Within cluster sum of squares by cluster:
-[1] 46.74796 56.11445
+[1] 56.11445 46.74796
  (between_SS / total_SS =  47.5 %)
 
 Available components:
@@ -847,8 +847,8 @@ Nombrar los grupos
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_silhouette</span>(sil)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  cluster size ave.sil.width
-1       1   20          0.37
-2       2   30          0.43</code></pre>
+1       1   30          0.43
+2       2   20          0.37</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="aprnosup_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
@@ -1375,15 +1375,62 @@ Desventajas del clustering jerárquico
 <section id="mapas-auto-organizados" class="level2" data-number="5.5">
 <h2 data-number="5.5" class="anchored" data-anchor-id="mapas-auto-organizados"><span class="header-section-number">5.5</span> Mapas auto-organizados</h2>
 <p>Los Mapas Auto-organizados de Kohonen (SOM por sus siglas en inglés, “<em>Self-Organizing Maps</em>”) no solo son una poderosa herramienta para la <strong>reducción de la dimensión</strong>, sino que también son ampliamente utilizados como algoritmo de clustering. Aunque la reducción de la dimensión es una de sus aplicaciones más destacadas, los SOM también tienen la capacidad de agrupar datos de manera efectiva.</p>
-<p>El proceso de clustering con SOM implica organizar datos en grupos o clusters de manera que los elementos dentro de un mismo grupo sean similares entre sí en función de ciertas características. Aquí se explica cómo los SOM se utilizan para esta tarea:</p>
+<p>El proceso de clustering con SOM implica organizar datos en grupos o clusters de manera que los elementos dentro de un mismo grupo sean similares entre sí en función de ciertas características. Un SOM consiste en una malla de neuronas organizadas en una estructura topológica bidimensional, usualmente una cuadrícula rectangular o hexagonal. Cada neurona tiene un vector de pesos asociado, de la misma dimensión que los datos de entrada.</p>
+<p>Sea un conjunto de datos de entrada <span class="math inline">\(\mathbf{X} \in \mathbb{R}^p\)</span>, el SOM está compuesto por una malla bidimensional de <span class="math inline">\(K\)</span> neuronas o prototipos. Cada neurona está “definida” un vector de pesos <span class="math inline">\(\mathbf{w}_j \in \mathbb{R}^p\)</span>, donde <span class="math inline">\(j\)</span> es el índice de la neurona en la malla. Cada neurona representa una ubicación en el espacio SOM.</p>
+<p>A continuación se explica cómo funciona el algoritmo:</p>
 <ol type="1">
-<li><p><strong>Inicialización</strong>: Se crea una red de nodos o neuronas en una estructura bidimensional, conocida como “<em>mapa SOM</em>”. Cada neurona representa una ubicación en el espacio SOM.</p></li>
-<li><p><strong>Asignación de pesos</strong>: Cada neurona en el SOM tiene asociado un vector de pesos que es del mismo tamaño que los datos originales que se están analizando.</p></li>
-<li><p><strong>Entrenamiento</strong>: Se presentan los datos al SOM, y cada dato se asigna a la neurona cuyos pesos son más similares a los atributos del dato. Las neuronas ganadoras (aquellas a las que se asigna un dato) y sus vecinas en el mapa SOM se ajustan para que se parezcan más al dato presentado. Este proceso de aprendizaje se repite varias veces.</p></li>
-<li><p><strong>Agrupación en clusters</strong>: Después del entrenamiento, las neuronas en el mapa SOM que están cerca una de la otra representan clusters de datos. Los datos que se asignaron a estas neuronas durante el entrenamiento se consideran miembros de un mismo cluster.</p></li>
+<li><p><strong>Inicialización</strong>: Se inicializan los pesos <span class="math inline">\(\mathbf{w}_i\)</span> de las neuronas aleatoriamente (¿Qué técnica, ya estudiada en la asignatura, se te ocurre para inicializar los pesos de las neuronas?). <!--# PCA --></p></li>
+<li><p><strong>Selección del vector de entrada</strong>: En cada iteración, se selecciona aleatoriamente un vector de entrada <span class="math inline">\(\mathbf{x}_i\)</span> del conjunto de datos.</p></li>
+<li><p><strong>Cálculo de la neurona ganadora</strong>: Se encuentra la neurona cuyo vector de pesos <span class="math inline">\(\mathbf{w}_j\)</span> sea más cercano a <span class="math inline">\(\mathbf{x}_i\)</span> en términos de distancia Euclídea: <span class="math display">\[j^* = \arg\min_{j} \| \mathbf{x}_i - \mathbf{w}_j \|.\]</span> Es decir, encontramos su prototipo o neurona más cercana. Esta neurona es conocida como BMU (Best Matching Unit).</p></li>
+<li><p><strong>Actualización de pesos</strong>: Se actualizan los pesos de la BMU y de sus vecinos en base a la siguiente ecuación: <span class="math display">\[    \mathbf{w}_j(t+1) = \mathbf{w}_j(t) + \alpha(t) h_{j,j^*}(t) (\mathbf{x}_i - \mathbf{w}_j(t)),\]</span> donde:</p>
+<ul>
+<li><p><span class="math inline">\(\alpha(t)\)</span> es la tasa de aprendizaje, que decrece con el tiempo <span class="math inline">\(t\)</span> (número de iteraciones)</p></li>
+<li><p><span class="math inline">\(h_{j,j^*}(t)\)</span> es la función de vecindad que decrece con la distancia entre <span class="math inline">\(j\)</span> e <span class="math inline">\(j^{*}\)</span> en la malla, comúnmente definida como una función gaussiana: <span class="math display">\[h_{j,j^*}(t) = \exp\left(-\frac{\| r_j - r_{j^*} \|^2}{2 \sigma^2(t)}\right),\]</span> donde <span class="math inline">\(r_j\)</span> es la posición de la neurona <span class="math inline">\(j\)</span> en la malla y <span class="math inline">\(\sigma(t)\)</span> es el radio de vecindad, que también decrece con el tiempo.</p></li>
+</ul>
+<p>Esta actualización se hace tanto para la neurona ganadora como para sus vecinas.</p></li>
 </ol>
+<p>Es decir, se presentan los datos al SOM, y cada dato se asigna a la neurona cuyos pesos son más similares a los atributos del dato. Las neuronas ganadoras (aquellas a las que se asigna un dato) y sus vecinas en el mapa SOM se ajustan para que se parezcan más al dato presentado.</p>
+<ol start="5" type="1">
+<li><strong>Repetición</strong>: Se repiten los pasos anteriores por un número determinado de iteraciones o hasta la convergencia del modelo.</li>
+</ol>
+<p>Después del entrenamiento, las neuronas en el mapa SOM que están cerca una de la otra representan clusters de datos. Los datos que se asignaron a estas neuronas durante el entrenamiento se consideran miembros de un mismo cluster. Los SOM tienen propiedades interesantes como la preservación topológica, garantizando que las neuronas cercanas en la malla tendrán pesos similares.</p>
 <div class="callout-note callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-25-contents" aria-controls="callout-25" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Función objetivo y descenso del gradiente
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-25" class="callout-25-contents callout-collapse collapse">
+<div class="callout-body-container callout-body" title="Función objetivo">
+<p>El algoritmo de entrenamiento de los Mapas de Kohonen (SOM) puede entenderse como un proceso de minimización de una función de coste mediante descenso de gradiente.</p>
+<p>El objetivo del entrenamiento en los SOM es minimizar la siguiente función de coste: <span class="math display">\[    E = \sum_{x_i \in \mathbf{X}} \sum_{j} h_{j,j^*} \| \mathbf{x}_i - \mathbf{w}_j \|^2\]</span> donde:</p>
+<ul>
+<li><p><span class="math inline">\(\mathbf{X}\)</span> es el conjunto de datos de entrada.</p></li>
+<li><p><span class="math inline">\(j^*\)</span> es la neurona ganadora para cada <span class="math inline">\(\mathbf{x}_i\)</span>.</p></li>
+<li><p><span class="math inline">\(h_{j,j^*}\)</span> es la función de vecindad que determina la influencia de la neurona <span class="math inline">\(j\)</span> en la actualización de pesos.</p></li>
+</ul>
+<p>Esta función de coste representa una combinación de dos principios: 1. La asignación de cada <span class="math inline">\(\mathbf{x}_i\)</span> a una neurona con pesos <span class="math inline">\(\mathbf{w}_j\)</span> minimiza la distancia entre los datos y los prototipos. 2. Preservación topológica: La regularización impuesta por <span class="math inline">\(h_{j,j^*}\)</span> garantiza que neuronas cercanas tengan pesos similares, permitiendo que el mapa refleje la estructura del espacio de entrada.</p>
+<p>Veámos cómo se llega a la actualización de las neuronas. Como buscamos minimizar <span class="math inline">\(E\)</span>, aplicaremos el descenso del gradiente sobre los pesos que definen cada neurona <span class="math inline">\(\mathbf{w}_j\)</span>. Esto es, derivamos la función de coste con respecto a <span class="math inline">\(\mathbf{w}_j\)</span>: <span class="math display">\[\frac{\partial E}{\partial \mathbf{w}_j} = -\sum_{\mathbf{x}_i \in \mathbf{X}} h_{j,j^*} 2 (\mathbf{x}_i - \mathbf{w}_j).\]</span></p>
+<p>El ajuste de pesos se obtiene usando la regla de actualización:</p>
+<p><span class="math display">\[\mathbf{w}_j(t+1) = \mathbf{w}_j(t) - \alpha(t) \frac{\partial E}{\partial \mathbf{w}_j}.\]</span></p>
+<p>Sustituyendo <span class="math inline">\(\frac{\partial E}{\partial \mathbf{w}_i}\)</span>, obtenemos:</p>
+<p><span class="math display">\[\mathbf{w}_j(t+1) = \mathbf{w}_j(t) + \alpha(t) \sum_{\mathbf{x}_i \in \mathbf{X}} h_{j,j^*}(t) (\mathbf{x}_i - \mathbf{w}_j(t)).\]</span></p>
+<p>Por motivos de coste computacional, este ajuste se realiza para la observación particular que ha sido escogida en la iteración, es decir, para <span class="math inline">\(\mathbf{x}_i\)</span> en lugar de para todo los puntos del conjunto de datos. Así: <span class="math display">\[\mathbf{w}_j(t+1) = \mathbf{w}_j(t) + \alpha(t) h_{j,j^*}(t) (\mathbf{x}_i - \mathbf{w}_j(t)),\]</span></p>
+<p>donde:</p>
+<ul>
+<li><p><span class="math inline">\(\alpha(t)\)</span> es la tasa de aprendizaje que decrece con el tiempo (iteraciones).</p></li>
+<li><p><span class="math inline">\(h_{j,j^*}(t)\)</span> es la función de vecindad que decrece con la distancia en la malla y con el tiempo. La idea es que en las primeras iteraciones, la vecindad es amplia, permitiendo un ajuste global del mapa SOM. En las últimas iteraciones, la vecindad es pequeña y los pesos de las neuronas se ajustan más localmente.</p></li>
+</ul>
+<!--# Relación con el algoritmo K-means: Cuando el radio de vecindad $\sigma(t)$ se reduce significativamente, el modelo se comporta de manera similar a K-means con actualización en línea. Sin embargo, a diferencia de K-means, el SOM preserva la estructura topológica de los datos al imponer restricciones espaciales en la actualización de los pesos.  -->
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-26-contents" aria-controls="callout-26" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1392,7 +1439,7 @@ Ventajas
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-25" class="callout-25-contents callout-collapse collapse">
+<div id="callout-26" class="callout-26-contents callout-collapse collapse">
 <div class="callout-body-container callout-body" title="Ventajas">
 <ul>
 <li><p><strong>Topología preservada</strong>: Una ventaja clave de los SOM en el clustering es que preservan la topología de los datos. Esto significa que los clusters en el SOM reflejan la estructura de vecindad en los datos originales, lo que facilita la interpretación de los resultados.</p></li>
@@ -1406,7 +1453,7 @@ Ventajas
 </div>
 </div>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-26-contents" aria-controls="callout-26" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-27-contents" aria-controls="callout-27" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1415,7 +1462,7 @@ Desventajas
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-26" class="callout-26-contents callout-collapse collapse">
+<div id="callout-27" class="callout-27-contents callout-collapse collapse">
 <div class="callout-body-container callout-body" title="Desventajas">
 <ul>
 <li><p><strong>Sensibilidad a la inicialización</strong>: Los SOM son sensibles a la inicialización de los pesos de las neuronas. Los resultados pueden variar significativamente según cómo se configuren los pesos iniciales, lo que significa que pueden converger a soluciones subóptimas si no se seleccionan adecuadamente los valores iniciales.</p></li>

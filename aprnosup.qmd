@@ -855,15 +855,67 @@ fviz_gap_stat(gap_stat)
 
 Los Mapas Auto-organizados de Kohonen (SOM por sus siglas en inglés, "*Self-Organizing Maps*") no solo son una poderosa herramienta para la **reducción de la dimensión**, sino que también son ampliamente utilizados como algoritmo de clustering. Aunque la reducción de la dimensión es una de sus aplicaciones más destacadas, los SOM también tienen la capacidad de agrupar datos de manera efectiva.
 
-El proceso de clustering con SOM implica organizar datos en grupos o clusters de manera que los elementos dentro de un mismo grupo sean similares entre sí en función de ciertas características. Aquí se explica cómo los SOM se utilizan para esta tarea:
+El proceso de clustering con SOM implica organizar datos en grupos o clusters de manera que los elementos dentro de un mismo grupo sean similares entre sí en función de ciertas características. Un SOM consiste en una malla de neuronas organizadas en una estructura topológica bidimensional, usualmente una cuadrícula rectangular o hexagonal. Cada neurona tiene un vector de pesos asociado, de la misma dimensión que los datos de entrada.
 
-1.  **Inicialización**: Se crea una red de nodos o neuronas en una estructura bidimensional, conocida como "*mapa SOM*". Cada neurona representa una ubicación en el espacio SOM.
+Sea un conjunto de datos de entrada $\mathbf{X} \in \mathbb{R}^p$, el SOM está compuesto por una malla bidimensional de $K$ neuronas o prototipos. Cada neurona está "definida" un vector de pesos $\mathbf{w}_j \in \mathbb{R}^p$, donde $j$ es el índice de la neurona en la malla. Cada neurona representa una ubicación en el espacio SOM.
 
-2.  **Asignación de pesos**: Cada neurona en el SOM tiene asociado un vector de pesos que es del mismo tamaño que los datos originales que se están analizando.
+A continuación se explica cómo funciona el algoritmo:
 
-3.  **Entrenamiento**: Se presentan los datos al SOM, y cada dato se asigna a la neurona cuyos pesos son más similares a los atributos del dato. Las neuronas ganadoras (aquellas a las que se asigna un dato) y sus vecinas en el mapa SOM se ajustan para que se parezcan más al dato presentado. Este proceso de aprendizaje se repite varias veces.
+1.  **Inicialización**: Se inicializan los pesos $\mathbf{w}_i$ de las neuronas aleatoriamente (¿Qué técnica, ya estudiada en la asignatura, se te ocurre para inicializar los pesos de las neuronas?). <!--# PCA -->
 
-4.  **Agrupación en clusters**: Después del entrenamiento, las neuronas en el mapa SOM que están cerca una de la otra representan clusters de datos. Los datos que se asignaron a estas neuronas durante el entrenamiento se consideran miembros de un mismo cluster.
+2.  **Selección del vector de entrada**: En cada iteración, se selecciona aleatoriamente un vector de entrada $\mathbf{x}_i$ del conjunto de datos.
+
+3.  **Cálculo de la neurona ganadora**: Se encuentra la neurona cuyo vector de pesos $\mathbf{w}_j$ sea más cercano a $\mathbf{x}_i$ en términos de distancia Euclídea: $$j^* = \arg\min_{j} \| \mathbf{x}_i - \mathbf{w}_j \|.$$ Es decir, encontramos su prototipo o neurona más cercana. Esta neurona es conocida como BMU (Best Matching Unit).
+
+4.  **Actualización de pesos**: Se actualizan los pesos de la BMU y de sus vecinos en base a la siguiente ecuación: $$    \mathbf{w}_j(t+1) = \mathbf{w}_j(t) + \alpha(t) h_{j,j^*}(t) (\mathbf{x}_i - \mathbf{w}_j(t)),$$ donde:
+
+    -   $\alpha(t)$ es la tasa de aprendizaje, que decrece con el tiempo $t$ (número de iteraciones)
+
+    -   $h_{j,j^*}(t)$ es la función de vecindad que decrece con la distancia entre $j$ e $j^{*}$ en la malla, comúnmente definida como una función gaussiana: $$h_{j,j^*}(t) = \exp\left(-\frac{\| r_j - r_{j^*} \|^2}{2 \sigma^2(t)}\right),$$ donde $r_j$ es la posición de la neurona $j$ en la malla y $\sigma(t)$ es el radio de vecindad, que también decrece con el tiempo.
+
+    Esta actualización se hace tanto para la neurona ganadora como para sus vecinas.
+
+Es decir, se presentan los datos al SOM, y cada dato se asigna a la neurona cuyos pesos son más similares a los atributos del dato. Las neuronas ganadoras (aquellas a las que se asigna un dato) y sus vecinas en el mapa SOM se ajustan para que se parezcan más al dato presentado.
+
+5.  **Repetición**: Se repiten los pasos anteriores por un número determinado de iteraciones o hasta la convergencia del modelo.
+
+Después del entrenamiento, las neuronas en el mapa SOM que están cerca una de la otra representan clusters de datos. Los datos que se asignaron a estas neuronas durante el entrenamiento se consideran miembros de un mismo cluster. Los SOM tienen propiedades interesantes como la preservación topológica, garantizando que las neuronas cercanas en la malla tendrán pesos similares.
+
+::: {.callout-note collapse="true" title="Función objetivo"}
+# Función objetivo y descenso del gradiente
+
+El algoritmo de entrenamiento de los Mapas de Kohonen (SOM) puede entenderse como un proceso de minimización de una función de coste mediante descenso de gradiente.
+
+El objetivo del entrenamiento en los SOM es minimizar la siguiente función de coste: $$    E = \sum_{x_i \in \mathbf{X}} \sum_{j} h_{j,j^*} \| \mathbf{x}_i - \mathbf{w}_j \|^2$$ donde:
+
+-    $\mathbf{X}$ es el conjunto de datos de entrada.
+
+-    $j^*$ es la neurona ganadora para cada $\mathbf{x}_i$.
+
+-    $h_{j,j^*}$ es la función de vecindad que determina la influencia de la neurona $j$ en la actualización de pesos.
+
+Esta función de coste representa una combinación de dos principios: 1. La asignación de cada $\mathbf{x}_i$ a una neurona con pesos $\mathbf{w}_j$ minimiza la distancia entre los datos y los prototipos. 2. Preservación topológica: La regularización impuesta por $h_{j,j^*}$ garantiza que neuronas cercanas tengan pesos similares, permitiendo que el mapa refleje la estructura del espacio de entrada.
+
+Veámos cómo se llega a la actualización de las neuronas. Como buscamos minimizar $E$, aplicaremos el descenso del gradiente sobre los pesos que definen cada neurona $\mathbf{w}_j$. Esto es, derivamos la función de coste con respecto a $\mathbf{w}_j$: $$\frac{\partial E}{\partial \mathbf{w}_j} = -\sum_{\mathbf{x}_i \in \mathbf{X}} h_{j,j^*} 2 (\mathbf{x}_i - \mathbf{w}_j).$$
+
+El ajuste de pesos se obtiene usando la regla de actualización:
+
+$$\mathbf{w}_j(t+1) = \mathbf{w}_j(t) - \alpha(t) \frac{\partial E}{\partial \mathbf{w}_j}.$$
+
+Sustituyendo $\frac{\partial E}{\partial \mathbf{w}_i}$, obtenemos:
+
+$$\mathbf{w}_j(t+1) = \mathbf{w}_j(t) + \alpha(t) \sum_{\mathbf{x}_i \in \mathbf{X}} h_{j,j^*}(t) (\mathbf{x}_i - \mathbf{w}_j(t)).$$
+
+Por motivos de coste computacional, este ajuste se realiza para la observación particular que ha sido escogida en la iteración, es decir, para $\mathbf{x}_i$ en lugar de para todo los puntos del conjunto de datos. Así: $$\mathbf{w}_j(t+1) = \mathbf{w}_j(t) + \alpha(t) h_{j,j^*}(t) (\mathbf{x}_i - \mathbf{w}_j(t)),$$
+
+donde:
+
+-    $\alpha(t)$ es la tasa de aprendizaje que decrece con el tiempo (iteraciones).
+
+-   $h_{j,j^*}(t)$ es la función de vecindad que decrece con la distancia en la malla y con el tiempo. La idea es que en las primeras iteraciones, la vecindad es amplia, permitiendo un ajuste global del mapa SOM. En las últimas iteraciones, la vecindad es pequeña y los pesos de las neuronas se ajustan más localmente.
+
+<!--# Relación con el algoritmo K-means: Cuando el radio de vecindad $\sigma(t)$ se reduce significativamente, el modelo se comporta de manera similar a K-means con actualización en línea. Sin embargo, a diferencia de K-means, el SOM preserva la estructura topológica de los datos al imponer restricciones espaciales en la actualización de los pesos.  -->
+:::
 
 ::: {.callout-note collapse="true" title="Ventajas"}
 ## Ventajas
