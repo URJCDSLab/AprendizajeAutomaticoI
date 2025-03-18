@@ -47,7 +47,7 @@ $$g(E(y|x))=\eta(x)$$
 La **distribución de probabilidad** (componente aleatoria) describe cómo se distribuyen los datos alrededor de la media y puede adaptarse a diferentes tipos de datos, como datos binarios, Poisson, binomiales o exponenciales, entre otros. Esto brinda flexibilidad para modelar una variedad de escenarios de datos. Por ejemplo, en el caso de la conocida *regresión lineal* se asume que la variable respuesta sigue una distribución *Normal*. Mediante la componente aleatoria determinamos cómo añadir el ruido o error aleatorio a la predicción que se obtiene de la función de enlace. La tabla siguiente, adaptada de [@agresti2015foundations], resume los GLM:
 
 | Modelo               | Componente aleatoria | Función de enlace | Tipo de variables explicativas |
-|----------------------|----------------------|-------------------|--------------------------------|
+|-----------------|-----------------|-----------------|---------------------|
 | Regresión Lineal     | Normal               | Identidad         | Cuantitativas                  |
 | ANOVA                | Normal               | Identidad         | Cuantitativas                  |
 | ANCOVA               | Normal               | Identidad         | Cuantitativas y Cualitativas   |
@@ -280,30 +280,53 @@ Y ahora, podemos plantear si este modelo es adecuado. Es decir ¿estamos satisfe
 
 ### Análisis Discriminante Lineal
 
-El *análisis discriminante lineal (Linear Discriminant Analysis, LDA)* [@hastie2009elements], [@murphy2012machine] es una técnica estadística utilizada para encontrar una combinación lineal de variables que discrimine dos o más grupos.
+El *análisis discriminante lineal (Linear Discriminant Analysis, LDA)* [@hastie2009elements], [@murphy2012machine] es una técnica estadística de clasificación supervisada utilizada para encontrar una combinación lineal de variables que discrimine dos o más grupos. Se basa en la idea de modelar la distribución de cada clase y aplicar el criterio de Bayes para asignar nuevas observacones a una de ellas.Se trata de un algoritmo de *clasificación*, es decir, la variable objetivo $Y$ es categórica: $Y \in \{1,\dots,C\}$.
 
-Se trata de un algoritmo de *clasificación*, es decir, la variable objetivo es categórica. Sus dos supuestos principales son que las variables explicativas (que deben ser continuas) siguen una distribución Normal y que comparten varianza.
+<!--# El objetivo de LDA es construir una combinación lineal de las variables explicativas que mejor discrimina las clases. En base a dicho hiperplano separador se clasificarán las nuevas observaciones. -->
 
-El **objetivo** de LDA es construir la combinación lineal de las variables explicativas que mejor discrimina las clases. En base a dicho hiperplano separador se clasificarán las nuevas observaciones.
-
-Para explicar mejor cómo funciona este algoritmo, comencemos recordando el teorema de Bayes en una caso de clasificación, es decir, cuando tenemos una variable objetivo $Y$ y las variables explicativas $\mathbf{X}$:
-
-$$ P(C=1|\mathbf{X}=\mathbf{x})=\frac{f_{1}(\mathbf{x})P(1)}{\sum_{c=1}^{C_n}f_{c}(\mathbf{x})P(c)}$$
-
-siendo $P(C=1|\mathbf{X}=\mathbf{x})$ la probabilidad a posteriori, es decir, la probabilidad de la clase $1$ dada la observación $\mathbf{x}$. $P(c)$ es la probabilidad a priori de la clase $c$. $C_n$ es el número total de clases. Nótese que $\sum_{c=1}^{C_n}P(c) =1$. Finalmente $f_c(\mathbf{x})$ es la función de densidad condicional de las $\mathbf{X}$ en la clase $c$. En el caso del LDA se asume que la densidad de cada clase es una Normal multivariante $$
-    f_c(\mathbf{x}) = \frac{1}{(2\pi)^{p/2}|\Sigma_k|^{1/2}}e^{-\frac{1}{2}(\mathbf{x}-\mu_k)^{t}\Sigma_k^{-1}(\mathbf{x}-\mu_k)}
-    $$
-
-Además, también se asume que las clases comparten la misma matriz de varianzas covarianzas $\Sigma_c=\Sigma, \ \forall c$.
-
-En base a estas asunciones, comparemos las probabilidades de ambas clases:
+Supongamos que los datos de cada clase $Y=c$ siguen una distribución Normal multivariante:
 
 $$
-log\left( \frac{P(C=1|\mathbf{X}=\mathbf{x})}{P(C=0|\mathbf{X}=\mathbf{x})} \right) = log\left( \frac{f_1(\mathbf{x})}{f_0(\mathbf{x})} \right) + log\left( \frac{P(1)}{P(0)} \right) =$$
+    f_c(\mathbf{x})=P(\mathbf{x}|Y=c) = \frac{1}{(2\pi)^{p/2}|\Sigma_c|^{1/2}}e^{-\frac{1}{2}(\mathbf{x}-\mu_c)^{t}\Sigma_c^{-1}(\mathbf{x}-\mu_c)}
+    $$
+
+donde:
+
+-   $\mathbf{x} \in \mathbb{R}^{p}$ es una observación
+
+-   $\mu_c$ es la media de la clase $c$
+
+-   $\Sigma_c$ es la matriz de covarianzas de la clase $c$
+
+LDA surge cuando asumimos que las clases tienen una matriz de covarianzas común, es decir, $\Sigma_c=\Sigma$, $\forall c$.
+
+El LDA se basa en el Teorema de Bayes. Bajo este teorema, asignaremos una observación $\mathbf{x}$ a la clase que maximiza la probabilidad a posteriori $P(Y=c|\mathbf{x})$ que, por el teorema de Bayes es
+
+$$ P(Y=c|\mathbf{X}=\mathbf{x})=\frac{P(Y=c|\mathbf{x})P(Y=c)}{P(\mathbf{x})}$$
+
+Así, si queremos comparar 2 clases, la $0$ y la $1$, bastará con analizar el siguiente log-ratio: $$log\left( \frac{P(Y=1|\mathbf{X}=\mathbf{x})}{P(Y=0|\mathbf{X}=\mathbf{x})} \right) = log\left( \frac{P(Y=1|\mathbf{x})}{P(Y=0|\mathbf{x})} \right) + log\left( \frac{P(Y=1)}{P(Y=0)} \right) =$$
 
 $$ = log\left( \frac{P(1)}{P(0)} \right) - \frac{1}{2}(\mu_1 + \mu_0)^{t}\Sigma^{-1}(\mu_1-\mu_0) + \mathbf{x}^{t}\Sigma^{-1}(\mu_1-\mu_0) $$
 
-Obtenemos una ecuación que es lineal en $\mathbf{x}$. Es decir, la frontera de decisión entre las clases $0$ y $1$ es una ecuación lineal, un hiperplano en dimensión $p$.
+Obtenemos una ecuación que es lineal en $\mathbf{x}$. Puede verse más fácilmente llamando: $\mathbf{w}=\Sigma^{-1}(\mu_1-\mu_0)$ y $w_0 = log\left( \frac{P(1)}{P(0)} \right) - \frac{1}{2}(\mu_1 + \mu_0)^{t}\Sigma^{-1}(\mu_1-\mu_0)$.
+
+Esta ecuación define la frontera de decisión lineal donde la probabilidad de las clases es igual cuando $\mathbf{x}^{t}\mathbf{w}+w_0 =0$. La frontera de decisión entre las clases $0$ y $1$ es una ecuación lineal, un hiperplano en dimensión $p$.
+
+¿Cómo se lleva entonces a cabo la clasificación? Como la frontera es un hiperplano separador, se comparará a qué población está más cercana cada observación. Esto es, para clasificar una observación como perteneciente a la clase $1$, tendrá que ocurrir que
+
+$$ log\left( \frac{P(Y=1|\mathbf{X}=\mathbf{x})}{P(Y=0|\mathbf{X}=\mathbf{x})} \right) >0$$
+
+y esto es equivalente a
+
+$$ \mathbf{x}^{t} \widehat{\Sigma}^{-1}(\widehat{\mu}_1 - \widehat{\mu}_0) > \frac{1}{2}(\widehat{\mu}_1 + \widehat{\mu}_0)^{t}\widehat{\Sigma}^{-1}(\widehat{\mu}_1 - \widehat{\mu}_0) - log(n_1/n_0) $$
+
+<!--# Si, en esta ecuación, llamamos $\mathbf{w}=\widehat{\Sigma}^{-1}(\widehat{\mu}_1 - \widehat{\mu}_0)$, podemos reescribir la expresión anterior anterior como $$ \mathbf{x}^{t} \mathbf{w} > \frac{1}{2}(\widehat{\mu}_1 + \widehat{\mu}_0)^{t}\mathbf{w} - log(n_1/n_0) $$ La frontera de decisión entre ambas clases es $$ \mathbf{x}^{t} \mathbf{w} = \frac{1}{2}(\widehat{\mu}_1 + \widehat{\mu}_0)^{t}\mathbf{w} - log(n_1/n_0) $$ que es una combinación lineal de las variables explicativas. ¿Cómo se interpreta este procedimiento? Se está proyectando la observación a clasificar y las medias de las clases en una recta y se asigna la observación a la clase cuya media sea la más cercana. -->
+
+Con esto, de forma general, vemos que las funciones discriminantes lineales son $$\delta_{c}(\mathbf{x})=\mathbf{x}^{t} \Sigma^{-1}\mu_{c} -\frac{1}{2}\mu_{c}^{t}\Sigma^{-1}\mu_{c} + \log(P(Y=c))$$
+
+
+
+Esta es la función que se maximiza para asignar la observación $\mathbf{x}$ a la clase de mayor probabilidad. Esto es, la regla de decisión es $argmax_{c} \delta_{c}(\mathbf{x})$, que significa que se asignará $\mathbf{x}$ a la clase $c$ que tenga el mayor valor de $\delta_{c}(\mathbf{x})$. La ecuación de la frontera de decisión vista antes es justamente la que se obtiene cuando $\delta_{0}(\mathbf{x}) =\delta_{1}(\mathbf{x})$.
 
 En la práctica, se desconocen los parámetros de la distribución Normal. Se estiman con los datos de entrenamiento:
 
@@ -311,23 +334,21 @@ En la práctica, se desconocen los parámetros de la distribución Normal. Se es
 
 -   $\widehat{\mu}_c$ media muestral de los elementos de la clase $c$
 
--   $\widehat{\Sigma}$ varianza muestral de los elementos de la clase $c$
+-   $\widehat{\Sigma}=\frac{1}{n-C}\sum_{c=1}^{C}\sum_{y_i = c}(\mathbf{x}_i - \widehat{\mu}_c)(\mathbf{x}_i - \widehat{\mu}_c)^{t}$. Se utilizan los datos de todas las clases para calcular la matriz de covarianzas: suma de las matrices de covarianza de cada clase, ponderadas según su tamaño muestral (MLE). Se resta el número total clases $C$ porque es el número de medias $\widehat{\mu}_c$ estimado.
 
-¿Cómo se lleva entonces a cabo la clasificación? Como la frontera es un hiperplano separador, se comparará a qué población está más cercano cada observación. Esto es, para clasificar una observación como perteneciente a la clase $1$, tendrá que ocurrir que
+::: {.callout-note collapse="true" title="Visión geométrica del LDA"}
+# Visión geométrica
 
-$$ log\left( \frac{P(C=1|\mathbf{X}=\mathbf{x})}{P(C=0|\mathbf{X}=\mathbf{x})} \right) >0$$
+LDA sigue la misma filosofía que las PCA pero se centra en maximizar la separabilidad entre las categorías.
 
-y esto es equivalente a
+Una forma intuitiva de ver el LDA es como una proyección geométrica de los datos en una recta, donde la asignación de clase se realiza según la proximidad a las medias proyectadas de cada clase. LDA busca encontrar un vector de proyección $\mathbf{w}$ tal que los datos de distintas clases queden lo más separados posibles de sí. Matemáticamente, dicha proyección es $\mathbf{z}=\mathbf{w}^t\mathbf{x}$ (¿Te recuerda a las PCA?) donde $\mathbf{z}$ representa la coordenada del punto $\mathbf{x}$ en la nueva dimensión reducida.
 
-$$ \mathbf{x}^{t} \widehat{\Sigma}^{-1}(\widehat{\mu}_1 - \widehat{\mu}_0) > \frac{1}{2}(\widehat{\mu}_1 + \widehat{\mu}_0)^{t}\widehat{\Sigma}^{-1}(\widehat{\mu}_1 - \widehat{\mu}_0) - log(n_1/n_0) $$
+En el caso de LDA, para encontrar ese nuevo eje, lo que se busca es que las medias de las clases estén lo más separadas posibles y que su dispersión sea lo más pequeña posible. Con este en mente, obtengamos dicho $\mathbf{w}$ para el problema binario. Las medias de cada clase son $$\mu_{0} = \frac{1}{n_{0}} \sum_{i:Y_{i}=0} \mathbf{x}_i$$ y $$\mu_{1} = \frac{1}{n_{1}} \sum_{i:Y_{i}=1} \mathbf{x}_i$$.
 
-Si, en esta ecuación, llamamos $\mathbf{w}=\widehat{\Sigma}^{-1}(\widehat{\mu}_1 - \widehat{\mu}_0)$, podemos reescribir la expresión anterior anterior como
+Y sea $m_c = \mathbf{w}^{t}\mu_{c}$ la proyección de cada media en $\mathbf{w}$. Del mismo modo, $\mathbf{z}_i=\mathbf{w}^t\mathbf{x}_i$ es la proyección de los datos. La varianza de los puntos proyectos es $$S_{c}^{2}=\sum_{i:Y_i=c}(z_i-m_c)^{2}.$$ Como lo que queremos es maximizar la distancia entre las medias $m_0$ y $m_1$ y que la proyección de cada clase tenga poca dispersión, la función a maximizar es $$J(\mathbf{w})=\frac{(m_0-m_1)^{2}}{S_{0}^{2} + S_{1}^{2}}$$ que se puede reescribir como $$J(\mathbf{w})=\frac{\mathbf{w}^{t}S_{B}\mathbf{w}}{\mathbf{w}^{t}S_{W}\mathbf{w} },$$ siendo $S_{B}=(\mu_1 - \mu_0)(\mu_1 - \mu_0)^{t}$ la varianza entre clases (between) y $S_{W}=\sum_{i:Y_i=0}(\mathbf{x}_i - \mu_0)(\mathbf{x}_i - \mu_0)^{t} + \sum_{i:Y_i=1}(\mathbf{x}_i - \mu_1)(\mathbf{x}_i - \mu_1)^{t}$ la varianza dentro de cada clase (within).
 
-$$ \mathbf{x}^{t} \mathbf{w} > \frac{1}{2}(\widehat{\mu}_1 + \widehat{\mu}_0)^{t}\mathbf{w} - log(n_1/n_0) $$ La frontera de decisión entre ambas clases es
-
-$$ \mathbf{x}^{t} \mathbf{w} = \frac{1}{2}(\widehat{\mu}_1 + \widehat{\mu}_0)^{t}\mathbf{w} - log(n_1/n_0) $$ que es una combinación lineal de las variables explicativas.
-
-¿Cómo se interpreta este procedimiento? Se está proyectando la observación a clasificar y las medias de las clases en una recta y se asigna la observación a la clase cuya media sea la más cercana.
+Derivando $J(\mathbf{w})$ con respecto $\mathbf{w}$ y realizando la correspondiente descomposición en valores singulares se llega a $\mathbf{w}=S_{W}^{-1}(\mu_1 - \mu_0)$, que es lo que obtuvimos antes.
+:::
 
 ::: {.callout-note collapse="true" title="Ventajas"}
 ## Ventajas
@@ -586,7 +607,7 @@ No se están teniendo en cuenta *todas* las variables disponibles en el conjunto
 Podemos interpretar el resto de los nodos terminales del ejemplo como sigue:
 
 | Nodo | Descripción                                                                          | Tamaño relativo (%) | Prob("yes") |
-|------|--------------------------------------------------------------------------------------|:--------------------|:------------|
+|-------------|---------------------------------|:------------|:------------|
 | 1    | duration \< 343, poutcome=failure,other or unkonwn, housing=yes                      | 26.0                | 0.11        |
 | 2    | duration \< 124, poutcome=failure,other or unkonwn, housing=yes                      | 9.0                 | 0.13        |
 | 3    | 124\<=duration \< 343, poutcome=failure,other or unkonwn, housing=yes, balance\<274  | 7.0                 | 0.29        |

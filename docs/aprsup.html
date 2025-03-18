@@ -326,8 +326,8 @@ Repaso
 <colgroup>
 <col style="width: 23%">
 <col style="width: 23%">
-<col style="width: 20%">
-<col style="width: 33%">
+<col style="width: 23%">
+<col style="width: 29%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -835,36 +835,60 @@ Tarea
 </section>
 <section id="análisis-discriminante-lineal" class="level3" data-number="7.1.4">
 <h3 data-number="7.1.4" class="anchored" data-anchor-id="análisis-discriminante-lineal"><span class="header-section-number">7.1.4</span> Análisis Discriminante Lineal</h3>
-<p>El <em>análisis discriminante lineal (Linear Discriminant Analysis, LDA)</em> <span class="citation" data-cites="hastie2009elements">(<a href="references.html#ref-hastie2009elements" role="doc-biblioref">Hastie et&nbsp;al. 2009</a>)</span>, <span class="citation" data-cites="murphy2012machine">(<a href="references.html#ref-murphy2012machine" role="doc-biblioref">Murphy 2012</a>)</span> es una técnica estadística utilizada para encontrar una combinación lineal de variables que discrimine dos o más grupos.</p>
-<p>Se trata de un algoritmo de <em>clasificación</em>, es decir, la variable objetivo es categórica. Sus dos supuestos principales son que las variables explicativas (que deben ser continuas) siguen una distribución Normal y que comparten varianza.</p>
-<p>El <strong>objetivo</strong> de LDA es construir la combinación lineal de las variables explicativas que mejor discrimina las clases. En base a dicho hiperplano separador se clasificarán las nuevas observaciones.</p>
-<p>Para explicar mejor cómo funciona este algoritmo, comencemos recordando el teorema de Bayes en una caso de clasificación, es decir, cuando tenemos una variable objetivo <span class="math inline">\(Y\)</span> y las variables explicativas <span class="math inline">\(\mathbf{X}\)</span>:</p>
-<p><span class="math display">\[ P(C=1|\mathbf{X}=\mathbf{x})=\frac{f_{1}(\mathbf{x})P(1)}{\sum_{c=1}^{C_n}f_{c}(\mathbf{x})P(c)}\]</span></p>
-<p>siendo <span class="math inline">\(P(C=1|\mathbf{X}=\mathbf{x})\)</span> la probabilidad a posteriori, es decir, la probabilidad de la clase <span class="math inline">\(1\)</span> dada la observación <span class="math inline">\(\mathbf{x}\)</span>. <span class="math inline">\(P(c)\)</span> es la probabilidad a priori de la clase <span class="math inline">\(c\)</span>. <span class="math inline">\(C_n\)</span> es el número total de clases. Nótese que <span class="math inline">\(\sum_{c=1}^{C_n}P(c) =1\)</span>. Finalmente <span class="math inline">\(f_c(\mathbf{x})\)</span> es la función de densidad condicional de las <span class="math inline">\(\mathbf{X}\)</span> en la clase <span class="math inline">\(c\)</span>. En el caso del LDA se asume que la densidad de cada clase es una Normal multivariante <span class="math display">\[
-    f_c(\mathbf{x}) = \frac{1}{(2\pi)^{p/2}|\Sigma_k|^{1/2}}e^{-\frac{1}{2}(\mathbf{x}-\mu_k)^{t}\Sigma_k^{-1}(\mathbf{x}-\mu_k)}
-    \]</span></p>
-<p>Además, también se asume que las clases comparten la misma matriz de varianzas covarianzas <span class="math inline">\(\Sigma_c=\Sigma, \ \forall c\)</span>.</p>
-<p>En base a estas asunciones, comparemos las probabilidades de ambas clases:</p>
+<p>El <em>análisis discriminante lineal (Linear Discriminant Analysis, LDA)</em> <span class="citation" data-cites="hastie2009elements">(<a href="references.html#ref-hastie2009elements" role="doc-biblioref">Hastie et&nbsp;al. 2009</a>)</span>, <span class="citation" data-cites="murphy2012machine">(<a href="references.html#ref-murphy2012machine" role="doc-biblioref">Murphy 2012</a>)</span> es una técnica estadística de clasificación supervisada utilizada para encontrar una combinación lineal de variables que discrimine dos o más grupos. Se basa en la idea de modelar la distribución de cada clase y aplicar el criterio de Bayes para asignar nuevas observacones a una de ellas.Se trata de un algoritmo de <em>clasificación</em>, es decir, la variable objetivo <span class="math inline">\(Y\)</span> es categórica: <span class="math inline">\(Y \in \{1,\dots,C\}\)</span>.</p>
+<!--# El objetivo de LDA es construir una combinación lineal de las variables explicativas que mejor discrimina las clases. En base a dicho hiperplano separador se clasificarán las nuevas observaciones. -->
+<p>Supongamos que los datos de cada clase <span class="math inline">\(Y=c\)</span> siguen una distribución Normal multivariante:</p>
 <p><span class="math display">\[
-log\left( \frac{P(C=1|\mathbf{X}=\mathbf{x})}{P(C=0|\mathbf{X}=\mathbf{x})} \right) = log\left( \frac{f_1(\mathbf{x})}{f_0(\mathbf{x})} \right) + log\left( \frac{P(1)}{P(0)} \right) =\]</span></p>
+    f_c(\mathbf{x})=P(\mathbf{x}|Y=c) = \frac{1}{(2\pi)^{p/2}|\Sigma_c|^{1/2}}e^{-\frac{1}{2}(\mathbf{x}-\mu_c)^{t}\Sigma_c^{-1}(\mathbf{x}-\mu_c)}
+    \]</span></p>
+<p>donde:</p>
+<ul>
+<li><p><span class="math inline">\(\mathbf{x} \in \mathbb{R}^{p}\)</span> es una observación</p></li>
+<li><p><span class="math inline">\(\mu_c\)</span> es la media de la clase <span class="math inline">\(c\)</span></p></li>
+<li><p><span class="math inline">\(\Sigma_c\)</span> es la matriz de covarianzas de la clase <span class="math inline">\(c\)</span></p></li>
+</ul>
+<p>LDA surge cuando asumimos que las clases tienen una matriz de covarianzas común, es decir, <span class="math inline">\(\Sigma_c=\Sigma\)</span>, <span class="math inline">\(\forall c\)</span>.</p>
+<p>El LDA se basa en el Teorema de Bayes. Bajo este teorema, asignaremos una observación <span class="math inline">\(\mathbf{x}\)</span> a la clase que maximiza la probabilidad a posteriori <span class="math inline">\(P(Y=c|\mathbf{x})\)</span> que, por el teorema de Bayes es</p>
+<p><span class="math display">\[ P(Y=c|\mathbf{X}=\mathbf{x})=\frac{P(Y=c|\mathbf{x})P(Y=c)}{P(\mathbf{x})}\]</span></p>
+<p>Así, si queremos comparar 2 clases, la <span class="math inline">\(0\)</span> y la <span class="math inline">\(1\)</span>, bastará con analizar el siguiente log-ratio: <span class="math display">\[log\left( \frac{P(Y=1|\mathbf{X}=\mathbf{x})}{P(Y=0|\mathbf{X}=\mathbf{x})} \right) = log\left( \frac{P(Y=1|\mathbf{x})}{P(Y=0|\mathbf{x})} \right) + log\left( \frac{P(Y=1)}{P(Y=0)} \right) =\]</span></p>
 <p><span class="math display">\[ = log\left( \frac{P(1)}{P(0)} \right) - \frac{1}{2}(\mu_1 + \mu_0)^{t}\Sigma^{-1}(\mu_1-\mu_0) + \mathbf{x}^{t}\Sigma^{-1}(\mu_1-\mu_0) \]</span></p>
-<p>Obtenemos una ecuación que es lineal en <span class="math inline">\(\mathbf{x}\)</span>. Es decir, la frontera de decisión entre las clases <span class="math inline">\(0\)</span> y <span class="math inline">\(1\)</span> es una ecuación lineal, un hiperplano en dimensión <span class="math inline">\(p\)</span>.</p>
+<p>Obtenemos una ecuación que es lineal en <span class="math inline">\(\mathbf{x}\)</span>. Puede verse más fácilmente llamando: <span class="math inline">\(\mathbf{w}=\Sigma^{-1}(\mu_1-\mu_0)\)</span> y <span class="math inline">\(w_0 = log\left( \frac{P(1)}{P(0)} \right) - \frac{1}{2}(\mu_1 + \mu_0)^{t}\Sigma^{-1}(\mu_1-\mu_0)\)</span>.</p>
+<p>Esta ecuación define la frontera de decisión lineal donde la probabilidad de las clases es igual cuando <span class="math inline">\(\mathbf{x}^{t}\mathbf{w}+w_0 =0\)</span>. La frontera de decisión entre las clases <span class="math inline">\(0\)</span> y <span class="math inline">\(1\)</span> es una ecuación lineal, un hiperplano en dimensión <span class="math inline">\(p\)</span>.</p>
+<p>¿Cómo se lleva entonces a cabo la clasificación? Como la frontera es un hiperplano separador, se comparará a qué población está más cercana cada observación. Esto es, para clasificar una observación como perteneciente a la clase <span class="math inline">\(1\)</span>, tendrá que ocurrir que</p>
+<p><span class="math display">\[ log\left( \frac{P(Y=1|\mathbf{X}=\mathbf{x})}{P(Y=0|\mathbf{X}=\mathbf{x})} \right) &gt;0\]</span></p>
+<p>y esto es equivalente a</p>
+<p><span class="math display">\[ \mathbf{x}^{t} \widehat{\Sigma}^{-1}(\widehat{\mu}_1 - \widehat{\mu}_0) &gt; \frac{1}{2}(\widehat{\mu}_1 + \widehat{\mu}_0)^{t}\widehat{\Sigma}^{-1}(\widehat{\mu}_1 - \widehat{\mu}_0) - log(n_1/n_0) \]</span></p>
+<!--# Si, en esta ecuación, llamamos $\mathbf{w}=\widehat{\Sigma}^{-1}(\widehat{\mu}_1 - \widehat{\mu}_0)$, podemos reescribir la expresión anterior anterior como $$ \mathbf{x}^{t} \mathbf{w} > \frac{1}{2}(\widehat{\mu}_1 + \widehat{\mu}_0)^{t}\mathbf{w} - log(n_1/n_0) $$ La frontera de decisión entre ambas clases es $$ \mathbf{x}^{t} \mathbf{w} = \frac{1}{2}(\widehat{\mu}_1 + \widehat{\mu}_0)^{t}\mathbf{w} - log(n_1/n_0) $$ que es una combinación lineal de las variables explicativas. ¿Cómo se interpreta este procedimiento? Se está proyectando la observación a clasificar y las medias de las clases en una recta y se asigna la observación a la clase cuya media sea la más cercana. -->
+<p>Con esto, de forma general, vemos que las funciones discriminantes lineales son <span class="math display">\[\delta_{c}(\mathbf{x})=\mathbf{x}^{t} \Sigma^{-1}\mu_{c} -\frac{1}{2}\mu_{c}^{t}\Sigma^{-1}\mu_{c} + \log(P(Y=c))\]</span></p>
+<p>Esta es la función que se maximiza para asignar la observación <span class="math inline">\(\mathbf{x}\)</span> a la clase de mayor probabilidad. Esto es, la regla de decisión es <span class="math inline">\(argmax_{c} \delta_{c}(\mathbf{x})\)</span>, que significa que se asignará <span class="math inline">\(\mathbf{x}\)</span> a la clase <span class="math inline">\(c\)</span> que tenga el mayor valor de <span class="math inline">\(\delta_{c}(\mathbf{x})\)</span>. La ecuación de la frontera de decisión vista antes es justamente la que se obtiene cuando <span class="math inline">\(\delta_{0}(\mathbf{x}) =\delta_{1}(\mathbf{x})\)</span>.</p>
 <p>En la práctica, se desconocen los parámetros de la distribución Normal. Se estiman con los datos de entrenamiento:</p>
 <ul>
 <li><p><span class="math inline">\(\widehat{P(c)} = n_c/n\)</span>, siendo <span class="math inline">\(n_c\)</span> el tamaño de la clase <span class="math inline">\(c\)</span> y <span class="math inline">\(n\)</span> el total</p></li>
 <li><p><span class="math inline">\(\widehat{\mu}_c\)</span> media muestral de los elementos de la clase <span class="math inline">\(c\)</span></p></li>
-<li><p><span class="math inline">\(\widehat{\Sigma}\)</span> varianza muestral de los elementos de la clase <span class="math inline">\(c\)</span></p></li>
+<li><p><span class="math inline">\(\widehat{\Sigma}=\frac{1}{n-C}\sum_{c=1}^{C}\sum_{y_i = c}(\mathbf{x}_i - \widehat{\mu}_c)(\mathbf{x}_i - \widehat{\mu}_c)^{t}\)</span>. Se utilizan los datos de todas las clases para calcular la matriz de covarianzas: suma de las matrices de covarianza de cada clase, ponderadas según su tamaño muestral (MLE). Se resta el número total clases <span class="math inline">\(C\)</span> porque es el número de medias <span class="math inline">\(\widehat{\mu}_c\)</span> estimado.</p></li>
 </ul>
-<p>¿Cómo se lleva entonces a cabo la clasificación? Como la frontera es un hiperplano separador, se comparará a qué población está más cercano cada observación. Esto es, para clasificar una observación como perteneciente a la clase <span class="math inline">\(1\)</span>, tendrá que ocurrir que</p>
-<p><span class="math display">\[ log\left( \frac{P(C=1|\mathbf{X}=\mathbf{x})}{P(C=0|\mathbf{X}=\mathbf{x})} \right) &gt;0\]</span></p>
-<p>y esto es equivalente a</p>
-<p><span class="math display">\[ \mathbf{x}^{t} \widehat{\Sigma}^{-1}(\widehat{\mu}_1 - \widehat{\mu}_0) &gt; \frac{1}{2}(\widehat{\mu}_1 + \widehat{\mu}_0)^{t}\widehat{\Sigma}^{-1}(\widehat{\mu}_1 - \widehat{\mu}_0) - log(n_1/n_0) \]</span></p>
-<p>Si, en esta ecuación, llamamos <span class="math inline">\(\mathbf{w}=\widehat{\Sigma}^{-1}(\widehat{\mu}_1 - \widehat{\mu}_0)\)</span>, podemos reescribir la expresión anterior anterior como</p>
-<p><span class="math display">\[ \mathbf{x}^{t} \mathbf{w} &gt; \frac{1}{2}(\widehat{\mu}_1 + \widehat{\mu}_0)^{t}\mathbf{w} - log(n_1/n_0) \]</span> La frontera de decisión entre ambas clases es</p>
-<p><span class="math display">\[ \mathbf{x}^{t} \mathbf{w} = \frac{1}{2}(\widehat{\mu}_1 + \widehat{\mu}_0)^{t}\mathbf{w} - log(n_1/n_0) \]</span> que es una combinación lineal de las variables explicativas.</p>
-<p>¿Cómo se interpreta este procedimiento? Se está proyectando la observación a clasificar y las medias de las clases en una recta y se asigna la observación a la clase cuya media sea la más cercana.</p>
 <div class="callout-note callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Visión geométrica
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body" title="Visión geométrica del LDA">
+<p>LDA sigue la misma filosofía que las PCA pero se centra en maximizar la separabilidad entre las categorías.</p>
+<p>Una forma intuitiva de ver el LDA es como una proyección geométrica de los datos en una recta, donde la asignación de clase se realiza según la proximidad a las medias proyectadas de cada clase. LDA busca encontrar un vector de proyección <span class="math inline">\(\mathbf{w}\)</span> tal que los datos de distintas clases queden lo más separados posibles de sí. Matemáticamente, dicha proyección es <span class="math inline">\(\mathbf{z}=\mathbf{w}^t\mathbf{x}\)</span> (¿Te recuerda a las PCA?) donde <span class="math inline">\(\mathbf{z}\)</span> representa la coordenada del punto <span class="math inline">\(\mathbf{x}\)</span> en la nueva dimensión reducida.</p>
+<p>En el caso de LDA, para encontrar ese nuevo eje, lo que se busca es que las medias de las clases estén lo más separadas posibles y que su dispersión sea lo más pequeña posible. Con este en mente, obtengamos dicho <span class="math inline">\(\mathbf{w}\)</span> para el problema binario. Las medias de cada clase son <span class="math display">\[\mu_{0} = \frac{1}{n_{0}} \sum_{i:Y_{i}=0} \mathbf{x}_i\]</span> y <span class="math display">\[\mu_{1} = \frac{1}{n_{1}} \sum_{i:Y_{i}=1} \mathbf{x}_i\]</span>.</p>
+<p>Y sea <span class="math inline">\(m_c = \mathbf{w}^{t}\mu_{c}\)</span> la proyección de cada media en <span class="math inline">\(\mathbf{w}\)</span>. Del mismo modo, <span class="math inline">\(\mathbf{z}_i=\mathbf{w}^t\mathbf{x}_i\)</span> es la proyección de los datos. La varianza de los puntos proyectos es <span class="math display">\[S_{c}^{2}=\sum_{i:Y_i=c}(z_i-m_c)^{2}.\]</span> Como lo que queremos es maximizar la distancia entre las medias <span class="math inline">\(m_0\)</span> y <span class="math inline">\(m_1\)</span> y que la proyección de cada clase tenga poca dispersión, la función a maximizar es <span class="math display">\[J(\mathbf{w})=\frac{(m_0-m_1)^{2}}{S_{0}^{2} + S_{1}^{2}}\]</span> que se puede reescribir como <span class="math display">\[J(\mathbf{w})=\frac{\mathbf{w}^{t}S_{B}\mathbf{w}}{\mathbf{w}^{t}S_{W}\mathbf{w} },\]</span> siendo <span class="math inline">\(S_{B}=(\mu_1 - \mu_0)(\mu_1 - \mu_0)^{t}\)</span> la varianza entre clases (between) y <span class="math inline">\(S_{W}=\sum_{i:Y_i=0}(\mathbf{x}_i - \mu_0)(\mathbf{x}_i - \mu_0)^{t} + \sum_{i:Y_i=1}(\mathbf{x}_i - \mu_1)(\mathbf{x}_i - \mu_1)^{t}\)</span> la varianza dentro de cada clase (within).</p>
+<p>Derivando <span class="math inline">\(J(\mathbf{w})\)</span> con respecto <span class="math inline">\(\mathbf{w}\)</span> y realizando la correspondiente descomposición en valores singulares se llega a <span class="math inline">\(\mathbf{w}=S_{W}^{-1}(\mu_1 - \mu_0)\)</span>, que es lo que obtuvimos antes.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -873,7 +897,7 @@ Ventajas
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body" title="Ventajas">
 <ul>
 <li><p><strong>Simple y rápido</strong></p></li>
@@ -885,7 +909,7 @@ Ventajas
 </div>
 </div>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -894,7 +918,7 @@ Desventajas
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body" title="Desventajas">
 <ul>
 <li><p><strong>Asume normalidad y homocedasticidad</strong>. LDA puede ser sensible a la falta de normalidad en las variables y a la diferente variabilidad en las mismas.</p></li>
@@ -934,7 +958,7 @@ Para recordar
 <p>En los ejemplos siguientes, se podrá observar que es habitual realizar pruebas con diferentes configuraciones de parámetros para identificar cuáles son los más apropiados. El principio fundamental del algoritmo implica obtener los <span class="math inline">\(k\)</span> vecinos más cercanos para cada observación en la muestra de datos. En un problema de clasificación, el algoritmo devolverá la clase que predomina entre los <span class="math inline">\(k\)</span> vecinos, es decir, la moda de la variable objetivo. En cambio, en un problema de regresión, el algoritmo proporcionará la media de la variable respuesta de los <span class="math inline">\(k\)</span> vecinos más cercanos.</p>
 <p>Para determinar el valor óptimo de <span class="math inline">\(k\)</span> en función de los datos, ejecutamos el algoritmo <span class="math inline">\(k-NN\)</span> múltiples veces, utilizando distintos valores de <span class="math inline">\(k\)</span>, y seleccionamos aquel valor que minimice la tasa de errores, al mismo tiempo que preserva la capacidad del algoritmo para realizar predicciones precisas en datos no vistos previamente. Es importante destacar que valores muy bajos de <span class="math inline">\(k\)</span> pueden generar inestabilidad en el algoritmo, mientras que valores extremadamente altos de <span class="math inline">\(k\)</span> pueden aumentar el error en las predicciones. En este proceso, se busca el equilibrio adecuado que optimice el rendimiento del algoritmo en cada situación.</p>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -943,7 +967,7 @@ Ventajas
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body" title="Ventajas">
 <ul>
 <li><p><strong>Sencillez y Facilidad de Implementación</strong>: Es uno de los algoritmos más sencillos y fáciles de entender en ML. No requiere suposiciones complejas o entrenamientos prolongados.</p></li>
@@ -958,7 +982,7 @@ Ventajas
 </div>
 </div>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -967,7 +991,7 @@ Desventajas
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
 <div class="callout-body-container callout-body" title="Desventajas">
 <ul>
 <li><p><strong>Sensibilidad a la elección de</strong> <span class="math inline">\(k\)</span>: La elección del parámetro que determina el número de vecinos puede ser crítica. Un valor demasiado pequeño puede hacer que el modelo sea sensible al ruido en los datos y cause sobreajuste, mientras que un valor demasiado grande puede hacer que el modelo sea demasiado suave y cause subajuste.</p></li>
@@ -1304,10 +1328,10 @@ Tarea
 <p>Podemos interpretar el resto de los nodos terminales del ejemplo como sigue:</p>
 <table class="table">
 <colgroup>
-<col style="width: 4%">
-<col style="width: 68%">
-<col style="width: 16%">
-<col style="width: 10%">
+<col style="width: 18%">
+<col style="width: 45%">
+<col style="width: 18%">
+<col style="width: 18%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1477,7 +1501,7 @@ Prediction   no  yes
 </div>
 </div>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1486,7 +1510,7 @@ Ventajas
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-18" class="callout-18-contents callout-collapse collapse">
+<div id="callout-19" class="callout-19-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li><p><strong>Explicabilidad</strong>: Los DT son altamente interpretables, lo que significa que sus resultados se pueden entender y comunicar de manera sencilla (ver <a href="nuevas.html"><span>Capítulo&nbsp;9</span></a>). Esto los hace ideales para tomar decisiones basadas en modelos en entornos donde se necesita entender el razonamiento detrás de las predicciones.</p></li>
@@ -1502,7 +1526,7 @@ Ventajas
 </div>
 </div>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1511,7 +1535,7 @@ Desventajas
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-19" class="callout-19-contents callout-collapse collapse">
+<div id="callout-20" class="callout-20-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li><p><strong>Menos Precisión en Modelos Simples:</strong> Los DT a menudo son menos precisos que métodos más avanzados, como los bosques aleatorios o las redes neuronales, especialmente cuando se trata de problemas complejos. Su simplicidad a veces limita su capacidad para modelar relaciones sofisticadas en los datos.</p></li>
@@ -1561,7 +1585,7 @@ La unión hace la fuerza
 <li><p><strong>Combinación</strong>: Finalmente, las predicciones de todos los modelos base se combinan para obtener una predicción agregada. En problemas de clasificación, esto suele implicar votación, donde se elige la clase con más votos, y en problemas de regresión, se calcula un promedio de las predicciones.</p></li>
 </ol>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-22-contents" aria-controls="callout-22" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1570,7 +1594,7 @@ Ventajas
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-21" class="callout-21-contents callout-collapse collapse">
+<div id="callout-22" class="callout-22-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li><p><strong>Reducción de la varianza</strong>: Al crear múltiples conjuntos de entrenamiento y modelos base, el ensamblado de Bagging reduce la varianza de las predicciones, lo que hace que el modelo sea más robusto y menos propenso al sobreajuste.</p></li>
@@ -1582,7 +1606,7 @@ Ventajas
 </div>
 </div>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-22-contents" aria-controls="callout-22" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-23-contents" aria-controls="callout-23" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1591,7 +1615,7 @@ Desventajas
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-22" class="callout-22-contents callout-collapse collapse">
+<div id="callout-23" class="callout-23-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li><p><strong>Mayor complejidad computacional:</strong> Debido a la necesidad de entrenar múltiples modelos base, el Bagging puede requerir más recursos computacionales y tiempo de entrenamiento en comparación con un solo modelo. Esto es especialmente relevante cuando se trabaja con conjuntos de datos grandes o algoritmos de modelo base complejos.</p></li>
@@ -1720,7 +1744,7 @@ balance    15.950109  22.08729             27.35226        330.12680</code></pre
 </ol>
 <p>Algunos algoritmos de Boosting populares incluyen AdaBoost, Gradient Boosting, y XGBoost.</p>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-23-contents" aria-controls="callout-23" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-24-contents" aria-controls="callout-24" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1729,7 +1753,7 @@ Ventajas
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-23" class="callout-23-contents callout-collapse collapse">
+<div id="callout-24" class="callout-24-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li><p><strong>Mejora del rendimiento:</strong> El Boosting es conocido por aumentar significativamente la precisión de las predicciones en comparación con modelos individuales o modelos base.</p></li>
@@ -1744,7 +1768,7 @@ Ventajas
 </div>
 </div>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-24-contents" aria-controls="callout-24" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-25-contents" aria-controls="callout-25" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1753,7 +1777,7 @@ Desventajas
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-24" class="callout-24-contents callout-collapse collapse">
+<div id="callout-25" class="callout-25-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li><p><strong>Sensibilidad al ruido:</strong> Los modelos de Boosting pueden ser sensibles al ruido y a valores atípicos en los datos. Si el conjunto de datos contiene observaciones erróneas o extremas, el Boosting puede sobreajustarse a estos valores inusuales.</p></li>
