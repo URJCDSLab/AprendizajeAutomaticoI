@@ -47,7 +47,7 @@ $$g(E(y|x))=\eta(x)$$
 La **distribución de probabilidad** (componente aleatoria) describe cómo se distribuyen los datos alrededor de la media y puede adaptarse a diferentes tipos de datos, como datos binarios, Poisson, binomiales o exponenciales, entre otros. Esto brinda flexibilidad para modelar una variedad de escenarios de datos. Por ejemplo, en el caso de la conocida *regresión lineal* se asume que la variable respuesta sigue una distribución *Normal*. Mediante la componente aleatoria determinamos cómo añadir el ruido o error aleatorio a la predicción que se obtiene de la función de enlace. La tabla siguiente, adaptada de [@agresti2015foundations], resume los GLM:
 
 | Modelo               | Componente aleatoria | Función de enlace | Tipo de variables explicativas |
-|-----------------|-----------------|-----------------|---------------------|
+|------------------|------------------|------------------|-------------------|
 | Regresión Lineal     | Normal               | Identidad         | Cuantitativas                  |
 | ANOVA                | Normal               | Identidad         | Cuantitativas                  |
 | ANCOVA               | Normal               | Identidad         | Cuantitativas y Cualitativas   |
@@ -324,8 +324,6 @@ $$ \mathbf{x}^{t} \widehat{\Sigma}^{-1}(\widehat{\mu}_1 - \widehat{\mu}_0) > \fr
 
 Con esto, de forma general, vemos que las funciones discriminantes lineales son $$\delta_{c}(\mathbf{x})=\mathbf{x}^{t} \Sigma^{-1}\mu_{c} -\frac{1}{2}\mu_{c}^{t}\Sigma^{-1}\mu_{c} + \log(P(Y=c))$$
 
-
-
 Esta es la función que se maximiza para asignar la observación $\mathbf{x}$ a la clase de mayor probabilidad. Esto es, la regla de decisión es $argmax_{c} \delta_{c}(\mathbf{x})$, que significa que se asignará $\mathbf{x}$ a la clase $c$ que tenga el mayor valor de $\delta_{c}(\mathbf{x})$. La ecuación de la frontera de decisión vista antes es justamente la que se obtiene cuando $\delta_{0}(\mathbf{x}) =\delta_{1}(\mathbf{x})$.
 
 En la práctica, se desconocen los parámetros de la distribución Normal. Se estiman con los datos de entrenamiento:
@@ -339,15 +337,79 @@ En la práctica, se desconocen los parámetros de la distribución Normal. Se es
 ::: {.callout-note collapse="true" title="Visión geométrica del LDA"}
 # Visión geométrica
 
-LDA sigue la misma filosofía que las PCA pero se centra en maximizar la separabilidad entre las categorías.
+El Análisis Discriminante Lineal (LDA) sigue una filosofía similar al Análisis de Componentes Principales (PCA), pero con un objetivo distinto: en lugar de buscar la máxima variabilidad de los datos sin considerar etiquetas, LDA se centra en maximizar la separabilidad entre clases. Es decir, busca encontrar una proyección de los datos en una nueva dimensión en la que las clases queden lo más separadas posible.
 
-Una forma intuitiva de ver el LDA es como una proyección geométrica de los datos en una recta, donde la asignación de clase se realiza según la proximidad a las medias proyectadas de cada clase. LDA busca encontrar un vector de proyección $\mathbf{w}$ tal que los datos de distintas clases queden lo más separados posibles de sí. Matemáticamente, dicha proyección es $\mathbf{z}=\mathbf{w}^t\mathbf{x}$ (¿Te recuerda a las PCA?) donde $\mathbf{z}$ representa la coordenada del punto $\mathbf{x}$ en la nueva dimensión reducida.
+Una forma intuitiva de ver el LDA es como una proyección geométrica de los datos en una recta, donde la asignación de clase se realiza según la proximidad a las medias proyectadas de cada clase. Matemáticamente, se busca un vector de proyección $\mathbf{w}$ tal que los datos proyectados $\mathbf{z}=\mathbf{w}^t\mathbf{x}$ de distintas clases queden lo más separados posibles. $\mathbf{z}_i$ representa la coordenada del punto $\mathbf{x}_i$ en la nueva dimensión reducida. ¿Te recuerda a PCA? En efecto, en ambos casos se realiza una transformación lineal de los datos. Sin embargo, mientras que en PCA se maximizan las varianzas de los datos proyectados, en LDA se maximiza la separación entre clases y se minimiza la dispersión dentro de cada clase.
 
-En el caso de LDA, para encontrar ese nuevo eje, lo que se busca es que las medias de las clases estén lo más separadas posibles y que su dispersión sea lo más pequeña posible. Con este en mente, obtengamos dicho $\mathbf{w}$ para el problema binario. Las medias de cada clase son $$\mu_{0} = \frac{1}{n_{0}} \sum_{i:Y_{i}=0} \mathbf{x}_i$$ y $$\mu_{1} = \frac{1}{n_{1}} \sum_{i:Y_{i}=1} \mathbf{x}_i$$.
+Para encontrar el nuevo eje de proyección, LDA busca maximizar la distancia entre las medias de las clases y minimizar la dispersión dentro de cada una de ellas. En el caso binario, definimos las medias de cada clase como: $$\mu_{0} = \frac{1}{n_{0}} \sum_{i:Y_{i}=0} \mathbf{x}_i$$ y $$\mu_{1} = \frac{1}{n_{1}} \sum_{i:Y_{i}=1} \mathbf{x}_i$$ denotando $i:Y_{i}=0$ aquellas observaciones $i$ que son de la clase $0$, es decir, $Y_i=0$ y siendo $n_0$ y $n_1$ los tamaños de las clases $0$ y $1$, respectivamente.
 
-Y sea $m_c = \mathbf{w}^{t}\mu_{c}$ la proyección de cada media en $\mathbf{w}$. Del mismo modo, $\mathbf{z}_i=\mathbf{w}^t\mathbf{x}_i$ es la proyección de los datos. La varianza de los puntos proyectos es $$S_{c}^{2}=\sum_{i:Y_i=c}(z_i-m_c)^{2}.$$ Como lo que queremos es maximizar la distancia entre las medias $m_0$ y $m_1$ y que la proyección de cada clase tenga poca dispersión, la función a maximizar es $$J(\mathbf{w})=\frac{(m_0-m_1)^{2}}{S_{0}^{2} + S_{1}^{2}}$$ que se puede reescribir como $$J(\mathbf{w})=\frac{\mathbf{w}^{t}S_{B}\mathbf{w}}{\mathbf{w}^{t}S_{W}\mathbf{w} },$$ siendo $S_{B}=(\mu_1 - \mu_0)(\mu_1 - \mu_0)^{t}$ la varianza entre clases (between) y $S_{W}=\sum_{i:Y_i=0}(\mathbf{x}_i - \mu_0)(\mathbf{x}_i - \mu_0)^{t} + \sum_{i:Y_i=1}(\mathbf{x}_i - \mu_1)(\mathbf{x}_i - \mu_1)^{t}$ la varianza dentro de cada clase (within).
+Si proyectamos estas medias sobre el nuevo eje definido por $\mathbf{w}$, obtenemos $m_c = \mathbf{w}^{t}\mu_{c}$.
 
-Derivando $J(\mathbf{w})$ con respecto $\mathbf{w}$ y realizando la correspondiente descomposición en valores singulares se llega a $\mathbf{w}=S_{W}^{-1}(\mu_1 - \mu_0)$, que es lo que obtuvimos antes.
+Para evaluar la dispersión de los datos en la nueva dimensión, definimos la varianza de los puntos proyectados en cada clase como: $$S_{c}^{2}=\sum_{i:Y_i=c}(z_i-m_c)^{2}.$$
+
+Dado que queremos que las medias proyectadas estén lo más separadas posible y que la dispersión dentro de cada clase sea mínima, definimos la función objetivo como: $$J(\mathbf{w})=\frac{(m_1-m_0)^{2}}{S_{0}^{2} + S_{1}^{2}}.$$ Esta expresión se puede reformular en términos matriciales: $$J(\mathbf{w})=\frac{\mathbf{w}^{t}S_{B}\mathbf{w}}{\mathbf{w}^{t}S_{W}\mathbf{w} },$$ donde:
+
+-   $S_{B}=(\mu_1 - \mu_0)(\mu_1 - \mu_0)^{t}$ es la matriz de dispersión entre las clases (between-class scatter)
+
+-   y $S_{W}=\sum_{i:Y_i=0}(\mathbf{x}_i - \mu_0)(\mathbf{x}_i - \mu_0)^{t} + \sum_{i:Y_i=1}(\mathbf{x}_i - \mu_1)(\mathbf{x}_i - \mu_1)^{t}$ es la matriz de dispersión dentro de cada clase (within-class).
+
+Esto es así puesto que $$\mathbf{w}^{t}S_{B}\mathbf{w} = \mathbf{w}^{t}(\mu_1 - \mu_0)(\mu_1 - \mu_0)^{t}\mathbf{w}=(m_1 - m_0)^{2}$$ y, por otro lado, $$\mathbf{w}^{t}S_{W}\mathbf{w} = \sum_{i:Y_i = 0}\mathbf{w}^{t}(\mathbf{x}_i - \mu_0)(\mathbf{x}_i - \mu_0)^{t}\mathbf{w} + \sum_{i:Y_i = 1}\mathbf{w}^{t}(\mathbf{x}_i - \mu_1)(\mathbf{x}_i - \mu_1)^{t}\mathbf{w}=$$ $$=\sum_{i:Y_i = 0} (\mathbf{z}_i-m_0)^{2}+\sum_{i:Y_i = 1} (\mathbf{z}_i-m_1)^{2}$$
+
+Para maximizar $J(\mathbf{w})$, derivamos con respecto $\mathbf{w}$ y llegamos a la ecuación característica $S_{B}\mathbf{w}=\lambda S_{W}\mathbf{w}$. Si $S_{W}$ es invertible, $S_{W}^{-1}S_{B}\mathbf{w}=\lambda \mathbf{w}$. Esto recuerda al problema de autovalores y autovectores de PCA. Sin embargo, en este caso, como $S_{B}\mathbf{w}=(\mu_1 - \mu_0)(\mu_1 - \mu_0)^{t}\mathbf{w}=(\mu_1 - \mu_0)(m_1 - m_0)$. Podemos sustituir en la ecuación característica y llegamos a que $$\lambda  \mathbf{w}=S_{W}^{-1}(\mu_1 - \mu_0)(m_1 - m_0).$$ Es decir, $$\mathbf{w} \propto S_{W}^{-1}(\mu_1 - \mu_0).$$ En este punto, como el objetivo es encontrar la dirección de la proyección, tomamos $\mathbf{w}=S_{W}^{-1}(\mu_1 - \mu_0)$, que es lo que obtuvimos antes.
+
+Veamos ahora un ejemplo para compara LDA y PCA.
+
+```{r}
+
+# Librerías
+library(MASS)
+
+# Semilla para reproducibilidad
+set.seed(42)
+
+# Conjunto de datos artificial
+n <- 100  # número de observaciones por clase
+p <- 2    # número de variables
+
+class_0 <- matrix(rnorm(n * p, mean = 0), ncol = p)
+class_1 <- matrix(rnorm(n * p, mean = 3), ncol = p)
+data <- rbind(class_0, class_1)
+labels <- factor(c(rep(0, n), rep(1, n)))
+df <- data.frame(x1 = data[, 1], x2 = data[, 2], class = labels)
+
+# Visualización de los datos originales
+plot(df$x1, df$x2, col = df$class, pch = 19, xlab = "Variable 1", ylab = "Variable 2", main = "Datos Originales")
+legend("topright", legend = levels(df$class), col = 1:length(levels(df$class)), pch = 19)
+
+# LDA
+lda_model <- lda(class ~ x1 + x2, data = df)
+
+# Puntuaciones proyectadas en el espacio discriminante de LDA
+lda_predictions <- predict(lda_model)
+
+# PCA
+pca_model <- prcomp(df[, -3], center = TRUE, scale. = TRUE)
+
+# Puntuaciones proyectadas en el espacio de PCA
+pca_predictions <- pca_model$x
+
+# Graficar LDA y PCA
+par(mfrow = c(1, 2))
+
+# Gráfico de LDA
+plot(lda_predictions$x[, 1], rep(0, length(lda_predictions$x[, 1])), col = df$class, 
+     xlab = "Componente discriminante 1", ylab = "", 
+     main = "Proyección de LDA", pch = 19)
+legend("topright", legend = levels(df$class), col = 1:length(levels(df$class)), pch = 19)
+
+# Gráfico de PCA
+plot(pca_predictions[, 1], pca_predictions[, 2], col = df$class,
+     xlab = "Componente principal 1", ylab = "Componente principal 2", 
+     main = "Proyección de PCA", pch = 19)
+legend("topright", legend = levels(df$class), col = 1:length(levels(df$class)), pch = 19)
+
+par(mfrow = c(1, 1))
+```
 :::
 
 ::: {.callout-note collapse="true" title="Ventajas"}
@@ -435,13 +497,15 @@ Para determinar el valor óptimo de $k$ en función de los datos, ejecutamos el 
 Aplicamos el algoritmo a nuestro problema de los datos bancarios.
 
 ```{r}
+library(dplyr)
+library(tidyverse)
 # Usamos 10-fold cross validation 
 trainControl <- trainControl(method="repeatedcv", number=10, repeats=3)
 metric <- "Accuracy"
 
 set.seed(128)
 df <- bank.train %>%
-      select(housing,marital,education,balance,deposit)
+      dplyr::select(housing,marital,education,balance,deposit)
 df[,4] = scale(df[,4])
 fit.knn <- train(deposit~., data=df, method="knn",
                  metric=metric ,trControl=trainControl)
@@ -585,7 +649,7 @@ library(rpart.plot)
 
 set.seed(128)
 df <- bank.train %>%
-      select(age,job,housing,marital,education,duration,poutcome,balance,deposit)
+      dplyr::select(age,job,housing,marital,education,duration,poutcome,balance,deposit)
 fit.dt <- rpart(deposit~., data = df, method = 'class')
 rpart.plot(fit.dt, extra = 106)
 ```
@@ -607,7 +671,7 @@ No se están teniendo en cuenta *todas* las variables disponibles en el conjunto
 Podemos interpretar el resto de los nodos terminales del ejemplo como sigue:
 
 | Nodo | Descripción                                                                          | Tamaño relativo (%) | Prob("yes") |
-|-------------|---------------------------------|:------------|:------------|
+|-----------------|-----------------------|:----------------|:----------------|
 | 1    | duration \< 343, poutcome=failure,other or unkonwn, housing=yes                      | 26.0                | 0.11        |
 | 2    | duration \< 124, poutcome=failure,other or unkonwn, housing=yes                      | 9.0                 | 0.13        |
 | 3    | 124\<=duration \< 343, poutcome=failure,other or unkonwn, housing=yes, balance\<274  | 7.0                 | 0.29        |
@@ -783,7 +847,7 @@ plot(rf)
 # sobre la partición de prueba
 df.test <- bank.test %>%
       mutate(fmarital=as.factor(marital))%>%
-      select(age,job,housing,marital=fmarital,education,duration,poutcome,balance,deposit)
+      dplyr::select(age,job,housing,marital=fmarital,education,duration,poutcome,balance,deposit)
 df.test$deposit=as.factor(df.test$deposit)
 prediction.rf <- predict(rf, df.test,type="prob")[,2]
 clase.pred.rf=ifelse(prediction.rf>0.5,"yes","no")
@@ -915,12 +979,12 @@ datos$test <- df.test
 # Convertimos los datos al formato Dmatrix
 datos$train_mat  <- 
   datos$train %>% 
-  select(-deposit) %>% 
+  dplyr::select(-deposit) %>% 
   as.matrix() %>% 
   xgb.DMatrix(data = ., label = datos$train$deposit)
 datos$test_mat  <- 
   datos$test %>% 
-  select(-deposit) %>% 
+  dplyr::select(-deposit) %>% 
   as.matrix() %>% 
   xgb.DMatrix(data = ., label = datos$test$deposit)
 

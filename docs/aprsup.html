@@ -324,10 +324,10 @@ Repaso
 <p>La <strong>distribución de probabilidad</strong> (componente aleatoria) describe cómo se distribuyen los datos alrededor de la media y puede adaptarse a diferentes tipos de datos, como datos binarios, Poisson, binomiales o exponenciales, entre otros. Esto brinda flexibilidad para modelar una variedad de escenarios de datos. Por ejemplo, en el caso de la conocida <em>regresión lineal</em> se asume que la variable respuesta sigue una distribución <em>Normal</em>. Mediante la componente aleatoria determinamos cómo añadir el ruido o error aleatorio a la predicción que se obtiene de la función de enlace. La tabla siguiente, adaptada de <span class="citation" data-cites="agresti2015foundations">(<a href="references.html#ref-agresti2015foundations" role="doc-biblioref">Agresti 2015</a>)</span>, resume los GLM:</p>
 <table class="table">
 <colgroup>
-<col style="width: 23%">
-<col style="width: 23%">
-<col style="width: 23%">
-<col style="width: 29%">
+<col style="width: 24%">
+<col style="width: 24%">
+<col style="width: 24%">
+<col style="width: 26%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -879,11 +879,81 @@ Visión geométrica
 </div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body" title="Visión geométrica del LDA">
-<p>LDA sigue la misma filosofía que las PCA pero se centra en maximizar la separabilidad entre las categorías.</p>
-<p>Una forma intuitiva de ver el LDA es como una proyección geométrica de los datos en una recta, donde la asignación de clase se realiza según la proximidad a las medias proyectadas de cada clase. LDA busca encontrar un vector de proyección <span class="math inline">\(\mathbf{w}\)</span> tal que los datos de distintas clases queden lo más separados posibles de sí. Matemáticamente, dicha proyección es <span class="math inline">\(\mathbf{z}=\mathbf{w}^t\mathbf{x}\)</span> (¿Te recuerda a las PCA?) donde <span class="math inline">\(\mathbf{z}\)</span> representa la coordenada del punto <span class="math inline">\(\mathbf{x}\)</span> en la nueva dimensión reducida.</p>
-<p>En el caso de LDA, para encontrar ese nuevo eje, lo que se busca es que las medias de las clases estén lo más separadas posibles y que su dispersión sea lo más pequeña posible. Con este en mente, obtengamos dicho <span class="math inline">\(\mathbf{w}\)</span> para el problema binario. Las medias de cada clase son <span class="math display">\[\mu_{0} = \frac{1}{n_{0}} \sum_{i:Y_{i}=0} \mathbf{x}_i\]</span> y <span class="math display">\[\mu_{1} = \frac{1}{n_{1}} \sum_{i:Y_{i}=1} \mathbf{x}_i\]</span>.</p>
-<p>Y sea <span class="math inline">\(m_c = \mathbf{w}^{t}\mu_{c}\)</span> la proyección de cada media en <span class="math inline">\(\mathbf{w}\)</span>. Del mismo modo, <span class="math inline">\(\mathbf{z}_i=\mathbf{w}^t\mathbf{x}_i\)</span> es la proyección de los datos. La varianza de los puntos proyectos es <span class="math display">\[S_{c}^{2}=\sum_{i:Y_i=c}(z_i-m_c)^{2}.\]</span> Como lo que queremos es maximizar la distancia entre las medias <span class="math inline">\(m_0\)</span> y <span class="math inline">\(m_1\)</span> y que la proyección de cada clase tenga poca dispersión, la función a maximizar es <span class="math display">\[J(\mathbf{w})=\frac{(m_0-m_1)^{2}}{S_{0}^{2} + S_{1}^{2}}\]</span> que se puede reescribir como <span class="math display">\[J(\mathbf{w})=\frac{\mathbf{w}^{t}S_{B}\mathbf{w}}{\mathbf{w}^{t}S_{W}\mathbf{w} },\]</span> siendo <span class="math inline">\(S_{B}=(\mu_1 - \mu_0)(\mu_1 - \mu_0)^{t}\)</span> la varianza entre clases (between) y <span class="math inline">\(S_{W}=\sum_{i:Y_i=0}(\mathbf{x}_i - \mu_0)(\mathbf{x}_i - \mu_0)^{t} + \sum_{i:Y_i=1}(\mathbf{x}_i - \mu_1)(\mathbf{x}_i - \mu_1)^{t}\)</span> la varianza dentro de cada clase (within).</p>
-<p>Derivando <span class="math inline">\(J(\mathbf{w})\)</span> con respecto <span class="math inline">\(\mathbf{w}\)</span> y realizando la correspondiente descomposición en valores singulares se llega a <span class="math inline">\(\mathbf{w}=S_{W}^{-1}(\mu_1 - \mu_0)\)</span>, que es lo que obtuvimos antes.</p>
+<p>El Análisis Discriminante Lineal (LDA) sigue una filosofía similar al Análisis de Componentes Principales (PCA), pero con un objetivo distinto: en lugar de buscar la máxima variabilidad de los datos sin considerar etiquetas, LDA se centra en maximizar la separabilidad entre clases. Es decir, busca encontrar una proyección de los datos en una nueva dimensión en la que las clases queden lo más separadas posible.</p>
+<p>Una forma intuitiva de ver el LDA es como una proyección geométrica de los datos en una recta, donde la asignación de clase se realiza según la proximidad a las medias proyectadas de cada clase. Matemáticamente, se busca un vector de proyección <span class="math inline">\(\mathbf{w}\)</span> tal que los datos proyectados <span class="math inline">\(\mathbf{z}=\mathbf{w}^t\mathbf{x}\)</span> de distintas clases queden lo más separados posibles. <span class="math inline">\(\mathbf{z}_i\)</span> representa la coordenada del punto <span class="math inline">\(\mathbf{x}_i\)</span> en la nueva dimensión reducida. ¿Te recuerda a PCA? En efecto, en ambos casos se realiza una transformación lineal de los datos. Sin embargo, mientras que en PCA se maximizan las varianzas de los datos proyectados, en LDA se maximiza la separación entre clases y se minimiza la dispersión dentro de cada clase.</p>
+<p>Para encontrar el nuevo eje de proyección, LDA busca maximizar la distancia entre las medias de las clases y minimizar la dispersión dentro de cada una de ellas. En el caso binario, definimos las medias de cada clase como: <span class="math display">\[\mu_{0} = \frac{1}{n_{0}} \sum_{i:Y_{i}=0} \mathbf{x}_i\]</span> y <span class="math display">\[\mu_{1} = \frac{1}{n_{1}} \sum_{i:Y_{i}=1} \mathbf{x}_i\]</span> denotando <span class="math inline">\(i:Y_{i}=0\)</span> aquellas observaciones <span class="math inline">\(i\)</span> que son de la clase <span class="math inline">\(0\)</span>, es decir, <span class="math inline">\(Y_i=0\)</span> y siendo <span class="math inline">\(n_0\)</span> y <span class="math inline">\(n_1\)</span> los tamaños de las clases <span class="math inline">\(0\)</span> y <span class="math inline">\(1\)</span>, respectivamente.</p>
+<p>Si proyectamos estas medias sobre el nuevo eje definido por <span class="math inline">\(\mathbf{w}\)</span>, obtenemos <span class="math inline">\(m_c = \mathbf{w}^{t}\mu_{c}\)</span>.</p>
+<p>Para evaluar la dispersión de los datos en la nueva dimensión, definimos la varianza de los puntos proyectados en cada clase como: <span class="math display">\[S_{c}^{2}=\sum_{i:Y_i=c}(z_i-m_c)^{2}.\]</span></p>
+<p>Dado que queremos que las medias proyectadas estén lo más separadas posible y que la dispersión dentro de cada clase sea mínima, definimos la función objetivo como: <span class="math display">\[J(\mathbf{w})=\frac{(m_1-m_0)^{2}}{S_{0}^{2} + S_{1}^{2}}.\]</span> Esta expresión se puede reformular en términos matriciales: <span class="math display">\[J(\mathbf{w})=\frac{\mathbf{w}^{t}S_{B}\mathbf{w}}{\mathbf{w}^{t}S_{W}\mathbf{w} },\]</span> donde:</p>
+<ul>
+<li><p><span class="math inline">\(S_{B}=(\mu_1 - \mu_0)(\mu_1 - \mu_0)^{t}\)</span> es la matriz de dispersión entre las clases (between-class scatter)</p></li>
+<li><p>y <span class="math inline">\(S_{W}=\sum_{i:Y_i=0}(\mathbf{x}_i - \mu_0)(\mathbf{x}_i - \mu_0)^{t} + \sum_{i:Y_i=1}(\mathbf{x}_i - \mu_1)(\mathbf{x}_i - \mu_1)^{t}\)</span> es la matriz de dispersión dentro de cada clase (within-class).</p></li>
+</ul>
+<p>Esto es así puesto que <span class="math display">\[\mathbf{w}^{t}S_{B}\mathbf{w} = \mathbf{w}^{t}(\mu_1 - \mu_0)(\mu_1 - \mu_0)^{t}\mathbf{w}=(m_1 - m_0)^{2}\]</span> y, por otro lado, <span class="math display">\[\mathbf{w}^{t}S_{W}\mathbf{w} = \sum_{i:Y_i = 0}\mathbf{w}^{t}(\mathbf{x}_i - \mu_0)(\mathbf{x}_i - \mu_0)^{t}\mathbf{w} + \sum_{i:Y_i = 1}\mathbf{w}^{t}(\mathbf{x}_i - \mu_1)(\mathbf{x}_i - \mu_1)^{t}\mathbf{w}=\]</span> <span class="math display">\[=\sum_{i:Y_i = 0} (\mathbf{z}_i-m_0)^{2}+\sum_{i:Y_i = 1} (\mathbf{z}_i-m_1)^{2}\]</span></p>
+<p>Para maximizar <span class="math inline">\(J(\mathbf{w})\)</span>, derivamos con respecto <span class="math inline">\(\mathbf{w}\)</span> y llegamos a la ecuación característica <span class="math inline">\(S_{B}\mathbf{w}=\lambda S_{W}\mathbf{w}\)</span>. Si <span class="math inline">\(S_{W}\)</span> es invertible, <span class="math inline">\(S_{W}^{-1}S_{B}\mathbf{w}=\lambda \mathbf{w}\)</span>. Esto recuerda al problema de autovalores y autovectores de PCA. Sin embargo, en este caso, como <span class="math inline">\(S_{B}\mathbf{w}=(\mu_1 - \mu_0)(\mu_1 - \mu_0)^{t}\mathbf{w}=(\mu_1 - \mu_0)(m_1 - m_0)\)</span>. Podemos sustituir en la ecuación característica y llegamos a que <span class="math display">\[\lambda  \mathbf{w}=S_{W}^{-1}(\mu_1 - \mu_0)(m_1 - m_0).\]</span> Es decir, <span class="math display">\[\mathbf{w} \propto S_{W}^{-1}(\mu_1 - \mu_0).\]</span> En este punto, como el objetivo es encontrar la dirección de la proyección, tomamos <span class="math inline">\(\mathbf{w}=S_{W}^{-1}(\mu_1 - \mu_0)\)</span>, que es lo que obtuvimos antes.</p>
+<p>Veamos ahora un ejemplo para compara LDA y PCA.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Librerías</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'MASS'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:dplyr':
+
+    select</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Semilla para reproducibilidad</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Conjunto de datos artificial</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100</span>  <span class="co"># número de observaciones por clase</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="dv">2</span>    <span class="co"># número de variables</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>class_0 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(n <span class="sc">*</span> p, <span class="at">mean =</span> <span class="dv">0</span>), <span class="at">ncol =</span> p)</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>class_1 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(n <span class="sc">*</span> p, <span class="at">mean =</span> <span class="dv">3</span>), <span class="at">ncol =</span> p)</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">rbind</span>(class_0, class_1)</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>labels <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>, n), <span class="fu">rep</span>(<span class="dv">1</span>, n)))</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x1 =</span> data[, <span class="dv">1</span>], <span class="at">x2 =</span> data[, <span class="dv">2</span>], <span class="at">class =</span> labels)</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualización de los datos originales</span></span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(df<span class="sc">$</span>x1, df<span class="sc">$</span>x2, <span class="at">col =</span> df<span class="sc">$</span>class, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">xlab =</span> <span class="st">"Variable 1"</span>, <span class="at">ylab =</span> <span class="st">"Variable 2"</span>, <span class="at">main =</span> <span class="st">"Datos Originales"</span>)</span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="at">legend =</span> <span class="fu">levels</span>(df<span class="sc">$</span>class), <span class="at">col =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(<span class="fu">levels</span>(df<span class="sc">$</span>class)), <span class="at">pch =</span> <span class="dv">19</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="aprsup_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># LDA</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>lda_model <span class="ot">&lt;-</span> <span class="fu">lda</span>(class <span class="sc">~</span> x1 <span class="sc">+</span> x2, <span class="at">data =</span> df)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Puntuaciones proyectadas en el espacio discriminante de LDA</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>lda_predictions <span class="ot">&lt;-</span> <span class="fu">predict</span>(lda_model)</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a><span class="co"># PCA</span></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>pca_model <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(df[, <span class="sc">-</span><span class="dv">3</span>], <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Puntuaciones proyectadas en el espacio de PCA</span></span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>pca_predictions <span class="ot">&lt;-</span> pca_model<span class="sc">$</span>x</span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar LDA y PCA</span></span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico de LDA</span></span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lda_predictions<span class="sc">$</span>x[, <span class="dv">1</span>], <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">length</span>(lda_predictions<span class="sc">$</span>x[, <span class="dv">1</span>])), <span class="at">col =</span> df<span class="sc">$</span>class, </span>
+<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Componente discriminante 1"</span>, <span class="at">ylab =</span> <span class="st">""</span>, </span>
+<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Proyección de LDA"</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span>
+<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="at">legend =</span> <span class="fu">levels</span>(df<span class="sc">$</span>class), <span class="at">col =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(<span class="fu">levels</span>(df<span class="sc">$</span>class)), <span class="at">pch =</span> <span class="dv">19</span>)</span>
+<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-22"><a href="#cb39-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico de PCA</span></span>
+<span id="cb39-23"><a href="#cb39-23" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pca_predictions[, <span class="dv">1</span>], pca_predictions[, <span class="dv">2</span>], <span class="at">col =</span> df<span class="sc">$</span>class,</span>
+<span id="cb39-24"><a href="#cb39-24" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Componente principal 1"</span>, <span class="at">ylab =</span> <span class="st">"Componente principal 2"</span>, </span>
+<span id="cb39-25"><a href="#cb39-25" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Proyección de PCA"</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span>
+<span id="cb39-26"><a href="#cb39-26" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="at">legend =</span> <span class="fu">levels</span>(df<span class="sc">$</span>class), <span class="at">col =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(<span class="fu">levels</span>(df<span class="sc">$</span>class)), <span class="at">pch =</span> <span class="dv">19</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="aprsup_files/figure-html/unnamed-chunk-16-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -1005,18 +1075,20 @@ Desventajas
 </div>
 <p>Aplicamos el algoritmo a nuestro problema de los datos bancarios.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Usamos 10-fold cross validation </span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>trainControl <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method=</span><span class="st">"repeatedcv"</span>, <span class="at">number=</span><span class="dv">10</span>, <span class="at">repeats=</span><span class="dv">3</span>)</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>metric <span class="ot">&lt;-</span> <span class="st">"Accuracy"</span></span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">128</span>)</span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> bank.train <span class="sc">%&gt;%</span></span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(housing,marital,education,balance,deposit)</span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>df[,<span class="dv">4</span>] <span class="ot">=</span> <span class="fu">scale</span>(df[,<span class="dv">4</span>])</span>
-<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>fit.knn <span class="ot">&lt;-</span> <span class="fu">train</span>(deposit<span class="sc">~</span>., <span class="at">data=</span>df, <span class="at">method=</span><span class="st">"knn"</span>,</span>
-<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">metric=</span>metric ,<span class="at">trControl=</span>trainControl)</span>
-<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>knn.k1 <span class="ot">&lt;-</span> fit.knn<span class="sc">$</span>bestTune </span>
-<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit.knn)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Usamos 10-fold cross validation </span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>trainControl <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(<span class="at">method=</span><span class="st">"repeatedcv"</span>, <span class="at">number=</span><span class="dv">10</span>, <span class="at">repeats=</span><span class="dv">3</span>)</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>metric <span class="ot">&lt;-</span> <span class="st">"Accuracy"</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">128</span>)</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> bank.train <span class="sc">%&gt;%</span></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">select</span>(housing,marital,education,balance,deposit)</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>df[,<span class="dv">4</span>] <span class="ot">=</span> <span class="fu">scale</span>(df[,<span class="dv">4</span>])</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>fit.knn <span class="ot">&lt;-</span> <span class="fu">train</span>(deposit<span class="sc">~</span>., <span class="at">data=</span>df, <span class="at">method=</span><span class="st">"knn"</span>,</span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>                 <span class="at">metric=</span>metric ,<span class="at">trControl=</span>trainControl)</span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>knn.k1 <span class="ot">&lt;-</span> fit.knn<span class="sc">$</span>bestTune </span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit.knn)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>k-Nearest Neighbors 
 
@@ -1037,22 +1109,22 @@ Resampling results across tuning parameters:
 Accuracy was used to select the optimal model using the largest value.
 The final value used for the model was k = 9.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit.knn)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit.knn)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="aprsup_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+<p><img src="aprsup_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Según el gráfico anterior, podríamos elegir el mejor valor de <span class="math inline">\(k\)</span>, si bien puede observarse pocas diferencias entre las diferentes opciones.</p>
 <p>A continuación, obtenemos la predicción para el conjunto de datos de prueba e imprimimos la matriz de confusión.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">128</span>)</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>media<span class="ot">=</span><span class="fu">mean</span>(bank.train<span class="sc">$</span>balance)</span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>stddev<span class="ot">=</span><span class="fu">sqrt</span>(<span class="fu">var</span>(bank.train<span class="sc">$</span>balance))</span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>df.test <span class="ot">&lt;-</span> bank.test <span class="sc">%&gt;%</span><span class="fu">mutate</span>(<span class="at">balance=</span>(balance<span class="sc">-</span>media)<span class="sc">/</span>stddev)</span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>prediction <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit.knn,<span class="at">newdata=</span>df.test)</span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>cf <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(prediction, <span class="fu">as.factor</span>(df.test<span class="sc">$</span>deposit),<span class="at">positive=</span><span class="st">"yes"</span>)</span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(cf)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">128</span>)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>media<span class="ot">=</span><span class="fu">mean</span>(bank.train<span class="sc">$</span>balance)</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>stddev<span class="ot">=</span><span class="fu">sqrt</span>(<span class="fu">var</span>(bank.train<span class="sc">$</span>balance))</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>df.test <span class="ot">&lt;-</span> bank.test <span class="sc">%&gt;%</span><span class="fu">mutate</span>(<span class="at">balance=</span>(balance<span class="sc">-</span>media)<span class="sc">/</span>stddev)</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>prediction <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit.knn,<span class="at">newdata=</span>df.test)</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>cf <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(prediction, <span class="fu">as.factor</span>(df.test<span class="sc">$</span>deposit),<span class="at">positive=</span><span class="st">"yes"</span>)</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(cf)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Confusion Matrix and Statistics
 
@@ -1119,12 +1191,12 @@ Para recordar
 <p>Es importante mencionar exiten otras técnicas para la selección de hiperparámetros. Otros métodos, como la búsqueda aleatoria (“<em>random search</em>”), la optimización bayesiana y técnicas más avanzadas, también se utilizan en la selección de hiperparámetros en función de la complejidad y los recursos (computacionales, personales, temporales, etc) disponibles para la tarea.</p>
 <p>En el ejemplo que nos ocupa, buscamos el mejor valor del parámetro <span class="math inline">\(k\)</span> entre <span class="math inline">\(1\)</span> y <span class="math inline">\(30\)</span>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1271</span>)</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">.k=</span><span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">30</span>,<span class="at">by=</span><span class="dv">1</span>))</span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>fit.knn <span class="ot">&lt;-</span> <span class="fu">train</span>(deposit<span class="sc">~</span>., <span class="at">data=</span>df, <span class="at">method=</span><span class="st">"knn"</span>,</span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">metric=</span>metric, <span class="at">tuneGrid=</span>grid, <span class="at">trControl=</span>trainControl)</span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>knn.k2 <span class="ot">&lt;-</span> fit.knn<span class="sc">$</span>bestTune </span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit.knn)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1271</span>)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">.k=</span><span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">30</span>,<span class="at">by=</span><span class="dv">1</span>))</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>fit.knn <span class="ot">&lt;-</span> <span class="fu">train</span>(deposit<span class="sc">~</span>., <span class="at">data=</span>df, <span class="at">method=</span><span class="st">"knn"</span>,</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">metric=</span>metric, <span class="at">tuneGrid=</span>grid, <span class="at">trControl=</span>trainControl)</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>knn.k2 <span class="ot">&lt;-</span> fit.knn<span class="sc">$</span>bestTune </span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(fit.knn)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>k-Nearest Neighbors 
 
@@ -1172,18 +1244,18 @@ Resampling results across tuning parameters:
 Accuracy was used to select the optimal model using the largest value.
 The final value used for the model was k = 24.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit.knn)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit.knn)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="aprsup_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+<p><img src="aprsup_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Encontramos óptimo <span class="math inline">\(k= 24\)</span>, el número de instancias más cercanas que hay que recopilar para hacer una predicción óptima. Ahora, usamos el modelo ajustado para predecir la clase para nuestro conjunto de prueba, e imprimir la matriz de confusión:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">128</span>)</span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>prediction.knn <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit.knn,<span class="at">newdata=</span>df.test,<span class="at">type=</span><span class="st">"prob"</span>)[,<span class="dv">2</span>]</span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>clase.pred.knn<span class="ot">=</span><span class="fu">ifelse</span>(prediction.knn<span class="sc">&gt;</span><span class="fl">0.5</span>,<span class="st">"yes"</span>,<span class="st">"no"</span>)</span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>cf <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(<span class="fu">as.factor</span>(clase.pred.knn), <span class="fu">as.factor</span>(df.test<span class="sc">$</span>deposit),<span class="at">positive=</span><span class="st">"yes"</span>)</span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(cf)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">128</span>)</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>prediction.knn <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit.knn,<span class="at">newdata=</span>df.test,<span class="at">type=</span><span class="st">"prob"</span>)[,<span class="dv">2</span>]</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>clase.pred.knn<span class="ot">=</span><span class="fu">ifelse</span>(prediction.knn<span class="sc">&gt;</span><span class="fl">0.5</span>,<span class="st">"yes"</span>,<span class="st">"no"</span>)</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>cf <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(<span class="fu">as.factor</span>(clase.pred.knn), <span class="fu">as.factor</span>(df.test<span class="sc">$</span>deposit),<span class="at">positive=</span><span class="st">"yes"</span>)</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(cf)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Confusion Matrix and Statistics
 
@@ -1294,16 +1366,16 @@ Para recordar
 </div>
 <p>A continuación aplicamos el método de DT al conjunto de datos <code>bank</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart)</span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart.plot)</span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">128</span>)</span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> bank.train <span class="sc">%&gt;%</span></span>
-<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(age,job,housing,marital,education,duration,poutcome,balance,deposit)</span>
-<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>fit.dt <span class="ot">&lt;-</span> <span class="fu">rpart</span>(deposit<span class="sc">~</span>., <span class="at">data =</span> df, <span class="at">method =</span> <span class="st">'class'</span>)</span>
-<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a><span class="fu">rpart.plot</span>(fit.dt, <span class="at">extra =</span> <span class="dv">106</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart.plot)</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">128</span>)</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> bank.train <span class="sc">%&gt;%</span></span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">select</span>(age,job,housing,marital,education,duration,poutcome,balance,deposit)</span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>fit.dt <span class="ot">&lt;-</span> <span class="fu">rpart</span>(deposit<span class="sc">~</span>., <span class="at">data =</span> df, <span class="at">method =</span> <span class="st">'class'</span>)</span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a><span class="fu">rpart.plot</span>(fit.dt, <span class="at">extra =</span> <span class="dv">106</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="aprsup_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+<p><img src="aprsup_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Como podemos observar, la interpretación del modelo de DT es muy sencilla. Todas las observaciones están en el primer nodo (el nodo raíz). Sin realizar “preguntas” sobre las variables explicativas, el nodo es de clase “<em>no</em>” con una probabilidad de “<em>yes</em>” del <span class="math inline">\(0.48\)</span>.</p>
@@ -1328,10 +1400,10 @@ Tarea
 <p>Podemos interpretar el resto de los nodos terminales del ejemplo como sigue:</p>
 <table class="table">
 <colgroup>
-<col style="width: 18%">
-<col style="width: 45%">
-<col style="width: 18%">
-<col style="width: 18%">
+<col style="width: 22%">
+<col style="width: 31%">
+<col style="width: 22%">
+<col style="width: 22%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1382,10 +1454,10 @@ Tarea
 </table>
 <p>Usamos el modelo de DT para hacer predicciones:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sobre la partición de entrenamiento</span></span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>prediction <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit.dt, df, <span class="at">type =</span> <span class="st">'class'</span>)</span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>cf <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(prediction, <span class="fu">as.factor</span>(df<span class="sc">$</span>deposit),<span class="at">positive=</span><span class="st">"yes"</span>)</span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(cf)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sobre la partición de entrenamiento</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>prediction <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit.dt, df, <span class="at">type =</span> <span class="st">'class'</span>)</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>cf <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(prediction, <span class="fu">as.factor</span>(df<span class="sc">$</span>deposit),<span class="at">positive=</span><span class="st">"yes"</span>)</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(cf)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Confusion Matrix and Statistics
 
@@ -1417,11 +1489,11 @@ Prediction   no  yes
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sobre la partición de prueba</span></span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>prediction.dt <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit.dt, df.test, <span class="at">type =</span> <span class="st">'prob'</span>)[,<span class="dv">2</span>]</span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>clase.pred<span class="ot">=</span><span class="fu">ifelse</span>(prediction.dt<span class="sc">&gt;</span><span class="fl">0.5</span>,<span class="st">"yes"</span>,<span class="st">"no"</span>)</span>
-<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>cf <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(<span class="fu">as.factor</span>(clase.pred), <span class="fu">as.factor</span>(df.test<span class="sc">$</span>deposit),<span class="at">positive=</span><span class="st">"yes"</span>)</span>
-<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(cf)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sobre la partición de prueba</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>prediction.dt <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit.dt, df.test, <span class="at">type =</span> <span class="st">'prob'</span>)[,<span class="dv">2</span>]</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>clase.pred<span class="ot">=</span><span class="fu">ifelse</span>(prediction.dt<span class="sc">&gt;</span><span class="fl">0.5</span>,<span class="st">"yes"</span>,<span class="st">"no"</span>)</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>cf <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(<span class="fu">as.factor</span>(clase.pred), <span class="fu">as.factor</span>(df.test<span class="sc">$</span>deposit),<span class="at">positive=</span><span class="st">"yes"</span>)</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(cf)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Confusion Matrix and Statistics
 
@@ -1454,22 +1526,22 @@ Prediction   no  yes
 </div>
 <p>Al igual que en otros métodos de ML, podemos ajustar los hiperparámetros del modelo. En este caso ajustamos la máxima profundidad del árbol, el mínimo número de observaciones en un nodo para poder ser particionado en dos y el mínimo número de observaciones que un nodo terminal debe tener.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>control <span class="ot">&lt;-</span> <span class="fu">rpart.control</span>(<span class="at">minsplit =</span> <span class="dv">4</span>,</span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">minbucket =</span> <span class="fu">round</span>(<span class="dv">5</span> <span class="sc">/</span> <span class="dv">3</span>),</span>
-<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">maxdepth =</span> <span class="dv">3</span>,</span>
-<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">cp =</span> <span class="dv">0</span>)</span>
-<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>tune.fit <span class="ot">&lt;-</span> <span class="fu">rpart</span>(deposit<span class="sc">~</span>., <span class="at">data =</span> df, <span class="at">method =</span> <span class="st">'class'</span>, <span class="at">control =</span> control)</span>
-<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a><span class="fu">rpart.plot</span>(tune.fit, <span class="at">extra =</span> <span class="dv">106</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>control <span class="ot">&lt;-</span> <span class="fu">rpart.control</span>(<span class="at">minsplit =</span> <span class="dv">4</span>,</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">minbucket =</span> <span class="fu">round</span>(<span class="dv">5</span> <span class="sc">/</span> <span class="dv">3</span>),</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">maxdepth =</span> <span class="dv">3</span>,</span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">cp =</span> <span class="dv">0</span>)</span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>tune.fit <span class="ot">&lt;-</span> <span class="fu">rpart</span>(deposit<span class="sc">~</span>., <span class="at">data =</span> df, <span class="at">method =</span> <span class="st">'class'</span>, <span class="at">control =</span> control)</span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a><span class="fu">rpart.plot</span>(tune.fit, <span class="at">extra =</span> <span class="dv">106</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="aprsup_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="672"></p>
+<p><img src="aprsup_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>El nuevo modelo presenta un rendimiento ligeramente menor que el original pero respondiendo a condiciones que antes no imponíamos.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sobre la partición de prueba</span></span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>prediction <span class="ot">&lt;-</span> <span class="fu">predict</span>(tune.fit, df.test, <span class="at">type =</span> <span class="st">'class'</span>)</span>
-<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>cf <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(prediction, <span class="fu">as.factor</span>(df.test<span class="sc">$</span>deposit),<span class="at">positive=</span><span class="st">"yes"</span>)</span>
-<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(cf)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sobre la partición de prueba</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>prediction <span class="ot">&lt;-</span> <span class="fu">predict</span>(tune.fit, df.test, <span class="at">type =</span> <span class="st">'class'</span>)</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>cf <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(prediction, <span class="fu">as.factor</span>(df.test<span class="sc">$</span>deposit),<span class="at">positive=</span><span class="st">"yes"</span>)</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(cf)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Confusion Matrix and Statistics
 
@@ -1636,11 +1708,11 @@ Desventajas
 <p>Una ventaja fundamental del Bosque Aleatorio es que aprovecha la sensibilidad de DTs a los datos en los que se entrenan. Cada árbol individual se entrena con una muestra aleatoria del conjunto de datos, permitiendo la selección con reemplazo. Esto da como resultado árboles diferentes en el bosque, lo que mejora la generalización del modelo.</p>
 <p>Aplicamos este nuevo método de ML a nuestro conjunto de datos de <code>bank</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span>
-<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
-<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>rf <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(<span class="fu">as.factor</span>(deposit)<span class="sc">~</span>., <span class="at">data=</span>df, <span class="at">importance=</span><span class="cn">TRUE</span>,<span class="at">proximity=</span><span class="cn">TRUE</span>) </span>
-<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(rf)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>rf <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(<span class="fu">as.factor</span>(deposit)<span class="sc">~</span>., <span class="at">data=</span>df, <span class="at">importance=</span><span class="cn">TRUE</span>,<span class="at">proximity=</span><span class="cn">TRUE</span>) </span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(rf)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -1655,21 +1727,21 @@ Confusion matrix:
 no  2352  556   0.1911967
 yes  509 2164   0.1904227</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rf)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rf)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="aprsup_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="672"></p>
+<p><img src="aprsup_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sobre la partición de prueba</span></span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>df.test <span class="ot">&lt;-</span> bank.test <span class="sc">%&gt;%</span></span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">fmarital=</span><span class="fu">as.factor</span>(marital))<span class="sc">%&gt;%</span></span>
-<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(age,job,housing,<span class="at">marital=</span>fmarital,education,duration,poutcome,balance,deposit)</span>
-<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>df.test<span class="sc">$</span>deposit<span class="ot">=</span><span class="fu">as.factor</span>(df.test<span class="sc">$</span>deposit)</span>
-<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>prediction.rf <span class="ot">&lt;-</span> <span class="fu">predict</span>(rf, df.test,<span class="at">type=</span><span class="st">"prob"</span>)[,<span class="dv">2</span>]</span>
-<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>clase.pred.rf<span class="ot">=</span><span class="fu">ifelse</span>(prediction.rf<span class="sc">&gt;</span><span class="fl">0.5</span>,<span class="st">"yes"</span>,<span class="st">"no"</span>)</span>
-<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>cf <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(<span class="fu">as.factor</span>(clase.pred.rf), <span class="fu">as.factor</span>(df.test<span class="sc">$</span>deposit),<span class="at">positive=</span><span class="st">"yes"</span>)</span>
-<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(cf)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sobre la partición de prueba</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>df.test <span class="ot">&lt;-</span> bank.test <span class="sc">%&gt;%</span></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">fmarital=</span><span class="fu">as.factor</span>(marital))<span class="sc">%&gt;%</span></span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">select</span>(age,job,housing,<span class="at">marital=</span>fmarital,education,duration,poutcome,balance,deposit)</span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>df.test<span class="sc">$</span>deposit<span class="ot">=</span><span class="fu">as.factor</span>(df.test<span class="sc">$</span>deposit)</span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>prediction.rf <span class="ot">&lt;-</span> <span class="fu">predict</span>(rf, df.test,<span class="at">type=</span><span class="st">"prob"</span>)[,<span class="dv">2</span>]</span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>clase.pred.rf<span class="ot">=</span><span class="fu">ifelse</span>(prediction.rf<span class="sc">&gt;</span><span class="fl">0.5</span>,<span class="st">"yes"</span>,<span class="st">"no"</span>)</span>
+<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a>cf <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(<span class="fu">as.factor</span>(clase.pred.rf), <span class="fu">as.factor</span>(df.test<span class="sc">$</span>deposit),<span class="at">positive=</span><span class="st">"yes"</span>)</span>
+<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(cf)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Confusion Matrix and Statistics
 
@@ -1702,7 +1774,7 @@ Prediction   no  yes
 </div>
 <p>Podemos averiguar la importancia de las variables en el modelo.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">importance</span>(rf)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">importance</span>(rf)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                  no       yes MeanDecreaseAccuracy MeanDecreaseGini
 age        31.438028  33.11264             45.60845        301.41991
@@ -1717,15 +1789,15 @@ balance    15.950109  22.08729             27.35226        330.12680</code></pre
 </div>
 <p>Las tres primeras columnas hacen referencia a la medida MeanDecreaseAccuracy. La disminución del accuracy se mide permutando los valores del target en las muestras OOB y calculando la disminución correspondiente. Esto se hace para cada árbol y con sus muestras OOB correspondientes para obtener la media y la desviación estándar. La segunda medida es la disminución total de impurezas de nodos a partir de la división en la variable, promediada en todos los árboles.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">varImpPlot</span>(rf)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">varImpPlot</span>(rf)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="aprsup_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="672"></p>
+<p><img src="aprsup_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Este gráfico muestra la importancia de las variables, ordenadas de mayor a menor. En este caso particular la variable más relevante dentro del modelo es la duración de la llamada.</p>
 <p>Además podemos obtener una visualización del funcionamiento del Bosque con la función <code>MDSplot</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="co">#MDSplot(rf,as.factor(df$deposit),k=3)</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="co">#MDSplot(rf,as.factor(df$deposit),k=3)</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>La función grafica las <span class="math inline">\(k\)</span> primeras componentes principales (ver <a href="reddim.html"><span>Capítulo&nbsp;4</span></a>) de la matriz de proximidad, que es una matriz de medidas de proximidad entre la observaciones de entrenamiento (basada en la frecuencia con que los pares de puntos de datos se encuentran en los mismos nodos terminales).</p>
 </section>
@@ -1803,51 +1875,51 @@ Desventajas
 <p>Pasamos por ciclos que construyen repetidamente nuevos modelos y los combinan en un modelo de ensamblado. Empezamos el ciclo tomando un modelo existente y calculando los errores de cada observación del conjunto de datos. A continuación, construimos un nuevo modelo para predecir estos errores. Añadimos las predicciones de este modelo de predicción de errores al ensamblado de modelos.</p>
 <p>Para hacer una predicción, sumamos las predicciones de todos los modelos anteriores. Podemos utilizar estas predicciones para calcular nuevos errores, construir el siguiente modelo y añadirlo al ensamblado.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
-<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
-<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(xgboost)</span>
-<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a><span class="co">#convertimos los datos a numéricos</span></span>
-<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>df.train <span class="ot">&lt;-</span> <span class="fu">map_df</span>(df, <span class="cf">function</span>(columna) {</span>
-<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a>  columna <span class="sc">%&gt;%</span> </span>
-<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.factor</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb62-10"><a href="#cb62-10" aria-hidden="true" tabindex="-1"></a>    as.numeric <span class="sc">%&gt;%</span> </span>
-<span id="cb62-11"><a href="#cb62-11" aria-hidden="true" tabindex="-1"></a>    { . <span class="sc">-</span> <span class="dv">1</span> }</span>
-<span id="cb62-12"><a href="#cb62-12" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb62-13"><a href="#cb62-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-14"><a href="#cb62-14" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb62-15"><a href="#cb62-15" aria-hidden="true" tabindex="-1"></a>datos<span class="sc">$</span>train <span class="ot">&lt;-</span> df.train</span>
-<span id="cb62-16"><a href="#cb62-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-17"><a href="#cb62-17" aria-hidden="true" tabindex="-1"></a>df.test <span class="ot">&lt;-</span> <span class="fu">map_df</span>(df.test, <span class="cf">function</span>(columna) {</span>
-<span id="cb62-18"><a href="#cb62-18" aria-hidden="true" tabindex="-1"></a>  columna <span class="sc">%&gt;%</span> </span>
-<span id="cb62-19"><a href="#cb62-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.factor</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb62-20"><a href="#cb62-20" aria-hidden="true" tabindex="-1"></a>    as.numeric <span class="sc">%&gt;%</span> </span>
-<span id="cb62-21"><a href="#cb62-21" aria-hidden="true" tabindex="-1"></a>    { . <span class="sc">-</span> <span class="dv">1</span> }</span>
-<span id="cb62-22"><a href="#cb62-22" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb62-23"><a href="#cb62-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-24"><a href="#cb62-24" aria-hidden="true" tabindex="-1"></a>datos<span class="sc">$</span>test <span class="ot">&lt;-</span> df.test</span>
-<span id="cb62-25"><a href="#cb62-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-26"><a href="#cb62-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-27"><a href="#cb62-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Convertimos los datos al formato Dmatrix</span></span>
-<span id="cb62-28"><a href="#cb62-28" aria-hidden="true" tabindex="-1"></a>datos<span class="sc">$</span>train_mat  <span class="ot">&lt;-</span> </span>
-<span id="cb62-29"><a href="#cb62-29" aria-hidden="true" tabindex="-1"></a>  datos<span class="sc">$</span>train <span class="sc">%&gt;%</span> </span>
-<span id="cb62-30"><a href="#cb62-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>deposit) <span class="sc">%&gt;%</span> </span>
-<span id="cb62-31"><a href="#cb62-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb62-32"><a href="#cb62-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xgb.DMatrix</span>(<span class="at">data =</span> ., <span class="at">label =</span> datos<span class="sc">$</span>train<span class="sc">$</span>deposit)</span>
-<span id="cb62-33"><a href="#cb62-33" aria-hidden="true" tabindex="-1"></a>datos<span class="sc">$</span>test_mat  <span class="ot">&lt;-</span> </span>
-<span id="cb62-34"><a href="#cb62-34" aria-hidden="true" tabindex="-1"></a>  datos<span class="sc">$</span>test <span class="sc">%&gt;%</span> </span>
-<span id="cb62-35"><a href="#cb62-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>deposit) <span class="sc">%&gt;%</span> </span>
-<span id="cb62-36"><a href="#cb62-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb62-37"><a href="#cb62-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xgb.DMatrix</span>(<span class="at">data =</span> ., <span class="at">label =</span> datos<span class="sc">$</span>test<span class="sc">$</span>deposit)</span>
-<span id="cb62-38"><a href="#cb62-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-39"><a href="#cb62-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Entrenamiento del modelo</span></span>
-<span id="cb62-40"><a href="#cb62-40" aria-hidden="true" tabindex="-1"></a>datos<span class="sc">$</span>modelo_01 <span class="ot">&lt;-</span> <span class="fu">xgboost</span>(<span class="at">data =</span> datos<span class="sc">$</span>train_mat,  </span>
-<span id="cb62-41"><a href="#cb62-41" aria-hidden="true" tabindex="-1"></a>                           <span class="at">objective =</span> <span class="st">"binary:logistic"</span>, <span class="co">#clasificación binaria</span></span>
-<span id="cb62-42"><a href="#cb62-42" aria-hidden="true" tabindex="-1"></a>                           <span class="at">nround =</span> <span class="dv">10</span>, <span class="co"># número máximo de iteraciones boosting </span></span>
-<span id="cb62-43"><a href="#cb62-43" aria-hidden="true" tabindex="-1"></a>                           <span class="at">max_depth=</span><span class="dv">2</span>, <span class="co"># número de nodos de bifurcación de los árboles de de decisión usados en el entrenamiento</span></span>
-<span id="cb62-44"><a href="#cb62-44" aria-hidden="true" tabindex="-1"></a>                           <span class="at">eta =</span><span class="fl">0.3</span>, <span class="co"># La tasa de aprendizaje del modelo</span></span>
-<span id="cb62-45"><a href="#cb62-45" aria-hidden="true" tabindex="-1"></a>                           <span class="at">nthread =</span><span class="dv">2</span>) <span class="co">#  El número de hilos computacionales que serán usados en el proceso de entrenamiento. </span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(xgboost)</span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a><span class="co">#convertimos los datos a numéricos</span></span>
+<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>df.train <span class="ot">&lt;-</span> <span class="fu">map_df</span>(df, <span class="cf">function</span>(columna) {</span>
+<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a>  columna <span class="sc">%&gt;%</span> </span>
+<span id="cb68-9"><a href="#cb68-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.factor</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb68-10"><a href="#cb68-10" aria-hidden="true" tabindex="-1"></a>    as.numeric <span class="sc">%&gt;%</span> </span>
+<span id="cb68-11"><a href="#cb68-11" aria-hidden="true" tabindex="-1"></a>    { . <span class="sc">-</span> <span class="dv">1</span> }</span>
+<span id="cb68-12"><a href="#cb68-12" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb68-13"><a href="#cb68-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-14"><a href="#cb68-14" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb68-15"><a href="#cb68-15" aria-hidden="true" tabindex="-1"></a>datos<span class="sc">$</span>train <span class="ot">&lt;-</span> df.train</span>
+<span id="cb68-16"><a href="#cb68-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-17"><a href="#cb68-17" aria-hidden="true" tabindex="-1"></a>df.test <span class="ot">&lt;-</span> <span class="fu">map_df</span>(df.test, <span class="cf">function</span>(columna) {</span>
+<span id="cb68-18"><a href="#cb68-18" aria-hidden="true" tabindex="-1"></a>  columna <span class="sc">%&gt;%</span> </span>
+<span id="cb68-19"><a href="#cb68-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.factor</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb68-20"><a href="#cb68-20" aria-hidden="true" tabindex="-1"></a>    as.numeric <span class="sc">%&gt;%</span> </span>
+<span id="cb68-21"><a href="#cb68-21" aria-hidden="true" tabindex="-1"></a>    { . <span class="sc">-</span> <span class="dv">1</span> }</span>
+<span id="cb68-22"><a href="#cb68-22" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb68-23"><a href="#cb68-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-24"><a href="#cb68-24" aria-hidden="true" tabindex="-1"></a>datos<span class="sc">$</span>test <span class="ot">&lt;-</span> df.test</span>
+<span id="cb68-25"><a href="#cb68-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-26"><a href="#cb68-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-27"><a href="#cb68-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Convertimos los datos al formato Dmatrix</span></span>
+<span id="cb68-28"><a href="#cb68-28" aria-hidden="true" tabindex="-1"></a>datos<span class="sc">$</span>train_mat  <span class="ot">&lt;-</span> </span>
+<span id="cb68-29"><a href="#cb68-29" aria-hidden="true" tabindex="-1"></a>  datos<span class="sc">$</span>train <span class="sc">%&gt;%</span> </span>
+<span id="cb68-30"><a href="#cb68-30" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>deposit) <span class="sc">%&gt;%</span> </span>
+<span id="cb68-31"><a href="#cb68-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb68-32"><a href="#cb68-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xgb.DMatrix</span>(<span class="at">data =</span> ., <span class="at">label =</span> datos<span class="sc">$</span>train<span class="sc">$</span>deposit)</span>
+<span id="cb68-33"><a href="#cb68-33" aria-hidden="true" tabindex="-1"></a>datos<span class="sc">$</span>test_mat  <span class="ot">&lt;-</span> </span>
+<span id="cb68-34"><a href="#cb68-34" aria-hidden="true" tabindex="-1"></a>  datos<span class="sc">$</span>test <span class="sc">%&gt;%</span> </span>
+<span id="cb68-35"><a href="#cb68-35" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>deposit) <span class="sc">%&gt;%</span> </span>
+<span id="cb68-36"><a href="#cb68-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb68-37"><a href="#cb68-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xgb.DMatrix</span>(<span class="at">data =</span> ., <span class="at">label =</span> datos<span class="sc">$</span>test<span class="sc">$</span>deposit)</span>
+<span id="cb68-38"><a href="#cb68-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-39"><a href="#cb68-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Entrenamiento del modelo</span></span>
+<span id="cb68-40"><a href="#cb68-40" aria-hidden="true" tabindex="-1"></a>datos<span class="sc">$</span>modelo_01 <span class="ot">&lt;-</span> <span class="fu">xgboost</span>(<span class="at">data =</span> datos<span class="sc">$</span>train_mat,  </span>
+<span id="cb68-41"><a href="#cb68-41" aria-hidden="true" tabindex="-1"></a>                           <span class="at">objective =</span> <span class="st">"binary:logistic"</span>, <span class="co">#clasificación binaria</span></span>
+<span id="cb68-42"><a href="#cb68-42" aria-hidden="true" tabindex="-1"></a>                           <span class="at">nround =</span> <span class="dv">10</span>, <span class="co"># número máximo de iteraciones boosting </span></span>
+<span id="cb68-43"><a href="#cb68-43" aria-hidden="true" tabindex="-1"></a>                           <span class="at">max_depth=</span><span class="dv">2</span>, <span class="co"># número de nodos de bifurcación de los árboles de de decisión usados en el entrenamiento</span></span>
+<span id="cb68-44"><a href="#cb68-44" aria-hidden="true" tabindex="-1"></a>                           <span class="at">eta =</span><span class="fl">0.3</span>, <span class="co"># La tasa de aprendizaje del modelo</span></span>
+<span id="cb68-45"><a href="#cb68-45" aria-hidden="true" tabindex="-1"></a>                           <span class="at">nthread =</span><span class="dv">2</span>) <span class="co">#  El número de hilos computacionales que serán usados en el proceso de entrenamiento. </span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] train-logloss:0.620493 
 [2] train-logloss:0.576189 
@@ -1860,7 +1932,7 @@ Desventajas
 [9] train-logloss:0.467606 
 [10]    train-logloss:0.462035 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>datos<span class="sc">$</span>modelo_01</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>datos<span class="sc">$</span>modelo_01</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>##### xgb.Booster
 raw: 12.8 Kb 
@@ -1893,8 +1965,8 @@ evaluation_log:
 </div>
 <p>Ahora podemos examinar e interpretar nuestro modelo XGBoost. Una forma en que podemos examinar nuestro modelo es observando una representación de la combinación de todos los DTs en nuestro modelo. Dado que todos los árboles tienen la misma profundidad podemos apilarlos unos encima de otros y elegir las características que aparecen con más frecuencia en cada nodo.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualización del conjunto de árboles como una única unidad </span></span>
-<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="fu">xgb.plot.multi.trees</span>(<span class="at">model =</span> datos<span class="sc">$</span>modelo_01)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualización del conjunto de árboles como una única unidad </span></span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a><span class="fu">xgb.plot.multi.trees</span>(<span class="at">model =</span> datos<span class="sc">$</span>modelo_01)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Column 2 ['No'] of item 2 is missing in item 1. Use fill=TRUE to fill with NA (NULL for list columns), or use.names=FALSE to ignore column names. use.names='check' (default from v1.12.2) emits this message and proceeds as if use.names=FALSE for  backwards compatibility. See news item 5 in v1.12.2 for options to control this message.</code></pre>
 </div>
@@ -1906,14 +1978,14 @@ evaluation_log:
 <p>En esta figura, la parte superior del árbol está a la izquierda y la parte inferior a la derecha. En el caso de las características, el número que aparece al lado es la “<em>calidad</em>”, que ayuda a indicar la importancia de la característica en todos los árboles. Una mayor calidad significa que la característica es más importante. Por tanto, podemos decir que <code>duration</code> es con diferencia la característica más importante en todos nuestros árboles, tanto porque está más arriba en el árbol como porque su puntuación de calidad es muy alta.</p>
 <p>Para los nodos “<em>hoja</em>”, el número es el valor medio del modelo devuelto a través de todos los árboles cuando una determinada observación terminó en esa hoja. Como estamos utilizando un modelo logístico, nos devuelve diciendo que el logaritmo de probabilidades en lugar de la probabilidad. Sin embargo, podemos convertir fácilmente las probabilidades logarítmicas en probabilidad.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co"># convertimos log odds a probabilidades</span></span>
-<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>odds_to_probs <span class="ot">&lt;-</span> <span class="cf">function</span>(odds){</span>
-<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">exp</span>(odds)<span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(odds)))</span>
-<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a><span class="co"># ejemplo </span></span>
-<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a><span class="fu">odds_to_probs</span>(<span class="sc">-</span><span class="fl">1.2496</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="co"># convertimos log odds a probabilidades</span></span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>odds_to_probs <span class="ot">&lt;-</span> <span class="cf">function</span>(odds){</span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">exp</span>(odds)<span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(odds)))</span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-6"><a href="#cb74-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-7"><a href="#cb74-7" aria-hidden="true" tabindex="-1"></a><span class="co"># ejemplo </span></span>
+<span id="cb74-8"><a href="#cb74-8" aria-hidden="true" tabindex="-1"></a><span class="fu">odds_to_probs</span>(<span class="sc">-</span><span class="fl">1.2496</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.2227694</code></pre>
 </div>
@@ -1921,22 +1993,22 @@ evaluation_log:
 <p>Así, en los árboles en los que una observación acabó en esa hoja, la probabilidad media de que una observación fuera un “<em>yes</em>” en la variable <code>deposit</code> es del <span class="math inline">\(22\%\)</span>.</p>
 <p>¿Y si queremos ver rápidamente qué características son las más importantes? Podemos hacerlo creando, y luego trazando, la matriz de importancia, como sigue.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="co"># importancia sobre cada característica</span></span>
-<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>importance_matrix <span class="ot">&lt;-</span> <span class="fu">xgb.importance</span>(<span class="at">model =</span> datos<span class="sc">$</span>modelo_01)</span>
-<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a><span class="fu">xgb.plot.importance</span>(importance_matrix)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="co"># importancia sobre cada característica</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>importance_matrix <span class="ot">&lt;-</span> <span class="fu">xgb.importance</span>(<span class="at">model =</span> datos<span class="sc">$</span>modelo_01)</span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a><span class="fu">xgb.plot.importance</span>(importance_matrix)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="aprsup_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid" width="672"></p>
+<p><img src="aprsup_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Pasamos a obtener las predicciones. El resultado es un vector de valores numéricos, cada uno representando la probabilidad de que un caso en particular pertenezca al valor <span class="math inline">\(1\)</span> de nuestra variable objetivo. Es decir, la probabilidad de que esa observación sea un “<em>yes</em>”.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predicciones en la muestra de prueba</span></span>
-<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>datos<span class="sc">$</span>predict_01 <span class="ot">&lt;-</span> <span class="fu">predict</span>(datos<span class="sc">$</span>modelo_01, datos<span class="sc">$</span>test_mat)</span>
-<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(datos<span class="sc">$</span>predict_01 <span class="sc">&gt;</span> <span class="fl">0.5</span>, datos<span class="sc">$</span>test<span class="sc">$</span>deposit) <span class="sc">%&gt;%</span> </span>
-<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">table</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb71-6"><a href="#cb71-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">confusionMatrix</span>(<span class="at">positive=</span><span class="st">"1"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predicciones en la muestra de prueba</span></span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>datos<span class="sc">$</span>predict_01 <span class="ot">&lt;-</span> <span class="fu">predict</span>(datos<span class="sc">$</span>modelo_01, datos<span class="sc">$</span>test_mat)</span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(datos<span class="sc">$</span>predict_01 <span class="sc">&gt;</span> <span class="fl">0.5</span>, datos<span class="sc">$</span>test<span class="sc">$</span>deposit) <span class="sc">%&gt;%</span> </span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">table</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb77-6"><a href="#cb77-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">confusionMatrix</span>(<span class="at">positive=</span><span class="st">"1"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Confusion Matrix and Statistics
 
@@ -2014,14 +2086,14 @@ Tarea
 <p>es la verosimilitud. La verosimilitud mide cómo de verosímiles son las observaciones de las variables explicativas dado que se ha observado una determinada etiqueta en la variable respuesta. Si la variable <span class="math inline">\(X_j\)</span> es cualitativa, para estimar la verosimilitud de la clase <span class="math inline">\(k\)</span> con el predictor <span class="math inline">\(j\)</span>, se cuenta la proporción de observaciones de la muestra de entrenamiento de la clase <span class="math inline">\(k\)</span> en cada categoría de dicha variable. Si la variable <span class="math inline">\(X_j\)</span> es cuantitativa, habitualmente se asume una distribución Normal (aunque también se pueden usar opciones no paramétricas como histogramas).</p>
 <p>Finalmente se predice para cada conjunto de variables explicativas la clase con mayor probabilidad de clase condicionada <span class="math inline">\(P(Y_k|X_1,\ldots,X_n)\)</span>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(naivebayes)</span>
-<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
-<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">naive_bayes</span>(<span class="fu">as.factor</span>(deposit) <span class="sc">~</span> ., <span class="at">data =</span> df.train, <span class="at">usekernel =</span> T) </span>
-<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a>probabilities <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, df.test[,<span class="sc">-</span><span class="dv">9</span>],<span class="at">type=</span><span class="st">"prob"</span>)[,<span class="dv">2</span>]</span>
-<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a>classes <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(probabilities<span class="sc">&gt;</span><span class="fl">0.5</span>)</span>
-<span id="cb73-8"><a href="#cb73-8" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(<span class="fu">table</span>(classes, datos<span class="sc">$</span>test<span class="sc">$</span>deposit),<span class="at">positive=</span><span class="st">"1"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(naivebayes)</span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">naive_bayes</span>(<span class="fu">as.factor</span>(deposit) <span class="sc">~</span> ., <span class="at">data =</span> df.train, <span class="at">usekernel =</span> T) </span>
+<span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a>probabilities <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, df.test[,<span class="sc">-</span><span class="dv">9</span>],<span class="at">type=</span><span class="st">"prob"</span>)[,<span class="dv">2</span>]</span>
+<span id="cb79-7"><a href="#cb79-7" aria-hidden="true" tabindex="-1"></a>classes <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(probabilities<span class="sc">&gt;</span><span class="fl">0.5</span>)</span>
+<span id="cb79-8"><a href="#cb79-8" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(<span class="fu">table</span>(classes, datos<span class="sc">$</span>test<span class="sc">$</span>deposit),<span class="at">positive=</span><span class="st">"1"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Confusion Matrix and Statistics
 
@@ -2068,8 +2140,8 @@ classes    0    1
 <h1 data-number="8"><span class="header-section-number">8</span> Comparación de modelos</h1>
 <p>Hemos aplicado una variedad de modelos (y en otras asignaturas verás nuevos modelos de ML). Podemos comparar el rendimiento de modelos de diversas maneras. Una de ellas, tal y como vimos en el <a href="eval.html"><span>Capítulo&nbsp;6</span></a> es la curva ROC:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pROC)</span>
-<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>roc_score</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pROC)</span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>roc_score</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -2078,11 +2150,11 @@ roc.default(response = bank.test$deposit, predictor = predicciones,     plot = T
 Data: predicciones in 1468 controls (bank.test$deposit no) &lt; 1322 cases (bank.test$deposit yes).
 Area under the curve: 0.6411</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">pty =</span> <span class="st">"s"</span>) <span class="co"># square</span></span>
-<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="fu">roc</span>(df.test<span class="sc">$</span>deposit, probabilities,<span class="at">plot=</span><span class="cn">TRUE</span>, <span class="at">legacy.axes =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">percent =</span> <span class="cn">TRUE</span>, <span class="at">xlab =</span> <span class="st">"Porcentaje Falsos positivos"</span>,</span>
-<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"Porcentaje verdaderos postivios"</span>, <span class="at">col =</span> <span class="st">"#377eb8"</span>, <span class="at">lwd =</span> <span class="dv">2</span>,</span>
-<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">print.auc =</span> <span class="cn">TRUE</span>,<span class="at">legend=</span><span class="cn">TRUE</span>,  <span class="at">brier.in.legend =</span><span class="cn">TRUE</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">pty =</span> <span class="st">"s"</span>) <span class="co"># square</span></span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a><span class="fu">roc</span>(df.test<span class="sc">$</span>deposit, probabilities,<span class="at">plot=</span><span class="cn">TRUE</span>, <span class="at">legacy.axes =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">percent =</span> <span class="cn">TRUE</span>, <span class="at">xlab =</span> <span class="st">"Porcentaje Falsos positivos"</span>,</span>
+<span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"Porcentaje verdaderos postivios"</span>, <span class="at">col =</span> <span class="st">"#377eb8"</span>, <span class="at">lwd =</span> <span class="dv">2</span>,</span>
+<span id="cb83-5"><a href="#cb83-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">print.auc =</span> <span class="cn">TRUE</span>,<span class="at">legend=</span><span class="cn">TRUE</span>,  <span class="at">brier.in.legend =</span><span class="cn">TRUE</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -2091,8 +2163,8 @@ roc.default(response = df.test$deposit, predictor = probabilities,     percent =
 Data: probabilities in 1468 controls (df.test$deposit 0) &lt; 1322 cases (df.test$deposit 1).
 Area under the curve: 87.33%</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roc</span>(df.test<span class="sc">$</span>deposit, predicciones, <span class="at">percent=</span><span class="cn">TRUE</span>, <span class="at">col=</span><span class="st">"#4daf4a"</span>,<span class="at">lwd=</span> <span class="dv">2</span>,</span>
-<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">print.auc =</span><span class="cn">TRUE</span>, <span class="at">add=</span><span class="cn">TRUE</span>,<span class="at">print.auc.y =</span> <span class="dv">40</span>,<span class="at">plot=</span><span class="cn">TRUE</span>,<span class="at">legend=</span><span class="cn">TRUE</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roc</span>(df.test<span class="sc">$</span>deposit, predicciones, <span class="at">percent=</span><span class="cn">TRUE</span>, <span class="at">col=</span><span class="st">"#4daf4a"</span>,<span class="at">lwd=</span> <span class="dv">2</span>,</span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">print.auc =</span><span class="cn">TRUE</span>, <span class="at">add=</span><span class="cn">TRUE</span>,<span class="at">print.auc.y =</span> <span class="dv">40</span>,<span class="at">plot=</span><span class="cn">TRUE</span>,<span class="at">legend=</span><span class="cn">TRUE</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -2101,8 +2173,8 @@ roc.default(response = df.test$deposit, predictor = predicciones,     percent = 
 Data: predicciones in 1468 controls (df.test$deposit 0) &lt; 1322 cases (df.test$deposit 1).
 Area under the curve: 64.11%</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roc</span>(df.test<span class="sc">$</span>deposit, prediction.dt, <span class="at">percent=</span><span class="cn">TRUE</span>, <span class="at">col=</span><span class="st">"goldenrod"</span>,<span class="at">lwd=</span> <span class="dv">2</span>,</span>
-<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">print.auc =</span><span class="cn">TRUE</span>, <span class="at">add=</span><span class="cn">TRUE</span>,<span class="at">print.auc.y =</span> <span class="dv">30</span>,<span class="at">plot=</span><span class="cn">TRUE</span>,<span class="at">legend=</span><span class="cn">TRUE</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roc</span>(df.test<span class="sc">$</span>deposit, prediction.dt, <span class="at">percent=</span><span class="cn">TRUE</span>, <span class="at">col=</span><span class="st">"goldenrod"</span>,<span class="at">lwd=</span> <span class="dv">2</span>,</span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">print.auc =</span><span class="cn">TRUE</span>, <span class="at">add=</span><span class="cn">TRUE</span>,<span class="at">print.auc.y =</span> <span class="dv">30</span>,<span class="at">plot=</span><span class="cn">TRUE</span>,<span class="at">legend=</span><span class="cn">TRUE</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -2111,8 +2183,8 @@ roc.default(response = df.test$deposit, predictor = prediction.dt,     percent =
 Data: prediction.dt in 1468 controls (df.test$deposit 0) &lt; 1322 cases (df.test$deposit 1).
 Area under the curve: 81.39%</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roc</span>(df.test<span class="sc">$</span>deposit, prediction.rf, <span class="at">percent=</span><span class="cn">TRUE</span>, <span class="at">col=</span><span class="st">"salmon"</span>,<span class="at">lwd=</span> <span class="dv">2</span>,</span>
-<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">print.auc =</span><span class="cn">TRUE</span>, <span class="at">add=</span><span class="cn">TRUE</span>,<span class="at">print.auc.y =</span> <span class="dv">20</span>,<span class="at">plot=</span><span class="cn">TRUE</span>,<span class="at">legend=</span><span class="cn">TRUE</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roc</span>(df.test<span class="sc">$</span>deposit, prediction.rf, <span class="at">percent=</span><span class="cn">TRUE</span>, <span class="at">col=</span><span class="st">"salmon"</span>,<span class="at">lwd=</span> <span class="dv">2</span>,</span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">print.auc =</span><span class="cn">TRUE</span>, <span class="at">add=</span><span class="cn">TRUE</span>,<span class="at">print.auc.y =</span> <span class="dv">20</span>,<span class="at">plot=</span><span class="cn">TRUE</span>,<span class="at">legend=</span><span class="cn">TRUE</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -2121,8 +2193,8 @@ roc.default(response = df.test$deposit, predictor = prediction.rf,     percent =
 Data: prediction.rf in 1468 controls (df.test$deposit 0) &lt; 1322 cases (df.test$deposit 1).
 Area under the curve: 87.29%</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roc</span>(df.test<span class="sc">$</span>deposit, prediction.knn, <span class="at">percent=</span><span class="cn">TRUE</span>, <span class="at">col=</span><span class="st">"#977eb8"</span>,<span class="at">lwd=</span> <span class="dv">2</span>,</span>
-<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">print.auc =</span><span class="cn">TRUE</span>, <span class="at">add=</span><span class="cn">TRUE</span>,<span class="at">print.auc.y =</span> <span class="dv">10</span>,<span class="at">plot=</span><span class="cn">TRUE</span>,<span class="at">legend=</span><span class="cn">TRUE</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">roc</span>(df.test<span class="sc">$</span>deposit, prediction.knn, <span class="at">percent=</span><span class="cn">TRUE</span>, <span class="at">col=</span><span class="st">"#977eb8"</span>,<span class="at">lwd=</span> <span class="dv">2</span>,</span>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">print.auc =</span><span class="cn">TRUE</span>, <span class="at">add=</span><span class="cn">TRUE</span>,<span class="at">print.auc.y =</span> <span class="dv">10</span>,<span class="at">plot=</span><span class="cn">TRUE</span>,<span class="at">legend=</span><span class="cn">TRUE</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -2131,14 +2203,14 @@ roc.default(response = df.test$deposit, predictor = prediction.knn,     percent 
 Data: prediction.knn in 1468 controls (df.test$deposit 0) &lt; 1322 cases (df.test$deposit 1).
 Area under the curve: 64.33%</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="co">#prediction &lt;- predict(tune.fit, df.test, type = 'prob')</span></span>
-<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"bottom"</span>,</span>
-<span id="cb87-4"><a href="#cb87-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">c</span>(<span class="st">"XGBOOST"</span>, <span class="st">"LOG.REG."</span>, <span class="st">"DT"</span>, <span class="st">"RF"</span>,<span class="st">"KNN"</span>),</span>
-<span id="cb87-5"><a href="#cb87-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">col=</span><span class="fu">c</span>(<span class="st">"#377eb8"</span>, <span class="st">"#4daf4a"</span>, <span class="st">"goldenrod"</span>,<span class="st">"salmon"</span>,<span class="st">"#977eb8"</span>),</span>
-<span id="cb87-6"><a href="#cb87-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">cex =</span>.<span class="dv">5</span>, <span class="at">xpd =</span> <span class="cn">TRUE</span>, <span class="at">horiz =</span> <span class="cn">TRUE</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="co">#prediction &lt;- predict(tune.fit, df.test, type = 'prob')</span></span>
+<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"bottom"</span>,</span>
+<span id="cb93-4"><a href="#cb93-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">c</span>(<span class="st">"XGBOOST"</span>, <span class="st">"LOG.REG."</span>, <span class="st">"DT"</span>, <span class="st">"RF"</span>,<span class="st">"KNN"</span>),</span>
+<span id="cb93-5"><a href="#cb93-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">col=</span><span class="fu">c</span>(<span class="st">"#377eb8"</span>, <span class="st">"#4daf4a"</span>, <span class="st">"goldenrod"</span>,<span class="st">"salmon"</span>,<span class="st">"#977eb8"</span>),</span>
+<span id="cb93-6"><a href="#cb93-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">cex =</span>.<span class="dv">5</span>, <span class="at">xpd =</span> <span class="cn">TRUE</span>, <span class="at">horiz =</span> <span class="cn">TRUE</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="aprsup_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid" width="672"></p>
+<p><img src="aprsup_files/figure-html/unnamed-chunk-37-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <div class="callout-caution callout callout-style-default callout-captioned">
