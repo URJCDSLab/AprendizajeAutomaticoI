@@ -302,7 +302,7 @@ LDA surge cuando asumimos que las clases tienen una matriz de covarianzas común
 
 El LDA se basa en el Teorema de Bayes. Bajo este teorema, asignaremos una observación $\mathbf{x}$ a la clase que maximiza la probabilidad a posteriori $P(Y=c|\mathbf{x})$ que, por el teorema de Bayes es
 
-$$ P(Y=c|\mathbf{X}=\mathbf{x})=\frac{P(Y=c|\mathbf{x})P(Y=c)}{P(\mathbf{x})}$$
+$$ P(Y=c|\mathbf{X}=\mathbf{x})=\frac{P(\mathbf{X}=\mathbf{x}| Y =c)P(Y=c)}{P(\mathbf{x})}$$
 
 Así, si queremos comparar 2 clases, la $0$ y la $1$, bastará con analizar el siguiente log-ratio: $$log\left( \frac{P(Y=1|\mathbf{X}=\mathbf{x})}{P(Y=0|\mathbf{X}=\mathbf{x})} \right) = log\left( \frac{P(Y=1|\mathbf{x})}{P(Y=0|\mathbf{x})} \right) + log\left( \frac{P(Y=1)}{P(Y=0)} \right) =$$
 

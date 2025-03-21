@@ -849,7 +849,7 @@ Tarea
 </ul>
 <p>LDA surge cuando asumimos que las clases tienen una matriz de covarianzas común, es decir, <span class="math inline">\(\Sigma_c=\Sigma\)</span>, <span class="math inline">\(\forall c\)</span>.</p>
 <p>El LDA se basa en el Teorema de Bayes. Bajo este teorema, asignaremos una observación <span class="math inline">\(\mathbf{x}\)</span> a la clase que maximiza la probabilidad a posteriori <span class="math inline">\(P(Y=c|\mathbf{x})\)</span> que, por el teorema de Bayes es</p>
-<p><span class="math display">\[ P(Y=c|\mathbf{X}=\mathbf{x})=\frac{P(Y=c|\mathbf{x})P(Y=c)}{P(\mathbf{x})}\]</span></p>
+<p><span class="math display">\[ P(Y=c|\mathbf{X}=\mathbf{x})=\frac{P(\mathbf{X}=\mathbf{x}| Y =c)P(Y=c)}{P(\mathbf{x})}\]</span></p>
 <p>Así, si queremos comparar 2 clases, la <span class="math inline">\(0\)</span> y la <span class="math inline">\(1\)</span>, bastará con analizar el siguiente log-ratio: <span class="math display">\[log\left( \frac{P(Y=1|\mathbf{X}=\mathbf{x})}{P(Y=0|\mathbf{X}=\mathbf{x})} \right) = log\left( \frac{P(Y=1|\mathbf{x})}{P(Y=0|\mathbf{x})} \right) + log\left( \frac{P(Y=1)}{P(Y=0)} \right) =\]</span></p>
 <p><span class="math display">\[ = log\left( \frac{P(1)}{P(0)} \right) - \frac{1}{2}(\mu_1 + \mu_0)^{t}\Sigma^{-1}(\mu_1-\mu_0) + \mathbf{x}^{t}\Sigma^{-1}(\mu_1-\mu_0) \]</span></p>
 <p>Obtenemos una ecuación que es lineal en <span class="math inline">\(\mathbf{x}\)</span>. Puede verse más fácilmente llamando: <span class="math inline">\(\mathbf{w}=\Sigma^{-1}(\mu_1-\mu_0)\)</span> y <span class="math inline">\(w_0 = log\left( \frac{P(1)}{P(0)} \right) - \frac{1}{2}(\mu_1 + \mu_0)^{t}\Sigma^{-1}(\mu_1-\mu_0)\)</span>.</p>
