@@ -465,19 +465,19 @@ Para determinar el valor óptimo de $k$ en función de los datos, ejecutamos el 
 ::: {.callout-note collapse="true" title="Ventajas"}
 ## Ventajas
 
--   **Sencillez y Facilidad de Implementación**: Es uno de los algoritmos más sencillos y fáciles de entender en ML. No requiere suposiciones complejas o entrenamientos prolongados.
+-   **Sencillez y facilidad de implementación**: Es uno de los algoritmos más sencillos y fáciles de entender en ML. No requiere suposiciones complejas o entrenamientos prolongados.
 
 -   **Versatilidad**: Se puede aplicar tanto a problemas de clasificación como de regresión.
 
--   **No Paramétrico**: A diferencia de algunos algoritmos que asumen una distribución específica de los datos, $k-NN$ no hace suposiciones sobre la forma de los datos, lo que lo hace adecuado para una amplia gama de situaciones.
+-   **No paramétrico**: A diferencia de algunos algoritmos que asumen una distribución específica de los datos, $k-NN$ no hace suposiciones sobre la forma de los datos, lo que lo hace adecuado para una amplia gama de situaciones.
 
--   **Adaptabilidad a Datos Cambiantes**: Puede adaptarse a cambios en los datos sin necesidad de volver a entrenar el modelo por completo, lo que lo hace útil en escenarios de datos en constante evolución. Ver @sec-nuevas.
+-   **Adaptabilidad a datos cambiantes**: Puede adaptarse a cambios en los datos sin necesidad de volver a entrenar el modelo por completo, lo que lo hace útil en escenarios de datos en constante evolución. Ver @sec-nuevas.
 
 -   **Interpretabilidad**: Las predicciones de k-NN se basan en la observación de datos cercanos, lo que facilita la interpretación de las decisiones del modelo.
 
 -   **Robustez frente al ruido**: Puede manejar datos con ruido, que no se adaptan a la distribución de la mayoría de los datos, sin un gran impacto en su rendimiento.
 
--   **Facilidad para Multiclases**: Es aplicable a problemas de clasificación con múltiples clases sin necesidad de modificaciones significativas.
+-   **Facilidad para multiclases**: Es aplicable a problemas de clasificación con múltiples clases sin necesidad de modificaciones significativas.
 :::
 
 ::: {.callout-note collapse="true" title="Desventajas"}
@@ -485,13 +485,13 @@ Para determinar el valor óptimo de $k$ en función de los datos, ejecutamos el 
 
 -   **Sensibilidad a la elección de** $k$: La elección del parámetro que determina el número de vecinos puede ser crítica. Un valor demasiado pequeño puede hacer que el modelo sea sensible al ruido en los datos y cause sobreajuste, mientras que un valor demasiado grande puede hacer que el modelo sea demasiado suave y cause subajuste.
 
--   **Sensibilidad a la Elección de la Métrica de Distancia**: La elección de la métrica de distancia es crucial y puede tener un impacto significativo en el rendimiento del algoritmo. No existe una métrica única que funcione para todos los problemas, y la elección de la métrica adecuada puede ser un desafío. Es muy probable que el científico de datos deba programar la métrica más adecuada para cada caso particular.
+-   **Sensibilidad a la elección de la métrica de distancia**: La elección de la métrica de distancia es crucial y puede tener un impacto significativo en el rendimiento del algoritmo. No existe una métrica única que funcione para todos los problemas, y la elección de la métrica adecuada puede ser un desafío. Es muy probable que el científico de datos deba programar la métrica más adecuada para cada caso particular.
 
 -   **Coste computacional**: En conjuntos de datos grandes, calcular las distancias entre una nueva observación y todos los puntos de datos en el conjunto de entrenamiento puede ser computacionalmente costoso y lento. Esto limita su eficiencia en aplicaciones con grandes volúmenes de datos.
 
--   **Incapacidad para Capturar Relaciones Complejas**: $k-NN$ es un algoritmo simple que no puede capturar relaciones complejas entre las características, como lo harían modelos más avanzados. No es adecuado para problemas con patrones no lineales.
+-   **Incapacidad para capturar relaciones complejas**: $k-NN$ es un algoritmo simple que no puede capturar relaciones complejas entre las características, como lo harían modelos más avanzados. No es adecuado para problemas con patrones no lineales.
 
--   **Problemas en Datos Desbalanceados**: En problemas de clasificación con clases desequilibradas, donde una clase tiene muchas más muestras que otra, $k-NN$ tiende a sesgarse hacia la clase mayoritaria y puede no detectar bien la clase minoritaria.
+-   **Problemas en datos desbalanceados**: En problemas de clasificación con clases desequilibradas, donde una clase tiene muchas más muestras que otra, $k-NN$ tiende a sesgarse hacia la clase mayoritaria y puede no detectar bien la clase minoritaria.
 :::
 
 Aplicamos el algoritmo a nuestro problema de los datos bancarios.
@@ -585,13 +585,19 @@ Hasta ahora hemos empleado la distancia Euclídea, pero ¿es lo más adecuado en
 
 Los Árboles de Decisión (DT, de *Decision* *Tree* en inglés) son algoritmos de ML basados en la **información**. Este tipo de algoritmos determinan qué variables explicativas proporcionan la mayor parte de la información (**ganancia de información**) para medir la variable objetivo y hacen predicciones probando secuencialmente las características en orden a su información [@kelleher2018data].
 
-Un DT se crea mediante un proceso de particionamiento recursivo en el conjunto de variables explicativas, es decir, probando el valor de una característica y creando una rama del árbol para cada uno de sus posibles valores. Para una mejor comprensión de la estructura de un árbol, necesitamos definir los siguientes conceptos:
+Un DT se crea mediante un proceso de particionamiento recursivo del espacio de las variables explicativas y asignando una predicción en cada una de las regiones (hojas) resultantes. Es decir, va seleccionando variables y cortes en sus valores y con ello crea una rama del árbol con dos nodos hijos. Para una mejor comprensión de la estructura de un árbol, necesitamos definir los siguientes conceptos:
 
 -   **Nodo raíz**: es el nodo origen, inicialmente todas las observaciones forman parte de este nodo.
 -   **Nodos internos**: son los nodos que se crean al definir reglas sobre una variable explicativa.
 -   **Nodos hojas**: son los nodos terminales del árbol.
 
-Habitualmente, favorecemos árboles que empleen el menor número de preguntas posible, lo que significa que buscamos árboles poco profundos. La construcción de árboles con poca profundidad implica que las características más informativas, es decir, aquellas que mejor distinguen entre observaciones con diferentes valores en la variable objetivo, deben ubicarse en la parte superior del árbol. Para llevar a cabo esta tarea, es fundamental contar con una métrica formal que evalúe cuán efectivamente una característica discrimina entre los niveles de la variable objetivo.
+En la siguiente imagen se puede apreciar el funcionamiento de un árbol de decisión.
+
+![](aprsup/DT_partitioning.jpg){fig-align="center" width="602"}
+
+Una vez obtenidas las distintas regiones $R_h$, el modelo sería $$f(\mathbf{x})=\sum_{h=1}^{H}g_{h}I(\mathbf{x}\in R_{h})$$ siendo $I(\mathbf{x}\in R_{h})$ la función indicatriz que vale $1$ si la observación $\mathbf{x}$ pertenece a la región $R_{h}$ y $g_{h}$ la predicción (el valor de la variable respuesta) que se le asignará a dicha observación. En un problema de regresión $g_{h}$ será la media de la variable respuesta $y$ en dicha región. En un problema de clasificación, será la proporción de las clases.
+
+Nótese que, habitualmente, favorecemos árboles que empleen el menor número de preguntas posible, lo que significa que buscamos árboles poco profundos. La construcción de árboles con poca profundidad implica que las características más informativas, es decir, aquellas que mejor distinguen entre observaciones con diferentes valores en la variable objetivo, deben ubicarse en la parte superior del árbol. Para llevar a cabo esta tarea, es fundamental contar con una métrica formal que evalúe cuán efectivamente una variable discrimina entre los niveles de la variable objetivo.
 
 ::: callout-tip
 # Entropía
@@ -601,19 +607,31 @@ La **entropía** es una medida teórica de la "*incertidumbre*" contenida en un 
 
 La entropía es una medida de la impureza (heterogeneidad), de los datos. Desde un punto de vista formal, la entropía de un conjunto de $N$ valores distintos que son igualmente probables es el menor número de preguntas de tipo *sí/no* necesarias para determinar un valor desconocido extraído de las $N$ posibilidades:
 
-$$Entropía=-\sum_{i=1}^N p_i log_2p_i$$
+$$\text{Entropía}=-\sum_{i=1}^N p_i log_2p_i$$
 
-Podemos ver que la entropía, por definición, toma valores mayores o iguales a cero. Su valor máximo se alcanza cuando las observaciones se distribuyen equitativamente entre las $N$ posibles clases. La entropía toma su valor mínimo si, y sólo si, todas las observaciones están en la misma clase. Supongamos dos clases, esto es $N=2$. En ese caso, consideramos la probabilidad de clase $1$ y la probabilidad de clase $2$ ($p_1$ y $p_2$ respectivamente). Si todas las observaciones están en la misma clase (por ejemplo, la clase $1$), entonces: $p1=1$, $p2=0$. Y así:
+Podemos ver que la entropía, por definición, toma valores mayores o iguales a cero. Su valor máximo se alcanza cuando las observaciones se distribuyen equitativamente entre las $N$ posibles clases. La entropía toma su valor mínimo si, y sólo si, todas las observaciones están en la misma clase. Supongamos dos clases, esto es $N=2$. En ese caso, consideramos la probabilidad de clase $1$ y la probabilidad de clase $2$ ($p_1$ y $p_2$ respectivamente). Si todas las observaciones están en la misma clase (por ejemplo, la clase $1$), entonces: $p_1=1$, $p_2=0$. Y así:
 
-$$Entropía=-(p_1log_2p_1+p_2log_2p_2)=-(1log_21+0log_20)=0$$.
+$$Entropía=-(p_1log_2p_1+p_2log_2p_2)=-(1log_21+0log_20)=0.$$
+
+<!--# En cada paso, queremos encontrar cuál es la mejor variable y cuál es el mejor corte para dicha variable. Encontrar la partición óptima de los datos es un problema NP-completo por lo que para seleccionar la mejor variable y el mejor punto de corte en cada nodo se sigue una estrategia greedy, en la que se toma la mejor decisión local en cada paso sin considerar el impacto en niveles posteriores del árbol. La mejor variable $\mathbf{x}_{j}^{*}$ y el mejor corte $s^{*}$ son: $$(\mathbf{x}_{j}^{*},s^{*})=argmin_{j\in\{1,\dots,p\}, s \in S_j} (\min \  coste(\{\mathbf{x}_i, y_i : x_{ij} \leq s\})+coste(\{\mathbf{x}_i, y_i : x_{ij} > s\})))$$ siendo $S_j$ el conjunto de todos los posibles umbrales para la variable $j$. Es decir, variable a seleccionar y su corte asociado será la combinación que minimice el coste asociado. ¿Qué es ese coste? Dependerá de si estamos en un problema de clasificación o regresión. En el caso de regresión, el coste podría definirse como la suma de los cuadrados de las diferencias. En clasificación, puede ser la entropía, el índice de gini o el ratio de error. -->
 
 El algoritmo de DT basado en ganancia de la información sería como sigue:
 
-1.  Calcular la **entropía** del conjunto de datos original. ¿Cuánta información se requiere para organizar el conjunto de datos en conjuntos puros, donde todas las observaciones dentro del conjunto pertenecen a la misma clase? Esta medida nos da una idea de lo "complejo" que es nuestro problema.
+1.  Encontrar la mejor variable y su mejor corte. Para ello, dado el conjunto de datos $\mathcal{D}=\{(\mathbf{x}_i,y_i)\}_{i=1}^{n}$ se evalúan las posibles divisiones basadas en las variables $\mathbf{x}_j$ y se selecciona aquella que maximiza la reducción de impureza en los nodos. Esto es:
 
-2.  Para cada variable explicativa, se crean los conjuntos resultantes **dividiendo las observaciones** en el conjunto de datos utilizando un umbral para dicha variable. A continuación, se suman los valores de entropía de cada uno de estos conjuntos. Calcular la información que sigue siendo necesaria para organizar las observaciones en conjuntos puros después de dividirlos utilizando la variable explicativa.
+    1.  Para cada variable $\mathbf{x}_j$ en el dataset, considerar el conjunto de puntos de corte $S_j$ (la media entre valores consecutivos para datos continuos)
 
-3.  Calcular la **Ganancia de Información** restando la entropía restante (paso 2) del valor de entropía original (paso 1)
+    2.  Para cada punto de corte $s \in S_j$, calcular la impureza resultante tras la división:
+
+        -   Dividir el dataset en dos subconjuntos (nodos hoja): $$\mathcal{D}_L= \{ (\mathbf{x}_i,y_i) \in \mathcal{D} | x_{ij} < s \}$$ $$\mathcal{D}_R= \{ (\mathbf{x}_i,y_i) \in \mathcal{D} | x_{ij} \geq s \}$$
+
+        -   Calcular la impureza de cada subconjunto con el criterio seleccionado (por ejemplo, entropía) Calcular la reducción de impureza: $$\Delta I = I(\mathcal{D})-\left( \frac{|\mathcal{D}_L|}{|\mathcal{D}|}I(\mathcal{D}_L) + \frac{|\mathcal{D}_R|}{|\mathcal{D}|}I(\mathcal{D}_R)\right)$$ donde $I(\mathcal{D})$ es la impureza antes de dividir (nodo padre) e $I(\mathcal{D}_L)$, $I(\mathcal{D}_R)$ son las impurezas después de dividir (nodos hijo).
+
+2.  Seleccionar la mejor variable y punto de corte $(\mathbf{x}_{j}^{*},s^{*})$. La combinación que maximiza $\Delta I$ se elige como la mejor división en ese nodo.
+
+3.  Repetir recursivamente en cada nodo hijo hasta alcanzar un criterio de parada
+
+<!--# Para cada variable explicativa, se crean los conjuntos resultantes dividiendo las observaciones en el conjunto de datos utilizando un umbral para dicha variable. A continuación, se suman los valores de entropía de cada uno de estos conjuntos. Calcular la información que sigue siendo necesaria para organizar las observaciones en conjuntos puros después de dividirlos utilizando la variable explicativa. 3. Calcular la Ganancia de Información restando la entropía restante (paso 2) del valor de entropía original (paso 1) -->
 
 Es decir, la idea es emplear los valores de las características medidas sobre las observaciones para dividir el conjunto inicial de datos en subconjuntos más pequeños repetidamente, hasta que la entropía de cada uno de los subconjuntos sea cero (o pequeña, menor que un umbral). Para cada partición, la entropía media de los subconjuntos resultantes debería ser menor que la del conjunto anterior.
 
@@ -624,12 +642,63 @@ En términos generales, la **ganancia de información** se define como la difere
 
 Existen otras métricas posibles para medir la calidad de la división. Por ejemplo, el **índice de Gini**:
 
-$$Gini=-\sum_{i=1}^N p_i (1-p_i)$$
+$$Gini=\sum_{i=1}^N p_i (1-p_i)$$ siendo $p_i$ la proporción de ejemplos de la clase $i$. También sirve para cuantificar lo "mezcladas" que están las clases dentro de un nodo. Cuanto menor sea el índice de Gini, mejor es la pureza del nodo.
 :::
 
+En el siguiente gráfico se muestra el comportamiento de la entropía, del índice de Gini y del ratio de error (nótese que la entropía ha sido dividida entre 2 para facilitar la visualización).
+
+```{r}
+library(ggplot2)
+
+# Secuencia de probabilidades
+p <- seq(0, 1, length.out = 100)
+
+# Cálculo de las medidas
+entropy <- -p * log2(p) - (1 - p) * log2(1 - p)
+entropy[is.na(entropy)] <- 0  # log(0) da NaN
+
+gini <- 2 * p * (1 - p)
+error_rate <- pmin(p, 1 - p)
+
+df <- data.frame(p, Entropy = entropy, Gini = gini, ErrorRate = error_rate)
+
+# Gáfico
+ggplot(df, aes(x = p)) +
+  geom_line(aes(y = Entropy/2, color = "Entropía"), linewidth = 1) +
+  geom_line(aes(y = Gini, color = "Índice de Gini"), linewidth = 1) +
+  geom_line(aes(y = ErrorRate, color = "Error Rate"), linewidth = 1) +
+  labs(title = "Comparación de Entropía, Índice de Gini y Error Rate",
+       x = "Probabilidad de la clase positiva (p)",
+       y = "Valor",
+       color = "Métrica") +
+  theme_minimal() +
+  scale_color_manual(values = c("Entropía" = "blue", 
+                                "Índice de Gini" = "red", 
+                                "Error Rate" = "green"))
+
+```
+
+::: callout-caution
+# Tarea
+
+¿Por qué crees que se utiliza la entropía o el índice de Gini y no se usa el ratio de error como medida para la construcción del árbol?
+:::
+
+```{=html}
+<!--# ¿Cuál usar? Si buscas eficiencia computacional, el índice de Gini es mejor. Si quieres una métrica más sensible a cambios en la distribución, la entropía es una buena opción. Ambos dan resultados similares en la mayoría de los casos. En conclusión, el ratio de error no es una buena opción porque ignora la distribución completa de clases, mientras que Gini y Entropía capturan mejor la impureza y permiten construir árboles más efectivos.
+-->
+```
 En el caso de árboles de regresión, donde la variable objetivo es cuantitativa, se define la reducción de la varianza como la disminución total de la varianza de la variable objetivo como resultado de la división del conjunto total en dos subconjuntos.
 
-Existen varios criterios para detener la ejecución de este algoritmo de división. En un caso extremo podemos no detenerlo hasta que el error de clasificación sea $0$. En dicho caso posiblemente cometamos errores de sobreajuste. Es decir, seleccionar divisiones sobre las variables hasta que todas las observaciones de la muestra de entrenamiento están perfectamente clasificadas funcionará bien, pero sólo sobre las observaciones de entrenamiento. Cuando ese mismo criterio se aplique a nuevas observaciones el resultado será, probablemente, mucho peor. En ocasiones se detiene el proceso de particionado cuando la profundidad del árbol supera un umbral (esto es, cuando se han empleado un número determinado de preguntas sobre las variables explicativas), o bien cuando el número de observaciones en el nodo a dividir es menor que un valor prefijado.
+Existen varios criterios para detener la ejecución de este algoritmo de división. En un caso extremo podemos no detenerlo hasta que el error de clasificación sea $0$. En dicho caso posiblemente cometamos errores de sobreajuste. Es decir, seleccionar divisiones sobre las variables hasta que todas las observaciones de la muestra de entrenamiento están perfectamente clasificadas funcionará bien, pero sólo sobre las observaciones de entrenamiento. Cuando ese mismo criterio se aplique a nuevas observaciones el resultado será, probablemente, mucho peor. En ocasiones se detiene el proceso de particionado cuando la profundidad del árbol supera un umbral (esto es, cuando se han empleado un número determinado de preguntas sobre las variables explicativas), o bien cuando el número de observaciones en el nodo a dividir es menor que un valor prefijado. También se puede evaluar si la reducción del criterio escogido (índice de Gini o entropía) es demasiado pequeña.
+
+**Poda del árbol de decisión**
+
+Los árboles de decisión tienden a sobreajustarse a los datos de entrenamiento, por lo que se aplica una técnica de poda para mejorar la generalización. Existen dos enfoques principales:
+
+-   Poda pre-pruning (previa a la construcción completa del árbol): Se establece un criterio de parada como la profundidad máxima, el número mínimo de muestras en un nodo o un umbral mínimo de ganancia de información para realizar una división.
+
+-   Poda post-pruning (posterior a la construcción del árbol completo): Se construye el árbol hasta su máxima profundidad y luego se eliminan nodos internos si su eliminación mejora la métrica de validación (por ejemplo, validación cruzada). Una técnica común es la poda por reducción de error, donde se evalúa si eliminar un nodo interno mejora el rendimiento del modelo. Esta poda se puede formalizar mediante la minimización de una función de coste regularizada: $$C(T)=C_t(T) + \alpha |T|$$ donde $T\subset T_{full}$ es cualquier árbol que se pueda lograr podando el árbol completo $T_{full}$, $|T|$ es el número de nodos terminales en $T$, $C_t(T)$ es el error en el entrenamiento del subárbol $T$ y $\alpha$ es un hiperparámetro que controla la penalización por la complejidad del modelo. Este hiperpárametro $\alpha$ rige el equilibrio entre el tamaño del árbol y su ajuste a los datos. Valores grandes, dan como resultados árboles pequeños y, por otro lado, valores pequeños de $\alpha$ dan lugar a árboles de mayor tamaño. Con $\alpha=0$, $T=T_{full}$.
 
 ::: callout-important
 # Para recordar
@@ -671,7 +740,7 @@ No se están teniendo en cuenta *todas* las variables disponibles en el conjunto
 Podemos interpretar el resto de los nodos terminales del ejemplo como sigue:
 
 | Nodo | Descripción                                                                          | Tamaño relativo (%) | Prob("yes") |
-|-----------------|-----------------------|:----------------|:----------------|
+|------------------|--------------------|:-----------------|:-----------------|
 | 1    | duration \< 343, poutcome=failure,other or unkonwn, housing=yes                      | 26.0                | 0.11        |
 | 2    | duration \< 124, poutcome=failure,other or unkonwn, housing=yes                      | 9.0                 | 0.13        |
 | 3    | 124\<=duration \< 343, poutcome=failure,other or unkonwn, housing=yes, balance\<274  | 7.0                 | 0.29        |
