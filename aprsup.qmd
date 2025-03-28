@@ -8,7 +8,7 @@ Además de la clasificación, el ML supervisado también se utiliza para abordar
 
 En este tema, exploraremos diversos algoritmos de clasificación supervisada que permiten extraer patrones a partir de los datos y realizar predicciones precisas en una variedad de aplicaciones. Aprenderemos cómo entrenar modelos, evaluar su rendimiento y aplicarlos a situaciones del mundo real. El ML supervisado es una herramienta poderosa que puede proporcionar conocimientos valiosos y respuestas a preguntas importantes en una amplia gama de dominios.
 
-## Modelos Lineales
+## Modelos lineales
 
 Los modelos lineales representan uno de los pilares más robustos y extensamente empleados en el ámbito del aprendizaje supervisado en ML. Estos modelos constituyen la base de numerosas aplicaciones de predicción y clasificación, desempeñando un papel fundamental en la comprensión de los principios subyacentes de los algoritmos de ML.
 
@@ -581,7 +581,7 @@ print(cf)
 Hasta ahora hemos empleado la distancia Euclídea, pero ¿es lo más adecuado en este caso? Averigua cómo modificar este hiperparámetro del modelo y estudia qué consecuencias tiene.
 :::
 
-## Árboles de Decisión
+## Árboles de decisión
 
 Los Árboles de Decisión (DT, de *Decision* *Tree* en inglés) son algoritmos de ML basados en la **información**. Este tipo de algoritmos determinan qué variables explicativas proporcionan la mayor parte de la información (**ganancia de información**) para medir la variable objetivo y hacen predicciones probando secuencialmente las características en orden a su información [@kelleher2018data].
 
@@ -916,7 +916,7 @@ print(cf)
 
 -   **Manejo de datos faltantes**: Los árboles pueden manejar datos faltantes sin necesidad de preprocesamiento adicional. Tratan los valores faltantes como una categoría adicional y no descartan observaciones con datos faltantes.
 
--   **Captura de No Linealidades**: Los DT son capaces de captar relaciones no lineales entre variables, lo que es valioso cuando las relaciones entre las características y la variable objetivo son complejas y no se ajustan bien a modelos lineales.
+-   **Captura de no linealidades**: Los DT son capaces de captar relaciones no lineales entre variables, lo que es valioso cuando las relaciones entre las características y la variable objetivo son complejas y no se ajustan bien a modelos lineales.
 
 -   **Robustez a valores atípicos**: Los árboles son menos sensibles a valores atípicos en los datos en comparación con algunos otros algoritmos de aprendizaje automático. Los valores atípicos no tienen un impacto tan drástico en la construcción de árboles como en modelos lineales, por ejemplo.
 
@@ -967,11 +967,17 @@ Los métodos de ensamblado se han convertido en un componente esencial en la caj
 
 El ensamblado de **Bagging**, (de "*Bootstrap Aggregating*" en inglés), es una técnica de ML diseñada para mejorar la precisión y la estabilidad de los modelos predictivos. Se basa en la idea de construir múltiples modelos similares y combinar sus predicciones para obtener un resultado final más robusto y generalizable.
 
+Ya vimos que uno de los problemas de los árboles de decisión era que son clasificadores con alta varianza. La técnica bagging nació con el objetivo de reducir dicha varianza dado que una manera de reducir la varianza de un estimador es hacer la media de varios estimadores. Se entrenan $M$ árboles distintos $f_m(\mathbf{x}), m=1,\dots, M$ en diferentes subconjuntos del conjunto de datos (elegidos aleatoriamente con remplazamiento) y se calcula el ensamblado total
+
+$$
+f(\mathbf{x})=\sum_{m=1}^{M} \frac{1}{M}f_{m}(\mathbf{x})
+$$
+
 Damos, a continuación, una explicación detallada de cómo funciona el ensamblado de Bagging:
 
 1.  **Bootstrap**: El proceso comienza dividiendo el conjunto de datos original en múltiples subconjuntos llamados conjuntos de entrenamiento, utilizando un método llamado muestreo con reemplazo. Esto significa que, en cada conjunto de entrenamiento, algunas muestras se seleccionan más de una vez, mientras que otras pueden quedar fuera. Este proceso genera múltiples conjuntos de entrenamiento, cada uno ligeramente diferente del original.
 
-2.  **Modelo Base**: Luego, se entrena un modelo base, como un DT, regresión logística o cualquier otro algoritmo, en cada uno de estos conjuntos de entrenamiento. Cada modelo base se entrena en datos diferentes debido al muestreo con reemplazo, lo que da como resultado una serie de modelos que pueden variar en pequeñas diferencias.
+2.  **Modelo base**: Luego, se entrena un modelo base, como un DT, regresión logística o cualquier otro algoritmo, en cada uno de estos conjuntos de entrenamiento. Cada modelo base se entrena en datos diferentes debido al muestreo con reemplazo, lo que da como resultado una serie de modelos que pueden variar en pequeñas diferencias.
 
 3.  **Predicciones**: Una vez que se han entrenado todos los modelos base, se utilizan para hacer predicciones individuales sobre un conjunto de datos de prueba.
 

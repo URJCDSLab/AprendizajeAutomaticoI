@@ -244,7 +244,7 @@ div.csl-indent {
     <h2 id="toc-title">Indice de contenidos</h2>
    
   <ul>
-  <li><a href="#modelos-lineales" id="toc-modelos-lineales" class="nav-link active" data-scroll-target="#modelos-lineales"> <span class="header-section-number">7.1</span> Modelos Lineales</a>
+  <li><a href="#modelos-lineales" id="toc-modelos-lineales" class="nav-link active" data-scroll-target="#modelos-lineales"> <span class="header-section-number">7.1</span> Modelos lineales</a>
   <ul class="collapse">
   <li><a href="#modelos-lineales-generalizados" id="toc-modelos-lineales-generalizados" class="nav-link" data-scroll-target="#modelos-lineales-generalizados"> <span class="header-section-number">7.1.1</span> Modelos lineales generalizados</a></li>
   <li><a href="#regresión-logística" id="toc-regresión-logística" class="nav-link" data-scroll-target="#regresión-logística"> <span class="header-section-number">7.1.2</span> Regresión Logística</a></li>
@@ -253,7 +253,7 @@ div.csl-indent {
   </ul></li>
   <li><a href="#k-vecinos" id="toc-k-vecinos" class="nav-link" data-scroll-target="#k-vecinos"> <span class="header-section-number">7.2</span> k-Vecinos</a></li>
   <li><a href="#grid-search" id="toc-grid-search" class="nav-link" data-scroll-target="#grid-search"> <span class="header-section-number">7.3</span> Grid search</a></li>
-  <li><a href="#árboles-de-decisión" id="toc-árboles-de-decisión" class="nav-link" data-scroll-target="#árboles-de-decisión"> <span class="header-section-number">7.4</span> Árboles de Decisión</a></li>
+  <li><a href="#árboles-de-decisión" id="toc-árboles-de-decisión" class="nav-link" data-scroll-target="#árboles-de-decisión"> <span class="header-section-number">7.4</span> Árboles de decisión</a></li>
   <li><a href="#métodos-de-ensamblado" id="toc-métodos-de-ensamblado" class="nav-link" data-scroll-target="#métodos-de-ensamblado"> <span class="header-section-number">7.5</span> Métodos de ensamblado</a>
   <ul class="collapse">
   <li><a href="#bagging" id="toc-bagging" class="nav-link" data-scroll-target="#bagging"> <span class="header-section-number">7.5.1</span> Bagging</a></li>
@@ -289,7 +289,7 @@ div.csl-indent {
 <p>Además de la clasificación, el ML supervisado también se utiliza para abordar problemas de regresión, donde la variable objetivo es una cantidad continua. Esto nos permite realizar predicciones numéricas, como predecir el precio de una casa en función de sus características, pronosticar la demanda de productos en función de variables de mercado, o estimar la duración de un proyecto en función de factores diversos.</p>
 <p>En este tema, exploraremos diversos algoritmos de clasificación supervisada que permiten extraer patrones a partir de los datos y realizar predicciones precisas en una variedad de aplicaciones. Aprenderemos cómo entrenar modelos, evaluar su rendimiento y aplicarlos a situaciones del mundo real. El ML supervisado es una herramienta poderosa que puede proporcionar conocimientos valiosos y respuestas a preguntas importantes en una amplia gama de dominios.</p>
 <section id="modelos-lineales" class="level2" data-number="7.1">
-<h2 data-number="7.1" class="anchored" data-anchor-id="modelos-lineales"><span class="header-section-number">7.1</span> Modelos Lineales</h2>
+<h2 data-number="7.1" class="anchored" data-anchor-id="modelos-lineales"><span class="header-section-number">7.1</span> Modelos lineales</h2>
 <p>Los modelos lineales representan uno de los pilares más robustos y extensamente empleados en el ámbito del aprendizaje supervisado en ML. Estos modelos constituyen la base de numerosas aplicaciones de predicción y clasificación, desempeñando un papel fundamental en la comprensión de los principios subyacentes de los algoritmos de ML.</p>
 <p>La premisa fundamental de un modelo lineal es la suposición de que existe una relación lineal entre las variables de entrada (características) y la variable objetivo que se desea predecir. En otras palabras, se busca identificar una combinación lineal de las características ponderadas por coeficientes que se ajuste óptimamente a los datos observados. Los modelos lineales destacan por su alta interpretabilidad, lo que facilita un análisis claro sobre cómo cada característica influye en la variable objetivo.</p>
 <p>En este capítulo exploraremos los modelos lineales, iniciando con los modelos lineales generalizados, entre los cuales el modelo de regresión lineal representa un caso específico. Además, examinaremos modelos lineales de clasificación, como la regresión logística, que se emplean para abordar problemas de clasificación.</p>
@@ -1301,7 +1301,7 @@ Métrica de disimilaridad
 </div>
 </section>
 <section id="árboles-de-decisión" class="level2" data-number="7.4">
-<h2 data-number="7.4" class="anchored" data-anchor-id="árboles-de-decisión"><span class="header-section-number">7.4</span> Árboles de Decisión</h2>
+<h2 data-number="7.4" class="anchored" data-anchor-id="árboles-de-decisión"><span class="header-section-number">7.4</span> Árboles de decisión</h2>
 <p>Los Árboles de Decisión (DT, de <em>Decision</em> <em>Tree</em> en inglés) son algoritmos de ML basados en la <strong>información</strong>. Este tipo de algoritmos determinan qué variables explicativas proporcionan la mayor parte de la información (<strong>ganancia de información</strong>) para medir la variable objetivo y hacen predicciones probando secuencialmente las características en orden a su información <span class="citation" data-cites="kelleher2018data">(<a href="references.html#ref-kelleher2018data" role="doc-biblioref">Kelleher y Tierney 2018</a>)</span>.</p>
 <p>Un DT se crea mediante un proceso de particionamiento recursivo del espacio de las variables explicativas y asignando una predicción en cada una de las regiones (hojas) resultantes. Es decir, va seleccionando variables y cortes en sus valores y con ello crea una rama del árbol con dos nodos hijos. Para una mejor comprensión de la estructura de un árbol, necesitamos definir los siguientes conceptos:</p>
 <ul>
@@ -1813,7 +1813,7 @@ Ventajas
 <li><p><strong>Clasificación multiclase</strong>: Los DT se pueden extender de manera natural para la clasificación multiclase, lo que significa que pueden asignar observaciones a más de dos categorías.</p></li>
 <li><p><strong>Escalado de variables no requerido</strong>: A diferencia de algunos otros algoritmos, los DT no requieren que las variables se escalen o estandaricen antes de su uso. Esto facilita el proceso y ahorra tiempo en la preparación de datos.</p></li>
 <li><p><strong>Manejo de datos faltantes</strong>: Los árboles pueden manejar datos faltantes sin necesidad de preprocesamiento adicional. Tratan los valores faltantes como una categoría adicional y no descartan observaciones con datos faltantes.</p></li>
-<li><p><strong>Captura de No Linealidades</strong>: Los DT son capaces de captar relaciones no lineales entre variables, lo que es valioso cuando las relaciones entre las características y la variable objetivo son complejas y no se ajustan bien a modelos lineales.</p></li>
+<li><p><strong>Captura de no linealidades</strong>: Los DT son capaces de captar relaciones no lineales entre variables, lo que es valioso cuando las relaciones entre las características y la variable objetivo son complejas y no se ajustan bien a modelos lineales.</p></li>
 <li><p><strong>Robustez a valores atípicos</strong>: Los árboles son menos sensibles a valores atípicos en los datos en comparación con algunos otros algoritmos de aprendizaje automático. Los valores atípicos no tienen un impacto tan drástico en la construcción de árboles como en modelos lineales, por ejemplo.</p></li>
 <li><p><strong>Eficiencia</strong>: Son relativamente eficientes en términos computacionales, especialmente para conjuntos de datos de tamaño moderado. La construcción de árboles puede realizarse de manera rápida.</p></li>
 </ul>
@@ -1872,10 +1872,14 @@ La unión hace la fuerza
 <section id="bagging" class="level3" data-number="7.5.1">
 <h3 data-number="7.5.1" class="anchored" data-anchor-id="bagging"><span class="header-section-number">7.5.1</span> Bagging</h3>
 <p>El ensamblado de <strong>Bagging</strong>, (de “<em>Bootstrap Aggregating</em>” en inglés), es una técnica de ML diseñada para mejorar la precisión y la estabilidad de los modelos predictivos. Se basa en la idea de construir múltiples modelos similares y combinar sus predicciones para obtener un resultado final más robusto y generalizable.</p>
+<p>Ya vimos que uno de los problemas de los árboles de decisión era que son clasificadores con alta varianza. La técnica bagging nació con el objetivo de reducir dicha varianza dado que una manera de reducir la varianza de un estimador es hacer la media de varios estimadores. Se entrenan <span class="math inline">\(M\)</span> árboles distintos <span class="math inline">\(f_m(\mathbf{x}), m=1,\dots, M\)</span> en diferentes subconjuntos del conjunto de datos (elegidos aleatoriamente con remplazamiento) y se calcula el ensamblado total</p>
+<p><span class="math display">\[
+f(\mathbf{x})=\sum_{m=1}^{M} \frac{1}{M}f_{m}(\mathbf{x})
+\]</span></p>
 <p>Damos, a continuación, una explicación detallada de cómo funciona el ensamblado de Bagging:</p>
 <ol type="1">
 <li><p><strong>Bootstrap</strong>: El proceso comienza dividiendo el conjunto de datos original en múltiples subconjuntos llamados conjuntos de entrenamiento, utilizando un método llamado muestreo con reemplazo. Esto significa que, en cada conjunto de entrenamiento, algunas muestras se seleccionan más de una vez, mientras que otras pueden quedar fuera. Este proceso genera múltiples conjuntos de entrenamiento, cada uno ligeramente diferente del original.</p></li>
-<li><p><strong>Modelo Base</strong>: Luego, se entrena un modelo base, como un DT, regresión logística o cualquier otro algoritmo, en cada uno de estos conjuntos de entrenamiento. Cada modelo base se entrena en datos diferentes debido al muestreo con reemplazo, lo que da como resultado una serie de modelos que pueden variar en pequeñas diferencias.</p></li>
+<li><p><strong>Modelo base</strong>: Luego, se entrena un modelo base, como un DT, regresión logística o cualquier otro algoritmo, en cada uno de estos conjuntos de entrenamiento. Cada modelo base se entrena en datos diferentes debido al muestreo con reemplazo, lo que da como resultado una serie de modelos que pueden variar en pequeñas diferencias.</p></li>
 <li><p><strong>Predicciones</strong>: Una vez que se han entrenado todos los modelos base, se utilizan para hacer predicciones individuales sobre un conjunto de datos de prueba.</p></li>
 <li><p><strong>Combinación</strong>: Finalmente, las predicciones de todos los modelos base se combinan para obtener una predicción agregada. En problemas de clasificación, esto suele implicar votación, donde se elige la clase con más votos, y en problemas de regresión, se calcula un promedio de las predicciones.</p></li>
 </ol>
