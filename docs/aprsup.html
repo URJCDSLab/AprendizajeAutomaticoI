@@ -1435,6 +1435,158 @@ Para recordar
 <p>La salida de un DT es un conjunto de reglas que se puede representar como un árbol donde cada nodo representa una decisión binaria.</p>
 </div>
 </div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Ejemplo: Construcción de un árbol de decisión usando entropía de Shannon
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-19" class="callout-19-contents callout-collapse collapse">
+<div class="callout-body-container callout-body" title="Ventajas">
+<p>Supongamos que trabajamos en un banco y queremos predecir si un cliente pagará o no un préstamo. Para ello, tenemos un conjunto de datos con dos características binarias:</p>
+<ul>
+<li><strong>Tiene empleo</strong> (Sí/No)</li>
+<li><strong>Historial crediticio positivo</strong> (Sí/No)</li>
+<li><strong>Variable objetivo</strong> Paga préstamo (Sí/No)</li>
+</ul>
+<table class="table">
+<caption>Datos de clientes y su historial de préstamos</caption>
+<thead>
+<tr class="header">
+<th>ID</th>
+<th>Tiene empleo</th>
+<th>Historial crediticio</th>
+<th>Paga préstamo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Sí</td>
+<td>Sí</td>
+<td>Sí</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Sí</td>
+<td>No</td>
+<td>Sí</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>No</td>
+<td>Sí</td>
+<td>No</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Sí</td>
+<td>Sí</td>
+<td>Sí</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>No</td>
+<td>Sí</td>
+<td>No</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>Sí</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<p>Queremos construir un árbol de decisión utilizando la entropía de Shannon para seleccionar la mejor variable en cada división.</p>
+<p>La fórmula de la entropía es:</p>
+<span class="math display">\[\begin{equation}
+H(S) = - \sum p_i \log_2(p_i)
+\end{equation}\]</span>
+<p>donde <span class="math inline">\(p_i\)</span> es la proporción de cada clase.</p>
+<p>Comenzamos calculando la entropía inicial del conjunto de datos. En la columna “Paga préstamo” tenemos que:</p>
+<ul>
+<li><p>Sí: 3 casos, <span class="math inline">\(P(\text{Sí}) = \frac{3}{8}\)</span></p></li>
+<li><p>No: 5 casos, <span class="math inline">\(P(\text{No}) = \frac{5}{8}\)</span></p></li>
+</ul>
+<span class="math display">\[\begin{equation}
+H(S) = - \left( \frac{3}{8} \log_2 \frac{3}{8} + \frac{5}{8} \log_2 \frac{5}{8} \right)\approx 0.954
+\end{equation}\]</span>
+<p>Ahora calculamos cuál es la ganancia de información que se obtendría con cada variable. Con la variable “Tiene empleo”:</p>
+<ul>
+<li><strong>Sí</strong> (4 casos): {Sí, Sí, Sí, No} → 3 Sí, 1 No<br>
+</li>
+<li><strong>No</strong> (4 casos): {No, No, No, No} → 0 Sí, 4 No</li>
+</ul>
+<span class="math display">\[\begin{equation}
+H(\text{Sí}) = - \left( \frac{3}{4} \log_2 \frac{3}{4} + \frac{1}{4} \log_2 \frac{1}{4} \right) \approx 0.811
+\end{equation}\]</span>
+<span class="math display">\[\begin{equation}
+H(\text{No}) = 0
+\end{equation}\]</span>
+<span class="math display">\[\begin{equation}
+H_{\text{Tiene empleo}} = \frac{4}{8} H(\text{Sí}) + \frac{4}{8} H(\text{No}) = 0.405
+\end{equation}\]</span>
+<span class="math display">\[\begin{equation}
+\Delta I(\text{Tiene empleo}) = H(S) - H_{\text{Tiene empleo}} = 0.549
+\end{equation}\]</span>
+<p>Con la variable “Historial crediticio”:</p>
+<ul>
+<li><strong>Sí</strong> (4 casos): {Sí, No, Sí, No} → 2 Sí, 2 No<br>
+</li>
+<li><strong>No</strong> (4 casos): {Sí, No, No, No} → 1 Sí, 3 No</li>
+</ul>
+<span class="math display">\[\begin{equation}
+H_{\text{Historial}} = \frac{4}{8} (1) + \frac{4}{8} (0.811) = 0.906
+\end{equation}\]</span>
+<span class="math display">\[\begin{equation}
+\Delta I(\text{Historial}) = H(S) - H_{\text{Historial}} = 0.048
+\end{equation}\]</span>
+<p>Como <span class="math inline">\(\Delta I(\text{Tiene empleo}) &gt; \Delta I(\text{Historial})\)</span>, la primera variable en la raíz del árbol es <strong>Tiene empleo</strong>.</p>
+<p>Vamos ahora con la siguiente división. Por ahora tenemos dos ramas:</p>
+<ol type="1">
+<li><p><strong>Tiene empleo = Sí</strong> -&gt; {Sí, Sí, Sí, No}</p></li>
+<li><p><strong>Tiene empleo = No</strong> -&gt; {No, No, No, No}</p></li>
+</ol>
+<p>El segundo grupo es puro (todos “No”), por lo que no se divide más.</p>
+<p>Para el primer grupo, calculamos la ganancia de información con Historial crediticio:</p>
+<ul>
+<li><p><strong>Sí</strong> (2 casos): {Sí, Sí} -&gt; 100% Sí –&gt; Entropía =0</p></li>
+<li><p><strong>No</strong> (2 casos): {Sí, No} -&gt; 50% - 50% –&gt; Entropía =1</p></li>
+</ul>
+<p><span class="math display">\[
+H_{\text{Historial}} = \frac{2}{4} 0 + \frac{2}{4} 1 = 0.5
+\]</span></p>
+<p><span class="math display">\[
+\Delta I = 0.811 - 0.5 = 0.311
+\]</span></p>
+<p>Dado que hay ganancia de información, hacemos la división.</p>
+<p>El árbol resultante es:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="aprsup/DT_manual.png" class="img-fluid figure-img" width="445"></p>
+</figure>
+</div>
+<p>Así, tenemos 3 nodos terminales. Dos de ellos son puros y otro está en la situación de máxima incertidumbre. No obstante, no disponemos de más variables para seguir construyendo el árbol.</p>
+</div>
+</div>
+</div>
 <p>A continuación aplicamos el método de DT al conjunto de datos <code>bank</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart)</span>
@@ -1472,7 +1624,7 @@ Tarea
 <table class="table">
 <colgroup>
 <col style="width: 24%">
-<col style="width: 27%">
+<col style="width: 26%">
 <col style="width: 24%">
 <col style="width: 24%">
 </colgroup>
@@ -1644,7 +1796,7 @@ Prediction   no  yes
 </div>
 </div>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1653,23 +1805,23 @@ Ventajas
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-20" class="callout-20-contents callout-collapse collapse">
+<div id="callout-21" class="callout-21-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li><p><strong>Explicabilidad</strong>: Los DT son altamente interpretables, lo que significa que sus resultados se pueden entender y comunicar de manera sencilla (ver <a href="nuevas.html"><span>Capítulo&nbsp;9</span></a>). Esto los hace ideales para tomar decisiones basadas en modelos en entornos donde se necesita entender el razonamiento detrás de las predicciones.</p></li>
-<li><p><strong>Compatibilidad con Datos Mixtos</strong>: Pueden manejar tanto variables explicativas cuantitativas como cualitativas (categóricas). Esta versatilidad les permite trabajar con una amplia variedad de tipos de datos.</p></li>
-<li><p><strong>Clasificación Multiclase</strong>: Los DT se pueden extender de manera natural para la clasificación multiclase, lo que significa que pueden asignar observaciones a más de dos categorías.</p></li>
-<li><p><strong>Escalado de Variables no Requerido</strong>: A diferencia de algunos otros algoritmos, los DT no requieren que las variables se escalen o estandaricen antes de su uso. Esto facilita el proceso y ahorra tiempo en la preparación de datos.</p></li>
-<li><p><strong>Manejo de Datos Faltantes</strong>: Los árboles pueden manejar datos faltantes sin necesidad de preprocesamiento adicional. Tratan los valores faltantes como una categoría adicional y no descartan observaciones con datos faltantes.</p></li>
+<li><p><strong>Compatibilidad con datos mixtos</strong>: Pueden manejar tanto variables explicativas cuantitativas como cualitativas (categóricas). Esta versatilidad les permite trabajar con una amplia variedad de tipos de datos.</p></li>
+<li><p><strong>Clasificación multiclase</strong>: Los DT se pueden extender de manera natural para la clasificación multiclase, lo que significa que pueden asignar observaciones a más de dos categorías.</p></li>
+<li><p><strong>Escalado de variables no requerido</strong>: A diferencia de algunos otros algoritmos, los DT no requieren que las variables se escalen o estandaricen antes de su uso. Esto facilita el proceso y ahorra tiempo en la preparación de datos.</p></li>
+<li><p><strong>Manejo de datos faltantes</strong>: Los árboles pueden manejar datos faltantes sin necesidad de preprocesamiento adicional. Tratan los valores faltantes como una categoría adicional y no descartan observaciones con datos faltantes.</p></li>
 <li><p><strong>Captura de No Linealidades</strong>: Los DT son capaces de captar relaciones no lineales entre variables, lo que es valioso cuando las relaciones entre las características y la variable objetivo son complejas y no se ajustan bien a modelos lineales.</p></li>
-<li><p><strong>Robustez a Valores Atípicos</strong>: Los árboles son menos sensibles a valores atípicos en los datos en comparación con algunos otros algoritmos de aprendizaje automático. Los valores atípicos no tienen un impacto tan drástico en la construcción de árboles como en modelos lineales, por ejemplo.</p></li>
+<li><p><strong>Robustez a valores atípicos</strong>: Los árboles son menos sensibles a valores atípicos en los datos en comparación con algunos otros algoritmos de aprendizaje automático. Los valores atípicos no tienen un impacto tan drástico en la construcción de árboles como en modelos lineales, por ejemplo.</p></li>
 <li><p><strong>Eficiencia</strong>: Son relativamente eficientes en términos computacionales, especialmente para conjuntos de datos de tamaño moderado. La construcción de árboles puede realizarse de manera rápida.</p></li>
 </ul>
 </div>
 </div>
 </div>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-22-contents" aria-controls="callout-22" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1678,17 +1830,17 @@ Desventajas
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-21" class="callout-21-contents callout-collapse collapse">
+<div id="callout-22" class="callout-22-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
-<li><p><strong>Menos Precisión en Modelos Simples:</strong> Los DT a menudo son menos precisos que métodos más avanzados, como los bosques aleatorios o las redes neuronales, especialmente cuando se trata de problemas complejos. Su simplicidad a veces limita su capacidad para modelar relaciones sofisticadas en los datos.</p></li>
-<li><p><strong>Sensibilidad a Cambios en los Datos:</strong> Pequeños cambios en los datos de entrenamiento pueden resultar en DT significativamente diferentes. Esto significa que los modelos basados en árboles son menos estables y robustos en comparación con algunos otros algoritmos. Un cambio en una observación o característica puede dar como resultado un árbol completamente diferente, lo que dificulta la confianza en las predicciones.</p></li>
-<li><p><strong>Propensión al Sobreajuste:</strong> Los DT tienden a sobreajustarse a los datos de entrenamiento cuando se construyen demasiado profundos. Esto significa que el modelo se adapta demasiado a los datos de entrenamiento y puede no generalizar bien a nuevos datos. La elección de la profundidad óptima del árbol es crítica para evitar el sobreajuste.</p></li>
-<li><p><strong>Dificultad para Modelar Relaciones Lineales:</strong> A pesar de su capacidad para capturar relaciones no lineales, los DT no son ideales para modelar relaciones lineales en los datos. En tales casos, otros modelos, como la regresión lineal, pueden ser más apropiados.</p></li>
-<li><p><strong>Limitación en la Predicción de Valores Continuos:</strong> Los DT son adecuados para la clasificación, pero no son la mejor opción para la regresión o la predicción de valores continuos. Pueden proporcionar predicciones discretas, lo que puede ser una limitación en aplicaciones donde se requieren estimaciones precisas de valores numéricos.</p></li>
-<li><p><strong>Sensibilidad a Valores Atípicos:</strong> Aunque son menos sensibles a los valores atípicos que algunos otros algoritmos, los DT todavía pueden verse afectados por valores extremos en los datos, lo que puede influir en la construcción del árbol y, por lo tanto, en las predicciones.</p></li>
-<li><p><strong>No Son Óptimos para Datos de Alta Dimensión:</strong> Para conjuntos de datos de alta dimensión, la construcción de árboles puede volverse compleja y computacionalmente costosa. En tales casos, es posible que otros algoritmos, como las máquinas de vectores soporte (SVM) o el aprendizaje profundo, sean más apropiados.</p></li>
-<li><p><strong>Difícil Interpretación en Árboles Profundos:</strong> Si los árboles se construyen muy profundos, pueden volverse difíciles de interpretar y visualizar, lo que reduce su utilidad en aplicaciones que requieren explicaciones claras de las decisiones del modelo.</p></li>
+<li><p><strong>Menos precisión en modelos simples:</strong> Los DT a menudo son menos precisos que métodos más avanzados, como los bosques aleatorios o las redes neuronales, especialmente cuando se trata de problemas complejos. Su simplicidad a veces limita su capacidad para modelar relaciones sofisticadas en los datos.</p></li>
+<li><p><strong>Sensibilidad a cambios en los datos:</strong> Pequeños cambios en los datos de entrenamiento pueden resultar en DT significativamente diferentes. Esto significa que los modelos basados en árboles son menos estables y robustos en comparación con algunos otros algoritmos. Un cambio en una observación o característica puede dar como resultado un árbol completamente diferente, lo que dificulta la confianza en las predicciones.</p></li>
+<li><p><strong>Propensión al sobreajuste:</strong> Los DT tienden a sobreajustarse a los datos de entrenamiento cuando se construyen demasiado profundos. Esto significa que el modelo se adapta demasiado a los datos de entrenamiento y puede no generalizar bien a nuevos datos. La elección de la profundidad óptima del árbol es crítica para evitar el sobreajuste.</p></li>
+<li><p><strong>Dificultad para modelar relaciones lineales:</strong> A pesar de su capacidad para capturar relaciones no lineales, los DT no son ideales para modelar relaciones lineales en los datos. En tales casos, otros modelos, como la regresión lineal, pueden ser más apropiados.</p></li>
+<li><p><strong>Limitación en la predicción de valores continuos:</strong> Los DT son adecuados para la clasificación, pero no son la mejor opción para la regresión o la predicción de valores continuos. Pueden proporcionar predicciones discretas, lo que puede ser una limitación en aplicaciones donde se requieren estimaciones precisas de valores numéricos.</p></li>
+<li><p><strong>Sensibilidad a valores atípicos:</strong> Aunque son menos sensibles a los valores atípicos que algunos otros algoritmos, los DT todavía pueden verse afectados por valores extremos en los datos, lo que puede influir en la construcción del árbol y, por lo tanto, en las predicciones.</p></li>
+<li><p><strong>No son óptimos para datos de alta dimensión:</strong> Para conjuntos de datos de alta dimensión, la construcción de árboles puede volverse compleja y computacionalmente costosa. En tales casos, es posible que otros algoritmos, como las máquinas de vectores soporte (SVM) o el aprendizaje profundo, sean más apropiados.</p></li>
+<li><p><strong>Difícil interpretación en árboles profundos:</strong> Si los árboles se construyen muy profundos, pueden volverse difíciles de interpretar y visualizar, lo que reduce su utilidad en aplicaciones que requieren explicaciones claras de las decisiones del modelo.</p></li>
 </ul>
 </div>
 </div>
@@ -1728,7 +1880,7 @@ La unión hace la fuerza
 <li><p><strong>Combinación</strong>: Finalmente, las predicciones de todos los modelos base se combinan para obtener una predicción agregada. En problemas de clasificación, esto suele implicar votación, donde se elige la clase con más votos, y en problemas de regresión, se calcula un promedio de las predicciones.</p></li>
 </ol>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-23-contents" aria-controls="callout-23" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-24-contents" aria-controls="callout-24" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1737,7 +1889,7 @@ Ventajas
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-23" class="callout-23-contents callout-collapse collapse">
+<div id="callout-24" class="callout-24-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li><p><strong>Reducción de la varianza</strong>: Al crear múltiples conjuntos de entrenamiento y modelos base, el ensamblado de Bagging reduce la varianza de las predicciones, lo que hace que el modelo sea más robusto y menos propenso al sobreajuste.</p></li>
@@ -1749,7 +1901,7 @@ Ventajas
 </div>
 </div>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-24-contents" aria-controls="callout-24" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-25-contents" aria-controls="callout-25" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1758,7 +1910,7 @@ Desventajas
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-24" class="callout-24-contents callout-collapse collapse">
+<div id="callout-25" class="callout-25-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li><p><strong>Mayor complejidad computacional:</strong> Debido a la necesidad de entrenar múltiples modelos base, el Bagging puede requerir más recursos computacionales y tiempo de entrenamiento en comparación con un solo modelo. Esto es especialmente relevante cuando se trabaja con conjuntos de datos grandes o algoritmos de modelo base complejos.</p></li>
@@ -1887,7 +2039,7 @@ balance    15.950109  22.08729             27.35226        330.12680</code></pre
 </ol>
 <p>Algunos algoritmos de Boosting populares incluyen AdaBoost, Gradient Boosting, y XGBoost.</p>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-25-contents" aria-controls="callout-25" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-26-contents" aria-controls="callout-26" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1896,7 +2048,7 @@ Ventajas
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-25" class="callout-25-contents callout-collapse collapse">
+<div id="callout-26" class="callout-26-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li><p><strong>Mejora del rendimiento:</strong> El Boosting es conocido por aumentar significativamente la precisión de las predicciones en comparación con modelos individuales o modelos base.</p></li>
@@ -1911,7 +2063,7 @@ Ventajas
 </div>
 </div>
 <div class="callout-note callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-26-contents" aria-controls="callout-26" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-27-contents" aria-controls="callout-27" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1920,7 +2072,7 @@ Desventajas
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-26" class="callout-26-contents callout-collapse collapse">
+<div id="callout-27" class="callout-27-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li><p><strong>Sensibilidad al ruido:</strong> Los modelos de Boosting pueden ser sensibles al ruido y a valores atípicos en los datos. Si el conjunto de datos contiene observaciones erróneas o extremas, el Boosting puede sobreajustarse a estos valores inusuales.</p></li>

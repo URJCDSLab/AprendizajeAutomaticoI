@@ -706,6 +706,123 @@ Los árboles de decisión tienden a sobreajustarse a los datos de entrenamiento,
 La salida de un DT es un conjunto de reglas que se puede representar como un árbol donde cada nodo representa una decisión binaria.
 :::
 
+::: {.callout-note collapse="true" title="Ventajas"}
+## Ejemplo: Construcción de un árbol de decisión usando entropía de Shannon
+
+Supongamos que trabajamos en un banco y queremos predecir si un cliente pagará o no un préstamo. Para ello, tenemos un conjunto de datos con dos características binarias:
+
+-   **Tiene empleo** (Sí/No)
+-   **Historial crediticio positivo** (Sí/No)
+-   **Variable objetivo** Paga préstamo (Sí/No)
+
+| ID  | Tiene empleo | Historial crediticio | Paga préstamo |
+|-----|--------------|----------------------|---------------|
+| 1   | Sí           | Sí                   | Sí            |
+| 2   | Sí           | No                   | Sí            |
+| 3   | No           | Sí                   | No            |
+| 4   | No           | No                   | No            |
+| 5   | Sí           | Sí                   | Sí            |
+| 6   | No           | Sí                   | No            |
+| 7   | Sí           | No                   | No            |
+| 8   | No           | No                   | No            |
+
+: Datos de clientes y su historial de préstamos
+
+Queremos construir un árbol de decisión utilizando la entropía de Shannon para seleccionar la mejor variable en cada división.
+
+La fórmula de la entropía es:
+
+```{=tex}
+\begin{equation}
+H(S) = - \sum p_i \log_2(p_i)
+\end{equation}
+```
+donde $p_i$ es la proporción de cada clase.
+
+Comenzamos calculando la entropía inicial del conjunto de datos. En la columna "Paga préstamo" tenemos que:
+
+-   Sí: 3 casos, $P(\text{Sí}) = \frac{3}{8}$
+
+-   No: 5 casos, $P(\text{No}) = \frac{5}{8}$
+
+```{=tex}
+\begin{equation}
+H(S) = - \left( \frac{3}{8} \log_2 \frac{3}{8} + \frac{5}{8} \log_2 \frac{5}{8} \right)\approx 0.954
+\end{equation}
+```
+Ahora calculamos cuál es la ganancia de información que se obtendría con cada variable. Con la variable "Tiene empleo":
+
+-   **Sí** (4 casos): {Sí, Sí, Sí, No} → 3 Sí, 1 No\
+-   **No** (4 casos): {No, No, No, No} → 0 Sí, 4 No
+
+```{=tex}
+\begin{equation}
+H(\text{Sí}) = - \left( \frac{3}{4} \log_2 \frac{3}{4} + \frac{1}{4} \log_2 \frac{1}{4} \right) \approx 0.811
+\end{equation}
+```
+```{=tex}
+\begin{equation}
+H(\text{No}) = 0
+\end{equation}
+```
+```{=tex}
+\begin{equation}
+H_{\text{Tiene empleo}} = \frac{4}{8} H(\text{Sí}) + \frac{4}{8} H(\text{No}) = 0.405
+\end{equation}
+```
+```{=tex}
+\begin{equation}
+\Delta I(\text{Tiene empleo}) = H(S) - H_{\text{Tiene empleo}} = 0.549
+\end{equation}
+```
+Con la variable "Historial crediticio":
+
+-   **Sí** (4 casos): {Sí, No, Sí, No} → 2 Sí, 2 No\
+-   **No** (4 casos): {Sí, No, No, No} → 1 Sí, 3 No
+
+```{=tex}
+\begin{equation}
+H_{\text{Historial}} = \frac{4}{8} (1) + \frac{4}{8} (0.811) = 0.906
+\end{equation}
+```
+```{=tex}
+\begin{equation}
+\Delta I(\text{Historial}) = H(S) - H_{\text{Historial}} = 0.048
+\end{equation}
+```
+Como $\Delta I(\text{Tiene empleo}) > \Delta I(\text{Historial})$, la primera variable en la raíz del árbol es **Tiene empleo**.
+
+Vamos ahora con la siguiente división. Por ahora tenemos dos ramas:
+
+1.  **Tiene empleo = Sí** -\> {Sí, Sí, Sí, No}
+
+2.  **Tiene empleo = No** -\> {No, No, No, No}
+
+El segundo grupo es puro (todos "No"), por lo que no se divide más.
+
+Para el primer grupo, calculamos la ganancia de información con Historial crediticio:
+
+-   **Sí** (2 casos): {Sí, Sí} -\> 100% Sí --\> Entropía =0
+
+-   **No** (2 casos): {Sí, No} -\> 50% - 50% --\> Entropía =1
+
+$$
+H_{\text{Historial}} = \frac{2}{4} 0 + \frac{2}{4} 1 = 0.5
+$$
+
+$$
+\Delta I = 0.811 - 0.5 = 0.311
+$$
+
+Dado que hay ganancia de información, hacemos la división.
+
+El árbol resultante es:
+
+![](aprsup/DT_manual.png){fig-align="center" width="445"}
+
+Así, tenemos 3 nodos terminales. Dos de ellos son puros y otro está en la situación de máxima incertidumbre. No obstante, no disponemos de más variables para seguir construyendo el árbol.
+:::
+
 A continuación aplicamos el método de DT al conjunto de datos `bank`.
 
 ```{r}
@@ -740,7 +857,7 @@ No se están teniendo en cuenta *todas* las variables disponibles en el conjunto
 Podemos interpretar el resto de los nodos terminales del ejemplo como sigue:
 
 | Nodo | Descripción                                                                          | Tamaño relativo (%) | Prob("yes") |
-|------------------|--------------------|:-----------------|:-----------------|
+|------------------|-------------------|:-----------------|:-----------------|
 | 1    | duration \< 343, poutcome=failure,other or unkonwn, housing=yes                      | 26.0                | 0.11        |
 | 2    | duration \< 124, poutcome=failure,other or unkonwn, housing=yes                      | 9.0                 | 0.13        |
 | 3    | 124\<=duration \< 343, poutcome=failure,other or unkonwn, housing=yes, balance\<274  | 7.0                 | 0.29        |
@@ -791,17 +908,17 @@ print(cf)
 
 -   **Explicabilidad**: Los DT son altamente interpretables, lo que significa que sus resultados se pueden entender y comunicar de manera sencilla (ver @sec-nuevas). Esto los hace ideales para tomar decisiones basadas en modelos en entornos donde se necesita entender el razonamiento detrás de las predicciones.
 
--   **Compatibilidad con Datos Mixtos**: Pueden manejar tanto variables explicativas cuantitativas como cualitativas (categóricas). Esta versatilidad les permite trabajar con una amplia variedad de tipos de datos.
+-   **Compatibilidad con datos mixtos**: Pueden manejar tanto variables explicativas cuantitativas como cualitativas (categóricas). Esta versatilidad les permite trabajar con una amplia variedad de tipos de datos.
 
--   **Clasificación Multiclase**: Los DT se pueden extender de manera natural para la clasificación multiclase, lo que significa que pueden asignar observaciones a más de dos categorías.
+-   **Clasificación multiclase**: Los DT se pueden extender de manera natural para la clasificación multiclase, lo que significa que pueden asignar observaciones a más de dos categorías.
 
--   **Escalado de Variables no Requerido**: A diferencia de algunos otros algoritmos, los DT no requieren que las variables se escalen o estandaricen antes de su uso. Esto facilita el proceso y ahorra tiempo en la preparación de datos.
+-   **Escalado de variables no requerido**: A diferencia de algunos otros algoritmos, los DT no requieren que las variables se escalen o estandaricen antes de su uso. Esto facilita el proceso y ahorra tiempo en la preparación de datos.
 
--   **Manejo de Datos Faltantes**: Los árboles pueden manejar datos faltantes sin necesidad de preprocesamiento adicional. Tratan los valores faltantes como una categoría adicional y no descartan observaciones con datos faltantes.
+-   **Manejo de datos faltantes**: Los árboles pueden manejar datos faltantes sin necesidad de preprocesamiento adicional. Tratan los valores faltantes como una categoría adicional y no descartan observaciones con datos faltantes.
 
 -   **Captura de No Linealidades**: Los DT son capaces de captar relaciones no lineales entre variables, lo que es valioso cuando las relaciones entre las características y la variable objetivo son complejas y no se ajustan bien a modelos lineales.
 
--   **Robustez a Valores Atípicos**: Los árboles son menos sensibles a valores atípicos en los datos en comparación con algunos otros algoritmos de aprendizaje automático. Los valores atípicos no tienen un impacto tan drástico en la construcción de árboles como en modelos lineales, por ejemplo.
+-   **Robustez a valores atípicos**: Los árboles son menos sensibles a valores atípicos en los datos en comparación con algunos otros algoritmos de aprendizaje automático. Los valores atípicos no tienen un impacto tan drástico en la construcción de árboles como en modelos lineales, por ejemplo.
 
 -   **Eficiencia**: Son relativamente eficientes en términos computacionales, especialmente para conjuntos de datos de tamaño moderado. La construcción de árboles puede realizarse de manera rápida.
 :::
@@ -809,21 +926,21 @@ print(cf)
 ::: {.callout-note collapse="true"}
 # Desventajas
 
--   **Menos Precisión en Modelos Simples:** Los DT a menudo son menos precisos que métodos más avanzados, como los bosques aleatorios o las redes neuronales, especialmente cuando se trata de problemas complejos. Su simplicidad a veces limita su capacidad para modelar relaciones sofisticadas en los datos.
+-   **Menos precisión en modelos simples:** Los DT a menudo son menos precisos que métodos más avanzados, como los bosques aleatorios o las redes neuronales, especialmente cuando se trata de problemas complejos. Su simplicidad a veces limita su capacidad para modelar relaciones sofisticadas en los datos.
 
--   **Sensibilidad a Cambios en los Datos:** Pequeños cambios en los datos de entrenamiento pueden resultar en DT significativamente diferentes. Esto significa que los modelos basados en árboles son menos estables y robustos en comparación con algunos otros algoritmos. Un cambio en una observación o característica puede dar como resultado un árbol completamente diferente, lo que dificulta la confianza en las predicciones.
+-   **Sensibilidad a cambios en los datos:** Pequeños cambios en los datos de entrenamiento pueden resultar en DT significativamente diferentes. Esto significa que los modelos basados en árboles son menos estables y robustos en comparación con algunos otros algoritmos. Un cambio en una observación o característica puede dar como resultado un árbol completamente diferente, lo que dificulta la confianza en las predicciones.
 
--   **Propensión al Sobreajuste:** Los DT tienden a sobreajustarse a los datos de entrenamiento cuando se construyen demasiado profundos. Esto significa que el modelo se adapta demasiado a los datos de entrenamiento y puede no generalizar bien a nuevos datos. La elección de la profundidad óptima del árbol es crítica para evitar el sobreajuste.
+-   **Propensión al sobreajuste:** Los DT tienden a sobreajustarse a los datos de entrenamiento cuando se construyen demasiado profundos. Esto significa que el modelo se adapta demasiado a los datos de entrenamiento y puede no generalizar bien a nuevos datos. La elección de la profundidad óptima del árbol es crítica para evitar el sobreajuste.
 
--   **Dificultad para Modelar Relaciones Lineales:** A pesar de su capacidad para capturar relaciones no lineales, los DT no son ideales para modelar relaciones lineales en los datos. En tales casos, otros modelos, como la regresión lineal, pueden ser más apropiados.
+-   **Dificultad para modelar relaciones lineales:** A pesar de su capacidad para capturar relaciones no lineales, los DT no son ideales para modelar relaciones lineales en los datos. En tales casos, otros modelos, como la regresión lineal, pueden ser más apropiados.
 
--   **Limitación en la Predicción de Valores Continuos:** Los DT son adecuados para la clasificación, pero no son la mejor opción para la regresión o la predicción de valores continuos. Pueden proporcionar predicciones discretas, lo que puede ser una limitación en aplicaciones donde se requieren estimaciones precisas de valores numéricos.
+-   **Limitación en la predicción de valores continuos:** Los DT son adecuados para la clasificación, pero no son la mejor opción para la regresión o la predicción de valores continuos. Pueden proporcionar predicciones discretas, lo que puede ser una limitación en aplicaciones donde se requieren estimaciones precisas de valores numéricos.
 
--   **Sensibilidad a Valores Atípicos:** Aunque son menos sensibles a los valores atípicos que algunos otros algoritmos, los DT todavía pueden verse afectados por valores extremos en los datos, lo que puede influir en la construcción del árbol y, por lo tanto, en las predicciones.
+-   **Sensibilidad a valores atípicos:** Aunque son menos sensibles a los valores atípicos que algunos otros algoritmos, los DT todavía pueden verse afectados por valores extremos en los datos, lo que puede influir en la construcción del árbol y, por lo tanto, en las predicciones.
 
--   **No Son Óptimos para Datos de Alta Dimensión:** Para conjuntos de datos de alta dimensión, la construcción de árboles puede volverse compleja y computacionalmente costosa. En tales casos, es posible que otros algoritmos, como las máquinas de vectores soporte (SVM) o el aprendizaje profundo, sean más apropiados.
+-   **No son óptimos para datos de alta dimensión:** Para conjuntos de datos de alta dimensión, la construcción de árboles puede volverse compleja y computacionalmente costosa. En tales casos, es posible que otros algoritmos, como las máquinas de vectores soporte (SVM) o el aprendizaje profundo, sean más apropiados.
 
--   **Difícil Interpretación en Árboles Profundos:** Si los árboles se construyen muy profundos, pueden volverse difíciles de interpretar y visualizar, lo que reduce su utilidad en aplicaciones que requieren explicaciones claras de las decisiones del modelo.
+-   **Difícil interpretación en árboles profundos:** Si los árboles se construyen muy profundos, pueden volverse difíciles de interpretar y visualizar, lo que reduce su utilidad en aplicaciones que requieren explicaciones claras de las decisiones del modelo.
 :::
 
 Si bien los DTs son una herramienta valiosa, es importante considerar estas limitaciones al seleccionar la técnica de ML adecuada para un problema específico. Las desventajas mencionadas anteriormente son algunas de las razones por las que se han desarrollado métodos más avanzados, basados en ensamblado como los Bosques Aleatorios, para abordar algunas de estas limitaciones.
