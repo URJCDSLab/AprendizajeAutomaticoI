@@ -1013,13 +1013,147 @@ El algoritmo más conocido que utiliza Bagging es el "**Random Forest**", que co
 
 #### Random Forest
 
-Un Bosque Aleatorio es una potente técnica de ensamblado que utiliza un conjunto de DTs para mejorar la precisión de las predicciones. En lugar de confiar en un solo árbol, se construye un bosque compuesto por numerosos árboles individuales. La singularidad de un Bosque Aleatorio radica en cómo se crean y combinan estos árboles.
+Un Random Forest o Bosque Aleatorio es una potente técnica de ensamblado que utiliza un conjunto de DTs para mejorar la precisión de las predicciones. En lugar de confiar en un solo árbol, se construye un bosque compuesto por numerosos árboles individuales. La singularidad de un Bosque Aleatorio radica en cómo se crean y combinan estos árboles.
 
 Cada árbol dentro del Bosque Aleatorio no se crea a partir de todo el conjunto de datos, sino que se entrena con un subconjunto aleatorio de variables y un conjunto de observaciones seleccionadas al azar. Este proceso de muestreo aleatorio introduce diversidad en la construcción de cada árbol, lo que ayuda a mitigar la tendencia de DT a sobreajustar los datos.
 
 Cada árbol individual en el Bosque Aleatorio genera una predicción para la variable objetivo, pero no se espera que cada árbol sea altamente efectivo por sí solo. La fortaleza del método radica en la combinación de numerosos árboles, cada uno de los cuales opera en una región diferente del espacio de características. El Bosque Aleatorio se basa en una regla de decisión que cuenta los votos de cada árbol para determinar la predicción final. En teoría, un gran número de modelos relativamente no correlacionados que funcionan como un comité superarán a cualquier modelo individual.
 
 Una ventaja fundamental del Bosque Aleatorio es que aprovecha la sensibilidad de DTs a los datos en los que se entrenan. Cada árbol individual se entrena con una muestra aleatoria del conjunto de datos, permitiendo la selección con reemplazo. Esto da como resultado árboles diferentes en el bosque, lo que mejora la generalización del modelo.
+
+**Varianza y correlación entre estimadores**
+
+Ya vimos que una de las fortalezas de Bagging es que, al promediar el resultado de distintos estimadores, se reduce la varianza inherente de los árboles de decisión. No obstante, dado que se entrenan $M$ árboles en diferentes subconjuntos del conjunto de datos, los estimadores resultantes no son independientes, sino que están correlacionados. Esto es similar a obtener distintas muestras dependientes de la misma variable aleatoria: los estimadores son idénticamente distribuidos (i.d.), pero no independientes (i.i.d.).
+
+La correlación entre estos estimadores tendrá un impacto en la reducción de varianza que se puede alcanzar con el promedio. Para mitigar esta correlación, Random Forest introduce una modificación clave: además de entrenar cada árbol con distintos subconjuntos del conjunto de datos (como en Bagging), también se entrena cada árbol con un subconjunto aleatorio de las variables predictoras $\mathbf{x}_j$.
+
+Desde un punto de vista téorico, consideremos $M$ variables aleatorias $\mathbf{X}_1,\mathbf{X}_2,\dots, \mathbf{X}_M$ que son idénticamente distribuidas con varianza $\sigma^{2}$ pero no independientes, es decir, tienen correlación no nula. En particular,supongamos que la correlación entre cualquier par de ellas es $$Corr(\mathbf{X}_i,\mathbf{X}_j)=\rho, \ \   i\neq j.$$
+
+La varianza del promedio de estos estimadores se obtiene como $$Var\left(\frac{1}{M} \sum_{i=1}^{M}\mathbf{X}_i \right)=\frac{\sum_{i=1}^{M} Var(\mathbf{X}_i) + 2\sum_{i< j}Cov(\mathbf{X}_i,\mathbf{X}_j)}{M^{2}}.$$ Dado que $Corr(\mathbf{X}_i,\mathbf{X}_j) = \rho = \frac{Cov(\mathbf{X}_i,\mathbf{X}_j)}{\sigma_{\mathbf{X}_i}\sigma_{\mathbf{X}_i}}$, tenemos que $Cov(\mathbf{X}_i,\mathbf{X}_j)=\rho \sigma^{2}$. Además, como hay $${M \choose 2} = \frac{M(M-1)}{2}$$ pares de términos correlacionados, sustituimos en la ecuación anterior
+
+$$Var\left(\frac{1}{M} \sum_{i=1}^{M}\mathbf{X}_i \right) = \frac{1}{M^{2}}\left(M \sigma^{2} + 2\frac{M(M-1)}{2}\rho \sigma^{2}\right)=\frac{M \sigma^{2} +M(M-1)}{M^{2}\rho \sigma^{2}}.$$ Reordenando obtenemos $$Var\left(\frac{1}{M} \sum_{i=1}^{M}\mathbf{X}_i \right) = \rho \sigma^{2} + \frac{(1-\rho)}{M}\sigma^{2}.$$ Aquí vemos que, a medida que a $M \longrightarrow \infty$, el segundo término tiende a $0$, pero el primer término permanece inalterado. Esto implica que la reducción de la varianza está limitada por la correlación entre los estimadores: si la correlación es alta ($\rho$ cercano a 1), la varianza del promedio será elevada; si es baja ($\rho$ cercano a 0), la reducción de varianza será mayor.
+
+Random Forest introduce una estrategia para reducir esta correlación: seleccionar aleatoriamente un subconjunto de $q \leq p$ variables predictoras para cada árbol, en lugar de usar todas las $p$ variables disponibles.
+
+-   En clasificación, se suele tomar $q=\lfloor \sqrt{p} \rfloor$.
+
+-   En regresión, se suele tomar $q=\lfloor p/3 \rfloor$.
+
+Al disminuir el número de variables disponibles para cada árbol, se fuerza a que los árboles tomen decisiones basadas en diferentes conjuntos de características, lo que aumenta la diversidad entre ellos y reduce la correlación entre los estimadores. Como resultado, la reducción de la varianza se vuelve más efectiva, mejorando la estabilidad y generalización del modelo.
+
+**Algoritmo**
+
+Así, el algoritmo del Random Forest es:
+
+1.  **Inicialización**. Definir los parámetros del algoritmo: número de árboles $M$ que compondrán el bosque, número de variables a considerar \$q\$, tamaño mínimo de los nodos terminales $n_{nodo}$, etc.
+
+2.  **Creación de cada árbol**. Para cada árbol $m$, $m=1,\dots, M$:
+
+    -   Tomar una muestra bootstrap de tamaño $n$ del conjunto de entrenamiento
+
+    -   Crear un árbol $T_m$ usando la muestra bootstrap y en base a los siguientes pasos:
+
+        -   **Selección de variables**: Seleccionar $q$ variables aleatoriamente de entre las $p$ disponibles
+
+        -   **Cálculo de la mejor división**: Para las $q$ variables seleccionadas, escoger la mejor variable y la mejor división (por ejemplo, minimizando la impureza de Gini o la entropía para clasificación, o el error cuadrático medio para regresión)
+
+        -   **División del nodo**: Dividir el nodo en 2 nodos hijos en función de la variable seleccionada y la mejor división
+
+        -   **Recursión**: Repetir el proceso de división recursivamente para cada nodo hijo hasta que se alcance un criterio de detención (máxima profundidad, número mínimo de muestras en un nodo, etc.).
+
+3.  **Output y predicción**. Devolver el ensamblado de árboles $\{T_{m}\}_{m=1}^{M}$. Para hacer una predicción total, cada árbol realiza una predicción individual:
+
+    -   En **clasificación**: Utilizar el voto mayoritario entre las predicciones de todos los árboles.
+
+    -   En **regresión**: Promediar las predicciones de todos los árboles.
+
+::: {.callout-note collapse="true"}
+# Simulación para comparar la varianza de Bagging y Random Forest
+
+```{r}
+library(randomForest)
+library(ggplot2)
+
+# Generación de datos artificiales
+set.seed(42)
+n <- 200
+x1 <- runif(n, -2, 2)
+x2 <- runif(n, -2, 2)
+x3 <- runif(n, -2, 2)
+x4 <- runif(n, -2, 2)
+x5 <- runif(n, -2, 2)
+x6 <- runif(n, -2, 2)
+y <- x1^3 + x2^2 - x3 + 0.5*x4 - 0.7*x5 + 0.3*x6 + rnorm(n, sd=1)
+data <- data.frame(x1, x2, x3, x4, x5, x6, y)
+
+# Número de repeticiones y datos test
+n_reps <- 100
+x_test <- expand.grid(x1 = seq(-2, 2, length.out=5),
+                      x2 = seq(-2, 2, length.out=5),
+                      x3 = seq(-2, 2, length.out=5),
+                      x4 = seq(-2, 2, length.out=5),
+                      x5 = seq(-2, 2, length.out=5),
+                      x6 = seq(-2, 2, length.out=5))
+# Matrices para guardar resultados
+pred_bagging <- matrix(NA, n_reps, nrow(x_test))
+pred_rf <- matrix(NA, n_reps, nrow(x_test))
+
+for (i in 1:n_reps) {
+  sample_idx <- sample(1:n, n, replace = TRUE)
+  train_data <- data[sample_idx, ]
+  
+  # Bagging (Random Forest sin selección de variables, mtry = número total de predictores)
+  bagging_model <- randomForest(y ~ ., data=train_data, mtry=6)
+  pred_bagging[i, ] <- predict(bagging_model, x_test)
+  
+  # Random Forest (mtry = sqrt(número total de predictores))
+  rf_model <- randomForest(y ~ ., data=train_data, mtry=round(sqrt(6)))
+  pred_rf[i, ] <- predict(rf_model, x_test)
+}
+
+# Calcular la varianza de las predicciones en el conjunto de test
+var_bagging <- apply(pred_bagging, 2, var)
+var_rf <- apply(pred_rf, 2, var)
+
+df_var <- data.frame(x_test = rep(1:nrow(x_test), 2),
+                     varianza = c(var_bagging, var_rf),
+                     metodo = rep(c("Bagging", "Random Forest"), each=nrow(x_test)))
+
+# Gráfico con ggplot
+ggplot(df_var, aes(x = x_test, y = varianza, color = metodo)) +
+  geom_line(linewidth = 1.2) +
+  labs(title = "Comparación de varianza: Bagging vs Random Forest",
+       x = "Índice de observación en el conjunto de test",
+       y = "Varianza de las predicciones") +
+  theme_minimal() +
+  scale_color_manual(values = c("red", "blue"))
+
+```
+:::
+
+**Muestras Out-of-the-Bag (OOB)**
+
+En Random Forest, cada árbol se entrena utilizando una muestra aleatoria de los datos de entrenamiento mediante **muestreo con reemplazo** (bootstrap sampling). Esto significa que no todos los ejemplos del conjunto de datos original se utilizan en la creación de cada árbol. Las **muestras OOB** son aquellas observaciones que no se incluyen en el entrenamiento de un árbol específico, es decir, aquellas que no han sido seleccionadas en el muestreo de bootstrap para ese árbol en particular.
+
+Una de las características importantes de las muestras OOB es que se pueden usar como un conjunto de **validación** para evaluar el rendimiento del modelo de manera **eficiente y sin necesidad de particionar los datos**. De esta forma, se obtiene una estimación del error del modelo similar a la validación cruzada (cross-validation), pero sin tener que realizar particionamiento explícito del conjunto de datos. Cada vez que se construye un árbol, se predice para las observaciones OOB de ese árbol, y luego se calcula el **error OOB** promedio, el cual puede utilizarse para obtener una estimación del rendimiento general del modelo. Esto proporciona una forma de evaluar el modelo sin necesidad de usar un conjunto de datos adicional para validación, como en la validación cruzada tradicional.
+
+Este método de evaluación es especialmente útil cuando el número de datos es limitado y permite aprovechar todo el conjunto de entrenamiento de manera más eficiente.
+
+**Importancia de las variables**
+
+Uno de los beneficios de Random Forest es que permite evaluar la importancia de cada variable en la predicción del modelo. Existen dos enfoques principales para medir esta importancia:
+
+1.  **Importancia basada en la impureza (Gini o entropía).** Durante la construcción de cada árbol en el bosque, se seleccionan variables en los nodos de decisión en función de su capacidad para reducir la impureza en la clasificación (medida por el índice de Gini o la entropía) o el error cuadrático medio en regresión. La **importancia de una variable** se calcula como la reducción total de impureza que causa a lo largo de todos los nodos en los que es seleccionada, promediada sobre todos los árboles del bosque. En términos generales, si una variable aparece con frecuencia en los nodos de división y contribuye notablemente a reducir la impureza, se considera más importante.
+
+    Una desventaja de este método es que tiende a sobrestimar la importancia de las variables con más valores posibles (variables continuas frente a categóricas con pocas categorías).
+
+2.  **Importancia basada en permutaciones.** En este enfoque, se mide la importancia de una variable observando cómo cambia la precisión del modelo cuando se **permutan aleatoriamente** los valores de dicha variable en el conjunto de prueba o en las muestras OOB (Out-of-Bag). Si una variable es importante para el modelo, al permutar sus valores y hacer que se pierda la relación existente entre la variable y el target se espera que el rendimiento del modelo disminuya. La **importancia de la variable** se mide como la diferencia en rendimiento antes y después de la permutación, promediada sobre todos los árboles.
+
+    La ventaja de este método es que es más confiable porque evalúa la importancia en términos de la contribución real de la variable a la predicción del modelo y no se ve afectado por el número de categorías o valores posibles. El inconveniente es que es más costoso computacionalmente, ya que requiere realizar múltiples predicciones con los valores permutados.
+
+En la práctica, se recomienda analizar ambos métodos para obtener una visión más completa del impacto de cada variable en el modelo.
+
+Que el Random Forest proporcione información sobre la importancia de las variables resulta muy útil e interesante puesto que, al combinar gran cantidad de árboles de decisión, se pierde la interpretabilidad que caracteriza a dicho modelo.
 
 Aplicamos este nuevo método de ML a nuestro conjunto de datos de `bank`.
 
