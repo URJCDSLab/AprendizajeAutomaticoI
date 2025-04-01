@@ -1357,7 +1357,7 @@ De manera más formal, para un conjunto de datos $\{\mathbf{x}_i,y_i\}_{i=1}^{n}
 
 -   Se ajusta un modelo $f_m(\mathbf{x})$ para predecir estos residuos. Este modelo es generalmente un árbol de decisión pequeño (árbol débil).
 
--   Se optimiza el parámetro $\alpha_m$, que controla la tasa de aprendizaje $\eta$ y la magnitud de la corrección del modelo en cada paso, mediante el descenso de gradiente: $$\alpha_m = arg min_{\alpha} \sum_{i=1}^{n} L(y_i,F_{m-1}(\mathbf{x}_i+\alpha f_{m}(\mathbf{x}_i)))$$
+-   Se optimiza el parámetro $\alpha_m$ que, junto a la tasa de aprendizaje $\eta$ controla la magnitud de la corrección del modelo en cada paso: $$\alpha_m = arg min_{\alpha} \sum_{i=1}^{n} L(y_i,F_{m-1}(\mathbf{x}_i+\alpha f_{m}(\mathbf{x}_i)))$$
 
 -   Finalmente, se actualiza el modelo acumulado: $$F_m(\mathbf{x})=F_{m-1}(\mathbf{x}) + \eta \alpha_m f_{m}(\mathbf{x})$$
 

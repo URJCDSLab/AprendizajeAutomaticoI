@@ -2292,7 +2292,7 @@ L(y_i,F(\mathbf{x}_i))=L(y_i,F_{m-1}(\mathbf{x}_i)+\alpha f(\mathbf{x}_i,\phi))=
 <ul>
 <li><p>Se calcula el <strong>residuo</strong> o el gradiente de la función de pérdida con respecto al modelo acumulado <span class="math inline">\(F_{m-1}(\mathbf{x})\)</span>. Este residuo indica cómo cambiar el modelo para reducir la pérdida: <span class="math display">\[r_{i}^{(m)}=-\frac{\partial L(y_i,F_{m-1}(\mathbf{x}_i))}{\partial F_{m-1}(\mathbf{x}_i)}\]</span></p></li>
 <li><p>Se ajusta un modelo <span class="math inline">\(f_m(\mathbf{x})\)</span> para predecir estos residuos. Este modelo es generalmente un árbol de decisión pequeño (árbol débil).</p></li>
-<li><p>Se optimiza el parámetro <span class="math inline">\(\alpha_m\)</span>, que controla la tasa de aprendizaje <span class="math inline">\(\eta\)</span> y la magnitud de la corrección del modelo en cada paso, mediante el descenso de gradiente: <span class="math display">\[\alpha_m = arg min_{\alpha} \sum_{i=1}^{n} L(y_i,F_{m-1}(\mathbf{x}_i+\alpha f_{m}(\mathbf{x}_i)))\]</span></p></li>
+<li><p>Se optimiza el parámetro <span class="math inline">\(\alpha_m\)</span> que, junto a la tasa de aprendizaje <span class="math inline">\(\eta\)</span> controla la magnitud de la corrección del modelo en cada paso: <span class="math display">\[\alpha_m = arg min_{\alpha} \sum_{i=1}^{n} L(y_i,F_{m-1}(\mathbf{x}_i+\alpha f_{m}(\mathbf{x}_i)))\]</span></p></li>
 <li><p>Finalmente, se actualiza el modelo acumulado: <span class="math display">\[F_m(\mathbf{x})=F_{m-1}(\mathbf{x}) + \eta \alpha_m f_{m}(\mathbf{x})\]</span></p></li>
 </ul>
 <ol start="3" type="1">
