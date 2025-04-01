@@ -1444,7 +1444,7 @@ loss_df <- data.frame(
 
 # Gráfico
 ggplot(loss_df, aes(x = p, y = loss, color = factor(y))) +
-  geom_line(size = 1.2) +
+  geom_line(linewidth = 1.2) +
   labs(title = "Función de pérdida Log-Loss",
        x = "Probabilidad predicha (p)",
        y = "Log-Loss",
