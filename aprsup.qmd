@@ -1208,7 +1208,7 @@ La función grafica las $k$ primeras componentes principales (ver @sec-reddim) d
 
 ### Boosting
 
-El ensamblado de **Boosting** es una técnica de ML que se utiliza para mejorar la precisión de los modelos de clasificación o regresión. A diferencia del Bagging, que se basa en la construcción de múltiples modelos independientes y su promediación, el Boosting se centra en mejorar iterativamente un solo modelo débil (o sencillo).
+El ensamblado de **Boosting** es una técnica de ML que se utiliza para mejorar el rendimiento de los modelos de clasificación o regresión.A diferencia del Bagging, que entrena múltiples modelos en paralelo y los promedia, el Boosting entrena modelos secuencialmente, dando mayor peso a las observaciones mal clasificadas en cada iteración.
 
 El proceso de Boosting funciona de la siguiente manera:
 
@@ -1260,6 +1260,235 @@ Algunos algoritmos de Boosting populares incluyen AdaBoost, Gradient Boosting, y
 -   **Requisitos de recursos computacionales:** Dependiendo de la implementación y la cantidad de modelos base, los modelos de Boosting pueden requerir recursos computacionales significativos, lo que podría ser un problema en sistemas con recursos limitados.
 :::
 
+#### AdaBoost: Algoritmo de Boosting Adaptativo
+
+Uno de los algoritmos más representativos de Boosting es AdaBoost, que ajusta secuencialmente clasificadores débiles, aumentando el peso de las observaciones mal clasificadas en cada iteración.
+
+**Algoritmo AdaBoost**
+
+1.  Inicializamos los pesos de las observaciones de la siguiente manera: $$w_i=1/n, i=1,\dots,n$$ donde $n$ es el número total de observaciones.
+
+2.  Bucle para $m=1,\dots, M$. Para cada iteración $m$ en el algoritmo AdaBoost, realizamos los siguientes pasos:
+
+    1.  Ajustar el clasificador $f_m(\mathbf{x})$. Ajustamos un clasificador $f_m(\mathbf{x})$ al conjunto de entrenamiento usando los pesos $w_i$. Este clasificador $f_m(\mathbf{x},\phi_m)$ es un modelo base que depende de los parámetros $\phi_m$, como un árbol de decisión.
+
+    2.  Calcular el error ponderado. El error ponderado de $f_m(\mathbf{x})$ se calcula como $$error_{m}=\frac{\sum_{i=1}^{n}w_i I(y_i \neq f_{m}(\mathbf{x}_i))}{\sum_{i=1}^{n}w_i}$$ donde $I(y_i \neq f_{m}(\mathbf{x}_i))$ es la función indicadora que toma el valor 1 si la predicción $f_m(\mathbf{x})$ es incorrecta, y 0 en caso contrario. Este error indica lo bien o mal que está funcionando el clasificador.
+
+    3.  Calcular el coeficiente $\alpha_m$. El coeficiente $\alpha_m$, que que ponderará la contribución del clasificador $f_m(\mathbf{x})$ en la predicción final, se calcula con la siguiente fórmula: $$\alpha_m = log\left(\frac{1-error_m}{error_m} \right)$$ Este coeficiente mide la "importancia" del clasificador en la actualización del modelo acumulado.
+
+    4.  Actualizar los pesos de las observaciones Los pesos de las observaciones se actualizan de acuerdo con su desempeño en la clasificación. Las observaciones mal clasificadas recibirán un aumento en el peso, lo que hace que el siguiente clasificador se enfoque más en ellas. Los nuevos pesos $w_i^{(m+1)}$ se calculan como: $$w_i^{(m+1)} =w_i^{(m)} exp(\alpha_m I(y_i \neq f_{m}(\mathbf{x}_i))), i=1\dots, n$$ donde $y_i$ es la etiqueta real de la observación $i$. El término $exp(\alpha_m I(y_i \neq f_{m}(\mathbf{x}_i)))$ aumenta el peso de las observaciones mal clasificadas.
+
+3.  El modelo final $F(\mathbf{x})$ es la combinación de los clasificadores base ajustados en cada iteración, ponderados por los coeficientes $\alpha_{m}$. La predicción final se calcula como: $$F(\mathbf{x})=sign\left( \sum_{m=1}^{M} \alpha_{m} f_{m}(\mathbf{x})\right)$$ Este modelo es una suma ponderada de los clasificadores base, donde los clasificadores más precisos (con valores más altos de $\alpha_{m}$) tendrán más influencia en la predicción final.
+
+**Relación con modelo aditivo**
+
+En AdaBoost, la expresión de la función de predicción es: $F(\mathbf{x})=sign\left( \sum_{m=1}^{M} \alpha_{m} f_{m}(\mathbf{x})\right)$, es decir, lo que estamos haciendo es construir un modelo aditivo. De manera más general, podemos expresar este tipo de modelos como: $$F(\mathbf{x})=\sum_{m=1}^{M} \alpha_m f_m(\mathbf{x},\phi_m)$$
+
+donde $\alpha_m$ son coeficientes que ponderan la contribución de cada componente, y $f_m(\mathbf{x};\phi_m)$ son las funciones base individuales parametrizadas por $\phi_m$ que se ajustan secuencialmente a los datos. 
+
+Este esquema de ajuste secuencial aparece en otros modelos de Aprendizaje Automático como splines o redes neuronales. Sin embargo, en AdaBoost, la diferencia clave está en la función de pérdida utilizada y en la manera en que los modelos base van corrigiendo errores.
+
+
+**Ajuste secuencial en modelos aditivos**
+
+Dado que la optimización conjunta de todos los parámetros en $F(\mathbf{x})$ de forma global es compleja, se adopta un procedimiento secuencial: en cada iteración se ajusta un nuevo modelo $f_m(\mathbf{x};\phi_m)$ para minimizar el error con respecto al modelo acumulado hasta el momento $F_{m-1}(\mathbf{x})$.
+
+Esto se hace mediante la optimización de la función de pérdida en cada paso, sin tener que considerar el conjunto completo de modelos de una vez. Esto se traduce en la siguiente optimización
+
+$$(\alpha_m,\phi_m)= arg min_{\alpha, \phi} \sum_{i=1}^{n}L(y_i, F_{m-1}(\mathbf{x}_i)+ \alpha f(\mathbf{x}_i,\phi))$$
+y la función se actualiza como:
+$$F_{m}(\mathbf{x})=F_{m-1}(\mathbf{x}) + \alpha_m f(\mathbf{x},\phi_m).$$
+En $m=0$ se proporciona un ajuste inicial que puede ser, por ejemplo, la media en el caso de regresión $f_0(\mathbf{x})=\overline{y}$ o las proporciones a priori en el caso de clasificación.
+
+
+Si utilizamos la función de pérdida cuadrática $L(y,F(\mathbf{x}))=(y-F(\mathbf{x}))^{2}$, obtenemos la siguiente expresión para cada iteración: $$
+L(y_i,F(\mathbf{x}_i))=L(y_i,F_{m-1}(\mathbf{x}_i)+\alpha f(\mathbf{x}_i,\phi))=(\underbrace{y_i-(F_{m-1}(\mathbf{x}_i)}_{r_{i}^{(m)}}+\alpha f(\mathbf{x}_i,\phi)))^{2} = (r_{i}^{(m)}-\alpha f(\mathbf{x}_i,\phi))^{2}$$
+
+donde $r_{i}^{(m)}$ representa los residuos del modelo actual ($F_{m-1}(\mathbf{x}_i)$). ¿Cómo se interpreta esto? La interpretación de esta ecuación es que, en cada paso, el nuevo término $\alpha f(\mathbf{x}_i,\phi)$ busca ajustar los errores que ha cometido el modelo hasta el momento.
+
+
+**Caso de AdaBoost: Función de pérdida exponencial**
+En AdaBoost, en lugar de la pérdida cuadrática, se emplea una función de pérdida exponencial: $L(y,f(\mathbf{x}))=exp(-yf(\mathbf{x})).$ Es decir, la función de pérdida que se minimiza es: 
+$$L(y_i,F_{m-1}(\mathbf{x}_i)+\alpha f_m(\mathbf{x},\phi_m))=exp(-y_i(F_{m-1}(\mathbf{x}_i) + \alpha f_m(\mathbf{x},\phi_m)))$$
+donde $y_i$ es la etiqueta de la observación $i$, $F_{m-1}(\mathbf{x}_i)$ es la predicción acumulada hasta la iteración $m-1$, y $\alpha_m$ es el coeficiente que ajusta la contribución de $f_m(\mathbf{x},\phi_m).$
+
+Siguiendo la misma lógica del ajuste secuencial, el nuevo modelo se obtiene minimizando:
+
+$$\min_{\alpha_m, \phi_m} \sum_{i=1}^{n}exp(-y_i(F_{m-1}(\mathbf{x}_i) + \alpha_m f_m(\mathbf{x},\phi_m))).$$
+
+Una forma de reformular esta expresión es definiendo los pesos $w_i^{(m)}$ de cada observación en la iteración $m$: $w_i^{(m)}=exp(-y_i F_{m-1}(\mathbf{x}_i))$ puesto que $w_i^{(m)}$ es independiente tanto de $\alpha$ como de $f_m$. Este término refleja la importancia relativa de cada instancia en la siguiente iteración: los errores pasados aumentan su influencia y afectan más al siguiente modelo. Este término refleja la importancia relativa de cada instancia en la siguiente iteración: los errores pasados aumentan su influencia y afectan más al siguiente modelo (el objetivo es reducir progresivamente el error al hacer que el nuevo modelo ajuste los fallos del conjunto de modelos acumulado). 
+
+A partir de aquí, minimizando la función de pérdida exponencial (derivando $L$ con respecto a $\alpha_m$ e igualando a 0), se obtiene la expresión del coeficiente $\alpha_m$:
+
+$$\alpha_m = \frac{1}{2}\ln\left(\frac{1-error_m}{error_m}\right)$$
+donde el error de clasificación en la iteración $m$ está dado por:
+
+$$error_m = \frac{\sum_{i=1}^{n} w_i^{(m)}I(y_i \neq f_{m}(\mathbf{x}_i))}{\sum_{i=1}^{n} w_i^{(m)}}.$$
+Finalmente, los pesos se actualizan según $w_i^{(m+1)}=w_i^{(m)} exp(-y_i \alpha_m f_{m}(\mathbf{x}_i)).$ Usando que $-y_i f_m(\mathbf{x}_i) = 2 I(y_i \neq f_m(\mathbf{x}_i))-1$, podemos escribir la actualización de pesos como $$w_i^{(m+1)} = w_i^{(m)} e^{\alpha_m I(y_i \neq f_m(\mathbf{x}_i))} e^{-\alpha_m}.$$
+El término $e^{-\alpha_m}$ es constante y no afecta la normalización relativa de los pesos, por lo que puede ignorarse. Con esto, habríamos obtenido todos los valores del algoritmo Adaboost.
+
+En resumen:
+
+* AdaBoost sigue el mismo principio de ajuste secuencial que los modelos aditivos.
+
+* La diferencia clave es el uso de una función de pérdida exponencial, que refuerza la influencia de los ejemplos mal clasificados.
+
+* En cada iteración, AdaBoost ajusta un nuevo modelo para corregir los errores acumulados, asignando mayores pesos a los ejemplos que han sido más difíciles de clasificar.
+
+* La actualización de los pesos garantiza que el ensamble final esté compuesto por modelos base especializados en corregir errores previos.
+
+#### Gradient Boosting
+
+El algoritmo de **Gradient Boosting** es un método de aprendizaje supervisado que construye un modelo de predicción de manera secuencial, ajustando cada modelo subsecuente para corregir los errores del modelo acumulado. A diferencia de AdaBoost, que utiliza una función de pérdida exponencial, Gradient Boosting puede usar cualquier función de pérdida y optimizarla con el algoritmo de **descenso de gradiente**.
+
+**Relación con el descenso de gradiente**
+
+La clave de Gradient Boosting es que, en cada paso, el modelo nuevo se ajusta para minimizar la **función de pérdida** tomando en cuenta el gradiente de la pérdida con respecto a las predicciones actuales del modelo.
+
+De manera más formal, para un conjunto de datos $\{\mathbf{x}_i,y_i\}_{i=1}^{n}$, la **función de pérdida** generalizada es: $$L(y_i,F(\mathbf{x}_i)).$$ El objetivo es minimizar la **pérdida** total: $$\sum_{i=1}^{n} L(y_i,F(\mathbf{x}_i)).$$ En cada iteración $m$, el modelo ajusta una nueva función $f_m(\mathbf{x})$ que minimiza la pérdida respecto al modelo acumulado $F_{m-1}(\mathbf{x}).$ La optimización se realiza usando el gradiente de la función de pérdida.
+
+**Paso de Gracient Boosting**
+
+1\. **Inicialización:** Se inicia con una predicción constante $F_0(\mathbf{x})$, que generalmente es la media o mediana de las respuestas $y_i$ en el caso de regresión.
+
+2\. **Iteración:** Para cada iteración $m=1,2\dots,M$:
+
+-   Se calcula el **residuo** o el gradiente de la función de pérdida con respecto al modelo acumulado $F_{m-1}(\mathbf{x})$. Este residuo indica cómo cambiar el modelo para reducir la pérdida: $$r_{i}^{(m)}=-\frac{\partial L(y_i,F_{m-1}(\mathbf{x}_i))}{\partial F_{m-1}(\mathbf{x}_i)}$$
+
+-   Se ajusta un modelo $f_m(\mathbf{x})$ para predecir estos residuos. Este modelo es generalmente un árbol de decisión pequeño (árbol débil).
+
+-   Se optimiza el parámetro $\alpha_m$, que controla la tasa de aprendizaje $\eta$ y la magnitud de la corrección del modelo en cada paso, mediante el descenso de gradiente: $$\alpha_m = arg min_{\alpha} \sum_{i=1}^{n} L(y_i,F_{m-1}(\mathbf{x}_i+\alpha f_{m}(\mathbf{x}_i)))$$
+
+-   Finalmente, se actualiza el modelo acumulado: $$F_m(\mathbf{x})=F_{m-1}(\mathbf{x}) + \eta \alpha_m f_{m}(\mathbf{x})$$
+
+3. **Resultado**: El modelo final es: $$F(\mathbf{x}) = F_0(\mathbf{x}) + \eta \sum_{m=1}^{M} \alpha_m f_m(\mathbf{x})$$
+
+
+
+**¿Cómo se calculan los** $\alpha_m$?
+
+El coeficiente $\alpha_m$ controla cuánto contribuye cada modelo $f_m(\mathbf{x})$ al modelo acumulado (determina el tamaño del paso para la actualización). Se determina minimizando la función de pérdida total:
+$$\alpha_m = \arg\min_{\alpha}\sum_{i=1}^{n} L(y_i,F_{m-1}(\mathbf{x}_i)+\alpha f_{m}(\mathbf{x}_i))$$
+
+Así, los $\alpha_m$ se obtienen mediante un proceso de optimización. Si la pérdida es diferenciable, se calcula la derivada de la función de pérdida con respecto a $\alpha$ y obtenemos la magnitud en la que debemos actualizar el modelo.
+
+
+**Tasa de aprendizaje**
+
+La tasa de aprendizaje $\eta$ regula también la magnitud de las actualizaciones en cada iteración de Gradient Boosting. En lugar de actualizar el modelo acumulado sólo con $\alpha_m$, se escala su impacto mediante $\eta$:
+
+$$F_{m}(\mathbf{x})=F_{m-1}(\mathbf{x})+\eta + \alpha_{m} f_{m}(\mathbf{x})$$
+La tasa de aprendizaje $\eta$ es crucial para el comportamiento general del modelo de Gradient Boosting, asegurando que las actualizaciones sean de la magnitud adecuada para lograr que haya mejora pero no se sobreajuste. Es decir, controla el balance entre velocidad de convergencia y sobreajuste.
+
+
+
+
+
+::: {.callout-note collapse="true"}
+# Caso de regresión con pérdida cuadrática
+
+En Gradient Boosting, la idea clave es que en cada iteración se busca minimizar una función de pérdida ajustando un modelo a la dirección del descenso del gradiente de dicha función.
+
+Si tomamos la pérdida cuadrática
+$$L(y_i,F(\mathbf{x}_i))=(y_i - F(\mathbf{x}_i))^{2},$$
+el gradiente de la pérdida respecto a $F_{m-1}(\mathbf{x}_i)$ es
+$$\frac{\partial L(y_i,F_{m-1}(\mathbf{x}_i))}{\partial F_{m-1}(\mathbf{x}_i)}=-2(y_i-F_{m-1}(\mathbf{x}_i)).$$
+El método de descenso del gradiente indica que, para minimizar la función de pérdida, hay que moverse en la dirección opuesta a su gradiente. En este caso, los residuos
+ $$r_i^{(m)}=-\frac{\partial L(y_i,F_{m-1}(\mathbf{x}_i))}{\partial F_{m-1}(\mathbf{x}_i)}=2(y_i-F_{m-1}(\mathbf{x}_i))$$
+nos dan esa dirección, lo que significa que el siguiente modelo $f_{m}(\mathbf{x})$ se ajusta para predecir los residuos $r_i^{(m)}$, corrigiendo los errores del modelo anterior.
+
+Una vez ajustado $f_{m}(\mathbf{x})$, se determina el coeficiente $\alpha_{m}$ minimizando
+
+$$\alpha_m = \arg \min_{\alpha} \sum_{i=1}^{n}(y_i - F_{m-1}(\mathbf{x}_i) - \alpha f_{m}(\mathbf{x}_i)))^{2}.$$
+:::
+
+
+::: {.callout-note collapse="true"}
+# Función de pérdida log-loss
+
+La función de pérdida logarítmica (log-loss) se basa en la idea de maximizar la verosimilitud de los datos bajo un modelo probabilístico.
+
+En un problema de clasificación binaria, donde $y_i \in \{0,1\}$, el objetivo es construir un modelo que prediga la probabilidad de que una observación pertenezca a la clase $y_i=1$, dado un conjunto de características $\mathbf{x}_i$.
+
+Dado un conjunto de datos con $n$ observaciones, asumimos que cada $y_i$ sigue una distribución de Bernoulli con probabilidad $p_i$:
+$$P(y_i | \mathbf{x}_i) = p_i^{y_i}(1-p_i)^{1-y_i}.$$
+Como has estudiado en asignaturas previas del Grado en Ciencia e Ingeniería de Datos, dado un conjunto de datos $\{(\mathbf{x}_i,y_i)\}_{i=1}^{n}$, la verosimilitud conjunta es el producto de todas las probabilidades individuales:
+$$L(y,\mathbf{x})=\prod_{i=1}^{n} p_i^{y_i}(1-p_i)^{1-y_i}.$$
+Para facilitar los cálculos, tomamos el logaritmo de esta verosimilitud:
+$$\log L(y,\mathbf{x})=\sum_{i=1}^{n} \left[ y_i \log p_i + (1-y_i) \log (1-p_i) \right].$$
+La función de pérdida logarítmica es la versión negativa de este logaritmo de la verosimilitud:
+$$L(y_i,F(\mathbf{x}_i))=- \left[ y_i \log p_i + (1-y_i) \log (1-p_i) \right].$$
+Esta función mide qué cómo se ajustan las probabilidades predichas $p_i$ a las etiquetas reales $y_i$. El objetivo al entrenar un modelo de clasificación es minimizar esta función de pérdida para mejorar la calidad de las predicciones.
+
+Con el siguiente código puedes ver mejor cómo funciona la pérdida log-loss.
+
+```{r}
+library(ggplot2)
+
+# Función de pérdida log-loss
+log_loss <- function(y, p) {
+  - (y * log(p) + (1 - y) * log(1 - p))
+}
+
+# Rango de probabilidades
+p_valores <- seq(0.01, 0.99, by = 0.01)
+
+loss_y1 <- log_loss(1, p_valores)  # Cuando la etiqueta real es 1
+loss_y0 <- log_loss(0, p_valores)  # Cuando la etiqueta real es 0
+
+loss_df <- data.frame(
+  p = rep(p_valores, 2),
+  loss = c(loss_y1, loss_y0),
+  y = rep(c(1, 0), each = length(p_valores))
+)
+
+# Gráfico
+ggplot(loss_df, aes(x = p, y = loss, color = factor(y))) +
+  geom_line(size = 1.2) +
+  labs(title = "Función de pérdida Log-Loss",
+       x = "Probabilidad predicha (p)",
+       y = "Log-Loss",
+       color = "Etiqueta real") +
+  theme_minimal() +
+  theme(legend.position = "top")
+
+```
+
+
+
+:::
+
+
+
+
+::: {.callout-note collapse="true"}
+# Caso de clasificación con pérdida log-loss
+
+En clasificación, la función de pérdida más utilizada en Gradient Boosting es la pérdida logarítmica (log-loss) para problemas de clasificación binaria. A diferencia de la regresión, donde predecimos valores continuos, en clasificación binaria nuestro objetivo es predecir la probabilidad de que una observación pertenezca a una de las dos clases.
+
+En lugar de predecir directamente la etiqueta $y_i$, el modelo ajusta una función $F(\mathbf{x}_i)$ para modelar la probabilidad de pertenecer a la clase $y_i=1$. Esta probabilidad se calcula mediante la siguiente fórmula logística:
+$$p_i = P(y_i=1 | \mathbf{x}_i)=\frac{1}{1+e^{-F(\mathbf{x}_i)}}.$$
+Esta transformación asegura que las predicciones $p_i$ se encuentren siempre en el intervalo $[0,1]$, que es lo necesario para una probabilidad.
+
+La función de pérdida logarítmica es
+$$L(y_i,F(\mathbf{x}_i))=-y_i \log p_i - (1-y_i)\log(1-p_i).$$
+El gradiente de la función de pérdida respecto a la predicción $F_{m-1}(\mathbf{x}_i)$ del modelo en la iteración $m-1$ es
+$$\frac{\partial L(y_i,F_{m-1}(\mathbf{x}_i))}{\partial F_{m-1}(\mathbf{x}_i))}=p_i - y_i.$$
+Este gradiente muestra cómo cambia la función de pérdida a medida que ajustamos $F(\mathbf{x}_i)$. Como el gradiente está dado por la diferencia entre la probabilidad predicha y la verdadera clase, podemos interpretarlo como una medida de error en la predicción de la probabilidad.
+
+Por tanto, los pseudo-redisuos son $r_i^{(m)}=-(p_i - y_i),$ que representan cuánto se equivoca la predicción de la probabilidad respecto a la verdadera clase $y_i$. 
+
+Al igual que en regresión, en cada iteración se ajusta un modelo $f_{m}(\mathbf{x}_i)$ para predecir estos errores $r_i^{(m)}$ cometidos en iteraciones previas.
+:::
+
+
+
+::: {.callout-caution collapse="false"}
+# Tarea
+Cada función de pérdida tiene sus ventajas y desventajas, y la elección de la función adecuada puede tener un impacto significativo en el rendimiento del modelo. Existen diversas funciones de pérdida tanto para regresión como para clasificación. Te animamos a hacer una búsqueda en la literatura. 
+:::
+
+
 #### XGBoost
 
 **XGBoost**, que significa "*Extreme Gradient Boosting*", es un modelo de ML de tipo ensamblado que ha ganado gran popularidad en competiciones de ciencia de datos y aplicaciones prácticas debido a su alto rendimiento y eficacia en una variedad de problemas de clasificación y regresión. XGBoost es una poderosa técnica de ML que ha demostrado su eficacia en una amplia gama de aplicaciones. Su capacidad para manejar datos ruidosos, seleccionar características importantes y su velocidad de entrenamiento lo hacen valioso tanto para profesionales de datos como para científicos de datos en competiciones y proyectos del mundo real.
@@ -1268,9 +1497,18 @@ XGBoost es una extensión del método de *Gradient Boosting*, que se centra en m
 
 ![https://www.kaggle.com/code/rtatman/machine-learning-with-xgboost-in-r](aprsup/grad1.png)
 
-Pasamos por ciclos que construyen repetidamente nuevos modelos y los combinan en un modelo de ensamblado. Empezamos el ciclo tomando un modelo existente y calculando los errores de cada observación del conjunto de datos. A continuación, construimos un nuevo modelo para predecir estos errores. Añadimos las predicciones de este modelo de predicción de errores al ensamblado de modelos.
+Como hemos dicho, XGBoost es una optimización del algoritmo de Gradient Boosting que mantiene su filosofía básica pero introduce mejoras clave para hacerlo más eficiente y robusto. Al igual que Gradient Boosting, XGBoost construye modelos de manera secuencial, ajustando nuevos árboles a los residuos de los anteriores, pero incorpora innovaciones que lo hacen superior en términos de velocidad, capacidad de generalización y escalabilidad:
 
-Para hacer una predicción, sumamos las predicciones de todos los modelos anteriores. Podemos utilizar estas predicciones para calcular nuevos errores, construir el siguiente modelo y añadirlo al ensamblado.
+-   **Mejora computacional**. Uno de los mayores avances de XGBoost es su eficiencia computacional. XGBoost optimiza su ejecución mediante:
+
+    -   Cálculo en bloques: Utiliza estructuras de datos optimizadas para mejorar el acceso a la memoria y reducir el tiempo de cómputo.
+    -   Paralelización: Aprovecha el procesamiento paralelo en la construcción de los árboles, dividiendo los datos de manera más eficiente.
+
+-   **Regularización para evitar sobreajuste**. Incorpora términos de regularización en su función de pérdida, lo que mejora su capacidad de generalización. La función de pérdida que minimiza incluye un término adicional: $$L=\sum_{i=1}^{n} l(y_i,\hat{y}_i)+ \sum_{m=1}^{M} \Omega(f_m)$$ donde $\Omega(f_m)$ es un término de regularización que penaliza la complejidad de los árboles. Este término se define como: $$\Omega(f_m) = \gamma T + \frac{1}{2}\lambda \sum w^{2}$$ donde $T$ es el número de hojas del árbol (penaliza árboles grandes), $w$ representa los pesos de las hojas (penaliza valores extremos de los nodos), $\gamma$ y $\lambda$ son hiperparámetros que controlan la regularización. Esta regularización hace que los árboles sean más simples y evita que el modelo se ajuste demasiado a los datos de entrenamiento.
+
+-   **Manejo eficiente de datos**. XGBoost por ejemplo usa histogramas de búsqueda para reducir el número de comparaciones necesarias al dividir nodos.
+
+-   **Convergencia acelerada**. También usa la segunda derivada de la función de pérdida para realizar actualizaciones más precisas en los pesos de los árboles. Esto equivale a usar una aproximación de Newton-Raphson en lugar de un simple descenso del gradiente, lo que acelera la convergencia del modelo.
 
 ```{r}
 #| include: true
