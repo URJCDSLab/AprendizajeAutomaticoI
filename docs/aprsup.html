@@ -2653,8 +2653,7 @@ Tarea
 <h2 data-number="7.6" class="anchored" data-anchor-id="naive-bayes"><span class="header-section-number">7.6</span> Naive Bayes</h2>
 <p>El clasificador ingenuo de Bayes (en inglés “<em>Naïve Bayes</em>”) es un clasificador sencillo que se basa en el conocido <strong>teorema de Bayes</strong>. A pesar de su simplicidad, los clasificadores “ingenuos” de Bayes son especialmente útiles para problemas con muchas variables de entrada, variables de entrada cuantitativas con un número muy grande de valores posibles y clasificación de texto. Es uno de los algoritmos básicos que suele aparecer en problemas de <em>Procesamiento de Lenguaje Natural</em>. Podrás estudiar aspectos fundamentales de Lenguaje Natural a lo largo de tus estudios de grado.</p>
 <p>El teorema de Bayes relaciona la probabilidad condicional de dos eventos A y B. La idea es modificar nuestras creencias iniciales sobre lo que ha sucedido (a priori) proporcionalmente con la forma en que nuestras observaciones se relacionan con sus posibles causas (probabilidad inversa):</p>
-<p>$$P(A∩B)=P(A,B)=P(A)<em>P(B|A)=P(B)</em>P(A|B)⇒P(B|A)=</p>
-<p>$$</p>
+<p><span class="math display">\[P(A∩B)=P(A,B)=P(A)*P(B|A)=P(B)*P(A|B)⇒P(B|A)=\frac{P(B)P(A|B)}{P(A)}\]</span></p>
 <p>Su aplicación a un problema de clasificación es como sigue. Supongamos <span class="math inline">\(X_1,X_2,\ldots,X_n\)</span> variables explicativas independientes dado el valor de la variable objetivo <span class="math inline">\(Y_k\)</span>. Es decir, suponemos:</p>
 <p><span class="math display">\[P(X_1|X_2,\ldots,X_n,Y_k)=P(X_1|Y_k); P(X_2|X_3,\ldots,X_n,Y_k)=P(X_2|Y_k)\]</span>, etc.</p>
 <p>De este modo, aplicando el teorema de Bayes de manera recursiva, se tiene:</p>

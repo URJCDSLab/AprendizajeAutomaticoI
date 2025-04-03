@@ -1622,10 +1622,7 @@ Queda como tarea del alumno modificar los hiperparámetros del modelo, buscando 
 
 El clasificador ingenuo de Bayes (en inglés "*Naïve Bayes*") es un clasificador sencillo que se basa en el conocido **teorema de Bayes**. A pesar de su simplicidad, los clasificadores "ingenuos" de Bayes son especialmente útiles para problemas con muchas variables de entrada, variables de entrada cuantitativas con un número muy grande de valores posibles y clasificación de texto. Es uno de los algoritmos básicos que suele aparecer en problemas de *Procesamiento de Lenguaje Natural*. Podrás estudiar aspectos fundamentales de Lenguaje Natural a lo largo de tus estudios de grado.
 
-El teorema de Bayes relaciona la probabilidad condicional de dos eventos A y B. La idea es modificar nuestras creencias iniciales sobre lo que ha sucedido (a priori) proporcionalmente con la forma en que nuestras observaciones se relacionan con sus posibles causas (probabilidad inversa):
-
-$$P(A∩B)=P(A,B)=P(A)*P(B|A)=P(B)*P(A|B)⇒P(B|A)=\frac{P(B)P(A|B)}{P(A)}
-$$
+El teorema de Bayes relaciona la probabilidad condicional de dos eventos A y B. La idea es modificar nuestras creencias iniciales sobre lo que ha sucedido (a priori) proporcionalmente con la forma en que nuestras observaciones se relacionan con sus posibles causas (probabilidad inversa):$$P(A∩B)=P(A,B)=P(A)*P(B|A)=P(B)*P(A|B)⇒P(B|A)=\frac{P(B)P(A|B)}{P(A)}$$
 
 Su aplicación a un problema de clasificación es como sigue. Supongamos $X_1,X_2,\ldots,X_n$ variables explicativas independientes dado el valor de la variable objetivo $Y_k$. Es decir, suponemos:
 
