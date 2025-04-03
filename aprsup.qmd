@@ -1377,7 +1377,7 @@ Así, los $\alpha_m$ se obtienen mediante un proceso de optimización. Si la pé
 
 La tasa de aprendizaje $\eta$ regula también la magnitud de las actualizaciones en cada iteración de Gradient Boosting. En lugar de actualizar el modelo acumulado sólo con $\alpha_m$, se escala su impacto mediante $\eta$:
 
-$$F_{m}(\mathbf{x})=F_{m-1}(\mathbf{x})+\eta + \alpha_{m} f_{m}(\mathbf{x})$$
+$$F_{m}(\mathbf{x})=F_{m-1}(\mathbf{x})+\eta  \alpha_{m} f_{m}(\mathbf{x})$$
 La tasa de aprendizaje $\eta$ es crucial para el comportamiento general del modelo de Gradient Boosting, asegurando que las actualizaciones sean de la magnitud adecuada para lograr que haya mejora pero no se sobreajuste. Es decir, controla el balance entre velocidad de convergencia y sobreajuste.
 
 
