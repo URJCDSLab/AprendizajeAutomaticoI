@@ -1620,31 +1620,72 @@ Queda como tarea del alumno modificar los hiperparámetros del modelo, buscando 
 
 ## Naive Bayes
 
-El clasificador ingenuo de Bayes (en inglés "*Naïve Bayes*") es un clasificador sencillo que se basa en el conocido **teorema de Bayes**. A pesar de su simplicidad, los clasificadores "ingenuos" de Bayes son especialmente útiles para problemas con muchas variables de entrada, variables de entrada cuantitativas con un número muy grande de valores posibles y clasificación de texto. Es uno de los algoritmos básicos que suele aparecer en problemas de *Procesamiento de Lenguaje Natural*. Podrás estudiar aspectos fundamentales de Lenguaje Natural a lo largo de tus estudios de grado.
+El clasificador ingenuo de Bayes (en inglés "*Naïve Bayes*") es un algoritmo de clasificación basado en el conocido **teorema de Bayes**. A pesar de su simplicidad, los clasificadores "ingenuos" de Bayes son especialmente útiles para problemas con muchas variables de entrada, variables de entrada cuantitativas con un número muy grande de valores posibles y clasificación de texto. Es uno de los algoritmos básicos que suele aparecer en problemas de *Procesamiento de Lenguaje Natural*. Podrás estudiar aspectos fundamentales de Lenguaje Natural a lo largo de tus estudios de grado.
 
-El teorema de Bayes relaciona la probabilidad condicional de dos eventos A y B. La idea es modificar nuestras creencias iniciales sobre lo que ha sucedido (a priori) proporcionalmente con la forma en que nuestras observaciones se relacionan con sus posibles causas (probabilidad inversa):$$P(A∩B)=P(A,B)=P(A)*P(B|A)=P(B)*P(A|B)⇒P(B|A)=\frac{P(B)P(A|B)}{P(A)}$$
+El teorema de Bayes relaciona la probabilidad condicional de dos eventos $A$ y $B$. La idea es modificar nuestras creencias iniciales sobre lo que ha sucedido (a priori) proporcionalmente con la forma en que nuestras observaciones se relacionan con sus posibles causas (probabilidad inversa):$$P(A∩B)=P(A,B)=P(A)*P(B|A)=P(B)*P(A|B)⇒P(B|A)=\frac{P(B)P(A|B)}{P(A)}$$
 
-Su aplicación a un problema de clasificación es como sigue. Supongamos $X_1,X_2,\ldots,X_n$ variables explicativas independientes dado el valor de la variable objetivo $Y_k$. Es decir, suponemos:
+Su aplicación a un problema de clasificación es como sigue. Supongamos que queremos clasificar un conjunto de observaciones según una variable objetivo $Y = \{y_1,y_2,\dots,y_K\}$, utilizando un vector de variables explicativas $\mathbf{X} = (X_1,X_2,\ldots,X_p)$. La idea del modelo Naïve Bayes es estimar: $$P(Y=y_k|X_1=x_1,\dots,X_p=x_p)$$
+Mediante el teorema de Bayes: $$P(Y_k|\mathbf{X})=\frac{P(Y_k)P(X_1=x_1,\dots,X_p=x_p|Y_k)}{P(X_1=x_1,\dots,X_p=x_p)}$$
 
-$$P(X_1|X_2,\ldots,X_n,Y_k)=P(X_1|Y_k); P(X_2|X_3,\ldots,X_n,Y_k)=P(X_2|Y_k)$$, etc.
+El paso clave del modelo Naïve Bayes es suponer que las variables explicativas son condicionalmente independientes dado  el valor de la clase:$$P(X_1|X_2,\ldots,X_p,Y_k)=P(X_1|Y_k); P(X_2|X_3,\ldots,X_p,Y_k)=P(X_2|Y_k)$$, etc.
+De forma general: $$P(X_1,X_2,\dots,X_p|Y_k)=\prod_{j=1}^{p} P(X_j | Y_k)$$
 
 De este modo, aplicando el teorema de Bayes de manera recursiva, se tiene:
 
-$$P(X_1,X_2,\ldots,X_n,Y_k)=P(Y_k)P(X_n|Y_k)P(X_{n-1}|X_nY_k)\ldots P(X_1|X_2,\ldots,X_n,Y_k)=$$ $$P(Y_k)P(X_n|Y_k)P(X_{n-1}|Y_k)\ldots P(X_1|Y_k)$$
+$$P(X_1,X_2,\ldots,X_n,Y_k)=P(Y_k)P(X_n|Y_k)P(X_{p-1}|X_nY_k)\ldots P(X_1|X_2,\ldots,X_n,Y_k)=$$ $$P(Y_k)P(X_p|Y_k)P(X_{p-1}|Y_k)\ldots P(X_1|Y_k)$$
 
-Por tanto:
+Por tanto, con esta asunción, la fórmula se simplica a
 
-$$P(Y_k|X_1,\ldots,X_n)=\frac{P(Y_k)\prod_{j=1}^nP(X_j|Y_k)}{P(X_1,X_2,\ldots,X_n)}$$
+$$P(Y_k|X_1,\ldots,X_p)=\frac{P(Y_k)\prod_{j=1}^{p}P(X_j|Y_k)}{P(X_1,X_2,\ldots,X_p)}$$
 
-Esta es la expresión de la probabilidad de un valor de la variable respuesta dado el conjunto de valores de las variables explicativas. El denominador es constante, de modo que bastará con considerar sólo el numerador para comparar las probabilidades de las diferentes clases condicionadas a los valores de las variables explicativas. Se evalúa el numerador para todos los valores de la variable objetivo y se obtienen las diferentes probabilidades de clase.
+Esta es la expresión de la probabilidad de un valor de la variable respuesta dado el conjunto de valores de las variables explicativas. El denominador $P(X_1,X_2,\ldots,X_p)$ es constante, de modo que bastará con considerar sólo el numerador para comparar las probabilidades de las diferentes clases condicionadas a los valores de las variables explicativas. Finalmente, la clase predicha es la que maximiza esta expresión: $$\arg \max_{k}\left\{ P(Y_k)\prod_{j=1}^{p} P(X_j | Y_k) \right\}$$
 
-La probabilidad de clase $P(Y_k)$ se denomina probabilidad a priori, y:
+La probabilidad de clase $P(Y_k)$ se denomina probabilidad a priori y se estima como la proporción de observaciones de la clase $k$ en el conjunto de entrenamiento. Las probabilidades $P(X_j|Y_k)$ son la verosimilitud. La verosimilitud mide cómo de verosímiles (creíbles) son las observaciones de las variables explicativas dado que se ha observado una determinada etiqueta en la variable respuesta. Las verosimilitudes se estiman en función del tipo de variable:
 
-$$\prod_{j=1}^nP(X_j|Y_k) $$
+ - Si la variable $X_j$ es cualitativa, para estimar la verosimilitud de la clase $k$ con el predictor $j$, se calcula la proporción de observaciones de la muestra de entrenamiento de la clase $k$ en cada categoría de dicha variable. 
+ - Si la variable $X_j$ es cuantitativa, habitualmente se asume una distribución Normal (también pueden utilizarse estimadores no paramétricos como histogramas) condicional a cada clase $Y_k$, y se estiman los parámetros $\mu_{jk}$, $\sigma_{jk}$ para cada variable y clase: $$P(X_j=x_j|Y_k)=\frac{1}{\sqrt{2 \pi}\sigma_{jk}}\exp \left( - \frac{(x_j - \mu_{jk})^{2}}{2\sigma^{2}_{jk}} \right)$$
 
-es la verosimilitud. La verosimilitud mide cómo de verosímiles son las observaciones de las variables explicativas dado que se ha observado una determinada etiqueta en la variable respuesta. Si la variable $X_j$ es cualitativa, para estimar la verosimilitud de la clase $k$ con el predictor $j$, se cuenta la proporción de observaciones de la muestra de entrenamiento de la clase $k$ en cada categoría de dicha variable. Si la variable $X_j$ es cuantitativa, habitualmente se asume una distribución Normal (aunque también se pueden usar opciones no paramétricas como histogramas).
+Finalmente se predice para cada conjunto de variables explicativas la clase con mayor probabilidad de clase condicionada $P(Y_k|X_1,\ldots,X_p)$.
 
-Finalmente se predice para cada conjunto de variables explicativas la clase con mayor probabilidad de clase condicionada $P(Y_k|X_1,\ldots,X_n)$.
+
+::: {.callout-note collapse="true"}
+# Independencia condicional
+
+Una de las ideas clave del clasificador Naïve Bayes es que las variables explicativas $X_1,\dots,X_p$ se asumen independientes entre sí dado el valor de la clase $Y$. Formalmente: $$P(X_1,\dots,X_p | Y)= \prod_{j=1}^{p}P(X_j | Y)$$
+
+Esto significa que, una vez conocemos la clase a la que pertenece una observación, el valor de una variable no aporta información adicional sobre las otras. Esta suposición simplifica enormemente el cálculo de las probabilidades conjuntas y hace que el modelo sea escalable incluso con muchas variables. A pesar de ser una suposición fuerte, en muchos contextos (como la clasificación de texto) funciona muy bien.
+
+**Ejemplo de independencia condicional**
+Supongamos un escenario donde:
+
+ - $A$: Altura de una persona (por ejemplo, medida en centímetros).
+ - $V$: Vocabulario de una persona (por ejemplo, número de palabras conocidas).
+ - $E$: Edad de la persona (en años).
+ 
+En la población general, la altura y el vocabulario no son independientes. Esto se debe a que las personas adultas suelen ser más altas y tener un vocabulario más amplio que los niños. Es decir, $P(A, V) \neq P(A)P(V)$.
+
+Sin embargo, si conocemos la edad de una persona ($E$), entonces la altura y el vocabulario son aproximadamente independientes dentro de cada grupo de edad. Por ejemplo:
+
+ - Entre personas de 5 años, conocer la altura no da información adicional sobre el vocabulario.
+ - Entre personas adultas, ocurre lo mismo.
+
+Por tanto, podemos decir que existe \textbf{independencia condicional} entre $A$ y $V$ dado $E$: $A \perp V \mid E$
+
+Así, una vez conocida la edad, saber la altura no aporta información adicional sobre el vocabulario, y viceversa.
+
+Formalmente, dadas tres variables aleatorias $X$, $Y$, y $Z$, decimos que **$X$ es condicionalmente independiente de $Y$ dado $Z$**, denotado como $X \perp Y \mid Z$ si y solo si:
+
+$$P(X \mid Y, Z) = P(X \mid Z)$$
+
+para todo valor de $Z$. En otras palabras, dado $Z$, la distribución condicional de $X$ no depende de $Y$. Es decir, el conocimiento de $Y$ no aporta información adicional sobre $X$ una vez que sabemos $Z$.
+
+De manera equivalente, la independencia condicional puede expresarse como:
+
+$P(X, Y \mid Z) = P(X \mid Z) \cdot P(Y \mid Z)$
+
+Lo que significa que la probabilidad conjunta de $X$ y $Y$, dada $Z$, es el producto de las probabilidades condicionales de $X$ y $Y$ dadas $Z$.
+:::
+
 
 ```{r}
 #| include: true
