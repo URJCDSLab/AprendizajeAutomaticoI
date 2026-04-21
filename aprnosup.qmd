@@ -315,7 +315,7 @@ Existen varios algoritmos para entrenar un modelo de $k$-medias. El algoritmo or
 1.  El algoritmo comienza con $k$ medias seleccionadas aleatoriamente del conjunto original de observaciones. Es decir, se escogen al azar $k$ centroides del conjunto de datos.
 
 ::: {.callout-caution title="Atención"}
-No siempre se tiene información sobre qué valor es el óptimo para el parámetro $k$ en el modelo de las $k$-medias. De hecho, en ocasiones el interés de los métodos de agrupamiento es precisamente averiguar dicho valor.
+No siempre se tiene información sobre qué valor es el mejor para el parámetro $k$ en el modelo de las $k$-medias. De hecho, en ocasiones el interés de los métodos de agrupamiento es precisamente averiguar dicho valor.
 :::
 
 2.  El algoritmo continúa asignando los registros de la base de datos al clúster con media más cercana. Es decir, para cada observación se busca su centroide más cercano dentro del conjunto de centrioides disponibles.
@@ -416,7 +416,7 @@ fviz_cluster(k2, data = df)
 ¿Qué información estamos perdiendo al representar únicamente dos dimensiones del conjunto de datos? (Repasar el capítulo @sec-reddim)
 :::
 
-### Número óptimo de clústeres
+### Selección del número de clústeres
 
 Como hemos comentado anteriormente, en numerosas ocasiones el número óptimo de clústeres de un problema no supervisado lo establece el dominio de aplicación, o más concretamente nuestra necesidad de comunicar los resultados y que estos tengan sentido y sean lo más explicables posibles.
 
