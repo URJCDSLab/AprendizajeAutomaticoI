@@ -2,7 +2,7 @@
 
 Las reglas de asociación son una técnica fundamental en ML que se utiliza para descubrir patrones significativos y relaciones ocultas en conjuntos de datos, especialmente aquellos que involucran transacciones o **cestas de la compra**. Estas reglas desempeñan un papel crucial en la extracción de conocimiento de datos, y su aplicación abarca una amplia variedad de dominios.
 
-**Descubriendo Patrones Relevantes:** Las reglas de asociación son un enfoque de ML diseñado para identificar patrones de co-ocurrencia entre elementos o características en conjuntos de datos. Estas reglas permiten revelar conexiones interesantes y relaciones significativas que a menudo pasan desapercibidas a simple vista. Las reglas de asociación sirven para descrubrir patrones de ocurrencia, no sirven para comprobar ideas o hipótesis sobre los datos. Los escenarios ideales para su aplicación incluyen, pero no se limitan a, datos de transacciones de compras de clientes, registros de usuarios en línea y registros de interacciones de productos.
+**Descubriendo patrones relevantes:** Las reglas de asociación son un enfoque de ML diseñado para identificar patrones de co-ocurrencia entre elementos o características en conjuntos de datos. Estas reglas permiten revelar conexiones interesantes y relaciones significativas que a menudo pasan desapercibidas a simple vista. Las reglas de asociación sirven para descrubrir patrones de ocurrencia, no sirven para comprobar ideas o hipótesis sobre los datos. Los escenarios ideales para su aplicación incluyen, pero no se limitan a, datos de transacciones de compras de clientes, registros de usuarios en línea y registros de interacciones de productos.
 
 ::: {.callout-note title="Ejemplo"}
 Supongamos que disponemos de un conjunto de datos de compras de clientes en una tienda en línea. Los datos pueden verse de la siguiente manera:
@@ -20,10 +20,10 @@ Supongamos que disponemos de un conjunto de datos de compras de clientes en una 
 
 En este conjunto de datos, cada fila representa una transacción y los productos comprados en esa transacción. Las reglas de asociación se utilizan para descubrir patrones de co-ocurrencia entre productos. Por ejemplo, podríamos encontrar las siguientes reglas de asociación:
 
-Si un cliente compra Pan y Leche, entonces también compra Huevos. Si un cliente compra Leche y Queso, entonces también compra Yogur.
+Si un cliente compra pan y leche, entonces también compra huevos. Si un cliente compra leche y queso, entonces también compra yogur.
 :::
 
-**La Estructura de "Si... Entonces...":** Como acabas de ver en el ejemplo, estas reglas de asociación se expresan típicamente en una estructura condicional "si... entonces...", donde se establece una relación entre los elementos o características. Esta estructura es fácilmente interpretable y ofrece una base sólida para la toma de decisiones y la generación de recomendaciones. La interpretación de estas reglas $X\Rightarrow Y$ se hace desde un punto de vista de frecuencia, esto es, cuando en un conjunto aparece el conjunto de items $X$ entonces también suele aparecer o es probable que aparezca el item $Y$:
+**La estructura de "Si... entonces...":** Como acabas de ver en el ejemplo, estas reglas de asociación se expresan típicamente en una estructura condicional "si... entonces...", donde se establece una relación entre los elementos o características. Esta estructura es fácilmente interpretable y ofrece una base sólida para la toma de decisiones y la generación de recomendaciones. La interpretación de estas reglas $X\Rightarrow Y$ se hace desde un punto de vista de frecuencia, esto es, cuando en un conjunto aparece el conjunto de items $X$ entonces también suele aparecer o es probable que aparezca el item $Y$:
 
 -   $X$ se llama antecedente o left-hand-side (LHS)
 
@@ -33,7 +33,7 @@ Si un cliente compra Pan y Leche, entonces también compra Huevos. Si un cliente
 A lo largo del libro, hemos utilizado $X$ para referirnos a las variables explicativas e $Y$ para referirnos al target. Sin embargo, en este capítulo ambas hacen referencias a transacciones ($X$ el antecedente e $Y$ el consecuente) y tomarán valores del estilo $X$ = {leche, huevos, chocolate}, $Y$ = {mantequilla}
 :::
 
-**Mediciones de Fuerza de Asociación:** Para cuantificar la importancia de estas reglas, se utilizan tres métricas clave: el soporte (support), la confianza (confidence) y lift:
+**Mediciones de fuerza de asociación:** Para cuantificar la importancia de estas reglas, se utilizan tres métricas clave: el soporte (support), la confianza (confidence) y lift:
 
 -   El **soporte** mide la frecuencia con la que aparece un conjunto de items $X$ en el conjunto de datos, lo que indica su relevancia en términos de ocurrencia
 
@@ -73,9 +73,9 @@ Veamos un ejemplo con los datos de la tabla de arriba:
     Lift(\{X \Rightarrow Y\}) = \frac{3/4}{5/8} = 1.2
     $$
 
-**Aplicaciones en Diversos Campos:** Las reglas de asociación tienen una amplia gama de aplicaciones en el mundo real. Desde el ámbito del comercio electrónico, donde se utilizan para generar recomendaciones de productos personalizadas, hasta la investigación de mercado, donde ayudan a identificar tendencias y patrones de consumo. También se aplican en la optimización de la colocación de productos en tiendas y la detección de anomalías en datos, como fraudes o comportamientos inusuales.
+**Aplicaciones en diversos campos:** Las reglas de asociación tienen una amplia gama de aplicaciones en el mundo real. Desde el ámbito del comercio electrónico, donde se utilizan para generar recomendaciones de productos personalizadas, hasta la investigación de mercado, donde ayudan a identificar tendencias y patrones de consumo. También se aplican en la optimización de la colocación de productos en tiendas y la detección de anomalías en datos, como fraudes o comportamientos inusuales.
 
-**Algoritmos Especializados:** Para extraer reglas de asociación, se utilizan algoritmos especializados como Apriori y FP-Growth. Estos algoritmos son capaces de manejar grandes conjuntos de datos y descubrir patrones complejos de manera eficiente.
+**Algoritmos especializados:** Para extraer reglas de asociación, se utilizan algoritmos especializados como Apriori y FP-Growth. Estos algoritmos son capaces de manejar grandes conjuntos de datos y descubrir patrones complejos de manera eficiente.
 
 ## Reglas de asociación en R
 

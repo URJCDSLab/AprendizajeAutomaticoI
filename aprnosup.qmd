@@ -29,14 +29,11 @@ Podéis encontrar una amplia revisión de los algoritmos de agrupamiento en [@xu
 En ocasiones los algoritmos de agrupamiento se clasifican en agrupamiento jerárquico y agrupamiento no jerárquico.
 
 ::: {.callout-note collapse="true" title="Agrupamiento jerárquico"}
-## Agrupamiento jerárquico
 
 El agrupamiento jerárquico tiene la particularidad de que encuentra grupos **anidados** de clústeres. Es decir, cuando una observación forma parte de un clúster, no lo abandona, pudiéndose unir el clúster a otros clústeres en etapas posteriores.
 :::
 
 ::: {.callout-note collapse="true" title="Agrupamiento no jerárquico"}
-## Agrupamiento no jerárquico
-
 Por contra, el agrupamiento no jerárquico genera una clasificación mediante la partición del conjunto de datos, obteniendo un conjunto de clústeres **no superpuestos** que no tienen relaciones jerárquicas entre sí.
 :::
 
@@ -197,14 +194,10 @@ Un parámetro es un valor que el algoritmo del modelo de ML ajusta durante el pr
 En ocasiones se diferencia entre dos tipos de parámetros en un modelo de ML:
 
 ::: {.callout-note collapse="true" title="Parámetros del modelo"}
-## Parámetros del modelo
-
 Estos son los componentes internos del modelo que definen su estructura y su capacidad para representar relaciones en los datos. Por ejemplo, en una red neuronal, los pesos y sesgos en las capas de neuronas son parámetros del modelo. En una regresión lineal, los coeficientes son parámetros del modelo.
 :::
 
 ::: {.callout-note collapse="true" title="Hiperparámetros del modelo"}
-## Hiperpárametros del modelo
-
 A diferencia de los parámetros del modelo, los **hiperparámetros** son valores que se establecen antes del proceso de entrenamiento y controlan aspectos más generales del modelo. Ejemplos de hiperparámetros incluyen la tasa de aprendizaje, la cantidad de capas ocultas en una red neuronal, el valor $k$ en el modelo de $k$ vecinos, la profundidad de un árbol de decisión, etc. Los hiperparámetros afectan cómo se ajustan los parámetros del modelo durante el entrenamiento.
 :::
 
@@ -217,8 +210,6 @@ El clustering no jerárquico es una técnica de agrupamiento que tiene como obje
 Para aplicar este método, es necesario especificar de antemano el número de clusters $K$, asegurando que este valor sea menor que el número total de observaciones ($K < n$). Cada cluster se etiqueta con un entero $k \in {1, \dots, K}$ y cada observación $i \in {1, \dots, n}$ se asigna de forma exclusiva a uno de los clusters.
 
 ::: {.callout-tip title="Por amor al conocimiento"}
-## Por amor al conocimiento
-
 ¿Crees que solo se pueden lograr particiones en las que cada punto pertenece únicamente a un cluster? Te animamos a investigar un poco sobre la versión *fuzzy* del clustering.
 :::
 
@@ -329,14 +320,10 @@ Los clústeres están representados por su centroide, entendiendo éste como un 
 Despliega los paneles siguientes para averiguar las principales ventajas y desventajas de este modelo de ML.
 
 ::: {.callout-note collapse="true" title="Ventajas"}
-## Ventajas
-
 Las principales ventajas del algoritmo de las $k$-medias son su **sencillez** y su **escalabilidad** (aplicable con facilidad a grandes conjuntos de datos).
 :::
 
 ::: {.callout-note collapse="true" title="Desventajas"}
-## Desventajas
-
 Las principales desventajas son la necesidad de elegir $k$ manualmente y la alta **dependencia** de los valores iniciales, las medias con las que comienza el algoritmo. Para evitar esta última desventaja se suele replicar el algoritmo varias veces con distintas inicializaciones. Además, los centroides pueden verse fuertemente influidos por **valores atípicos**.
 :::
 
@@ -418,7 +405,7 @@ fviz_cluster(k2, data = df)
 
 ### Selección del número de clústeres
 
-Como hemos comentado anteriormente, en numerosas ocasiones el número óptimo de clústeres de un problema no supervisado lo establece el dominio de aplicación, o más concretamente nuestra necesidad de comunicar los resultados y que estos tengan sentido y sean lo más explicables posibles.
+Como hemos comentado anteriormente, en numerosas ocasiones el número de clústeres de un problema no supervisado lo establece el dominio de aplicación, o más concretamente nuestra necesidad de comunicar los resultados y que estos tengan sentido y sean lo más explicables posibles.
 
 ::: callout-important
 # Nombrar los grupos
@@ -426,7 +413,7 @@ Como hemos comentado anteriormente, en numerosas ocasiones el número óptimo de
 Nombrar los clusters en un análisis no supervisado es fundamental para dar significado a los resultados, comunicar eficazmente las conclusiones y facilitar la toma de decisiones informadas.
 :::
 
-A continuación mostramos los tres métodos más populares para determinar el número óptimo de clústeres: método del *codo* , *silhoutte* y método estadístico de la *brecha* (Gap).
+A continuación mostramos los tres métodos más populares para determinar el número de clústeres: método del *codo* , *silhoutte* y método estadístico de la *brecha* (Gap).
 
 **Método del codo**
 
@@ -440,7 +427,7 @@ fviz_nbclust(df, kmeans, method = "wss")
 
 ```
 
-En este caso parece que $4$ es una buena elección para el número óptimo de clusters. De modo qué:
+En este caso parece que $4$ es una buena elección para el número de clusters. De modo que:
 
 ```{r}
 k4 <- kmeans(df, centers = 4, nstart = 25)
@@ -487,7 +474,7 @@ El proceso es el siguiente:
 
 3.  Se calcula el estadístico **Gap** para cada valor de $k$. Este estadístico compara la dispersión de los datos reales con la dispersión de los datos aleatorios generados. Cuanto más grande sea la brecha entre estas dos dispersiones, más sólido es el clustering para ese valor de $k$. El estadístico se calcula como la diferencia entre el logaritmo de la dispersión intra-cluster de los datos reales y el logaritmo de la dispersión intra-cluster de los datos de referencia.
 
-4.  Selección del Número Óptimo de Clusters: El valor de $k$ que maximiza el estadístico anterior se considera el número óptimo de clusters. En otras palabras, se elige el valor de $k$ donde la brecha entre los datos reales y los datos de referencia es más grande.
+4.  Selección del número de clusters: El valor de $k$ que maximiza el estadístico anterior se considera el número óptimo de clusters. En otras palabras, se elige el valor de $k$ donde la brecha entre los datos reales y los datos de referencia es más grande.
 
 Existe una función en R que realiza todo este proceso. En los datos de ejemplo:
 
@@ -531,7 +518,7 @@ n_clust
 plot(n_clust)
 ```
 
-Creemos que te ha quedado claro que no existe una regla única para la elección del número óptimo de clústeres. Al contrario, hay muchos métodos para estimar el mejor número de clústeres y, obviamente, no todos ellos dan el mismo resultado. Se recomienda considerar los resultados de diferentes métodos y explorar varios números de clústeres buscando siempre una coherente interpretación de los resultados.
+Creemos que te ha quedado claro que no existe una regla única para la elección del número de clústeres. Al contrario, hay muchos métodos para estimar el mejor número de clústeres y, obviamente, no todos ellos dan el mismo resultado. Se recomienda considerar los resultados de diferentes métodos y explorar varios números de clústeres buscando siempre una coherente interpretación de los resultados.
 
 En el ejemplo, eligiendo $4$ (quizás no sea la elección más evidente, pero ¿será interpretable?) como el número de clusters, podemos obtener los resultados finales tratando de nombrar los clusters:
 
@@ -595,14 +582,10 @@ El clustering aglomerativo comienza con $n$ conglomerados (uno por cada dato) y,
 Se necesita un criterio de conexión o "*linkage*" que especifique cómo se determina el parecido (o la disimilitud) entre dos clústeres. Este criterio no es único. Algunos de los criterios más comunes son:
 
 ::: {.callout-note title="Método de Ward"}
-## Método de Ward
-
 Minimiza la suma de las diferencias cuadradas dentro de los clústeres. Minimiza la varianza total dentro del conglomerado.
 :::
 
 ::: {.callout-note title="Agrupamiento de enlace completo"}
-## Agrupamiento de enlace completo
-
 Minimiza la disimilitud máxima entre las observaciones de dos clústeres. Calcula todas las disimilitudes por pares entre los elementos del conglomerado A y los elementos del conglomerado B, y considera el mayor valor (es decir, el valor máximo) de estas disimilitudes como la distancia entre los dos conglomerados
 
 $$
@@ -613,8 +596,6 @@ Tiende a producir clusters más compactos.
 :::
 
 ::: {.callout-note title="Agrupamiento de enlace promedio"}
-## Agrupamiento de enlace promedio
-
 Minimiza el promedio de las disimilitudes entre las observaciones de dos clústeres. Calcula todas las disimilitudes por pares entre los elementos del conglomerado A y los elementos del conglomerado B, y considera la media de estas disimilitudes como la distancia entre los dos conglomerados:
 
 $$
@@ -625,8 +606,6 @@ siendo $n_A$ y $n_B$ el número de elementos en los grupos $A$ y $B$, respectiva
 :::
 
 ::: {.callout-note title="Agrupamiento de enlace mínimo o simple"}
-## Agrupamiento de enlace mínimo o simple
-
 Minimiza las disimilitudes entre las observaciones más cercanas de dos clústeres. Es decir, calcula todas las disimilitudes por pares entre los elementos del conglomerado A y los elementos del conglomerado B, y considera la menor de estas disimilitudes como criterio de vinculación
 
 $$
@@ -637,8 +616,6 @@ Tiende a producir clusters largos y "dispersos".
 :::
 
 ::: {.callout-note title="Agrupamiento de enlace de centroides"}
-## Agrupamiento de enlace de centroides
-
 Calcula la disimilitud entre el centroide del conglomerado A y el centroide del conglomerado B. Agrupación de enlace de centroides.
 :::
 
@@ -800,10 +777,13 @@ tanglegram(dend1, dend2,
   )
 ```
 
-Tal y como hacíamos en el clustering no jerárquico, podemos aplicar métodos para determinar el número óptimo de clusters. Por ejemplo, el método del codo:
+Tal y como hacíamos en el clustering no jerárquico, podemos aplicar métodos para determinar el número de clusters. Por ejemplo, el método del codo:
 
 ```{r}
-fviz_nbclust(df, FUN = hcut, method = "wss")
+fviz_nbclust(df, function(x, k){
+  hc <- hclust(dist(x), method = "ward.D2")
+  list(cluster = cutree(hc, k))
+}, method = "wss")
 ```
 
 En el ejemplo propuesto, elegir $4$ como número óptimo parece una buena elección. Sin embargo, y como pasaba en los métodos no jerárquicos, métodos alternativos pueden llevarnos a soluciones alternativas.
@@ -818,7 +798,7 @@ fviz_gap_stat(gap_stat)
 ```
 
 ::: {.callout-note collapse="true" title="Ventajas del clustering jerárquico"}
-## Ventajas del clustering jerárquico
+
 
 -   **Jerarquía de clusters**: El clustering jerárquico crea una jerarquía de clusters que permite analizar los datos a diferentes niveles de granularidad. Es posible, por tanto, explorar tanto clusters globales como subgrupos más específicos. Al tener una jerarquía de clusters, puedes tomar decisiones a diferentes niveles de detalle. Esto es valioso para la segmentación de mercado, la taxonomía de especies, la organización de documentos, entre otros.
 
@@ -836,7 +816,7 @@ fviz_gap_stat(gap_stat)
 :::
 
 ::: {.callout-note collapse="true" title="Desventajas del clustering jerárquico"}
-## Desventajas del clustering jerárquico
+
 
 -   **Requiere definir un criterio de corte**: Para convertir la jerarquía en clusters finales, es necesario definir un criterio de corte en el dendrograma. Esta elección puede ser subjetiva y afectar los resultados. Así mismo hay que definir el tipo de enlace a emplear (y la medida de disimilitud) Cada una de estas decisiones puede influir mucho en los resultados obtenidos. En la práctica, probamos varias opciones diferentes y buscamos la que ofrece la solución más útil o interpretable.
 
@@ -882,7 +862,7 @@ Es decir, se presentan los datos al SOM, y cada dato se asigna a la neurona cuyo
 Después del entrenamiento, las neuronas en el mapa SOM que están cerca una de la otra representan clusters de datos. Los datos que se asignaron a estas neuronas durante el entrenamiento se consideran miembros de un mismo cluster. Los SOM tienen propiedades interesantes como la preservación topológica, garantizando que las neuronas cercanas en la malla tendrán pesos similares.
 
 ::: {.callout-note collapse="true" title="Función objetivo"}
-# Función objetivo y descenso del gradiente
+
 
 El algoritmo de entrenamiento de los Mapas de Kohonen (SOM) puede entenderse como un proceso de minimización de una función de coste mediante descenso de gradiente.
 
@@ -920,7 +900,7 @@ Aquí vemos que la actualización de los pesos se mueve en dirección a $\mathbf
 :::
 
 ::: {.callout-note collapse="true" title="Ventajas"}
-## Ventajas
+
 
 -   **Topología preservada**: Una ventaja clave de los SOM en el clustering es que preservan la topología de los datos. Esto significa que los clusters en el SOM reflejan la estructura de vecindad en los datos originales, lo que facilita la interpretación de los resultados.
 
@@ -936,7 +916,7 @@ Aquí vemos que la actualización de los pesos se mueve en dirección a $\mathbf
 :::
 
 ::: {.callout-note collapse="true" title="Desventajas"}
-## Desventajas
+
 
 -   **Sensibilidad a la inicialización**: Los SOM son sensibles a la inicialización de los pesos de las neuronas. Los resultados pueden variar significativamente según cómo se configuren los pesos iniciales, lo que significa que pueden converger a soluciones subóptimas si no se seleccionan adecuadamente los valores iniciales.
 

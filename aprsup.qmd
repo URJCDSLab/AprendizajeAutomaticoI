@@ -46,14 +46,14 @@ $$g(E(y|x))=\eta(x)$$
 
 La **distribución de probabilidad** (componente aleatoria) describe cómo se distribuyen los datos alrededor de la media y puede adaptarse a diferentes tipos de datos, como datos binarios, Poisson, binomiales o exponenciales, entre otros. Esto brinda flexibilidad para modelar una variedad de escenarios de datos. Por ejemplo, en el caso de la conocida *regresión lineal* se asume que la variable respuesta sigue una distribución *Normal*. Mediante la componente aleatoria determinamos cómo añadir el ruido o error aleatorio a la predicción que se obtiene de la función de enlace. La tabla siguiente, adaptada de [@agresti2015foundations], resume los GLM:
 
-| Modelo               | Componente aleatoria | Función de enlace | Tipo de variables explicativas |
-|------------------|------------------|------------------|-------------------|
-| Regresión Lineal     | Normal               | Identidad         | Cuantitativas                  |
-| ANOVA                | Normal               | Identidad         | Cuantitativas                  |
-| ANCOVA               | Normal               | Identidad         | Cuantitativas y Cualitativas   |
-| Regresión Logística  | Binomial             | Logit             | Cuantitativas y Cualitativas   |
-| LogLinear            | Poisson              | Log               | Cualitativas                   |
-| Regresión de Poisson | Poisson              | Log               | Cuantitativas y Cualitativas   |
+| Modelo | Componente aleatoria | Función de enlace | Tipo de variables explicativas |
+|------------------|------------------|------------------|------------------|
+| Regresión Lineal | Normal | Identidad | Cuantitativas |
+| ANOVA | Normal | Identidad | Cuantitativas |
+| ANCOVA | Normal | Identidad | Cuantitativas y Cualitativas |
+| Regresión Logística | Binomial | Logit | Cuantitativas y Cualitativas |
+| LogLinear | Poisson | Log | Cualitativas |
+| Regresión de Poisson | Poisson | Log | Cuantitativas y Cualitativas |
 
 ::: callout-important
 # Para recordar
@@ -335,8 +335,6 @@ En la práctica, se desconocen los parámetros de la distribución Normal. Se es
 -   $\widehat{\Sigma}=\frac{1}{n-C}\sum_{c=1}^{C}\sum_{y_i = c}(\mathbf{x}_i - \widehat{\mu}_c)(\mathbf{x}_i - \widehat{\mu}_c)^{t}$. Se utilizan los datos de todas las clases para calcular la matriz de covarianzas: suma de las matrices de covarianza de cada clase, ponderadas según su tamaño muestral (MLE). Se resta el número total clases $C$ porque es el número de medias $\widehat{\mu}_c$ estimado.
 
 ::: {.callout-note collapse="true" title="Visión geométrica del LDA"}
-# Visión geométrica
-
 El Análisis Discriminante Lineal (LDA) sigue una filosofía similar al Análisis de Componentes Principales (PCA), pero con un objetivo distinto: en lugar de buscar la máxima variabilidad de los datos sin considerar etiquetas, LDA se centra en maximizar la separabilidad entre clases. Es decir, busca encontrar una proyección de los datos en una nueva dimensión en la que las clases queden lo más separadas posible.
 
 Una forma intuitiva de ver el LDA es como una proyección geométrica de los datos en una recta, donde la asignación de clase se realiza según la proximidad a las medias proyectadas de cada clase. Matemáticamente, se busca un vector de proyección $\mathbf{w}$ tal que los datos proyectados $\mathbf{z}=\mathbf{w}^t\mathbf{x}$ de distintas clases queden lo más separados posibles. $\mathbf{z}_i$ representa la coordenada del punto $\mathbf{x}_i$ en la nueva dimensión reducida. ¿Te recuerda a PCA? En efecto, en ambos casos se realiza una transformación lineal de los datos. Sin embargo, mientras que en PCA se maximizan las varianzas de los datos proyectados, en LDA se maximiza la separación entre clases y se minimiza la dispersión dentro de cada clase.
@@ -413,7 +411,7 @@ par(mfrow = c(1, 1))
 :::
 
 ::: {.callout-note collapse="true" title="Ventajas"}
-## Ventajas
+
 
 -   **Simple y rápido**
 
@@ -425,7 +423,7 @@ par(mfrow = c(1, 1))
 :::
 
 ::: {.callout-note collapse="true" title="Desventajas"}
-## Desventajas
+
 
 -   **Asume normalidad y homocedasticidad**. LDA puede ser sensible a la falta de normalidad en las variables y a la diferente variabilidad en las mismas.
 
@@ -463,7 +461,6 @@ En los ejemplos siguientes, se podrá observar que es habitual realizar pruebas 
 Para determinar el valor óptimo de $k$ en función de los datos, ejecutamos el algoritmo $k-NN$ múltiples veces, utilizando distintos valores de $k$, y seleccionamos aquel valor que minimice la tasa de errores, al mismo tiempo que preserva la capacidad del algoritmo para realizar predicciones precisas en datos no vistos previamente. Es importante destacar que valores muy bajos de $k$ pueden generar inestabilidad en el algoritmo, mientras que valores extremadamente altos de $k$ pueden aumentar el error en las predicciones. En este proceso, se busca el equilibrio adecuado que optimice el rendimiento del algoritmo en cada situación.
 
 ::: {.callout-note collapse="true" title="Ventajas"}
-## Ventajas
 
 -   **Sencillez y facilidad de implementación**: Es uno de los algoritmos más sencillos y fáciles de entender en ML. No requiere suposiciones complejas o entrenamientos prolongados.
 
@@ -481,7 +478,6 @@ Para determinar el valor óptimo de $k$ en función de los datos, ejecutamos el 
 :::
 
 ::: {.callout-note collapse="true" title="Desventajas"}
-## Desventajas
 
 -   **Sensibilidad a la elección de** $k$: La elección del hiperparámetro que determina el número de vecinos puede ser crítica. Un valor demasiado pequeño puede hacer que el modelo sea sensible al ruido en los datos y cause sobreajuste, mientras que un valor demasiado grande puede hacer que el modelo sea demasiado suave y cause subajuste.
 
@@ -688,6 +684,7 @@ ggplot(df, aes(x = p)) +
 <!--# ¿Cuál usar? Si buscas eficiencia computacional, el índice de Gini es mejor. Si quieres una métrica más sensible a cambios en la distribución, la entropía es una buena opción. Ambos dan resultados similares en la mayoría de los casos. En conclusión, el ratio de error no es una buena opción porque ignora la distribución completa de clases, mientras que Gini y Entropía capturan mejor la impureza y permiten construir árboles más efectivos.
 -->
 ```
+
 En el caso de árboles de regresión, donde la variable objetivo es cuantitativa, se define la reducción de la varianza como la disminución total de la varianza de la variable objetivo como resultado de la división del conjunto total en dos subconjuntos.
 
 Existen varios criterios para detener la ejecución de este algoritmo de división. En un caso extremo podemos no detenerlo hasta que el error de clasificación sea $0$. En dicho caso posiblemente cometamos errores de sobreajuste. Es decir, seleccionar divisiones sobre las variables hasta que todas las observaciones de la muestra de entrenamiento están perfectamente clasificadas funcionará bien, pero sólo sobre las observaciones de entrenamiento. Cuando ese mismo criterio se aplique a nuevas observaciones el resultado será, probablemente, mucho peor. En ocasiones se detiene el proceso de particionado cuando la profundidad del árbol supera un umbral (esto es, cuando se han empleado un número determinado de preguntas sobre las variables explicativas), o bien cuando el número de observaciones en el nodo a dividir es menor que un valor prefijado. También se puede evaluar si la reducción del criterio escogido (índice de Gini o entropía) es demasiado pequeña.
@@ -732,11 +729,10 @@ Queremos construir un árbol de decisión utilizando la entropía de Shannon par
 
 La fórmula de la entropía es:
 
-```{=tex}
 \begin{equation}
 H(S) = - \sum p_i \log_2(p_i)
 \end{equation}
-```
+
 donde $p_i$ es la proporción de cada clase.
 
 Comenzamos calculando la entropía inicial del conjunto de datos. En la columna "Paga préstamo" tenemos que:
@@ -745,51 +741,36 @@ Comenzamos calculando la entropía inicial del conjunto de datos. En la columna 
 
 -   No: 5 casos, $P(\text{No}) = \frac{5}{8}$
 
-```{=tex}
 \begin{equation}
 H(S) = - \left( \frac{3}{8} \log_2 \frac{3}{8} + \frac{5}{8} \log_2 \frac{5}{8} \right)\approx 0.954
 \end{equation}
-```
+
 Ahora calculamos cuál es la ganancia de información que se obtendría con cada variable. Con la variable "Tiene empleo":
 
 -   **Sí** (4 casos): {Sí, Sí, Sí, No} → 3 Sí, 1 No\
 -   **No** (4 casos): {No, No, No, No} → 0 Sí, 4 No
 
-```{=tex}
 \begin{equation}
 H(\text{Sí}) = - \left( \frac{3}{4} \log_2 \frac{3}{4} + \frac{1}{4} \log_2 \frac{1}{4} \right) \approx 0.811
-\end{equation}
-```
-```{=tex}
-\begin{equation}
+\end{equation} \begin{equation}
 H(\text{No}) = 0
-\end{equation}
-```
-```{=tex}
-\begin{equation}
+\end{equation} \begin{equation}
 H_{\text{Tiene empleo}} = \frac{4}{8} H(\text{Sí}) + \frac{4}{8} H(\text{No}) = 0.405
-\end{equation}
-```
-```{=tex}
-\begin{equation}
+\end{equation} \begin{equation}
 \Delta I(\text{Tiene empleo}) = H(S) - H_{\text{Tiene empleo}} = 0.549
 \end{equation}
-```
+
 Con la variable "Historial crediticio":
 
 -   **Sí** (4 casos): {Sí, No, Sí, No} → 2 Sí, 2 No\
 -   **No** (4 casos): {Sí, No, No, No} → 1 Sí, 3 No
 
-```{=tex}
 \begin{equation}
 H_{\text{Historial}} = \frac{4}{8} (1) + \frac{4}{8} (0.811) = 0.906
-\end{equation}
-```
-```{=tex}
-\begin{equation}
+\end{equation} \begin{equation}
 \Delta I(\text{Historial}) = H(S) - H_{\text{Historial}} = 0.048
 \end{equation}
-```
+
 Como $\Delta I(\text{Tiene empleo}) > \Delta I(\text{Historial})$, la primera variable en la raíz del árbol es **Tiene empleo**.
 
 Vamos ahora con la siguiente división. Por ahora tenemos dos ramas:
@@ -856,14 +837,14 @@ No se están teniendo en cuenta *todas* las variables disponibles en el conjunto
 
 Podemos interpretar el resto de los nodos terminales del ejemplo como sigue:
 
-| Nodo | Descripción                                                                          | Tamaño relativo (%) | Prob("yes") |
-|------------------|-------------------|:-----------------|:-----------------|
-| 1    | duration \< 343, poutcome=failure,other or unkonwn, housing=yes                      | 26.0                | 0.11        |
-| 2    | duration \< 124, poutcome=failure,other or unkonwn, housing=yes                      | 9.0                 | 0.13        |
-| 3    | 124\<=duration \< 343, poutcome=failure,other or unkonwn, housing=yes, balance\<274  | 7.0                 | 0.29        |
-| 4    | 124\<=duration \< 343, poutcome=failure,other or unkonwn, housing=yes, balance\>=274 | 12.0                | 0.58        |
-| 5    | duration \< 343, poutcome=success                                                    | 6.0                 | 0.90        |
-| 6    | duration\>343                                                                        | 38.0                | 0.77        |
+| Nodo | Descripción | Tamaño relativo (%) | Prob("yes") |
+|------------------|------------------|:-----------------|:-----------------|
+| 1 | duration \< 343, poutcome=failure,other or unkonwn, housing=yes | 26.0 | 0.11 |
+| 2 | duration \< 124, poutcome=failure,other or unkonwn, housing=yes | 9.0 | 0.13 |
+| 3 | 124\<=duration \< 343, poutcome=failure,other or unkonwn, housing=yes, balance\<274 | 7.0 | 0.29 |
+| 4 | 124\<=duration \< 343, poutcome=failure,other or unkonwn, housing=yes, balance\>=274 | 12.0 | 0.58 |
+| 5 | duration \< 343, poutcome=success | 6.0 | 0.90 |
+| 6 | duration\>343 | 38.0 | 0.77 |
 
 Usamos el modelo de DT para hacer predicciones:
 
@@ -1284,10 +1265,9 @@ Uno de los algoritmos más representativos de Boosting es AdaBoost, que ajusta s
 
 En AdaBoost, la expresión de la función de predicción es: $F(\mathbf{x})=sign\left( \sum_{m=1}^{M} \alpha_{m} f_{m}(\mathbf{x})\right)$, es decir, lo que estamos haciendo es construir un modelo aditivo. De manera más general, podemos expresar este tipo de modelos como: $$F(\mathbf{x})=\sum_{m=1}^{M} \alpha_m f_m(\mathbf{x},\phi_m)$$
 
-donde $\alpha_m$ son coeficientes que ponderan la contribución de cada componente, y $f_m(\mathbf{x};\phi_m)$ son las funciones base individuales parametrizadas por $\phi_m$ que se ajustan secuencialmente a los datos. 
+donde $\alpha_m$ son coeficientes que ponderan la contribución de cada componente, y $f_m(\mathbf{x};\phi_m)$ son las funciones base individuales parametrizadas por $\phi_m$ que se ajustan secuencialmente a los datos.
 
 Este esquema de ajuste secuencial aparece en otros modelos de Aprendizaje Automático como splines o redes neuronales. Sin embargo, en AdaBoost, la diferencia clave está en la función de pérdida utilizada y en la manera en que los modelos base van corrigiendo errores.
-
 
 **Ajuste secuencial en modelos aditivos**
 
@@ -1295,47 +1275,36 @@ Dado que la optimización conjunta de todos los parámetros/hiperparámetros en 
 
 Esto se hace mediante la optimización de la función de pérdida en cada paso, sin tener que considerar el conjunto completo de modelos de una vez. Esto se traduce en la siguiente optimización
 
-$$(\alpha_m,\phi_m)= arg min_{\alpha, \phi} \sum_{i=1}^{n}L(y_i, F_{m-1}(\mathbf{x}_i)+ \alpha f(\mathbf{x}_i,\phi))$$
-y la función se actualiza como:
-$$F_{m}(\mathbf{x})=F_{m-1}(\mathbf{x}) + \alpha_m f(\mathbf{x},\phi_m).$$
-En $m=0$ se proporciona un ajuste inicial que puede ser, por ejemplo, la media en el caso de regresión $f_0(\mathbf{x})=\overline{y}$ o las proporciones a priori en el caso de clasificación.
-
+$$(\alpha_m,\phi_m)= arg min_{\alpha, \phi} \sum_{i=1}^{n}L(y_i, F_{m-1}(\mathbf{x}_i)+ \alpha f(\mathbf{x}_i,\phi))$$ y la función se actualiza como: $$F_{m}(\mathbf{x})=F_{m-1}(\mathbf{x}) + \alpha_m f(\mathbf{x},\phi_m).$$ En $m=0$ se proporciona un ajuste inicial que puede ser, por ejemplo, la media en el caso de regresión $f_0(\mathbf{x})=\overline{y}$ o las proporciones a priori en el caso de clasificación.
 
 Si utilizamos la función de pérdida cuadrática $L(y,F(\mathbf{x}))=(y-F(\mathbf{x}))^{2}$, obtenemos la siguiente expresión para cada iteración: $$
 L(y_i,F(\mathbf{x}_i))=L(y_i,F_{m-1}(\mathbf{x}_i)+\alpha f(\mathbf{x}_i,\phi))=(\underbrace{y_i-(F_{m-1}(\mathbf{x}_i)}_{r_{i}^{(m)}}+\alpha f(\mathbf{x}_i,\phi)))^{2} = (r_{i}^{(m)}-\alpha f(\mathbf{x}_i,\phi))^{2}$$
 
 donde $r_{i}^{(m)}$ representa los residuos del modelo actual ($F_{m-1}(\mathbf{x}_i)$). ¿Cómo se interpreta esto? La interpretación de esta ecuación es que, en cada paso, el nuevo término $\alpha f(\mathbf{x}_i,\phi)$ busca ajustar los errores que ha cometido el modelo hasta el momento.
 
-
-**Caso de AdaBoost: Función de pérdida exponencial**
-En AdaBoost, en lugar de la pérdida cuadrática, se emplea una función de pérdida exponencial: $L(y,f(\mathbf{x}))=exp(-yf(\mathbf{x})).$ Es decir, la función de pérdida que se minimiza es: 
-$$L(y_i,F_{m-1}(\mathbf{x}_i)+\alpha f_m(\mathbf{x},\phi_m))=exp(-y_i(F_{m-1}(\mathbf{x}_i) + \alpha f_m(\mathbf{x},\phi_m)))$$
-donde $y_i$ es la etiqueta de la observación $i$, $F_{m-1}(\mathbf{x}_i)$ es la predicción acumulada hasta la iteración $m-1$, y $\alpha_m$ es el coeficiente que ajusta la contribución de $f_m(\mathbf{x},\phi_m).$
+**Caso de AdaBoost: Función de pérdida exponencial** En AdaBoost, en lugar de la pérdida cuadrática, se emplea una función de pérdida exponencial: $L(y,f(\mathbf{x}))=exp(-yf(\mathbf{x})).$ Es decir, la función de pérdida que se minimiza es: $$L(y_i,F_{m-1}(\mathbf{x}_i)+\alpha f_m(\mathbf{x},\phi_m))=exp(-y_i(F_{m-1}(\mathbf{x}_i) + \alpha f_m(\mathbf{x},\phi_m)))$$ donde $y_i$ es la etiqueta de la observación $i$, $F_{m-1}(\mathbf{x}_i)$ es la predicción acumulada hasta la iteración $m-1$, y $\alpha_m$ es el coeficiente que ajusta la contribución de $f_m(\mathbf{x},\phi_m).$
 
 Siguiendo la misma lógica del ajuste secuencial, el nuevo modelo se obtiene minimizando:
 
 $$\min_{\alpha_m, \phi_m} \sum_{i=1}^{n}exp(-y_i(F_{m-1}(\mathbf{x}_i) + \alpha_m f_m(\mathbf{x},\phi_m))).$$
 
-Una forma de reformular esta expresión es definiendo los pesos $w_i^{(m)}$ de cada observación en la iteración $m$: $w_i^{(m)}=exp(-y_i F_{m-1}(\mathbf{x}_i))$ puesto que $w_i^{(m)}$ es independiente tanto de $\alpha$ como de $f_m$. Este término refleja la importancia relativa de cada instancia en la siguiente iteración: los errores pasados aumentan su influencia y afectan más al siguiente modelo. Este término refleja la importancia relativa de cada instancia en la siguiente iteración: los errores pasados aumentan su influencia y afectan más al siguiente modelo (el objetivo es reducir progresivamente el error al hacer que el nuevo modelo ajuste los fallos del conjunto de modelos acumulado). 
+Una forma de reformular esta expresión es definiendo los pesos $w_i^{(m)}$ de cada observación en la iteración $m$: $w_i^{(m)}=exp(-y_i F_{m-1}(\mathbf{x}_i))$ puesto que $w_i^{(m)}$ es independiente tanto de $\alpha$ como de $f_m$. Este término refleja la importancia relativa de cada instancia en la siguiente iteración: los errores pasados aumentan su influencia y afectan más al siguiente modelo. Este término refleja la importancia relativa de cada instancia en la siguiente iteración: los errores pasados aumentan su influencia y afectan más al siguiente modelo (el objetivo es reducir progresivamente el error al hacer que el nuevo modelo ajuste los fallos del conjunto de modelos acumulado).
 
 A partir de aquí, minimizando la función de pérdida exponencial (derivando $L$ con respecto a $\alpha_m$ e igualando a 0), se obtiene la expresión del coeficiente $\alpha_m$:
 
-$$\alpha_m = \frac{1}{2}\ln\left(\frac{1-error_m}{error_m}\right)$$
-donde el error de clasificación en la iteración $m$ está dado por:
+$$\alpha_m = \frac{1}{2}\ln\left(\frac{1-error_m}{error_m}\right)$$ donde el error de clasificación en la iteración $m$ está dado por:
 
-$$error_m = \frac{\sum_{i=1}^{n} w_i^{(m)}I(y_i \neq f_{m}(\mathbf{x}_i))}{\sum_{i=1}^{n} w_i^{(m)}}.$$
-Finalmente, los pesos se actualizan según $w_i^{(m+1)}=w_i^{(m)} exp(-y_i \alpha_m f_{m}(\mathbf{x}_i)).$ Usando que $-y_i f_m(\mathbf{x}_i) = 2 I(y_i \neq f_m(\mathbf{x}_i))-1$, podemos escribir la actualización de pesos como $$w_i^{(m+1)} = w_i^{(m)} e^{\alpha_m I(y_i \neq f_m(\mathbf{x}_i))} e^{-\alpha_m}.$$
-El término $e^{-\alpha_m}$ es constante y no afecta la normalización relativa de los pesos, por lo que puede ignorarse. Con esto, habríamos obtenido todos los valores del algoritmo Adaboost.
+$$error_m = \frac{\sum_{i=1}^{n} w_i^{(m)}I(y_i \neq f_{m}(\mathbf{x}_i))}{\sum_{i=1}^{n} w_i^{(m)}}.$$ Finalmente, los pesos se actualizan según $w_i^{(m+1)}=w_i^{(m)} exp(-y_i \alpha_m f_{m}(\mathbf{x}_i)).$ Usando que $-y_i f_m(\mathbf{x}_i) = 2 I(y_i \neq f_m(\mathbf{x}_i))-1$, podemos escribir la actualización de pesos como $$w_i^{(m+1)} = w_i^{(m)} e^{\alpha_m I(y_i \neq f_m(\mathbf{x}_i))} e^{-\alpha_m}.$$ El término $e^{-\alpha_m}$ es constante y no afecta la normalización relativa de los pesos, por lo que puede ignorarse. Con esto, habríamos obtenido todos los valores del algoritmo Adaboost.
 
 En resumen:
 
-* AdaBoost sigue el mismo principio de ajuste secuencial que los modelos aditivos.
+-   AdaBoost sigue el mismo principio de ajuste secuencial que los modelos aditivos.
 
-* La diferencia clave es el uso de una función de pérdida exponencial, que refuerza la influencia de los ejemplos mal clasificados.
+-   La diferencia clave es el uso de una función de pérdida exponencial, que refuerza la influencia de los ejemplos mal clasificados.
 
-* En cada iteración, AdaBoost ajusta un nuevo modelo para corregir los errores acumulados, asignando mayores pesos a los ejemplos que han sido más difíciles de clasificar.
+-   En cada iteración, AdaBoost ajusta un nuevo modelo para corregir los errores acumulados, asignando mayores pesos a los ejemplos que han sido más difíciles de clasificar.
 
-* La actualización de los pesos garantiza que el ensamble final esté compuesto por modelos base especializados en corregir errores previos.
+-   La actualización de los pesos garantiza que el ensamble final esté compuesto por modelos base especializados en corregir errores previos.
 
 #### Gradient Boosting
 
@@ -1361,47 +1330,31 @@ De manera más formal, para un conjunto de datos $\{\mathbf{x}_i,y_i\}_{i=1}^{n}
 
 -   Finalmente, se actualiza el modelo acumulado: $$F_m(\mathbf{x})=F_{m-1}(\mathbf{x}) + \eta \alpha_m f_{m}(\mathbf{x})$$
 
-3. **Resultado**: El modelo final es: $$F(\mathbf{x}) = F_0(\mathbf{x}) + \eta \sum_{m=1}^{M} \alpha_m f_m(\mathbf{x})$$
-
-
+3.  **Resultado**: El modelo final es: $$F(\mathbf{x}) = F_0(\mathbf{x}) + \eta \sum_{m=1}^{M} \alpha_m f_m(\mathbf{x})$$
 
 **¿Cómo se calculan los** $\alpha_m$?
 
-El coeficiente $\alpha_m$ controla cuánto contribuye cada modelo $f_m(\mathbf{x})$ al modelo acumulado (determina el tamaño del paso para la actualización). Se determina minimizando la función de pérdida total:
-$$\alpha_m = \arg\min_{\alpha}\sum_{i=1}^{n} L(y_i,F_{m-1}(\mathbf{x}_i)+\alpha f_{m}(\mathbf{x}_i))$$
+El coeficiente $\alpha_m$ controla cuánto contribuye cada modelo $f_m(\mathbf{x})$ al modelo acumulado (determina el tamaño del paso para la actualización). Se determina minimizando la función de pérdida total: $$\alpha_m = \arg\min_{\alpha}\sum_{i=1}^{n} L(y_i,F_{m-1}(\mathbf{x}_i)+\alpha f_{m}(\mathbf{x}_i))$$
 
 Así, los $\alpha_m$ se obtienen mediante un proceso de optimización. Si la pérdida es diferenciable, se calcula la derivada de la función de pérdida con respecto a $\alpha$ y obtenemos la magnitud en la que debemos actualizar el modelo.
-
 
 **Tasa de aprendizaje**
 
 La tasa de aprendizaje $\eta$ regula también la magnitud de las actualizaciones en cada iteración de Gradient Boosting. En lugar de actualizar el modelo acumulado sólo con $\alpha_m$, se escala su impacto mediante $\eta$:
 
-$$F_{m}(\mathbf{x})=F_{m-1}(\mathbf{x})+\eta  \alpha_{m} f_{m}(\mathbf{x})$$
-La tasa de aprendizaje $\eta$ es crucial para el comportamiento general del modelo de Gradient Boosting, asegurando que las actualizaciones sean de la magnitud adecuada para lograr que haya mejora pero no se sobreajuste. Es decir, controla el balance entre velocidad de convergencia y sobreajuste.
-
-
-
-
+$$F_{m}(\mathbf{x})=F_{m-1}(\mathbf{x})+\eta  \alpha_{m} f_{m}(\mathbf{x})$$ La tasa de aprendizaje $\eta$ es crucial para el comportamiento general del modelo de Gradient Boosting, asegurando que las actualizaciones sean de la magnitud adecuada para lograr que haya mejora pero no se sobreajuste. Es decir, controla el balance entre velocidad de convergencia y sobreajuste.
 
 ::: {.callout-note collapse="true"}
 # Caso de regresión con pérdida cuadrática
 
 En Gradient Boosting, la idea clave es que en cada iteración se busca minimizar una función de pérdida ajustando un modelo a la dirección del descenso del gradiente de dicha función.
 
-Si tomamos la pérdida cuadrática
-$$L(y_i,F(\mathbf{x}_i))=(y_i - F(\mathbf{x}_i))^{2},$$
-el gradiente de la pérdida respecto a $F_{m-1}(\mathbf{x}_i)$ es
-$$\frac{\partial L(y_i,F_{m-1}(\mathbf{x}_i))}{\partial F_{m-1}(\mathbf{x}_i)}=-2(y_i-F_{m-1}(\mathbf{x}_i)).$$
-El método de descenso del gradiente indica que, para minimizar la función de pérdida, hay que moverse en la dirección opuesta a su gradiente. En este caso, los residuos
- $$r_i^{(m)}=-\frac{\partial L(y_i,F_{m-1}(\mathbf{x}_i))}{\partial F_{m-1}(\mathbf{x}_i)}=2(y_i-F_{m-1}(\mathbf{x}_i))$$
-nos dan esa dirección, lo que significa que el siguiente modelo $f_{m}(\mathbf{x})$ se ajusta para predecir los residuos $r_i^{(m)}$, corrigiendo los errores del modelo anterior.
+Si tomamos la pérdida cuadrática $$L(y_i,F(\mathbf{x}_i))=(y_i - F(\mathbf{x}_i))^{2},$$ el gradiente de la pérdida respecto a $F_{m-1}(\mathbf{x}_i)$ es $$\frac{\partial L(y_i,F_{m-1}(\mathbf{x}_i))}{\partial F_{m-1}(\mathbf{x}_i)}=-2(y_i-F_{m-1}(\mathbf{x}_i)).$$ El método de descenso del gradiente indica que, para minimizar la función de pérdida, hay que moverse en la dirección opuesta a su gradiente. En este caso, los residuos $$r_i^{(m)}=-\frac{\partial L(y_i,F_{m-1}(\mathbf{x}_i))}{\partial F_{m-1}(\mathbf{x}_i)}=2(y_i-F_{m-1}(\mathbf{x}_i))$$ nos dan esa dirección, lo que significa que el siguiente modelo $f_{m}(\mathbf{x})$ se ajusta para predecir los residuos $r_i^{(m)}$, corrigiendo los errores del modelo anterior.
 
 Una vez ajustado $f_{m}(\mathbf{x})$, se determina el coeficiente $\alpha_{m}$ minimizando
 
 $$\alpha_m = \arg \min_{\alpha} \sum_{i=1}^{n}(y_i - F_{m-1}(\mathbf{x}_i) - \alpha f_{m}(\mathbf{x}_i)))^{2}.$$
 :::
-
 
 ::: {.callout-note collapse="true"}
 # Función de pérdida log-loss
@@ -1410,15 +1363,7 @@ La función de pérdida logarítmica (log-loss) se basa en la idea de maximizar 
 
 En un problema de clasificación binaria, donde $y_i \in \{0,1\}$, el objetivo es construir un modelo que prediga la probabilidad de que una observación pertenezca a la clase $y_i=1$, dado un conjunto de características $\mathbf{x}_i$.
 
-Dado un conjunto de datos con $n$ observaciones, asumimos que cada $y_i$ sigue una distribución de Bernoulli con probabilidad $p_i$:
-$$P(y_i | \mathbf{x}_i) = p_i^{y_i}(1-p_i)^{1-y_i}.$$
-Como has estudiado en asignaturas previas del Grado en Ciencia e Ingeniería de Datos, dado un conjunto de datos $\{(\mathbf{x}_i,y_i)\}_{i=1}^{n}$, la verosimilitud conjunta es el producto de todas las probabilidades individuales:
-$$L(y,\mathbf{x})=\prod_{i=1}^{n} p_i^{y_i}(1-p_i)^{1-y_i}.$$
-Para facilitar los cálculos, tomamos el logaritmo de esta verosimilitud:
-$$\log L(y,\mathbf{x})=\sum_{i=1}^{n} \left[ y_i \log p_i + (1-y_i) \log (1-p_i) \right].$$
-La función de pérdida logarítmica es la versión negativa de este logaritmo de la verosimilitud:
-$$L(y_i,F(\mathbf{x}_i))=- \left[ y_i \log p_i + (1-y_i) \log (1-p_i) \right].$$
-Esta función mide qué cómo se ajustan las probabilidades predichas $p_i$ a las etiquetas reales $y_i$. El objetivo al entrenar un modelo de clasificación es minimizar esta función de pérdida para mejorar la calidad de las predicciones.
+Dado un conjunto de datos con $n$ observaciones, asumimos que cada $y_i$ sigue una distribución de Bernoulli con probabilidad $p_i$: $$P(y_i | \mathbf{x}_i) = p_i^{y_i}(1-p_i)^{1-y_i}.$$ Como has estudiado en asignaturas previas del Grado en Ciencia e Ingeniería de Datos, dado un conjunto de datos $\{(\mathbf{x}_i,y_i)\}_{i=1}^{n}$, la verosimilitud conjunta es el producto de todas las probabilidades individuales: $$L(y,\mathbf{x})=\prod_{i=1}^{n} p_i^{y_i}(1-p_i)^{1-y_i}.$$ Para facilitar los cálculos, tomamos el logaritmo de esta verosimilitud: $$\log L(y,\mathbf{x})=\sum_{i=1}^{n} \left[ y_i \log p_i + (1-y_i) \log (1-p_i) \right].$$ La función de pérdida logarítmica es la versión negativa de este logaritmo de la verosimilitud: $$L(y_i,F(\mathbf{x}_i))=- \left[ y_i \log p_i + (1-y_i) \log (1-p_i) \right].$$ Esta función mide qué cómo se ajustan las probabilidades predichas $p_i$ a las etiquetas reales $y_i$. El objetivo al entrenar un modelo de clasificación es minimizar esta función de pérdida para mejorar la calidad de las predicciones.
 
 Con el siguiente código puedes ver mejor cómo funciona la pérdida log-loss.
 
@@ -1453,41 +1398,27 @@ ggplot(loss_df, aes(x = p, y = loss, color = factor(y))) +
   theme(legend.position = "top")
 
 ```
-
-
-
 :::
-
-
-
 
 ::: {.callout-note collapse="true"}
 # Caso de clasificación con pérdida log-loss
 
 En clasificación, la función de pérdida más utilizada en Gradient Boosting es la pérdida logarítmica (log-loss) para problemas de clasificación binaria. A diferencia de la regresión, donde predecimos valores continuos, en clasificación binaria nuestro objetivo es predecir la probabilidad de que una observación pertenezca a una de las dos clases.
 
-En lugar de predecir directamente la etiqueta $y_i$, el modelo ajusta una función $F(\mathbf{x}_i)$ para modelar la probabilidad de pertenecer a la clase $y_i=1$. Esta probabilidad se calcula mediante la siguiente fórmula logística:
-$$p_i = P(y_i=1 | \mathbf{x}_i)=\frac{1}{1+e^{-F(\mathbf{x}_i)}}.$$
-Esta transformación asegura que las predicciones $p_i$ se encuentren siempre en el intervalo $[0,1]$, que es lo necesario para una probabilidad.
+En lugar de predecir directamente la etiqueta $y_i$, el modelo ajusta una función $F(\mathbf{x}_i)$ para modelar la probabilidad de pertenecer a la clase $y_i=1$. Esta probabilidad se calcula mediante la siguiente fórmula logística: $$p_i = P(y_i=1 | \mathbf{x}_i)=\frac{1}{1+e^{-F(\mathbf{x}_i)}}.$$ Esta transformación asegura que las predicciones $p_i$ se encuentren siempre en el intervalo $[0,1]$, que es lo necesario para una probabilidad.
 
-La función de pérdida logarítmica es
-$$L(y_i,F(\mathbf{x}_i))=-y_i \log p_i - (1-y_i)\log(1-p_i).$$
-El gradiente de la función de pérdida respecto a la predicción $F_{m-1}(\mathbf{x}_i)$ del modelo en la iteración $m-1$ es
-$$\frac{\partial L(y_i,F_{m-1}(\mathbf{x}_i))}{\partial F_{m-1}(\mathbf{x}_i))}=p_i - y_i.$$
-Este gradiente muestra cómo cambia la función de pérdida a medida que ajustamos $F(\mathbf{x}_i)$. Como el gradiente está dado por la diferencia entre la probabilidad predicha y la verdadera clase, podemos interpretarlo como una medida de error en la predicción de la probabilidad.
+La función de pérdida logarítmica es $$L(y_i,F(\mathbf{x}_i))=-y_i \log p_i - (1-y_i)\log(1-p_i).$$ El gradiente de la función de pérdida respecto a la predicción $F_{m-1}(\mathbf{x}_i)$ del modelo en la iteración $m-1$ es $$\frac{\partial L(y_i,F_{m-1}(\mathbf{x}_i))}{\partial F_{m-1}(\mathbf{x}_i))}=p_i - y_i.$$ Este gradiente muestra cómo cambia la función de pérdida a medida que ajustamos $F(\mathbf{x}_i)$. Como el gradiente está dado por la diferencia entre la probabilidad predicha y la verdadera clase, podemos interpretarlo como una medida de error en la predicción de la probabilidad.
 
-Por tanto, los pseudo-redisuos son $r_i^{(m)}=-(p_i - y_i),$ que representan cuánto se equivoca la predicción de la probabilidad respecto a la verdadera clase $y_i$. 
+Por tanto, los pseudo-redisuos son $r_i^{(m)}=-(p_i - y_i),$ que representan cuánto se equivoca la predicción de la probabilidad respecto a la verdadera clase $y_i$.
 
 Al igual que en regresión, en cada iteración se ajusta un modelo $f_{m}(\mathbf{x}_i)$ para predecir estos errores $r_i^{(m)}$ cometidos en iteraciones previas.
 :::
 
-
-
 ::: {.callout-caution collapse="false"}
 # Tarea
-Cada función de pérdida tiene sus ventajas y desventajas, y la elección de la función adecuada puede tener un impacto significativo en el rendimiento del modelo. Existen diversas funciones de pérdida tanto para regresión como para clasificación. Te animamos a hacer una búsqueda en la literatura. 
-:::
 
+Cada función de pérdida tiene sus ventajas y desventajas, y la elección de la función adecuada puede tener un impacto significativo en el rendimiento del modelo. Existen diversas funciones de pérdida tanto para regresión como para clasificación. Te animamos a hacer una búsqueda en la literatura.
+:::
 
 #### XGBoost
 
@@ -1514,59 +1445,45 @@ Como hemos dicho, XGBoost es una optimización del algoritmo de Gradient Boostin
 #| include: true
 #| warning: false
 #| echo: true
-library(purrr)
+
 library(dplyr)
-library(caret)
 library(xgboost)
 
-#convertimos los datos a numéricos
-df.train <- map_df(df, function(columna) {
-  columna %>% 
-    as.factor() %>% 
-    as.numeric %>% 
-    { . - 1 }
-})
+# formato 
+df.train <- as.data.frame(df)
+df.test  <- as.data.frame(df.test)
 
-datos <- list()
-datos$train <- df.train
+# Variable objetivo (0/1)
+df.train$deposit <- as.numeric(as.factor(df.train$deposit)) - 1
+df.test$deposit  <- as.numeric(as.factor(df.test$deposit)) - 1
 
-df.test <- map_df(df.test, function(columna) {
-  columna %>% 
-    as.factor() %>% 
-    as.numeric %>% 
-    { . - 1 }
-})
+# One-hot encoding 
+train_matrix <- model.matrix(deposit ~ . -1, data = df.train)
+test_matrix  <- model.matrix(deposit ~ . -1, data = df.test)
 
-datos$test <- df.test
+#  DMatrix 
+dtrain <- xgb.DMatrix(data = train_matrix, label = df.train$deposit)
+dtest  <- xgb.DMatrix(data = test_matrix,  label = df.test$deposit)
 
+# Modelo 
+modelo_01 <- xgb.train(
+  data = dtrain,
+  objective = "binary:logistic",
+  nrounds = 10,
+  max_depth = 2,
+  eta = 0.3,
+  nthread = 2
+)
 
-# Convertimos los datos al formato Dmatrix
-datos$train_mat  <- 
-  datos$train %>% 
-  dplyr::select(-deposit) %>% 
-  as.matrix() %>% 
-  xgb.DMatrix(data = ., label = datos$train$deposit)
-datos$test_mat  <- 
-  datos$test %>% 
-  dplyr::select(-deposit) %>% 
-  as.matrix() %>% 
-  xgb.DMatrix(data = ., label = datos$test$deposit)
-
-# Entrenamiento del modelo
-datos$modelo_01 <- xgboost(data = datos$train_mat,  
-                           objective = "binary:logistic", #clasificación binaria
-                           nround = 10, # número máximo de iteraciones boosting 
-                           max_depth=2, # número de nodos de bifurcación de los árboles de de decisión usados en el entrenamiento
-                           eta =0.3, # La tasa de aprendizaje del modelo
-                           nthread =2) #  El número de hilos computacionales que serán usados en el proceso de entrenamiento. 
-datos$modelo_01
+modelo_01
 ```
 
 Ahora podemos examinar e interpretar nuestro modelo XGBoost. Una forma en que podemos examinar nuestro modelo es observando una representación de la combinación de todos los DTs en nuestro modelo. Dado que todos los árboles tienen la misma profundidad podemos apilarlos unos encima de otros y elegir las características que aparecen con más frecuencia en cada nodo.
 
 ```{r}
+library(DiagrammeR)
 # Visualización del conjunto de árboles como una única unidad 
-xgb.plot.multi.trees(model = datos$modelo_01)
+xgb.plot.multi.trees(model = modelo_01)
 ```
 
 En esta figura, la parte superior del árbol está a la izquierda y la parte inferior a la derecha. En el caso de las características, el número que aparece al lado es la "*calidad*", que ayuda a indicar la importancia de la característica en todos los árboles. Una mayor calidad significa que la característica es más importante. Por tanto, podemos decir que `duration` es con diferencia la característica más importante en todos nuestros árboles, tanto porque está más arriba en el árbol como porque su puntuación de calidad es muy alta.
@@ -1590,7 +1507,7 @@ Así, en los árboles en los que una observación acabó en esa hoja, la probabi
 
 ```{r}
 # importancia sobre cada característica
-importance_matrix <- xgb.importance(model = datos$modelo_01)
+importance_matrix <- xgb.importance(model = modelo_01)
 
 xgb.plot.importance(importance_matrix)
 ```
@@ -1599,11 +1516,16 @@ Pasamos a obtener las predicciones. El resultado es un vector de valores numéri
 
 ```{r}
 # Predicciones en la muestra de prueba
-datos$predict_01 <- predict(datos$modelo_01, datos$test_mat)
-cbind(datos$predict_01 > 0.5, datos$test$deposit) %>% 
+# Predicciones (probabilidades)
+pred_prob <- predict(modelo_01, dtest)
+
+pred_class <- pred_prob > 0.5
+
+# Tabla + matriz de confusión
+cbind(pred_class, df.test$deposit) %>% 
   data.frame() %>% 
   table() %>% 
-  confusionMatrix(positive="1")
+  caret::confusionMatrix(positive = "1")
 ```
 
 ::: callout-important
@@ -1624,11 +1546,9 @@ El clasificador ingenuo de Bayes (en inglés "*Naïve Bayes*") es un algoritmo d
 
 El teorema de Bayes relaciona la probabilidad condicional de dos eventos $A$ y $B$. La idea es modificar nuestras creencias iniciales sobre lo que ha sucedido (a priori) proporcionalmente con la forma en que nuestras observaciones se relacionan con sus posibles causas (probabilidad inversa):$$P(A∩B)=P(A,B)=P(A)*P(B|A)=P(B)*P(A|B)⇒P(B|A)=\frac{P(B)P(A|B)}{P(A)}$$
 
-Su aplicación a un problema de clasificación es como sigue. Supongamos que queremos clasificar un conjunto de observaciones según una variable objetivo $Y = \{y_1,y_2,\dots,y_K\}$, utilizando un vector de variables explicativas $\mathbf{X} = (X_1,X_2,\ldots,X_p)$. La idea del modelo Naïve Bayes es estimar: $$P(Y=y_k|X_1=x_1,\dots,X_p=x_p)$$
-Mediante el teorema de Bayes: $$P(Y_k|\mathbf{X})=\frac{P(Y_k)P(X_1=x_1,\dots,X_p=x_p|Y_k)}{P(X_1=x_1,\dots,X_p=x_p)}$$
+Su aplicación a un problema de clasificación es como sigue. Supongamos que queremos clasificar un conjunto de observaciones según una variable objetivo $Y = \{y_1,y_2,\dots,y_K\}$, utilizando un vector de variables explicativas $\mathbf{X} = (X_1,X_2,\ldots,X_p)$. La idea del modelo Naïve Bayes es estimar: $$P(Y=y_k|X_1=x_1,\dots,X_p=x_p)$$ Mediante el teorema de Bayes: $$P(Y_k|\mathbf{X})=\frac{P(Y_k)P(X_1=x_1,\dots,X_p=x_p|Y_k)}{P(X_1=x_1,\dots,X_p=x_p)}$$
 
-El paso clave del modelo Naïve Bayes es suponer que las variables explicativas son condicionalmente independientes dado  el valor de la clase:$$P(X_1|X_2,\ldots,X_p,Y_k)=P(X_1|Y_k); P(X_2|X_3,\ldots,X_p,Y_k)=P(X_2|Y_k)$$, etc.
-De forma general: $$P(X_1,X_2,\dots,X_p|Y_k)=\prod_{j=1}^{p} P(X_j | Y_k)$$
+El paso clave del modelo Naïve Bayes es suponer que las variables explicativas son condicionalmente independientes dado el valor de la clase:$$P(X_1|X_2,\ldots,X_p,Y_k)=P(X_1|Y_k); P(X_2|X_3,\ldots,X_p,Y_k)=P(X_2|Y_k)$$, etc. De forma general: $$P(X_1,X_2,\dots,X_p|Y_k)=\prod_{j=1}^{p} P(X_j | Y_k)$$
 
 De este modo, aplicando el teorema de Bayes de manera recursiva, se tiene:
 
@@ -1642,11 +1562,10 @@ Esta es la expresión de la probabilidad de un valor de la variable respuesta da
 
 La probabilidad de clase $P(Y_k)$ se denomina probabilidad a priori y se estima como la proporción de observaciones de la clase $k$ en el conjunto de entrenamiento. Las probabilidades $P(X_j|Y_k)$ son la verosimilitud. La verosimilitud mide cómo de verosímiles (creíbles) son las observaciones de las variables explicativas dado que se ha observado una determinada etiqueta en la variable respuesta. Las verosimilitudes se estiman en función del tipo de variable:
 
- - Si la variable $X_j$ es cualitativa, para estimar la verosimilitud de la clase $k$ con el predictor $j$, se calcula la proporción de observaciones de la muestra de entrenamiento de la clase $k$ en cada categoría de dicha variable. 
- - Si la variable $X_j$ es cuantitativa, habitualmente se asume una distribución Normal (también pueden utilizarse estimadores no paramétricos como histogramas) condicional a cada clase $Y_k$, y se estiman los parámetros $\mu_{jk}$, $\sigma_{jk}$ para cada variable y clase: $$P(X_j=x_j|Y_k)=\frac{1}{\sqrt{2 \pi}\sigma_{jk}}\exp \left( - \frac{(x_j - \mu_{jk})^{2}}{2\sigma^{2}_{jk}} \right)$$
+-   Si la variable $X_j$ es cualitativa, para estimar la verosimilitud de la clase $k$ con el predictor $j$, se calcula la proporción de observaciones de la muestra de entrenamiento de la clase $k$ en cada categoría de dicha variable.
+-   Si la variable $X_j$ es cuantitativa, habitualmente se asume una distribución Normal (también pueden utilizarse estimadores no paramétricos como histogramas) condicional a cada clase $Y_k$, y se estiman los parámetros $\mu_{jk}$, $\sigma_{jk}$ para cada variable y clase: $$P(X_j=x_j|Y_k)=\frac{1}{\sqrt{2 \pi}\sigma_{jk}}\exp \left( - \frac{(x_j - \mu_{jk})^{2}}{2\sigma^{2}_{jk}} \right)$$
 
 Finalmente se predice para cada conjunto de variables explicativas la clase con mayor probabilidad de clase condicionada $P(Y_k|X_1,\ldots,X_p)$.
-
 
 ::: {.callout-note collapse="true"}
 # Independencia condicional
@@ -1655,25 +1574,24 @@ Una de las ideas clave del clasificador Naïve Bayes es que las variables explic
 
 Esto significa que, una vez conocemos la clase a la que pertenece una observación, el valor de una variable no aporta información adicional sobre las otras. Esta suposición simplifica enormemente el cálculo de las probabilidades conjuntas y hace que el modelo sea escalable incluso con muchas variables. A pesar de ser una suposición fuerte, en muchos contextos (como la clasificación de texto) funciona muy bien.
 
-**Ejemplo de independencia condicional**
-Supongamos un escenario donde:
+**Ejemplo de independencia condicional** Supongamos un escenario donde:
 
- - $A$: Altura de una persona (por ejemplo, medida en centímetros).
- - $V$: Vocabulario de una persona (por ejemplo, número de palabras conocidas).
- - $E$: Edad de la persona (en años).
- 
+-   $A$: Altura de una persona (por ejemplo, medida en centímetros).
+-   $V$: Vocabulario de una persona (por ejemplo, número de palabras conocidas).
+-   $E$: Edad de la persona (en años).
+
 En la población general, la altura y el vocabulario no son independientes. Esto se debe a que las personas adultas suelen ser más altas y tener un vocabulario más amplio que los niños. Es decir, $P(A, V) \neq P(A)P(V)$.
 
 Sin embargo, si conocemos la edad de una persona ($E$), entonces la altura y el vocabulario son aproximadamente independientes dentro de cada grupo de edad. Por ejemplo:
 
- - Entre personas de 5 años, conocer la altura no da información adicional sobre el vocabulario.
- - Entre personas adultas, ocurre lo mismo.
+-   Entre personas de 5 años, conocer la altura no da información adicional sobre el vocabulario.
+-   Entre personas adultas, ocurre lo mismo.
 
 Por tanto, podemos decir que existe \textbf{independencia condicional} entre $A$ y $V$ dado $E$: $A \perp V \mid E$
 
 Así, una vez conocida la edad, saber la altura no aporta información adicional sobre el vocabulario, y viceversa.
 
-Formalmente, dadas tres variables aleatorias $X$, $Y$, y $Z$, decimos que **$X$ es condicionalmente independiente de $Y$ dado $Z$**, denotado como $X \perp Y \mid Z$ si y solo si:
+Formalmente, dadas tres variables aleatorias $X$, $Y$, y $Z$, decimos que $X$ es condicionalmente independiente de $Y$ dado $Z$, denotado como $X \perp Y \mid Z$ si y solo si:
 
 $$P(X \mid Y, Z) = P(X \mid Z)$$
 
@@ -1686,19 +1604,25 @@ $P(X, Y \mid Z) = P(X \mid Z) \cdot P(Y \mid Z)$
 Lo que significa que la probabilidad conjunta de $X$ y $Y$, dada $Z$, es el producto de las probabilidades condicionales de $X$ y $Y$ dadas $Z$.
 :::
 
-
 ```{r}
-#| include: true
-#| warning: false
-#| echo: true
 library(naivebayes)
 library(dplyr)
 library(caret)
 
-model <- naive_bayes(as.factor(deposit) ~ ., data = df.train, usekernel = T) 
-probabilities <- predict(model, df.test[,-9],type="prob")[,2]
-classes <- as.numeric(probabilities>0.5)
-confusionMatrix(table(classes, datos$test$deposit),positive="1")
+# Modelo Naive Bayes
+model <- naive_bayes(as.factor(deposit) ~ ., data = df.train, usekernel = TRUE)
+
+# Probabilidades
+probabilities <- predict(model, df.test %>% dplyr::select(-deposit), type = "prob")[,2]
+
+# Clasificación
+classes <- as.numeric(probabilities > 0.5)
+
+# Matriz de confusión
+confusionMatrix(
+  table(classes, df.test$deposit),
+  positive = "1"
+)
 ```
 
 ## Modelos de mezcla de Gaussianas

@@ -2,7 +2,7 @@
 
 En el complejo mundo de la ciencia de datos, nos encontramos a menudo con conjuntos de datos que abarcan una amplia variedad de variables. Estas variables, en su mayoría cuantitativas, pueden proporcionar una gran cantidad de información, pero también pueden convertirse en un desafío cuando se trata de comprender y analizar de manera efectiva los datos. La gestión de grandes conjuntos de variables puede ser abrumadora y puede llevar a problemas como la alta correlación entre ellas, dificultando la extracción de información valiosa y la visualización clara de los datos. Imagina un conjunto de datos con más de $50$ variables. Como científico de datos, has de analizar todas y cada una de ellas, así como sus posibles relaciones.
 
-Es en este contexto que entran en juego las "*Técnicas de Reducción de la Dimensión*". Estas técnicas son herramientas que nos permiten encontrar un equilibrio entre la riqueza de información y la simplicidad en el análisis. El objetivo principal de la reducción de la dimensión es identificar un conjunto más pequeño de variables, llamadas "*variables latentes*" o "*componentes principales*", que capturen la mayor parte de la información esencial contenida en las variables originales. Este proceso se realiza con el menor costo de información posible, lo que facilita la gestión y el análisis de datos complejos.
+Es en este contexto que entran en juego las "*Técnicas de reducción de la dimensión*". Estas técnicas son herramientas que nos permiten encontrar un equilibrio entre la riqueza de información y la simplicidad en el análisis. El objetivo principal de la reducción de la dimensión es identificar un conjunto más pequeño de variables, llamadas "*variables latentes*" o "*componentes principales*", que capturen la mayor parte de la información esencial contenida en las variables originales. Este proceso se realiza con el menor costo de información posible, lo que facilita la gestión y el análisis de datos complejos.
 
 Las ventajas de la reducción de la dimensión son múltiples. En primer lugar, permite reducir la cantidad de información utilizada, lo que puede ser especialmente útil cuando se trabaja con grandes conjuntos de datos. Además, la eliminación de problemas de alta correlación entre variables ayuda a eliminar la redundancia en los datos y a prevenir posibles distorsiones en los resultados del análisis. Pero quizás una de las ventajas más notables es la posibilidad de visualizar los datos de manera sencilla, a menudo en solo dos dimensiones, lo que facilita la interpretación y la comunicación de resultados.
 
@@ -103,8 +103,6 @@ El PCA se utiliza en diversas aplicaciones, como reducción de dimensionalidad, 
 El PCA busca encontrar una representación más eficiente (menor dimensión) de los datos preservando la información contenida en ellos. La idea fundamental es que **la varianza de los datos representa la cantidad de información que contienen**, y PCA rota el sistema de coordenadas para encontrar las direcciones en las que la varianza es máxima.
 
 ::: {.callout-caution title="Para recordar"}
-# Para recordar
-
 Relación entre los conceptos de varianza e información.
 :::
 
