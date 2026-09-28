@@ -38,17 +38,21 @@ jobs:
             any::car
             any::caret
             any::caTools
+            any::class
             any::cluster
             any::DALEX
             any::dendextend
             any::DiagrammeR
             any::downlit
             any::e1071
+            any::easystats
             any::factoextra
             any::gridExtra
+            any::igraph
             any::knitr
             any::kohonen
             any::MASS
+            any::mclust
             any::naivebayes
             any::NbClust
             any::palmerpenguins
@@ -60,7 +64,9 @@ jobs:
             any::rpart
             any::rpart.plot
             any::scales
+            any::see
             any::tidyverse
+            any::visNetwork
             any::xgboost
             any::xml2
 
