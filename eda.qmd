@@ -720,7 +720,7 @@ Las pruebas estadísticas, como la prueba t de Student o la ANOVA, pueden utiliz
 ¿Recuerdas lo que es un contraste de hipótesis? ¿Recuerdas lo que es un intervalo de confianza? ¿y un p_valor? ¡Posiblemente te venga bien dar un repaso a esos conceptos!
 :::
 
-Vamos a estudiar la relación existente entre la variable objetivo `deposit' y la variable`duration`de la base de datos`bank\`.
+Vamos a estudiar la relación existente entre la variable objetivo `deposit` y la variable `duration`de la base de datos `bank`.
 
 ```{r}
 #| include: true
