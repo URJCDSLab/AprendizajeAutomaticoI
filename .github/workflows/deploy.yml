@@ -1,0 +1,92 @@
+name: Deploy Quarto Book to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Permisos requeridos para desplegar en GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Permite solo un despliegue concurrente evitando colisiones
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: 'release'
+          use-public-rspm: true
+
+      - name: Install R dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::arules
+            any::arulesViz
+            any::car
+            any::caret
+            any::caTools
+            any::cluster
+            any::DALEX
+            any::dendextend
+            any::DiagrammeR
+            any::downlit
+            any::e1071
+            any::factoextra
+            any::gridExtra
+            any::knitr
+            any::kohonen
+            any::MASS
+            any::naivebayes
+            any::NbClust
+            any::palmerpenguins
+            any::parameters
+            any::pROC
+            any::quarto
+            any::randomForest
+            any::rmarkdown
+            any::rpart
+            any::rpart.plot
+            any::scales
+            any::tidyverse
+            any::xgboost
+            any::xml2
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Render Quarto Book (HTML)
+        uses: quarto-dev/quarto-actions/render@v2
+        with:
+          to: html
+
+      - name: Ensure .nojekyll exists
+        run: touch docs/.nojekyll
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
